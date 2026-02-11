@@ -74,6 +74,72 @@ The framework's CLAUDE.md defaults to project creation (welcoming, directs to `/
 
 ---
 
+## Future Direction: Cowork as a Target Environment
+
+NLAs built on this framework currently require Claude Code. Cowork (Anthropic's desktop agent, launched January 2026) could dramatically expand the audience. Cowork has local file access and can read/write to a designated folder — the core NLA architecture (`app/`, `reference/`, friction log) works unchanged. The difference is skill discovery and project setup.
+
+### The key insight
+
+The framework (Claude Code) is a *builder* tool. The generated project could be a *user* tool on either platform. `/create-app` always runs from Claude Code, but the project it generates could target Cowork or Claude Code. This separates building from using — the technical person builds the NLA, and non-technical people can use it in Cowork.
+
+This is the difference between "neat geeky idea" and "idea that resonates with many types of people." Content teams, editors, marketers — people who work with voice and tone daily — are natural NLA users. They don't use a terminal.
+
+### Skill mimicry in Cowork
+
+Claude Code discovers skills by scanning `.claude/skills/`. Cowork doesn't have this. But skills are just named entry points with instructions. A routing table in the project's instruction file replaces Claude Code's skill scanner:
+
+```markdown
+## Available Commands
+
+When the user asks for any of these, read the corresponding file and follow it:
+
+| User says | Read this |
+|-----------|-----------|
+| "startup" or "load context" | skills/startup.md |
+| "format this" or "format article" | skills/format-article.md |
+| "maintain" or "edit the system" | skills/maintain.md |
+```
+
+This is actually more natural than `/command` syntax — the LLM fuzzy-matches intent instead of requiring exact invocation. "Fix up this article" matches format-article without the user knowing the skill name.
+
+### Discoverability
+
+Claude Code has `/` autocomplete. Cowork has nothing — the user needs to know what to ask for. Three layers of discoverability:
+
+1. **Startup banner.** On new conversation, the LLM lists what it can do: "I can help with: Format article, Friction log, Maintain. Just tell me what you'd like to do, or paste some content."
+2. **Help keyword.** "What can you do?" prints available commands with descriptions.
+3. **Context-aware hints.** After completing a task, suggest the natural next step: "If something felt off, you can say 'log that' to capture it." Teaches the workflow through use.
+
+All three live in the instruction files — no special infrastructure, just better prose. The startup banner and help keyword would also benefit Claude Code projects.
+
+### Generation differences by target
+
+| Aspect | Claude Code target | Cowork target |
+|---|---|---|
+| Skills | `.claude/skills/` with YAML frontmatter | `skills/` plain markdown + routing table |
+| Framework link | Thin wrappers → `../nla-framework/` | Self-contained (full skill files inlined) |
+| Updates | `git pull` the framework | Re-run `/create-app` or manual |
+| Instructions | `CLAUDE.md` | Cowork instruction file (TBD — need to test exact mechanism) |
+| Discoverability | `/` autocomplete | Startup banner + help keyword + hints |
+| `app/`, `reference/` | Same | Same |
+
+The Cowork version is self-contained because Cowork users aren't running `git pull`. Trade-off: no automatic framework updates, but zero-setup simplicity.
+
+### Implementation path
+
+1. Validate Claude Code `/create-app` first (current work)
+2. Manually test a simple Cowork project — learn the instruction model, verify file reading works as expected
+3. Add target environment to `/create-app` conversation (Phase C question)
+4. Generate appropriate project structure per target
+
+### Open questions
+
+- What is Cowork's exact mechanism for persistent project instructions? This determines where the routing table and grounding principles live.
+- Does Cowork support plugins/MCP that could provide skill-like discoverability?
+- How does Cowork handle the 1M context window across sessions — does it reload project files each time, or is there session continuity?
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:
