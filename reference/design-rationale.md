@@ -129,8 +129,8 @@ The Cowork version is self-contained because Cowork users aren't running `git pu
 
 1. Validate Claude Code `/create-app` first (current work)
 2. Manually test a simple Cowork project — learn the instruction model, verify file reading works as expected
-3. Add target environment to `/create-app` conversation (Phase C question)
-4. Generate appropriate project structure per target
+3. Build `/convert` (or `/deploy`) — a framework skill that takes an existing Claude Code NLA project and generates a Cowork-ready version: ejects thin wrappers into full skill files, adds routing table, adds discoverability (startup banner, help, hints), removes `.claude/skills/`. This is cleaner than complicating `/create-app` with dual-target generation — build for Claude Code first, convert when ready for Cowork.
+4. If `/create-app` eventually needs a Cowork target, it can call `/convert` internally rather than duplicating the logic
 
 ### Open questions
 
