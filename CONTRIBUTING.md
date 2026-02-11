@@ -58,12 +58,24 @@ README, CONTRIBUTING, and other developer-facing docs. Always welcome.
 
 ## Testing
 
+### Scaffold test
+
 The scaffold includes a sample article formatter. At minimum, test that:
 
 1. Copy scaffold to a temp directory
 2. Run `/startup` — confirm it reads all five documents
 3. Run `/format-article` with sample content — confirm output follows voice and patterns
 4. Run `/friction-log` — confirm entries follow the format in `reference/friction-log.md`
+
+### /create-app test
+
+If your change affects the scaffold or `/create-app`:
+
+1. Run `/create-app` from the framework directory
+2. Create a test project (any domain)
+3. In the new project: run `/startup` — confirm it reads all five documents
+4. Run the domain task skill — confirm it works
+5. Check that CLAUDE.md skills table matches actual `.claude/skills/` contents
 
 ---
 

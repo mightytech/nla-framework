@@ -48,11 +48,29 @@ The framework has its own CLAUDE.md, `/maintain`, `/friction-log`, and `/plan` s
 
 ### Scaffold Directory
 
-The framework contains `scaffold/` — copy it to start a new project. Not a generator, not a CLI tool. Just files.
+The framework contains `scaffold/` — a complete working project template with a sample article formatter. It serves two roles: manual fallback (copy and customize by hand) and structural reference for `/create-app`.
 
-**Why copy, not generate:** NLA projects are small (under 20 files). A copy operation is transparent — you can see exactly what you're getting. Generators hide decisions and add tooling dependencies.
+**Sample content, not markers:** Scaffold files have working sample content so someone can test immediately. "Replace me" markers would be metadata that influences LLM behavior.
 
-**Sample content, not markers:** Scaffold files have working sample content (a generic article formatter) so someone can test immediately. "Replace me" markers would be metadata that influences LLM behavior.
+### /create-app: Conversational Project Creation
+
+`/create-app` asks about the user's domain, voice, and tasks, then generates a tailored project. The first interaction with the framework is itself an NLA interaction — flexible interface on top (conversation), structure underneath (generated project).
+
+**Why conversational, not just copy:** The scaffold requires manual customization of 6+ files. That's an implementation burden the LLM can absorb. The user describes what they want; the LLM generates files that fit. This is the structure gradient in action.
+
+**Why read scaffold at generation time:** The skill instructs the LLM to read each scaffold file as a structural reference immediately before generating its counterpart. This keeps generated projects in sync with scaffold updates — when the scaffold improves, `/create-app` picks up the changes without skill edits.
+
+**Why framework-only:** Domain projects don't create other domain projects. `/create-app` lives in `.claude/skills/create-app/` (not in `core/skills/`) because it's framework infrastructure, not a universal skill that domain projects delegate to.
+
+**Scaffold still exists because:** Some users prefer to see exactly what they're getting before customizing. Manual copy is transparent and requires no conversation. `/create-app` is the recommended path; scaffold is the fallback.
+
+### Dual-Mode Framework CLAUDE.md
+
+The framework's CLAUDE.md defaults to project creation (welcoming, directs to `/create-app`). `/maintain` activates maintenance mode. This mirrors the domain project pattern where the default mode is the primary task (content transformation) and `/maintain` switches to system editing.
+
+**Why default to creation:** Most people arriving at the framework want to build something. A maintenance-focused landing page front-loads concepts (blast radius, session lifecycle) that new users don't need yet. Creation mode is welcoming; maintenance mode is available when needed.
+
+**Why this mirrors domain projects:** Domain CLAUDE.md has a default mode (content transformation) and a maintenance mode. The framework CLAUDE.md has the same pattern — default mode (project creation) and maintenance mode. The consistency helps users who've seen one understand the other.
 
 ---
 

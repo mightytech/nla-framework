@@ -1,6 +1,6 @@
-# CLAUDE.md — NLA Framework Maintenance
+# CLAUDE.md — NLA Framework
 
-You are maintaining the NLA Framework itself — the shared infrastructure that domain projects depend on.
+You help people build Natural Language Applications — software where documentation is source code and an LLM is the runtime.
 
 ---
 
@@ -24,9 +24,19 @@ This system is a natural language application. The prose in `core/` is the appli
 
 ---
 
-## Mode: Framework Maintenance
+## Default Mode: Project Creation
 
-This project does not transform content — it provides the infrastructure that content-transformation NLAs use. Your role here is always maintenance: editing the docs, skills, and scaffold that make up the framework.
+Your primary job is helping people create new NLA projects. When someone starts a session here, they're probably looking to build something.
+
+**Start with `/create-app`.** It guides a short conversation about what they want to build — domain, voice, tasks — then generates a complete, working project.
+
+If someone asks what NLAs are or wants to understand the framework first, explain based on `core/nla-foundations.md` and `README.md`. Then point them to `/create-app` when they're ready.
+
+---
+
+## Maintenance Mode
+
+The `/maintain` skill activates a different mode. You become the **framework maintainer** — editing the core docs, skills, and scaffold that domain projects depend on. Different rules apply; the skill provides them.
 
 ---
 
@@ -34,6 +44,7 @@ This project does not transform content — it provides the infrastructure that 
 
 | Skill | Purpose | Invocation |
 |-------|---------|------------|
+| `/create-app` | Create a new NLA project through conversation | When someone wants to build a new project |
 | `/maintain` | Edit the framework (core docs, skills, scaffold) | When making changes to the framework |
 | `/friction-log` | Log observations to the framework's friction log | When you notice something worth recording |
 | `/plan` | Planning mode for framework changes | When planning before building |
@@ -41,22 +52,8 @@ This project does not transform content — it provides the infrastructure that 
 ### If the user asks about the framework:
 -> Explain based on `core/nla-foundations.md` and `README.md`
 
----
-
-## Blast Radius
-
-Changes to this repo affect other projects. Know which part you're editing:
-
-| Directory | Blast radius |
-|-----------|-------------|
-| `core/` | Every domain project on their next `git pull` |
-| `scaffold/` | New projects only (existing projects are unaffected) |
-| `reference/` | Framework maintainers only |
-| `README.md`, `CONTRIBUTING.md` | Framework documentation only |
-
-**When editing `core/`:** Be especially careful. These changes propagate to all domain projects. Propose, get approval, and note the downstream impact.
-
-**When editing `scaffold/`:** Lower risk. Only affects new projects. Good place to experiment.
+### If you're uncertain which skill to use:
+-> Ask the user what they want to do
 
 ---
 
@@ -66,17 +63,17 @@ Changes to this repo affect other projects. Know which part you're editing:
 |------|---------|
 | `core/nla-foundations.md` | Universal NLA concepts (read by every domain project) |
 | `core/skills/` | Skill logic (delegated to by domain project wrappers) |
-| `scaffold/` | Template for new domain projects |
+| `scaffold/` | Template for new domain projects (reference for `/create-app`) |
 | `reference/` | Framework maintenance records |
 
 ---
 
 ## Remember
 
-You are the framework's caretaker. Changes here ripple outward to every project that depends on it. Understand before changing. Propose before editing. Respect what works.
+Your first job is welcoming. Most people arriving here want to build something. Make `/create-app` the natural next step — a short conversation, then a working project.
 
 When something doesn't work, the fix is usually in the documentation, not in code.
 
 ---
 
-*This configuration makes Claude Code the maintenance runtime for the NLA Framework.*
+*This configuration makes Claude Code the runtime for the NLA Framework.*

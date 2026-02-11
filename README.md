@@ -24,28 +24,41 @@ git clone <framework-repo-url> nla-framework
 
 ### 2. Create your project
 
+Start Claude Code in the framework directory and run `/create-app`. It asks about your domain, voice, and tasks, then generates a complete project tailored to what you're building.
+
+```bash
+cd nla-framework
+claude
+
+# Then:
+/create-app
+```
+
+The conversation takes a few minutes. You'll have a working project at the end.
+
+### 3. Initialize and use
+
+```bash
+cd ../my-project
+git init && git add -A && git commit -m "Initial NLA project"
+claude
+
+# Then:
+/startup          # Load foundational context
+/my-task          # Run your domain task
+```
+
+### Manual alternative
+
+If you prefer to start from the scaffold and customize by hand:
+
 ```bash
 cp -r nla-framework/scaffold my-project
 cd my-project
 git init
 ```
 
-The scaffold gives you a working project with a sample article formatter. You can test it immediately.
-
-### 3. Start using it
-
-```bash
-# In your project directory, start Claude Code
-claude
-
-# Then:
-/startup        # Load foundational context
-/format-article # Format some content
-```
-
-### 4. Customize
-
-Replace the sample content with your domain:
+The scaffold includes a sample article formatter and all the files you'd need to customize:
 
 | File | What to customize |
 |------|-------------------|
@@ -91,16 +104,20 @@ The framework must be a sibling directory to your project. If you put it elsewhe
 ## What's in the Framework
 
 ```
-core/
-├── nla-foundations.md     # What NLAs are, key principles, the hybrid model
-└── skills/
-    ├── startup.md         # Load foundational context at session start
-    ├── maintain.md        # System maintenance mode
-    ├── friction-log.md    # Capture observations to the learning journal
-    └── plan.md            # Planning mode for new tasks or major changes
+nla-framework/
+├── core/
+│   ├── nla-foundations.md     # What NLAs are, key principles, the hybrid model
+│   └── skills/
+│       ├── startup.md         # Load foundational context at session start
+│       ├── maintain.md        # System maintenance mode
+│       ├── friction-log.md    # Capture observations to the learning journal
+│       └── plan.md            # Planning mode for new tasks or major changes
+├── scaffold/                  # Template project (reference for /create-app)
+└── .claude/skills/
+    └── create-app/            # Conversational project creation
 ```
 
-These are universal NLA building blocks. They work with any domain content.
+`core/` contains universal NLA building blocks — they work with any domain content. `scaffold/` is the structural reference that `/create-app` uses when generating your project.
 
 ---
 
