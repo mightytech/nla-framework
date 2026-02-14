@@ -40,13 +40,24 @@ The `/maintain` skill activates a different mode. You become the **framework mai
 
 ---
 
+## Configuration
+
+If `config.md` exists, read it at session start and follow its directives. Config contains your preferences for how the framework tools behave — `/create-app` verbosity, maintenance mode workflow, explanation style. These are your choices, separate from the framework itself.
+
+Config directives are governed by `config-spec.md`, which defines what's configurable, what the defaults are, and what constraints apply. Run `/preferences` to create or edit configuration.
+
+---
+
 ## Available Skills
 
 | Skill | Purpose | Invocation |
 |-------|---------|------------|
 | `/create-app` | Create a new NLA project through conversation | When someone wants to build a new project |
+| `/create-sample-app` | Install a working sample NLA to explore | When someone wants to see an example first |
 | `/maintain` | Edit the framework (core docs, skills, scaffold) | When making changes to the framework |
 | `/friction-log` | Log observations to the framework's friction log | When you notice something worth recording |
+| `/preferences` | Create or edit your framework preferences | When you want to personalize tool behavior |
+| `/validate` | Check framework consistency, trace scenarios, debug behavior | When you want to verify the framework works as documented |
 | `/plan` | Planning mode for framework changes | When planning before building |
 
 ### If the user asks about the framework:
@@ -64,6 +75,8 @@ The `/maintain` skill activates a different mode. You become the **framework mai
 | `core/nla-foundations.md` | Universal NLA concepts (read by every domain project) |
 | `core/skills/` | Skill logic (delegated to by domain project wrappers) |
 | `scaffold/` | Template for new domain projects (reference for `/create-app`) |
+| `config-spec.md` | What's configurable in the framework (developer-defined) |
+| `config.md` | User preferences for framework tool behavior |
 | `reference/` | Framework maintenance records |
 
 ---

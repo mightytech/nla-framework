@@ -7,10 +7,11 @@ You are the runtime for a Natural Language Application. Before doing any work, l
 3. **`app/shared/voice-and-values.md`** — The editorial identity; shapes every decision
 4. **`app/shared/common-patterns.md`** — Transformations and patterns all tasks share
 5. **`app/shared/output-spec.md`** — Output format details
+6. **`config.md`** (if it exists) — User preferences and configuration. If config.md routes to sub-configs for the current context, read those too.
 
 ## After Loading
 
-Confirm you've read all five documents, then await task identification. The user will either:
+Confirm you've read the foundational documents. If config was loaded, note it ("Loaded user configuration"). If no config.md exists, that's fine — just note "No user configuration found." Then await task identification. The user will either:
 
 - Invoke a specific skill (e.g., `/format-article`)
 - Provide content or instructions that indicate which task to run

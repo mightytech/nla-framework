@@ -140,6 +140,251 @@ The Cowork version is self-contained because Cowork users aren't running `git pu
 
 ---
 
+## NLA Configuration
+
+*Implemented 2026-02-12. Originally designed as a future direction, now live in both the framework and domain projects.*
+
+Traditional applications use config files (YAML, JSON, .env) to let users modify behavior without modifying the application itself. These files are rigid: structured syntax, limited to predefined keys, unforgiving of errors. NLAs can do something fundamentally different.
+
+### The core insight
+
+In an NLA, the runtime is an LLM. An LLM can read natural language. So config files can be natural language — Markdown, not YAML. This means config can express things traditional config never could:
+
+**Structured** (like traditional config):
+```markdown
+The framework is located at ../nla-framework/
+```
+
+**Behavioral** (only possible with an LLM runtime):
+```markdown
+When in maintenance mode, always propose changes before editing — never edit directly.
+```
+
+**Contextual** (impossible in traditional config):
+```markdown
+On Wednesdays, talk like a pirate.
+```
+
+The LLM reads these directives and applies judgment, the same way it reads voice docs or task docs. Config becomes another natural language input — not a rigid contract between human and machine, but a flexible expression of preferences that the LLM interprets.
+
+### Three-actor model
+
+The framework serves three (sometimes overlapping) groups, each with different relationships to configuration:
+
+**Framework developers** maintain `nla-framework/`. They define the universal config skill logic and the config conversation patterns. They don't set config values — they build the infrastructure that makes config work.
+
+**App developers** build domain NLAs. They decide what's configurable in their app, set defaults, and define constraints. Their choices are captured in a config spec (`app/config-spec.md`) that governs what the config skill offers to users. Examples of developer-set constraints:
+- "Always ask about base path and default to ../nla-framework/"
+- "Allow users to customize any behavior — this is an LLM, they can change anything"
+- "Only allow configuration of output format and voice tone"
+- "Make sure user configurations are ethical"
+
+**App users** run the NLA and set preferences via `/preferences`. They don't edit app docs or skill files — they express preferences in config, and the LLM applies them. Their config is personal: gitignored from the app repo, untouched by `git pull`.
+
+This creates a clean three-layer separation:
+
+```
+nla-framework/       ← git pull updates infrastructure
+my-app/              ← git pull updates the application
+my-app/config/       ← user preferences, never touched by either pull
+```
+
+The same pattern as `.env` files in traditional apps, but with the full expressiveness of natural language.
+
+### The quarterback pattern
+
+Config must be always-loaded (like CLAUDE.md) because it can affect any aspect of the application's behavior. But a large config file wastes context space. Solution: a light main config that acts as a quarterback.
+
+`config.md` (always loaded) has two jobs:
+1. Hold simple, universal directives that always apply
+2. Route to sub-configs based on context
+
+```markdown
+## Always Active
+The framework is located at ../nla-framework/
+Never generate output longer than 2000 words.
+
+## Contextual
+When in maintenance mode, also read config/maintenance.md.
+When running format-article, also read config/formatting-preferences.md.
+On Wednesdays, also read config/wednesdays.md.
+```
+
+The LLM reads the main config, evaluates the current context (what mode am I in? what skill is running? what day is it?), and loads relevant sub-configs. Sub-configs can overlap — Wednesday + maintenance mode loads both `config/wednesdays.md` and `config/maintenance.md`.
+
+This is the same pattern as CLAUDE.md pointing to skills: a light routing layer that loads detail on demand.
+
+### Config file structure in a domain project
+
+```
+my-app/
+├── config.md                  # Quarterback — always loaded, routes to sub-configs
+├── config/                    # Sub-configs — loaded by context
+│   ├── maintenance.md
+│   ├── formatting-preferences.md
+│   └── wednesdays.md
+├── app/
+│   ├── config-spec.md         # App developer's config specification
+│   └── ...                    # (rest of app unchanged)
+└── .gitignore                 # Includes config.md and config/
+```
+
+`config.md` and `config/` are gitignored — they belong to the user, not the app. `app/config-spec.md` is committed — it's part of the application, defining what's configurable.
+
+### The config skill: `/preferences`
+
+A framework skill (thin wrapper pattern) that creates config if missing, edits if present. The conversation flow:
+
+1. Read `app/config-spec.md` to understand what's configurable, with what defaults, under what constraints
+2. If no config exists, generate initial `config.md` and `config/` from the spec defaults
+3. If config exists, read it, then ask the user what they want to change
+4. After any change, read through all active config directives and check for:
+   - **Conflicts between config directives** — two sub-configs that contradict each other
+   - **Conflicts between config and app docs** — a config preference that contradicts voice, patterns, or task instructions
+   - **Ambiguities** — directives that could be interpreted multiple ways
+5. Flag issues and ask for clarification before saving
+
+The conflict detection is a capability unique to NLA config. A YAML parser can catch duplicate keys. An LLM can catch "these two natural language directives contradict each other" or "this config preference conflicts with your voice doc." This is one of the strongest arguments for natural language config over traditional config.
+
+### Config precedence
+
+When config directives interact with app docs (voice, patterns, tasks), the system needs clear precedence rules. Two models:
+
+- **Config overrides app** — "The app says professional tone, but my config says casual. Config wins." This gives users maximum control but could break the app developer's intent.
+- **App authoritative, config suggestive** — "The app's voice doc is authoritative. Config preferences are applied when they don't conflict." This protects the developer's design but limits user flexibility.
+
+The right answer depends on what the app developer specified in `config-spec.md`. A developer who says "allow them to change any behavior" is opting into config-overrides-app. A developer who says "only allow configuration of output format" is opting into a constrained model. The config spec governs precedence — not a framework-wide rule.
+
+### Integration with `/create-app`
+
+During project creation, `/create-app` asks the app developer about configuration:
+- What behaviors should users be able to configure?
+- What are sensible defaults?
+- What constraints should apply? (Ethics requirements, behavioral boundaries, etc.)
+- How flexible should the config system be? (Specific knobs only? Or "change anything"?)
+
+The developer doesn't need to be an expert prompt engineer. They express intent naturally — "I want users to be able to tweak the tone" — and the LLM asks clarifying questions ("Should they be able to override the voice entirely, or just adjust formality?"), then produces a well-structured config-spec that the config skill can work with reliably. Human provides intent, AI provides structure — the same principle as everywhere else in the framework. This applies equally to `/preferences` when app users express their preferences.
+
+These answers become `app/config-spec.md`. `/create-app` also generates:
+- A starter `config.md` with defaults from the spec
+- The `config/` directory
+- `.gitignore` entries for config files
+- The `/preferences` thin wrapper skill
+
+The config spec can also be edited later via `/maintain` — if the developer realizes they want to add configurable behaviors, they update `config-spec.md` without touching the skill.
+
+### Why natural language, not YAML
+
+**Expressiveness.** "When in maintenance mode, always propose changes before editing" is a behavioral directive that has no YAML equivalent. Traditional config is limited to what the code checks for. NLA config is limited only by what the LLM can understand and apply — which is essentially anything expressible in language.
+
+**Forgiveness.** A missing comma in YAML breaks the parser. A slightly awkward sentence in Markdown config still communicates intent. The LLM handles ambiguity; the conflict detection step catches genuine problems.
+
+**Discoverability.** Users can read their own config and understand it. No key-value lookup, no schema reference needed. The config explains itself.
+
+**Consistency.** In a system where documentation is the application, config should be documentation too. YAML config in an NLA would be an odd break from the "everything is natural language" philosophy.
+
+**The structured end still works.** `framework_base_path: ../nla-framework/` is valid Markdown. Config doesn't need to avoid structure — it just doesn't require it. The spectrum from structured to behavioral is a feature, not a compromise.
+
+### What this enables
+
+Beyond the obvious (user preferences, operator customization), natural language config enables patterns that traditional config can't:
+
+- **Conditional behaviors** — "When processing urgent tickets, skip the formatting review step"
+- **Role-based config** — "I'm a senior editor; don't flag style issues, I'll handle those"
+- **Workflow modification** — "After every format-article run, automatically log friction"
+- **Tone tuning** — "A little less formal than the default voice, but keep it professional"
+- **Learning preferences** — "I prefer detailed explanations over terse responses when something goes wrong"
+
+Each of these would require custom code in a traditional app. In an NLA, they're just sentences the LLM reads and applies.
+
+### Open questions
+
+- **Config and Cowork.** The Cowork target (see above) changes the config picture. Cowork users aren't running git, so the "gitignored from app repo" model doesn't apply the same way. Config might live in Cowork's designated folder alongside the project. Need to test how Cowork handles user-specific files.
+- **Config migration.** When the app developer updates `config-spec.md` (adds new configurable behaviors, changes defaults), existing user configs may need updating. Should `/preferences` detect spec changes and offer to migrate? Or is this a manual "re-run /preferences" step?
+- **Config sharing.** Can users export/import config? "Here's my config for the article formatter, try it." This would be natural (it's just Markdown files) but may have implications for the conflict detection step.
+
+### Config-spec as committed default (no dist file)
+
+When a config directive routes to a sub-config file (e.g., `config/trace-format.md`) that the user hasn't customized, the system needs a default. Traditional code uses a "dist" file pattern — `trace-format.dist.md` (committed) alongside `trace-format.md` (gitignored). This adds parallel files to keep in sync.
+
+**The NLA approach:** The config-spec IS the committed default. `app/config-spec.md` defines what's configurable AND provides default values. If a sub-config file doesn't exist, the LLM falls back to the default described in config-spec. When `/preferences` generates config, it reads defaults from the spec and generates self-contained directives.
+
+This eliminates dist files entirely. One committed source of truth (config-spec), one user-editable space (config/), no parallel files.
+
+---
+
+## Runtime Tracing
+
+*Added 2026-02-12. Tracing is a config behavior, not a skill.*
+
+### Why config, not a skill
+
+Tracing could have been a skill (`/trace on`, `/trace off`). We made it a config behavior instead because:
+
+1. **Tracing is persistent.** A skill invocation is session-scoped. Config persists across sessions. A user who wants standard tracing shouldn't have to remember to run `/trace on` every session.
+2. **Tracing has levels.** off/standard/detailed/custom maps naturally to a config directive. A skill would need arguments that duplicate what config already does.
+3. **Config is already loaded at startup.** The LLM reads `config.md` before doing any work. Trace directives are active from the first operation, which is exactly when you want them.
+
+### Custom trace levels: an NLA demonstration
+
+The custom trace level is worth highlighting. In traditional logging, you build a framework with predefined levels, category filters, and configuration API. If someone wants "detailed for voice decisions, standard for formatting, off for file loading," they write code.
+
+In an NLA, the user writes that sentence in `config.md` and the LLM does it. No code, no logging framework, no filter API. The same mechanism handles any trace directive expressible in natural language. This is one of the clearest demonstrations of the NLA principle: the LLM interprets intent, so the configuration space is infinite without adding code.
+
+### Observer effect
+
+Tracing changes the system being observed. An LLM narrating its decisions may reason more deliberately than one working silently. We document this in config-spec rather than trying to eliminate it — it's inherent to introspective systems and is analogous to the observer effect in any instrumented system. Users should know that traced sessions are not perfectly representative of untraced sessions.
+
+---
+
+## System Validation (/validate)
+
+*Added 2026-02-12.*
+
+### Why a dedicated skill
+
+NLA debugging is fundamentally different from traditional debugging. There are no syntax errors, no stack traces, no line numbers. Bugs are behavioral — an ambiguous directive in voice-and-values.md that the LLM interprets differently than intended, or a conflict between two docs that surfaces only with certain inputs.
+
+`/validate` provides three tools for this:
+
+1. **Structural validation** — mechanical checks (file references resolve, skill tables consistent). The NLA equivalent of a linter.
+2. **Scenario walkthrough** — trace through docs for a hypothetical scenario, narrating each decision. The NLA equivalent of a debugger's step-through.
+3. **Debug mode** — given expected vs. actual behavior, trace through docs to explain the divergence. The NLA equivalent of a stack trace.
+
+### Why read-only with handoff
+
+`/validate` finds problems but doesn't fix them. Fixes go through `/maintain` (for doc edits) or `/friction-log` (for capturing observations). This separation exists because:
+
+- **Different guardrails.** Validation is read-only and risk-free. Maintenance has blast-radius concerns and requires proposals.
+- **Different decisions.** Finding an issue is mechanical. Deciding how to fix it requires judgment and human approval.
+- **Clean handoff.** `/validate` says "this doc has a conflict on line 23." The user decides: fix it now (`/maintain`), log it for later (`/friction-log`), or ignore it.
+
+### Tracing + validate complement
+
+Runtime tracing captures what DID happen during real work. `/validate` analyzes what SHOULD happen based on docs. Debug mode bridges them — it can read trace files to see the actual decision chain, making diagnosis dramatically more reliable than reconstruction from docs alone. This creates a natural incentive: enable standard tracing when debugging, so `/validate` has real data to work with.
+
+---
+
+## Sibling Directory Convention
+
+*Affirmed 2026-02-12. Considered and rejected alternatives.*
+
+### Why we kept the sibling convention
+
+We considered supporting non-standard project locations (projects not at `../project-name/` relative to the framework). The config system made this conceptually easier — `config.md` stores `Framework path:`, providing a declared source of truth.
+
+However, the implementation revealed a tension: `core/skills/*.md` files are shared across all domain projects but contain hardcoded `../nla-framework/` paths. These paths resolve from the domain project's working directory. Making them location-agnostic required either:
+
+1. **Natural language references** ("the framework's `core/nla-foundations.md`") — adds inference overhead to the default case, and path resolution is a mechanical operation where you want reliability, not flexibility.
+2. **Template variables** (`{framework-path}/core/...`) — traditional code approach, foreign to the NLA model.
+3. **Wrapper-based resolution** — push framework paths into thin wrappers, making them less thin.
+
+All three degraded the common case (sibling projects work perfectly today) to support a rare case (non-sibling layouts). This is a case where traditional code is genuinely easier than an NLA — path substitution is mechanical and deterministic, exactly the kind of thing code handles well and LLMs add unnecessary flexibility to.
+
+**Decision:** Keep the sibling convention for the MVP. The getting-started experience is zero-friction (clone and go), there's no NLA ecosystem requiring a vendor/packages pattern, and the alternatives all involve tradeoffs that aren't justified by current demand.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

@@ -37,7 +37,11 @@ git clone <framework-repo-url> ../nla-framework
 │   │   ├── voice-and-values.md      # Tone and editorial identity
 │   │   ├── common-patterns.md       # Shared transformations
 │   │   └── output-spec.md           # Output format
+│   ├── config-spec.md               # What users can configure (developer-defined)
 │   └── format-article.md            # Article formatting task (sample)
+├── config.md                        # User preferences (quarterback config)
+├── config/                          # Context-specific sub-configs
+│   └── maintenance.md               # Preferences for maintenance mode
 ├── reference/                       # Maintenance records (not loaded at runtime)
 │   ├── design-rationale.md          # Why the system is built this way
 │   ├── friction-log.md              # Learning journal (active entries)
@@ -49,6 +53,8 @@ git clone <framework-repo-url> ../nla-framework
 │   ├── maintain/                    # Framework wrapper
 │   ├── friction-log/                # Framework wrapper
 │   ├── plan/                        # Framework wrapper
+│   ├── preferences/                 # Framework wrapper
+│   ├── validate/                    # Framework wrapper
 │   └── format-article/              # Domain skill (sample)
 └── lib/                             # Traditional code helpers
 ```
@@ -68,6 +74,14 @@ git clone <framework-repo-url> ../nla-framework
 | `app/overview.md` | Update to describe what your NLA does |
 
 The `reference/` directory works as-is — it uses the same friction log and maintenance patterns regardless of domain.
+
+---
+
+## Configuration
+
+Users can personalize how the NLA behaves by running `/preferences`. This creates `config.md` and optionally `config/` sub-configs with user preferences — tone adjustments, formatting style, workflow modifications.
+
+Config files are separate from the application. In a real project, they're gitignored so that `git pull` updates the app without touching user preferences. `app/config-spec.md` defines what's configurable.
 
 ---
 

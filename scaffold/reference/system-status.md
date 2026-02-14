@@ -24,8 +24,10 @@ Template initialization
 |-------|--------|-------|
 | /startup | Ready | Loads foundational context |
 | /format-article | Sample | Replace with your domain skill |
+| /preferences | Ready | User configuration |
 | /friction-log | Ready | Observation capture |
 | /maintain | Ready | System maintenance |
+| /validate | Ready | System validation and debugging |
 | /plan | Ready | Planning mode |
 
 ### Recent Changes

@@ -65,9 +65,13 @@ This is the most important consideration for framework maintenance:
 
 Read the relevant doc and the design rationale before modifying anything. If a pattern exists, there's usually a reason.
 
-### 2. Propose Before Editing
+### 2. Confirm Before Implementing
 
-Show the human what you'd change and why before making the edit. Format proposals as:
+Always confirm your approach before making changes. For small changes, a sentence is enough: "I'm thinking [X] — anything to change before I do it?" For larger changes, use `/plan`. The only exception is purely mechanical fixes where confirming would feel absurd — a typo, a broken path, a dead reference.
+
+This catches design questions disguised as small changes. A two-line edit can still involve a real decision about wording, policy, or approach. If there's any judgment involved, confirm first.
+
+When proposing, show what you'd change and why:
 
 ```
 Proposed change to: [file path]
@@ -124,7 +128,7 @@ Maintenance sessions generate intent history. Create a session log in `reference
 
 1. Read pending entries in `reference/friction-log.md`
 2. Read affected files
-3. Propose changes (noting blast radius)
+3. Confirm your approach (per principle #2 above), then propose changes (noting blast radius)
 4. Get approval, implement, mark resolved
 5. Archive resolved entries to `reference/friction-log-archive.md`
 

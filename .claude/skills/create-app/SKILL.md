@@ -40,7 +40,7 @@ Gather these through conversation (not as a checklist):
 4. **Voice/tone** — how output should sound
 5. **Output format** — Markdown, HTML, JSON, plain text, etc.
 6. **Audience** — who reads the output
-7. **Path choice** — scaffold (includes sample formatter) or from-scratch
+7. **Configuration** — what behaviors should users be able to customize?
 
 ### Phase A: Opening
 
@@ -58,24 +58,16 @@ Based on what's missing after Phase A, ask focused follow-up questions. Group re
 - Voice + audience (they inform each other)
 - Output format + task description (what the LLM produces shapes how it works)
 - Multiple tasks (if hinted at — "Do you need separate tasks for X and Y, or is that one task?")
+- Configuration (what should users be able to customize?)
+
+**Configuration guidance:** Ask what behaviors the app developer wants users to be able to customize. Examples: "Should users be able to adjust the tone? Change output length? Modify specific task behaviors?" Some developers want tight control ("only output format"); others want maximum flexibility ("let them change anything — it's an LLM"). If the developer isn't sure, suggest starting with common settings (voice adjustments, output preferences) and note that `/maintain` can expand the config-spec later.
 
 **Provide examples and suggestions** to help users who aren't sure:
 - Voice: "Formal and authoritative? Warm and conversational? Technical and precise?"
 - Output format: "Clean Markdown is the most common. Some projects use HTML, JSON, or structured plain text."
 - Task naming: "Task names become skill names. Short, verb-based: `format-article`, `classify-ticket`, `draft-response`."
 
-### Phase C: Path Decision
-
-Present the two options with a recommendation:
-
-**Scaffold path** — Includes everything from-scratch does, plus a working sample article formatter (`/format-article`). Good for learning — you can see a complete example alongside your custom task.
-
-**From-scratch path** — Only your custom task(s). Cleaner if you know what you want and don't need the sample.
-
-**When to recommend scaffold:** First NLA project, or the user seems exploratory.
-**When to recommend from-scratch:** The user's domain is very different from content formatting, or they seem experienced and decisive.
-
-### Phase D: Summary and Confirmation
+### Phase C: Summary and Confirmation
 
 Present a summary of what will be created:
 
@@ -89,7 +81,6 @@ Output: [format]
 
 Tasks:
   - /[task-name]: [what it does]
-  [- /format-article: Sample formatter (scaffold)]
 
 Files to generate: [count]
 ```
@@ -98,7 +89,7 @@ Files to generate: [count]
 
 ### Conversation Edge Cases
 
-- **User provides everything upfront** — Skip to Phase D. Don't ask questions you already have answers to.
+- **User provides everything upfront** — Skip to Phase C. Don't ask questions you already have answers to.
 - **Multiple tasks** — Generate a task doc and skill for each. All integration files (overview, CLAUDE.md) reflect all tasks.
 - **User changes mind** — The confirmation step exists for this. Adjust and re-summarize.
 - **Vague voice description** ("professional" or "friendly") — Generate a reasonable starter voice doc. Note to the user that `/maintain` can refine it later.
@@ -107,7 +98,7 @@ Files to generate: [count]
 
 ## File Generation
 
-### Three Categories
+### Two Categories
 
 **1. Copied verbatim from scaffold** (no generation needed):
 
@@ -117,9 +108,13 @@ Files to generate: [count]
 | `.claude/skills/maintain/SKILL.md` | Thin wrapper |
 | `.claude/skills/friction-log/SKILL.md` | Thin wrapper |
 | `.claude/skills/plan/SKILL.md` | Thin wrapper |
+| `.claude/skills/preferences/SKILL.md` | Thin wrapper |
+| `.claude/skills/validate/SKILL.md` | Thin wrapper — identical for all projects |
 | `reference/friction-log-archive.md` | Empty archive structure |
 | `lib/.gitkeep` | Directory placeholder |
 | `reference/sessions/.gitkeep` | Directory placeholder |
+| `config/.gitkeep` | Config sub-directory placeholder |
+| `.gitignore` | Excludes config.md and config/ from git |
 
 **2. Generated from conversation** (read scaffold file as structural reference, then generate new content):
 
@@ -136,13 +131,8 @@ Files to generate: [count]
 | `reference/system-status.md` | `scaffold/reference/system-status.md` | Actual tasks and skills |
 | `reference/friction-log.md` | `scaffold/reference/friction-log.md` | Keep format and guidance, remove sample entry |
 | `README.md` | `scaffold/README.md` | Project name, tasks, skills, getting started |
-
-**3. Scaffold-path only** (copied when user chooses scaffold):
-
-| File | Notes |
-|------|-------|
-| `app/format-article.md` | Sample task doc |
-| `.claude/skills/format-article/SKILL.md` | Sample task skill |
+| `app/config-spec.md` | `scaffold/app/config-spec.md` | Configurable behaviors, defaults, constraints from conversation |
+| `config.md` | `scaffold/config.md` | Starter config with defaults from config-spec |
 
 ### Generation Order
 
@@ -154,7 +144,7 @@ Follow this order — later files reference earlier ones:
 4. **Task docs and skills** — Task-specific files for each task
 5. **Integration files** — overview.md, CLAUDE.md, README.md (generated last because they reference everything above)
 6. **Reference files** — design-rationale.md, system-status.md, friction-log.md
-7. **Scaffold-path extras** — format-article files if scaffold path was chosen
+7. **Config files** — config-spec.md, config.md, .gitignore
 
 ### How to Generate Each File
 
@@ -184,6 +174,8 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | **Task doc** | This IS the application. Edit this file to change what the LLM does. |
 | **Common patterns** | Starting minimal — as you use the system and run `/friction-log`, patterns will emerge and you'll add them here. |
 | **Friction log** | Your learning journal. `/friction-log` captures observations, `/maintain` turns them into improvements. |
+| **Config** | Config lets users personalize the NLA without editing the application. Their preferences live in `config.md`, separate from the app. `/preferences` creates and edits it. |
+| **Validation** | `/validate` checks that your system's internal references are consistent, and can trace through docs to debug when output doesn't match expectations. |
 
 Don't narrate every file. Group the thin wrappers, group the reference files. Focus on what helps the user understand the system.
 
@@ -204,7 +196,7 @@ Next steps:
 5. Try /[task-name] with some sample content
 ```
 
-If scaffold path: also mention they can try `/format-article` with any rough text to see the sample in action.
+**Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/create-sample-app` — it installs a complete sample NLA they can explore before building their own.
 
 ---
 
@@ -218,6 +210,9 @@ Before reporting completion, verify:
 4. **system-status.md** tasks and skills match what was actually created
 5. **Thin wrappers** all point to `../nla-framework/core/skills/[skill].md` with correct names
 6. **README.md** references correct skill names
+7. **config-spec.md** reflects configuration choices from the conversation
+8. **config.md** has sensible defaults matching the config-spec
+9. **.gitignore** excludes config.md and config/
 
 If anything doesn't match, fix it before reporting done.
 

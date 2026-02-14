@@ -57,8 +57,10 @@ Each task has an explicit entry point — a Claude Code skill:
 |-------|---------|
 | `/startup` | Load foundational context at session start |
 | `/format-article` | Format raw content into a polished article |
+| `/preferences` | Create or edit user configuration |
 | `/friction-log` | Log observations to the friction log from any context |
 | `/maintain` | Edit the NLA system itself |
+| `/validate` | Check system consistency, trace scenarios, debug behavior |
 | `/plan` | Planning mode for new tasks or major changes |
 
 Skills live in `.claude/skills/` and load their context on demand — `CLAUDE.md` provides the runtime identity, and each skill pulls in the specific docs it needs. `/startup` can also be re-run mid-session to reload foundational context after a long conversation.
@@ -109,7 +111,12 @@ app/
 │   ├── common-patterns.md           ← Shared transformations
 │   └── output-spec.md               ← Output format
 │
+├── config-spec.md                   ← What users can configure (developer-defined)
+│
 └── format-article.md                ← Article formatting task
+
+config.md                            ← User preferences (gitignored in real projects)
+config/                              ← Context-specific sub-configs
 
 ../nla-framework/core/
 ├── nla-foundations.md               ← What NLAs are (framework)
@@ -131,6 +138,7 @@ reference/
 - [Voice and Values](shared/voice-and-values.md) — Tone, principles, editorial identity
 - [Common Patterns](shared/common-patterns.md) — Transformations all tasks share
 - [Output Spec](shared/output-spec.md) — Output format details
+- [Config Spec](config-spec.md) — What users can configure and how
 
 ### Tasks
 - [Format Article](format-article.md) — Format raw content into polished articles

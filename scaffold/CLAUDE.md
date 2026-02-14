@@ -46,14 +46,24 @@ The `/maintain` skill activates a different mode. You become the **system mainta
 
 ---
 
+## Configuration
+
+If `config.md` exists in the project root, read it at session start and follow its directives. Config contains user preferences that personalize how this NLA behaves — tone adjustments, formatting preferences, workflow modifications. These are the user's choices, separate from the application itself.
+
+Config directives are governed by `app/config-spec.md`, which defines what's configurable, what the defaults are, and what constraints apply. Run `/preferences` to create or edit configuration.
+
+---
+
 ## Available Skills
 
 | Skill | Purpose | Invocation |
 |-------|---------|------------|
 | `/startup` | Load foundational context for the NLA runtime | At session start, or to refresh context |
 | `/format-article` | Format raw content into a polished article | When the user provides content to format |
+| `/preferences` | Create or edit user configuration | When the user wants to personalize behavior |
 | `/friction-log` | Log observations to the friction log from any context | When you notice something worth recording |
 | `/maintain` | Edit the NLA system itself (docs, skills, lib/) | When the user wants to improve or modify the system |
+| `/validate` | Check system consistency, trace scenarios, debug behavior | When you want to verify the system works as documented |
 | `/plan` | Planning mode for new tasks or major changes | When the user wants to plan before building |
 
 ### If the user asks about the system:
@@ -130,6 +140,8 @@ This project uses the NLA Framework at `../nla-framework/`. If your framework is
 | File | Purpose |
 |------|---------|
 | `app/` | NLA application (operative channel) |
+| `app/config-spec.md` | What's configurable and how (developer-defined) |
+| `config.md` | User preferences (gitignored in real projects) |
 | `reference/` | Design rationale, friction log, session archives |
 | `../nla-framework/core/` | Framework foundations and skill logic |
 | `lib/` | Traditional code helpers |

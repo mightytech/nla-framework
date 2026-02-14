@@ -48,9 +48,21 @@ claude
 /my-task          # Run your domain task
 ```
 
+### See a working example first
+
+If you want to explore a complete NLA before building your own, run `/create-sample-app`. It installs a working article formatter you can try immediately.
+
+```bash
+cd nla-framework
+claude
+
+# Then:
+/create-sample-app
+```
+
 ### Manual alternative
 
-If you prefer to start from the scaffold and customize by hand:
+You can also copy the scaffold directly and customize by hand:
 
 ```bash
 cp -r nla-framework/scaffold my-project
@@ -58,7 +70,7 @@ cd my-project
 git init
 ```
 
-The scaffold includes a sample article formatter and all the files you'd need to customize:
+Key files to customize:
 
 | File | What to customize |
 |------|-------------------|
@@ -111,6 +123,7 @@ nla-framework/
 │       ├── startup.md         # Load foundational context at session start
 │       ├── maintain.md        # System maintenance mode
 │       ├── friction-log.md    # Capture observations to the learning journal
+│       ├── validate.md        # System validation and debugging
 │       └── plan.md            # Planning mode for new tasks or major changes
 ├── scaffold/                  # Template project (reference for /create-app)
 └── .claude/skills/
