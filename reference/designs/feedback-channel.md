@@ -65,6 +65,29 @@ The test: a stranger can participate effectively (artifact quality), but doesn't
 
 **Forks and the shared mailbox:** Because the mailbox is decoupled from any particular framework instance, forks of the framework see the same feedback. Each fork makes independent decisions about what to incorporate. A fork could accept feedback the main framework declined. The mailbox becomes a shared community resource — a marketplace of ideas where feedback is proposed once and evaluated independently by different maintainers.
 
+### The mailbox as an NLA
+
+The mailbox isn't just a collection of files — it's a Natural Language Application. It already has the defining properties: documentation that IS the application (the README defines how feedback works), an LLM as runtime (AIs read, triage, split, synthesize), natural language as interface (letters, annotations, config), judgment over rules (the AI decides how to process each letter).
+
+**Decision:** Build the mailbox as an explicit NLA on the framework. It gets its own CLAUDE.md, app docs, skills, config, friction log — the full structure, kept lightweight. This means:
+
+- **Self-improving.** If the mailbox bends at scale, the fix is better documentation — refine triage guidance, add synthesis patterns, update splitting approaches. The same iterate-through-documentation cycle that works for every NLA.
+- **Dogfooding.** The framework's own feedback channel is built on the framework. "Here's an NLA that manages communication between NLAs."
+- **A living counterexample.** The scaffold is a content transformation NLA (stateless, single-task). Duet is a creative NLA (persistent, tool-using). The mailbox is a communication/knowledge management NLA (multi-participant, stateful, non-transformation). Three shapes, one framework — a much stronger argument for "NLAs are general" than prose alone.
+
+### The mailbox as a forkable pattern
+
+The mailbox NLA is designed so others can fork it for their own purposes:
+
+- **A domain NLA's feedback channel.** Duet gets users; those users want to send feedback. Fork the mailbox, customize the governance norms, point it at Duet's community.
+- **Team collaboration.** A team building an NLA uses a forked mailbox as their coordination space. Letters become proposals, sub-letters become working groups.
+- **Inter-NLA coordination.** Two NLAs that need to talk (content creation + content publishing) use a shared mailbox fork.
+- **General knowledge management.** Strip the "feedback" framing and you have an NLA for managing collections of natural language documents with AI-assisted triage, splitting, synthesis, and search.
+
+**What forkability requires:** Clean separation between domain-specific content (framework feedback norms, triage criteria for framework changes) and general patterns (letter format, annotation conventions, splitting, synthesis, mail checking). This falls out naturally from good NLA design — it's not extra work, it's the same principle that makes the scaffold forkable.
+
+**The nested pattern:** The NLA framework helps you build NLAs. One of those NLAs is the mailbox. The mailbox can be forked into other communication NLAs. Three levels, all using "documentation is the application." Each level demonstrates the principle it's built on.
+
 ### Letter format (Question 2)
 
 **Decision:** The format is a suggestion with published reasoning, not a mandate. Deviations are welcome when they serve the communication better — the reader is an LLM that applies judgment, not a parser.
@@ -100,7 +123,7 @@ Annotations go wherever they make most sense — inline on a specific item, at t
 
 ### Triage process (Question 3)
 
-**Decision:** Triage the full letter before implementing anything. Items are interconnected — processing one may change the verdict on another.
+**Decision:** Scan the full letter to get the lay of the land before implementing anything. Items may be interconnected — the verdict on one can affect another.
 
 **What triage produces per item:**
 - Verdict: accept / adapt / defer / decline (natural language — these are defaults, not an enum)
@@ -110,6 +133,8 @@ Annotations go wherever they make most sense — inline on a specific item, at t
 **Who triages:** The framework maintainer (human + AI in /maintain mode). The AI can propose verdicts ("I'd accept items 1 and 3, defer 5, here's why") but the human decides. Same principle as the exit interview — no autonomous action on either side.
 
 **Triage can span sessions.** A complex letter might need research, discussion, or time to think. The letter in the mailbox tracks triage state through annotations.
+
+**Implementation doesn't have to wait for full triage.** Clearly independent items (a typo fix, a mechanical cleanup) can proceed while complex items are still being considered. The constraint: don't implement something whose verdict might change based on another item's outcome. The AI judges what's independent.
 
 ### What happens to triaged items (Question 4)
 
@@ -226,6 +251,61 @@ This entire system demonstrates NLA principles:
 - Config as prose (privacy scrubbing, notification patterns, checking behavior — all config directives, not code)
 
 Traditional software would need: a ticketing system, a schema, a workflow engine, API endpoints, notification services, a database. The NLA version: markdown files in a git repo, conventions described in prose, interpreted by LLMs.
+
+### Reusable NLA patterns
+
+The mailbox NLA isn't just useful — it's forkable. This surfaces a framework-level question: can you build reusable NLA patterns that others customize? The scaffold demonstrates this for content transformation (fork and customize the article formatter). The mailbox demonstrates it for communication/knowledge management (fork and customize the feedback channel). If both work, the framework has two very different reusable patterns — evidence that NLA reusability is general, not limited to one domain.
+
+---
+
+## Design Principle: Flexible Units of Work
+
+A letter arrives as one artifact but doesn't have to be processed as one artifact. The AI can split a letter into sub-letters — smaller, focused documents that reference the original — whenever it makes sense. "Makes sense" is a judgment call, not a rule:
+
+- **Quick wins.** Pull out the trivial items and process them immediately while complex items get deeper triage.
+- **Thematic grouping.** Group the persistence items together, the tooling items together, even across letters from different sources.
+- **Cross-letter connections.** Item 3 from Duet's letter and item 2 from a future NLA's letter both address the same gap — combine them into a focused sub-letter.
+- **Practical reasons.** The maintainer wants to tackle one item in this session and defer the rest.
+
+Sub-letters reference the original ("From Duet letter 2026-02-14, items 1-3"). The original letter gets a note indicating it's been split ("Items from this letter have been split into: [list]"). The original stays intact as the primary source.
+
+This is deeply NLA-native. A traditional ticketing system needs explicit "split issue" functionality, parent-child schemas, relationship tracking. The NLA version: the AI creates new markdown files with prose references. The relationships are sentences, not foreign keys.
+
+**Sub-letters as triage output.** Instead of annotating the original letter with 16 inline verdicts, triage can produce sub-letters: a "quick wins" batch, a "needs discussion" group, a "declined with rationale" set. The original letter stays clean. Each sub-letter has its own focused conversation.
+
+**The beginning of synthesis.** A sub-letter that combines "persistence" items from two different NLAs IS a synthesis artifact. The flexible unit of work is how the institutional memory layer emerges naturally — not as a deliberate knowledge management project, but as a byproduct of working with the mail.
+
+---
+
+## Design Principle: The Public Mailbox
+
+The mailbox repo is public. Anyone can read, submit, and comment. This is a deliberate choice with significant implications.
+
+### What transparency enables
+
+- **Visible decision-making.** Anyone can see what feedback the framework has received, what was accepted, what was declined, and why. The framework's evolution is a public conversation, not a closed-door process.
+- **Community signal amplification.** A stranger sees a letter about persistence and adds "we experienced the same thing" — one NLA's observation becomes a corroborated pattern.
+- **Cross-pollination.** NLA developers learn from each other's letters without anyone curating the exchange.
+- **AI-assisted community moderation.** The framework AI can summarize community sentiment across annotations, highlight constructive input, and filter noise. Traditional issue trackers need human moderators; the NLA has a built-in one that reads everything and applies judgment.
+
+### Risks to watch
+
+- **Noise and bikeshedding.** Open comments can drift from substance. The sub-letter pattern helps — focused conversations in focused artifacts.
+- **Authority dilution.** Public pressure can complicate difficult decisions. Declining a popular request is harder with an audience. Popular isn't the same as right — the framework has a philosophy, and community input should inform it, not override it.
+- **Scope creep via democracy.** Democratic input can push toward "what's popular" rather than "what's principled."
+- **Toxic behavior.** The standard open source risk. Trolls, aggressive comments, unconstructive criticism.
+- **Privacy beyond content.** Even with scrubbing, a public letter reveals "someone is building an NLA for X." The existence of certain NLAs or the problems they solve could itself be sensitive.
+- **Maintainer burnout.** Active community engagement competes with framework development. The classic open source maintainer trap.
+
+### Governance (light)
+
+The mailbox README establishes norms — a few paragraphs, not a formal governance framework:
+- The mailbox is open. Anyone can read, submit, and comment.
+- The framework maintainer makes final decisions. Community input informs but doesn't override.
+- Constructive feedback, respect for others' work, assume good intent.
+- The mailbox is public. Write accordingly.
+
+This is consistent with "process weight for A/B" — enough structure to set expectations, not enough to feel bureaucratic.
 
 ---
 
