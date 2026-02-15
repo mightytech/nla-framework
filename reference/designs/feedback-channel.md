@@ -65,6 +65,52 @@ The test: a stranger can participate effectively (artifact quality), but doesn't
 
 **Forks and the shared mailbox:** Because the mailbox is decoupled from any particular framework instance, forks of the framework see the same feedback. Each fork makes independent decisions about what to incorporate. A fork could accept feedback the main framework declined. The mailbox becomes a shared community resource — a marketplace of ideas where feedback is proposed once and evaluated independently by different maintainers.
 
+### The apartment building: multi-box architecture
+
+The mailbox NLA isn't one mailbox — it's an apartment building. Multiple boxes in one repo, one per project:
+
+```
+nla-mailbox/
+├── CLAUDE.md
+├── app/                     # How the mailbox NLA works
+│   ├── overview.md
+│   └── shared/
+├── reference/               # Mailbox NLA's own maintenance artifacts
+│   ├── friction-log.md
+│   └── design-rationale.md
+├── boxes/
+│   ├── framework/           # Community mail about the NLA framework
+│   ├── mailbox/             # Community mail about the mailbox NLA itself
+│   └── ...                  # More boxes as needed
+└── .claude/skills/
+```
+
+**The canonical repo** (published by the framework maintainer) ships with community boxes — `boxes/framework/` and `boxes/mailbox/`. These are the common spaces in the building.
+
+**When a developer forks it**, they add boxes for their own projects:
+
+```
+boxes/
+├── framework/               # Community box (from upstream)
+├── mailbox/                 # Community box (from upstream)
+├── duet/                    # This developer's project box
+└── my-other-nla/            # Another of their projects
+```
+
+**The git flow:**
+- `git pull` from upstream brings new community letters into `boxes/framework/` and `boxes/mailbox/` without disturbing private boxes
+- PRs to the canonical repo submit letters to community boxes
+- Private boxes stay local to the fork
+- Adding a new box is just creating a directory
+
+**What this solves:**
+- One repo per developer, no matter how many NLAs they maintain
+- The mailbox NLA's own feedback has a natural home — just another box, no special-casing
+- Framework feedback from the community flows to everyone on pull
+- No confusion about which mailbox goes with which project
+
+**Privacy note:** Community boxes in the canonical repo are public. A developer's fork is also public by default on GitHub, which means their project-specific boxes are visible too. If someone wants private feedback, they either make their fork private or keep that feedback in their domain project's own `reference/`. The mailbox is for sharing — private feedback stays home.
+
 ### The mailbox as an NLA
 
 The mailbox isn't just a collection of files — it's a Natural Language Application. It already has the defining properties: documentation that IS the application (the README defines how feedback works), an LLM as runtime (AIs read, triage, split, synthesize), natural language as interface (letters, annotations, config), judgment over rules (the AI decides how to process each letter).
@@ -74,6 +120,8 @@ The mailbox isn't just a collection of files — it's a Natural Language Applica
 - **Self-improving.** If the mailbox bends at scale, the fix is better documentation — refine triage guidance, add synthesis patterns, update splitting approaches. The same iterate-through-documentation cycle that works for every NLA.
 - **Dogfooding.** The framework's own feedback channel is built on the framework. "Here's an NLA that manages communication between NLAs."
 - **A living counterexample.** The scaffold is a content transformation NLA (stateless, single-task). Duet is a creative NLA (persistent, tool-using). The mailbox is a communication/knowledge management NLA (multi-participant, stateful, non-transformation). Three shapes, one framework — a much stronger argument for "NLAs are general" than prose alone.
+
+The NLA structure cleanly separates the mailbox's own maintenance (`reference/`) from the mail it manages (`boxes/`). The friction log in `reference/` is about the mailbox's behavior ("the triage patterns aren't working well"). The content in `boxes/` is feedback about other projects. Same separation any NLA has between system and content.
 
 ### The mailbox as a forkable pattern
 
@@ -333,9 +381,10 @@ Things worth noting that aren't ready to be questions yet:
 - **Volume.** If many NLAs send letters, triage becomes a maintenance burden. Cadence? Priority fields? (Not urgent at current scale.)
 - **Multi-agent/persona patterns.** All three whitepapers use multiple AI personas. The framework doesn't discuss this. Not part of the feedback channel design, but surfaced during this analysis.
 - **Dual output streams.** Also surfaced from whitepapers, also not part of this design.
-- **Mailbox repo name.** Needs an actual name. `nla-feedback`? `nla-mailbox`? `nla-community`? The name sets expectations.
+- **Mailbox repo name.** Needs an actual name. Should reflect the multi-box / apartment building model. `nla-mailbox`? `nla-post`? The name sets expectations — it should signal "communication hub," not just "feedback inbox."
 - **When to create the mailbox repo.** Now? When the framework goes public? Can it exist with a README that says "this is in design"?
-- **Testing with the Duet letter.** Once the design is settled, retroactively format the Duet letter as a test case. What would it look like in the suggested format? What would triage annotations look like?
+- **Testing with the Duet letter.** Retroactively format the Duet letter as a test case. Move it into `boxes/framework/` in the mailbox repo. What would triage annotations look like?
+- **Box naming conventions.** Should box names match repo names? NLA names? Or is it freeform? Probably freeform with guidance.
 
 ---
 
