@@ -70,7 +70,7 @@ The test: a stranger can participate effectively (artifact quality), but doesn't
 The mailbox NLA isn't one mailbox — it's an apartment building. Multiple boxes in one repo, one per project:
 
 ```
-nla-mailbox/
+nla-penny-post/
 ├── CLAUDE.md
 ├── app/                     # How the mailbox NLA works
 │   ├── overview.md
@@ -381,7 +381,7 @@ Things worth noting that aren't ready to be questions yet:
 - **Volume.** If many NLAs send letters, triage becomes a maintenance burden. Cadence? Priority fields? (Not urgent at current scale.)
 - **Multi-agent/persona patterns.** All three whitepapers use multiple AI personas. The framework doesn't discuss this. Not part of the feedback channel design, but surfaced during this analysis.
 - **Dual output streams.** Also surfaced from whitepapers, also not part of this design.
-- **Mailbox repo name.** Needs an actual name. Should reflect the multi-box / apartment building model. `nla-mailbox`? `nla-post`? The name sets expectations — it should signal "communication hub," not just "feedback inbox."
+- **~~Mailbox repo name.~~** Decided: `nla-penny-post`. Named after the 1840 British postal reform that democratized communication — fitting for a project about democratizing software development beyond coders.
 - **When to create the mailbox repo.** Now? When the framework goes public? Can it exist with a README that says "this is in design"?
 - **Testing with the Duet letter.** Retroactively format the Duet letter as a test case. Move it into `boxes/framework/` in the mailbox repo. What would triage annotations look like?
 - **Box naming conventions.** Should box names match repo names? NLA names? Or is it freeform? Probably freeform with guidance.
