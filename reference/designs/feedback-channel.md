@@ -136,6 +136,35 @@ The mailbox NLA is designed so others can fork it for their own purposes:
 
 **The nested pattern:** The NLA framework helps you build NLAs. One of those NLAs is the mailbox. The mailbox can be forked into other communication NLAs. Three levels, all using "documentation is the application." Each level demonstrates the principle it's built on.
 
+### The penny post as a feedback framework
+
+The penny post isn't just an NLA — it's a framework. The same way the NLA framework provides development infrastructure via thin wrappers, the penny post provides feedback infrastructure via thin wrappers.
+
+| | NLA Framework | Penny Post |
+|---|---|---|
+| **Provides** | NLA development infrastructure | Feedback processing infrastructure |
+| **Installs via** | Thin wrappers in `.claude/skills/` | Thin wrappers in `.claude/skills/` |
+| **Convention** | `../nla-framework/` | `../nla-penny-post/` |
+| **Logic lives in** | `core/skills/` | `core/skills/` |
+
+**Decision:** The penny post installs thin wrapper skills in participating NLAs, just like the framework does. Triage and mail-checking happen *inside the target project's context* (during `/maintain`), not in the penny post standalone. This means the AI has full access to the target project's files when assessing feedback.
+
+**What this requires:**
+- The penny post needs a `core/skills/` directory with external-facing logic — skill files designed to work from any NLA's context, referencing `../nla-penny-post/` paths explicitly. These are separate from the `app/` task docs (which are the penny post's own internal logic).
+- Participating NLAs install thin wrappers (e.g., `.claude/skills/check-mail/SKILL.md` → `../nla-penny-post/core/skills/check-mail.md`).
+- Each box gets a `BOX.md` config file identifying the target project and key files to read before triaging.
+
+**How triage works in practice:**
+1. Developer runs `/maintain` on their NLA (e.g., the framework)
+2. `/maintain` offers to check the penny post (triggered by config directive or explicit request)
+3. The check-mail skill scans `../nla-penny-post/boxes/framework/` for new letters
+4. The triage skill processes items with full access to the framework's own files
+5. Annotations are written back to the letter in the penny post
+
+**The /maintain integration:** Rather than modifying `core/skills/maintain.md` directly, this is config-driven. A user adds "at the start of maintenance sessions, check the penny post for new mail" to their config. The AI reads this, sees the check-mail skill exists, and offers it. Pure NLA — config as behavior modification, no skill modification needed.
+
+**Why this matters:** The letter carries the author's context (what the domain NLA experienced). But assessing whether feedback is valid requires the *target's* context (the project receiving feedback). Triage happens where the context is. The penny post provides the conventions and the mailbox; the target project provides the domain knowledge.
+
 ### Letter format (Question 2)
 
 **Decision:** The format is a suggestion with published reasoning, not a mandate. Deviations are welcome when they serve the communication better — the reader is an LLM that applies judgment, not a parser.
@@ -383,19 +412,20 @@ Things worth noting that aren't ready to be questions yet:
 - **Dual output streams.** Also surfaced from whitepapers, also not part of this design.
 - **~~Mailbox repo name.~~** Decided: `nla-penny-post`. Named after the 1840 British postal reform that democratized communication — fitting for a project about democratizing software development beyond coders.
 - **When to create the mailbox repo.** Now? When the framework goes public? Can it exist with a README that says "this is in design"?
-- **Testing with the Duet letter.** Retroactively format the Duet letter as a test case. Move it into `boxes/framework/` in the mailbox repo. What would triage annotations look like?
+- **Testing with the Duet letter.** Retroactively format the Duet letter as a test case. Move it into `boxes/framework/` in the mailbox repo. A draft triage exists at `reference/feedback/2026-02-15-duet-triage-draft.md` for comparison with the formal penny post triage.
 - **Box naming conventions.** Should box names match repo names? NLA names? Or is it freeform? Probably freeform with guidance.
+- **BOX.md format.** Each box needs a config file pointing to the target project. What fields? Just a path and key files, or more?
 
 ---
 
 ## Next Steps
 
-1. Finalize any remaining open questions in this design
-2. Create the mailbox repo with README (the README IS the process documentation)
-3. Build the exit interview skill (framework `core/skills/`, with thin wrapper for domain projects)
-4. Update `/maintain` with mailbox-checking guidance
-5. Test by processing the Duet letter through the new channel
-6. Update framework design rationale with the feedback channel decision
+1. ~~Create the penny post NLA~~ — Done (2026-02-15). Basic project at `../nla-penny-post/`.
+2. Refine the penny post via `/maintain` — use the Duet letter as a test case. Move the letter from `reference/feedback/` to `boxes/framework/`. Add `core/skills/` for external-facing logic. Add `BOX.md` config files.
+3. Add feedback skills to the framework — install penny post thin wrappers in the framework (check-mail, triage). Build the exit interview skill in `core/skills/`. Add config guidance for mail-checking during `/maintain`.
+4. Formal triage of the Duet letter through the penny post — compare with draft triage at `reference/feedback/2026-02-15-duet-triage-draft.md`.
+5. Implement accepted items in the framework — use triage results to update `nla-foundations.md`, `core/skills/startup.md`, `core/skills/validate.md`, `/create-app`, etc.
+6. Close the loop — annotate the Duet letter with what was implemented. Resolve the framework friction log entry.
 
 ---
 
