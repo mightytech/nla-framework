@@ -14,7 +14,7 @@ A working design for how domain NLAs send learnings back to the framework. We're
 
 ## The Problem
 
-The framework improves through the experience of NLAs built on it. Currently there's no defined channel for this. Duet's feedback letter (`reference/feedback/2026-02-14-duet-maintenance-learnings.md`) was the first attempt — it surfaced valuable patterns but also exposed questions about the process itself.
+The framework improves through the experience of NLAs built on it. Currently there's no defined channel for this. Duet's feedback letter (`../nla-penny-post/boxes/framework/2026-02-14-duet-maintenance-learnings.md`) was the first attempt — it surfaced valuable patterns but also exposed questions about the process itself.
 
 ### What exists today
 

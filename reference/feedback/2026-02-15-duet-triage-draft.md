@@ -1,7 +1,7 @@
 # Draft Triage: Duet Feedback Letter
 
 **Date:** 2026-02-15
-**Source letter:** `2026-02-14-duet-maintenance-learnings.md`
+**Source letter:** `../nla-penny-post/boxes/framework/2026-02-14-duet-maintenance-learnings.md`
 **Context:** Informal triage during the feedback channel design session, before the penny post existed. Revised after reading three whitepapers (Collaborative AI Writing Platform, Medical Intake System, Policy Platform) that validated several patterns as general.
 
 **Purpose:** Baseline for comparison with the formal penny post triage. This triage was ad-hoc — done in conversation without the structured process the penny post defines. Comparing the two will help evaluate whether the penny post's process produces different or better results.

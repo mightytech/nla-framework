@@ -73,7 +73,7 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 **Status:** pending
 
 **Observation:**
-Duet's first major maintenance session (resolving all founding friction log entries) surfaced nine patterns that appear framework-general, not app-specific. The full analysis with suggested markdown additions is at `reference/feedback/2026-02-14-duet-maintenance-learnings.md`.
+Duet's first major maintenance session (resolving all founding friction log entries) surfaced nine patterns that appear framework-general, not app-specific. The full analysis with suggested markdown additions is at `../nla-penny-post/boxes/framework/2026-02-14-duet-maintenance-learnings.md`.
 
 Summary of gaps (items 1–9), NLA config insight (item 10), and assumptions to broaden (item 11):
 1. No guidance on artifact persistence (multi-session work)
