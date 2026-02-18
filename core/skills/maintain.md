@@ -14,8 +14,24 @@ Before making any changes, read these in order:
 2. **`../nla-framework/core/nla-foundations.md`** — NLA concepts and principles.
 3. **`app/overview.md`** — How the pieces connect: shared context, tasks, hybrid model.
 4. **`reference/friction-log.md`** — Recent learnings, unresolved issues, patterns to watch.
+5. **`reference/feedback-log.md`** — Accepted items from external feedback, waiting for implementation.
 
 Then read the specific files relevant to your task.
+
+---
+
+## Session Start
+
+After completing the required reading, surface what's waiting before asking the user what to work on:
+
+1. **Count pending items** in the friction log and feedback log.
+2. **Check the most recent session log** in `reference/sessions/` — read its State at Close for continuity.
+3. **Present a summary:**
+   - "You have X friction log entries and Y feedback items pending."
+   - If a previous session left open questions or pending work, note it.
+   - If nothing is pending: "No pending items. What would you like to work on?"
+
+This surfaces actionable work and provides session continuity. The maintainer decides what to work on and in what order.
 
 ---
 
@@ -167,6 +183,19 @@ The `/friction-log` skill and direct observation produce friction log entries. T
 6. Mark friction log entries as resolved
 7. Archive resolved entries: Move them from `friction-log.md` to `reference/friction-log-archive.md`, preserving their complete content including the `**Resolved:**` line. Keep only pending and deferred entries in the active log.
 
+### Processing Feedback Log Entries
+
+External feedback (via `/check-feedback` or other intake mechanisms) produces feedback log entries. To process them:
+
+1. Read the feedback log entries marked as pending
+2. Read the source material (linked GitHub Issue or intake item) for full context
+3. Confirm your approach (per principle #2 above), then propose specific changes
+4. Get human approval
+5. Make approved changes
+6. Mark feedback log entries as resolved
+7. Archive resolved entries: Move them from `feedback-log.md` to `reference/feedback-log-archive.md`, preserving their complete content including the `**Resolved:**` line. Keep only pending and deferred entries in the active log.
+8. Close the loop: If the entry has a source link (GitHub Issue, etc.), post a follow-up comment describing what was implemented. This gives submitters visibility into the full lifecycle: submission → triage → implementation.
+
 ### Adding a New Task
 
 1. Create a new doc in `app/` (e.g., `app/my-new-task.md`)
@@ -187,13 +216,16 @@ When the output format changes:
 
 ---
 
-## The Friction Log Pipeline
+## The Maintenance Pipeline
 
-`/friction-log` captures observations from any context — during content formatting, maintenance, or casual conversation. Entries accumulate in the friction log, where patterns emerge over time. `/maintain` processes them into documentation changes.
+Two queues feed into `/maintain`:
 
-The pipeline: `/friction-log` captures → friction log stores → `/maintain` implements.
+- **Friction log** — things *you* noticed while working. `/friction-log` captures observations from any context — during content transformation, maintenance, or casual conversation.
+- **Feedback log** — things *others* noticed that you agreed with. `/check-feedback` (or other intake mechanisms) triages external feedback and deposits accepted items here.
 
-This separation exists because capturing observations and editing system docs are different tasks with different guardrails. The friction log is the handoff contract between them.
+Both accumulate entries that `/maintain` processes into documentation changes. The pipeline: capture → log → `/maintain` implements.
+
+This separation exists because capturing observations and editing system docs are different tasks with different guardrails. The logs are the handoff contract between them.
 
 ---
 

@@ -17,8 +17,22 @@ Before making any changes, read these in order:
 1. **`reference/design-rationale.md`** — Understand what exists, why it exists, what was tried and rejected.
 2. **`core/nla-foundations.md`** — NLA concepts and principles.
 3. **`reference/friction-log.md`** — Recent learnings, unresolved issues, patterns to watch.
+4. **`reference/feedback-log.md`** — Accepted items from external feedback, waiting for implementation.
 
 Then read the specific files relevant to your task.
+
+---
+
+## Session Start
+
+After completing the required reading, surface what's waiting before asking the user what to work on:
+
+1. **Count pending items** in the friction log and feedback log.
+2. **Check the most recent session log** in `reference/sessions/` — read its State at Close for continuity.
+3. **Present a summary:**
+   - "You have X friction log entries and Y feedback items pending."
+   - If a previous session left open questions or pending work, note it.
+   - If nothing is pending: "No pending items. What would you like to work on?"
 
 ---
 
@@ -131,6 +145,15 @@ Maintenance sessions generate intent history. Create a session log in `reference
 3. Confirm your approach (per principle #2 above), then propose changes (noting blast radius)
 4. Get approval, implement, mark resolved
 5. Archive resolved entries to `reference/friction-log-archive.md`
+
+### Processing Feedback Log Entries
+
+1. Read pending entries in `reference/feedback-log.md`
+2. Read the source material (linked GitHub Issue or intake item) for full context
+3. Confirm your approach (per principle #2 above), then propose changes (noting blast radius)
+4. Get approval, implement, mark resolved
+5. Archive resolved entries to `reference/feedback-log-archive.md`
+6. Close the loop: If the entry has a source link (GitHub Issue, etc.), post a follow-up comment describing what was implemented.
 
 ### Updating Core Skill Logic
 

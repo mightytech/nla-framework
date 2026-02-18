@@ -111,6 +111,7 @@ Files to generate: [count]
 | `.claude/skills/preferences/SKILL.md` | Thin wrapper |
 | `.claude/skills/validate/SKILL.md` | Thin wrapper — identical for all projects |
 | `reference/friction-log-archive.md` | Empty archive structure |
+| `reference/feedback-log-archive.md` | Empty archive structure |
 | `lib/.gitkeep` | Directory placeholder |
 | `reference/sessions/.gitkeep` | Directory placeholder |
 | `config/.gitkeep` | Config sub-directory placeholder |
@@ -130,6 +131,7 @@ Files to generate: [count]
 | `reference/design-rationale.md` | `scaffold/reference/design-rationale.md` | Starter rationale with creation decisions |
 | `reference/system-status.md` | `scaffold/reference/system-status.md` | Actual tasks and skills |
 | `reference/friction-log.md` | `scaffold/reference/friction-log.md` | Keep format and guidance, remove sample entry |
+| `reference/feedback-log.md` | `scaffold/reference/feedback-log.md` | Keep format and guidance |
 | `README.md` | `scaffold/README.md` | Project name, tasks, skills, getting started |
 | `app/config-spec.md` | `scaffold/app/config-spec.md` | Configurable behaviors, defaults, constraints from conversation |
 | `config.md` | `scaffold/config.md` | Starter config with defaults from config-spec |
