@@ -1,6 +1,6 @@
 # Maintenance Session: First Feedback Triage and Implementation
 
-**Date:** 2026-02-17
+**Date:** 2026-02-17 / 2026-02-18
 **Status:** Complete
 
 ## Intent
@@ -83,6 +83,19 @@ Blast radius: all projects (core skill change), framework
   `/check-feedback` and `/write-letter`, updated CLAUDE.md, created install log at
   `reference/installed-packages.md`. First use of the install manifest pattern.
 
+- **All NLA skills should set `disable-model-invocation: true`** — Discovered through
+  the penny post install. Initially removed the flag from penny post wrappers, thinking
+  "action skills" should be AI-invocable. Realized the flag has two effects: (1) prevents
+  programmatic invocation, and (2) removes the skill from the AI's active prompt. Effect
+  #2 matters more — skill descriptions like "run periodically" and "best used at end of
+  sessions" invite spontaneous invocation, and `/write-letter` posts to external repos.
+  Restored the flag. Recorded in design rationale.
+
+- **Sent first feedback letter to penny post** — Used `/write-letter` (manually, since
+  the flag was back on) to notify penny post that the close-the-loop step is now
+  implemented in the framework's `/maintain` skill. Filed as
+  [penny post Issue #5](https://github.com/mightytech/nla-penny-post/issues/5).
+
 ## Blast Radius
 
 - `core/skills/maintain.md` changes affect **all domain projects** (feedback log in
@@ -94,14 +107,17 @@ Blast radius: all projects (core skill change), framework
 
 ## State at Close
 
-**All three GitHub Issues triaged, implemented, and closed with follow-up comments.**
+**All three GitHub Issues triaged, implemented, and closed with follow-up comments.
+Penny post installed. First outbound letter sent. Design rationale updated.**
 
 What's working:
 - Feedback pipeline is live: friction log (internal) + feedback log (external) → `/maintain`
 - `install/` directory formalizes what `/create-app` does implicitly
 - Session-start checklist surfaces pending work in `/maintain`
-- Penny post is installed: `/check-feedback` and `/write-letter` available next session
+- Penny post is installed: `/check-feedback` and `/write-letter` available via slash command
 - Close-the-loop step built into feedback processing
+- `disable-model-invocation: true` convention documented and applied consistently
+- First outbound letter sent to penny post (Issue #5)
 
 What's pending:
 - The existing friction log entry (2026-02-14 — Duet maintenance session: 9 learnings)
@@ -111,6 +127,7 @@ What's pending:
   still pending.
 - No `/install` or `/update` skill exists yet — the install/ directory is the
   specification, but applying it to existing projects is still manual.
+- Git remote on this machine uses `github-mightytech` SSH host alias for push access.
 
 What's next:
 - Process the Duet friction log entries (the big one with 11 items)
