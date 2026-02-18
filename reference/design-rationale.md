@@ -385,6 +385,45 @@ All three degraded the common case (sibling projects work perfectly today) to su
 
 ---
 
+## Skill Invocation: disable-model-invocation on All Skills
+
+*Added 2026-02-18. Discovered during first penny post install.*
+
+### The two effects of the flag
+
+Claude Code's `disable-model-invocation: true` in skill frontmatter has two effects:
+
+1. **Prevents programmatic invocation.** The AI cannot call the skill via the Skill tool — it errors. The AI can still read the skill file with the Read tool and follow it manually.
+2. **Removes the skill from the AI's active prompt.** Without the flag, Claude Code adds the skill's description to a system reminder listing "available skills." This reminder actively influences the AI's behavior — it treats listed skills as part of its current toolkit and may spontaneously invoke them.
+
+Effect #2 is more important than #1. The active prompt shapes how the AI reasons about what to do next. A description like "Run periodically" or "Best used at the end of maintenance sessions" reads as an invitation to act without being asked.
+
+### Why all NLA skills should have it
+
+Every NLA skill — framework skills, extension skills (penny post), and domain-specific skills — should set `disable-model-invocation: true`. The reasoning:
+
+- **Mode switches** (`/maintain`, `/plan`) change the AI's operating context. Always user-initiated.
+- **Expensive operations** (`/startup`, `/validate`) load many files. The user should opt into the context cost.
+- **Observation skills** (`/friction-log`) could cause the AI to interrupt primary work to log things.
+- **External actions** (`/write-letter`, `/check-feedback`) post to GitHub Issues or other external services. Spontaneous external actions are especially problematic.
+
+The AI already knows about every skill from CLAUDE.md's skills table. When the user asks for one ("check if there's new feedback"), the AI reads the skill file and follows it. The flag prevents the *active prompt* from nudging the AI toward spontaneous invocation — it keeps the user in control of when skills activate.
+
+### What was tried
+
+We initially removed the flag from penny post's `/check-feedback` and `/write-letter` wrappers, reasoning that they're "action skills" the user explicitly requests (unlike mode switches). This was wrong for two reasons:
+
+1. The skill descriptions ("run periodically," "best used at end of sessions") invite spontaneous invocation.
+2. `/write-letter` posts GitHub Issues on other projects — spontaneous external action with real consequences.
+
+The workaround (AI reads the file manually when asked) has minor UX friction but works correctly. The cost is low; the risk of spontaneous invocation is not.
+
+### Blast radius
+
+This applies to all skills in all projects — framework, scaffold, and extensions. It should be documented in the install intent files so that `/create-app` and package installers set the flag consistently.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

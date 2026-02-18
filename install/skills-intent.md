@@ -63,6 +63,11 @@ The wrapper is intentionally minimal. The NLA can add project-specific context
 (e.g., "When maintaining, also check our deployment checklist") but the core
 delegation should remain.
 
+**`disable-model-invocation: true` is intentional on all skills.** It prevents
+the AI from spontaneously invoking skills and removes them from the active prompt
+that influences behavior. The AI can still follow any skill by reading the file
+when the user asks. See the framework's design rationale for the full reasoning.
+
 ## Eject Pattern
 
 Any wrapper can be replaced with a full skill file for complete customization.
