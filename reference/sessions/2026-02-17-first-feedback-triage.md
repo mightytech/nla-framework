@@ -1,7 +1,7 @@
 # Maintenance Session: First Feedback Triage and Implementation
 
 **Date:** 2026-02-17
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 
@@ -68,10 +68,20 @@ Blast radius: all projects (core skill change), framework
   has the template. Penny post's actual session log uses and extends it. The item was
   filed from a mistaken premise.
 
-- **Simulated penny post triage conventions** — Framework doesn't have `/check-feedback`
+- **Simulated penny post triage conventions** — Framework didn't have `/check-feedback`
   installed yet, so we followed penny post's `app/check-feedback.md` manually: read
   issues, assess against project goals, propose verdicts, record in feedback log, comment
   on issues, close them.
+
+- **Added close-the-loop step to feedback processing** — After implementing all three
+  items, realized we hadn't posted implementation follow-up comments on the issues.
+  The penny post docs describe this as a future `/maintain` addition. Rather than leave
+  it as "future," added step 8 to Processing Feedback Log Entries in the core skill:
+  post a follow-up comment on the source when an item is implemented.
+
+- **Installed penny post into the framework** — Created thin wrappers for
+  `/check-feedback` and `/write-letter`, updated CLAUDE.md, created install log at
+  `reference/installed-packages.md`. First use of the install manifest pattern.
 
 ## Blast Radius
 
@@ -84,4 +94,25 @@ Blast radius: all projects (core skill change), framework
 
 ## State at Close
 
-[To be filled at session end]
+**All three GitHub Issues triaged, implemented, and closed with follow-up comments.**
+
+What's working:
+- Feedback pipeline is live: friction log (internal) + feedback log (external) → `/maintain`
+- `install/` directory formalizes what `/create-app` does implicitly
+- Session-start checklist surfaces pending work in `/maintain`
+- Penny post is installed: `/check-feedback` and `/write-letter` available next session
+- Close-the-loop step built into feedback processing
+
+What's pending:
+- The existing friction log entry (2026-02-14 — Duet maintenance session: 9 learnings)
+  is still unprocessed. It predates this session and covers broader framework gaps
+  (persistence, lifecycle, startup extensibility, transformation-NLA bias).
+- The other friction log entry (2026-02-11 — /create-app large app guidance) is also
+  still pending.
+- No `/install` or `/update` skill exists yet — the install/ directory is the
+  specification, but applying it to existing projects is still manual.
+
+What's next:
+- Process the Duet friction log entries (the big one with 11 items)
+- Consider building `/install` and `/update` skills now that the manifest pattern exists
+  in both the framework and penny post
