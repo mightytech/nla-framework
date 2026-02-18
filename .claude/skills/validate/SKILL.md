@@ -17,8 +17,8 @@ You are not editing the framework. You are inspecting it.
 Before validating, read:
 
 1. **`CLAUDE.md`** — Framework skills table, key files
-2. **`scaffold/CLAUDE.md`** — Domain project skills table
-3. **`scaffold/app/overview.md`** — Domain project skill tables and document hierarchy
+2. **`install/CLAUDE-intent.md`** — What a domain project's runtime identity should establish
+3. **`install/skills-intent.md`** — What skill wrappers domain projects should have
 
 Do not read every file upfront. Read specific files as validation requires them.
 
@@ -38,24 +38,20 @@ Check that the framework's internal references are consistent. The framework has
 
 2. **Framework skill registration.** List all skills in `.claude/skills/`. Compare against the skills table in `CLAUDE.md`. Report any mismatches (skill directory exists but not in table, or table entry with no skill directory).
 
-3. **Scaffold skill registration.** List all skills in `scaffold/.claude/skills/`. Compare against skills tables in `scaffold/CLAUDE.md`, `scaffold/app/overview.md`, and `scaffold/reference/system-status.md`. Report any mismatches across these three surfaces.
+3. **Core skill coverage.** For every file in `core/skills/`, check that a corresponding entry exists in `install/skills-intent.md` with a reference wrapper. Report any core skills missing from the intent file.
 
-4. **Core-to-scaffold alignment.** For every file in `core/skills/`, check that a corresponding thin wrapper exists in `scaffold/.claude/skills/`. For every thin wrapper in scaffold, check that it targets an existing core skill file. Report gaps in either direction.
+4. **Intent file skill consistency.** For every skill listed in `install/skills-intent.md`, verify the target core skill file exists at `core/skills/[skill].md`. Report broken references.
 
-5. **Thin wrapper paths.** For every thin wrapper in `scaffold/.claude/skills/`, verify the target path (e.g., `../nla-framework/core/skills/maintain.md`) resolves to an existing file within the framework. Report broken wrapper paths.
+5. **Intent file completeness.** Verify `install/CLAUDE-intent.md`, `install/skills-intent.md`, and `install/structure-intent.md` all exist. Check that the example catalog (`install/example-catalog.md`) exists.
 
-6. **Scaffold file references.** Read `scaffold/CLAUDE.md`, `scaffold/app/overview.md`, `scaffold/README.md`. Check that referenced files exist within `scaffold/`. Report broken references.
+6. **Config consistency.** Check that `config-spec.md` exists at framework root. If `config.md` exists, check that routing rules point to existing files in `config/`. Report issues.
 
-7. **Document hierarchy.** If `scaffold/app/overview.md` has a document hierarchy or index, check that listed files exist and existing `scaffold/app/` files are listed. Report gaps.
-
-8. **Config consistency.** Check that `config-spec.md` exists at framework root. Check that `scaffold/app/config-spec.md` exists. If `config.md` exists, check that routing rules point to existing files in `config/`. Report issues.
-
-9. **README directory listings.** Check that directory trees in `README.md` and `scaffold/README.md` reflect the actual directory contents. Report stale listings.
+7. **README directory listings.** Check that directory trees in `README.md` reflect the actual directory contents. Report stale listings.
 
 **Blast radius tagging:** For each issue found, note:
 - **Framework operation** — issues in `.claude/skills/`, `CLAUDE.md`, `config-spec.md`
 - **All domain projects** — issues in `core/`
-- **New projects only** — issues in `scaffold/`
+- **Project generation** — issues in `install/` intent files
 
 **Output format:**
 
@@ -63,7 +59,7 @@ Check that the framework's internal references are consistent. The framework has
 ## Validation Results
 
 ### Issues Found
-- [Category] (blast radius: [framework | all projects | new projects]): [Specific issue]
+- [Category] (blast radius: [framework | all projects | project generation]): [Specific issue]
 
 ### All Clear
 - [Category]: [What was checked and passed]
@@ -76,7 +72,7 @@ Suggest fixes but do not make them — that is `/maintain`'s job.
 Trace through documentation step by step for a hypothetical scenario. The framework supports two contexts:
 
 - **Framework context** (default): Trace a scenario where someone uses the framework itself — running `/create-app`, `/maintain`, etc.
-- **Domain project context**: Trace a scenario as if operating inside the scaffold project — running `/format-article`, `/startup`, etc.
+- **Domain project context**: Trace a scenario as if operating inside a domain project — running domain tasks, `/startup`, etc. Use the intent files to understand what a well-formed domain project looks like.
 
 Ask the user which context if ambiguous.
 
@@ -126,7 +122,7 @@ The user describes what they expected the framework to do and what it actually d
 ## Scope
 
 **You do:**
-- Check internal consistency across framework, core, and scaffold layers
+- Check internal consistency across framework, core, and intent file layers
 - Trace through docs for hypothetical scenarios in either context
 - Diagnose behavior divergence
 - Read trace files when available
@@ -136,7 +132,7 @@ The user describes what they expected the framework to do and what it actually d
 - Edit any files (that is `/maintain`)
 - Run actual tasks (you narrate what would happen)
 - Fix issues you find (report them)
-- Judge scaffold content quality (scaffold is intentionally sample content — check structure, not prose)
+- Judge intent file content quality (check structure and consistency, not prose)
 
 ---
 

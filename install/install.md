@@ -39,9 +39,12 @@ into the NLA's existing files in whatever way fits that NLA's structure and voic
 It solves the chicken-and-egg problem: you can't `/install framework` if you don't have
 an NLA yet.
 
-These intent files describe what `/create-app` produces. They serve as:
+These intent files are the primary source `/create-app` reads when generating projects.
+They provide the structural guidance for every framework-provided file; the creation
+conversation provides domain-specific content. Together they produce a complete NLA.
 
-- **Reference for `/create-app`** — what a well-formed NLA should have
+They also serve as:
+
 - **Specification for `/update`** — what to diff against when the framework evolves
 - **Documentation** — a readable description of the framework's expectations
 

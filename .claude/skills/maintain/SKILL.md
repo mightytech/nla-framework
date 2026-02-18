@@ -1,6 +1,6 @@
 ---
 name: maintain
-description: Edit the NLA Framework itself — core docs, skills, scaffold, and configuration. Use when making changes to the framework.
+description: Edit the NLA Framework itself — core docs, skills, intent files, and configuration. Use when making changes to the framework.
 disable-model-invocation: true
 ---
 
@@ -41,7 +41,7 @@ After completing the required reading, surface what's waiting before asking the 
 | Target | Examples |
 |--------|----------|
 | `core/` hierarchy | nla-foundations.md, skill logic files |
-| `scaffold/` | All scaffold files (CLAUDE.md, app/, reference/, skills/) |
+| `install/` | Intent files (CLAUDE-intent.md, skills-intent.md, structure-intent.md, example-catalog.md) |
 | `reference/` | Design rationale, friction log, session archives |
 | `CLAUDE.md` | Framework runtime configuration |
 | `.claude/skills/` | Framework skill files, including this one |
@@ -65,11 +65,11 @@ This is the most important consideration for framework maintenance:
 |----------------|---------------|
 | `core/nla-foundations.md` | Every domain project (loaded at startup) |
 | `core/skills/*.md` | Every domain project using that skill |
-| `scaffold/` files | New projects only (existing projects unaffected) |
+| `install/` intent files | Project generation and package installation |
 | `reference/` files | Framework maintainers only |
 | `README.md` / `CONTRIBUTING.md` | Framework documentation only |
 
-**Always name the blast radius when proposing changes.** A change to `core/skills/maintain.md` affects every domain project's `/maintain` behavior. A change to `scaffold/app/overview.md` only affects new projects.
+**Always name the blast radius when proposing changes.** A change to `core/skills/maintain.md` affects every domain project's `/maintain` behavior. A change to `install/skills-intent.md` affects project generation and package installation.
 
 ---
 
@@ -90,7 +90,7 @@ When proposing, show what you'd change and why:
 ```
 Proposed change to: [file path]
 Section: [section name]
-Blast radius: [core = all projects | scaffold = new projects | reference = maintainers]
+Blast radius: [core = all projects | install = project generation | reference = maintainers]
 
 Current: [what it says now]
 Proposed: [what it would say]
@@ -158,16 +158,14 @@ Maintenance sessions generate intent history. Create a session log in `reference
 ### Updating Core Skill Logic
 
 1. Read the current skill logic in `core/skills/`
-2. Read the corresponding scaffold wrapper in `scaffold/.claude/skills/`
-3. Propose changes (blast radius: all domain projects)
-4. Test with the sample formatter
-5. Update scaffold wrapper description if the skill's purpose changed
+2. Propose changes (blast radius: all domain projects)
+3. If the skill's purpose or description changed, update the reference wrapper in `install/skills-intent.md`
 
-### Updating the Scaffold
+### Updating Intent Files
 
-1. Make changes in `scaffold/`
-2. Check that scaffold is internally consistent (skills tables match, paths resolve)
-3. Note: these changes only affect new projects
+1. Make changes in `install/` intent files
+2. Check that intent files are internally consistent (skills listed match core/skills/, structures are complete)
+3. Note: these changes affect `/create-app` generation and `/install`/`/update` behavior
 
 ---
 

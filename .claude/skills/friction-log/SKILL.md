@@ -62,7 +62,7 @@ Key rules:
 
 ### Blast radius note
 
-When logging observations about `core/` changes, note in the entry that these affect all domain projects. When logging about `scaffold/`, note they only affect new projects.
+When logging observations about `core/` changes, note in the entry that these affect all domain projects. When logging about `install/` intent files, note they affect project generation and package installation.
 
 ### Approval gate
 
@@ -70,7 +70,7 @@ When logging observations about `core/` changes, note in the entry that these af
 
 ### What you produce
 
-You produce entries from observations about the framework — issues with skill logic, scaffold gaps, documentation clarity, patterns across domain projects. If the user provides before/after examples and confirmed reasons, include those details.
+You produce entries from observations about the framework — issues with skill logic, intent file gaps, documentation clarity, patterns across domain projects. If the user provides before/after examples and confirmed reasons, include those details.
 
 ---
 

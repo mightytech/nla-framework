@@ -90,5 +90,45 @@ When updating an existing NLA's CLAUDE.md:
 
 ---
 
+## Reference Structure
+
+A well-formed NLA CLAUDE.md should contain these sections in this order. The AI generating
+or updating the file synthesizes content for each section — the descriptions below explain
+what each section contains, not what it should literally say.
+
+1. **Title / Identity** — Project name, one-sentence description of what kind of application
+   this is (e.g., "You are the runtime for a Natural Language Application").
+
+2. **Grounding Principles** — The principles listed above, adapted to the NLA's voice.
+   These frame how the LLM should think about its role.
+
+3. **Modes** — Default mode (the NLA's primary task) and maintenance mode. Additional
+   modes if the NLA needs them. Each mode gets a brief description of what the LLM does
+   in that mode.
+
+4. **Session Initialization** — How to start a session (`/startup`), when to refresh
+   context.
+
+5. **Configuration** — Reference to `config.md`, `app/config-spec.md`, and `/preferences`.
+   Explains the config system's role without repeating its contents.
+
+6. **Available Skills** — Table with columns: Skill, Purpose, Invocation. Lists every
+   skill in `.claude/skills/` (framework wrappers and domain skills). Followed by
+   routing hints ("If the user asks about X → do Y").
+
+7. **Execution Principles** — How the LLM should operate: documentation is source code,
+   the cardinal rule (human can always compare and revert), flag uncertainty with TK notes.
+
+8. **What NOT to Do** — Guardrails for the default mode. What mistakes to avoid. These
+   are mode-specific — maintenance mode has its own rules provided by the skill.
+
+9. **Environment** — Framework location (`../nla-framework/`), key files table mapping
+   directories to purposes, note about thin wrapper delegation.
+
+10. **Remember** — Brief closing that reinforces the NLA's core identity and the principle
+    that fixes live in documentation, not code.
+
+---
+
 *This describes intent, not literal text. The installing AI should synthesize these
 concepts into the NLA's CLAUDE.md in whatever way fits its existing structure and voice.*

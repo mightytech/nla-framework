@@ -22,14 +22,17 @@ NLA changes are behavioral, not textual. The same intent might be implemented wi
 
 These affect every domain project on their next `git pull`. They should be:
 - Universal — applicable to any NLA, not just one domain
-- Well-tested — verified against the sample formatter at minimum
+- Well-tested — verified against an example NLA at minimum
 - Backwards-compatible when possible
 
 Changes to `core/nla-foundations.md` affect how LLMs understand what NLAs are. Changes to `core/skills/` affect how every project's skills behave.
 
-### Scaffold changes (`scaffold/`)
+### Intent file changes (`install/`)
 
-These only affect new projects. Existing projects don't receive scaffold updates. These are lower risk and good starting points for contributors.
+These affect how `/create-app` generates new projects and how `/install`/`/update` modify existing ones. They should be:
+- Consistent with the structures they describe
+- Complete — every framework-provided file should have structural guidance
+- Intent-focused — describe WHAT and WHY, not literal templates
 
 ### Documentation changes
 
@@ -44,7 +47,7 @@ README, CONTRIBUTING, and other developer-facing docs. Always welcome.
 3. **If you have a fix**, submit a PR with:
    - The behavioral description in the PR body (not just "updated file X")
    - Before/after examples if the change affects LLM behavior
-   - Confirmation that you tested with the sample formatter
+   - Confirmation that you tested with an example NLA
 
 ---
 
@@ -58,18 +61,17 @@ README, CONTRIBUTING, and other developer-facing docs. Always welcome.
 
 ## Testing
 
-### Scaffold test
+### Intent file test
 
-The scaffold includes a sample article formatter. At minimum, test that:
+Verify that intent files are consistent with the framework:
 
-1. Copy scaffold to a temp directory
-2. Run `/startup` — confirm it reads all five documents
-3. Run `/format-article` with sample content — confirm output follows voice and patterns
-4. Run `/friction-log` — confirm entries follow the format in `reference/friction-log.md`
+1. Check that every core skill has a reference wrapper in `install/skills-intent.md`
+2. Check that structural guidance in `install/structure-intent.md` covers all framework-provided files
+3. Run `/validate` to check framework consistency
 
 ### /create-app test
 
-If your change affects the scaffold or `/create-app`:
+If your change affects intent files or `/create-app`:
 
 1. Run `/create-app` from the framework directory
 2. Create a test project (any domain)

@@ -36,7 +36,7 @@ If someone asks what NLAs are or wants to understand the framework first, explai
 
 ## Maintenance Mode
 
-The `/maintain` skill activates a different mode. You become the **framework maintainer** — editing the core docs, skills, and scaffold that domain projects depend on. Different rules apply; the skill provides them.
+The `/maintain` skill activates a different mode. You become the **framework maintainer** — editing the core docs, skills, and intent files that domain projects depend on. Different rules apply; the skill provides them.
 
 ---
 
@@ -53,14 +53,16 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | Skill | Purpose | Invocation |
 |-------|---------|------------|
 | `/create-app` | Create a new NLA project through conversation | When someone wants to build a new project |
-| `/create-sample-app` | Install a working sample NLA to explore | When someone wants to see an example first |
-| `/maintain` | Edit the framework (core docs, skills, scaffold) | When making changes to the framework |
+| `/install-app` | Browse and install example NLA projects | When someone wants to see an example first |
+| `/maintain` | Edit the framework (core docs, skills, intent files) | When making changes to the framework |
 | `/friction-log` | Log observations to the framework's friction log | When you notice something worth recording |
 | `/preferences` | Create or edit your framework preferences | When you want to personalize tool behavior |
 | `/validate` | Check framework consistency, trace scenarios, debug behavior | When you want to verify the framework works as documented |
 | `/plan` | Planning mode for framework changes | When planning before building |
 | `/check-feedback` | Discover and triage feedback from intake channels | Periodically, or when you want to see what's arrived |
 | `/write-letter` | Draft and submit feedback to another project | At the end of maintenance sessions when learnings are fresh |
+| `/install` | Install a new NLA package into a project | When adding extensions or capabilities to an NLA |
+| `/update` | Update installed packages to latest versions | When checking for or applying package updates |
 
 ### If the user asks about the framework:
 -> Explain based on `core/nla-foundations.md` and `README.md`
@@ -76,7 +78,7 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 |------|---------|
 | `core/nla-foundations.md` | Universal NLA concepts (read by every domain project) |
 | `core/skills/` | Skill logic (delegated to by domain project wrappers) |
-| `scaffold/` | Template for new domain projects (reference for `/create-app`) |
+| `install/` | Intent files — single source of truth for what NLAs need (used by `/create-app`, `/install`, `/update`) |
 | `config-spec.md` | What's configurable in the framework (developer-defined) |
 | `config.md` | User preferences for framework tool behavior |
 | `reference/` | Framework maintenance records |

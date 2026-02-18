@@ -46,23 +46,31 @@ The framework has its own CLAUDE.md, `/maintain`, `/friction-log`, and `/plan` s
 
 **Why full skills instead of wrappers:** The logic files in `core/skills/` use `../nla-framework/core/` paths, designed for domain projects whose working directory is elsewhere. When the working directory is the framework itself, those paths break. Framework skills use project-relative paths (`core/...`, `reference/...`).
 
-### Scaffold Directory
+### Scaffold Directory (Historical)
 
-The framework contains `scaffold/` — a complete working project template with a sample article formatter. It serves two roles: manual fallback (copy and customize by hand) and structural reference for `/create-app`.
+The framework originally contained `scaffold/` — a complete working project template with a sample article formatter. It served two roles: manual fallback (copy and customize by hand) and structural reference for `/create-app`.
 
-**Sample content, not markers:** Scaffold files have working sample content so someone can test immediately. "Replace me" markers would be metadata that influences LLM behavior.
+**Why it was removed:** The scaffold created a dual-maintenance problem. Intent files in `install/` and scaffold files described the same things separately. When the framework evolved, both had to be updated — and they'd drift apart. Making intent files the single source of truth eliminated this duplication. The scaffold's sample content (an article formatter) was extracted as a standalone example NLA repo, accessible via `/install-app`.
+
+### Intent Files as Single Source of Truth
+
+*Added 2026-02-18. Replaced the scaffold directory.*
+
+The `install/` directory contains intent files that describe WHAT a well-formed NLA should have, not literal templates. `/create-app` reads these as its primary structural source; the creation conversation provides domain-specific content. `/install` and `/update` also read them.
+
+**Why intent over templates:** Templates couple generation to a specific domain (the sample article formatter). Intent files are domain-agnostic — they describe sections, structures, and purposes. The AI synthesizes content that fits whatever domain the user described. This is the synthesis principle: same intent, different output for different NLAs.
+
+**Three intent files cover three integration points:** `CLAUDE-intent.md` (runtime identity), `skills-intent.md` (skill wrappers with reference implementations), `structure-intent.md` (directory layout and reference file structures). Together they describe everything the framework provides. Domain-specific content (voice, patterns, task docs) has structural guidance inline in the `/create-app` skill itself, since it's the only consumer.
 
 ### /create-app: Conversational Project Creation
 
 `/create-app` asks about the user's domain, voice, and tasks, then generates a tailored project. The first interaction with the framework is itself an NLA interaction — flexible interface on top (conversation), structure underneath (generated project).
 
-**Why conversational, not just copy:** The scaffold requires manual customization of 6+ files. That's an implementation burden the LLM can absorb. The user describes what they want; the LLM generates files that fit. This is the structure gradient in action.
+**Why conversational:** The user describes what they want; the LLM generates files that fit. This is the structure gradient in action.
 
-**Why read scaffold at generation time:** The skill instructs the LLM to read each scaffold file as a structural reference immediately before generating its counterpart. This keeps generated projects in sync with scaffold updates — when the scaffold improves, `/create-app` picks up the changes without skill edits.
+**Three generation categories:** (1) Mechanical files generated directly from intent files (skill wrappers, archives, .gitignore). (2) Structured framework files generated from intent + conversation (CLAUDE.md, reference files, config). (3) Domain-specific files generated from conversation only (voice, patterns, task docs), with structural guidance inline in the skill.
 
 **Why framework-only:** Domain projects don't create other domain projects. `/create-app` lives in `.claude/skills/create-app/` (not in `core/skills/`) because it's framework infrastructure, not a universal skill that domain projects delegate to.
-
-**Scaffold still exists because:** Some users prefer to see exactly what they're getting before customizing. Manual copy is transparent and requires no conversation. `/create-app` is the recommended path; scaffold is the fallback.
 
 ### Dual-Mode Framework CLAUDE.md
 
@@ -420,7 +428,50 @@ The workaround (AI reads the file manually when asked) has minor UX friction but
 
 ### Blast radius
 
-This applies to all skills in all projects — framework, scaffold, and extensions. It should be documented in the install intent files so that `/create-app` and package installers set the flag consistently.
+This applies to all skills in all projects — framework and extensions. It is documented in `install/skills-intent.md` so that `/create-app` and package installers set the flag consistently.
+
+---
+
+## Package Installation: Two Skills, Not One
+
+*Added 2026-02-18.*
+
+### Why `/install` and `/update` are separate
+
+Installation (adding something new) and updating (bringing existing things current) have different risk profiles, different entry points, and different processing flows.
+
+**`/install` is additive.** It reads a package manifest, finds what's missing, and synthesizes new content. The NLA before installation is the baseline — nothing gets modified, only added. The user's main concern is "does this belong in my project?"
+
+**`/update` is transformative.** It modifies content that was previously synthesized. The NLA after a previous install is the baseline — the user needs to understand what's changing in something they already have. The user's main concern is "will this break what I've built on top?"
+
+Different risk profiles warrant different skills, different confirmations, and different log entries.
+
+### The synthesis principle
+
+Intent files describe *what should exist*, not literal text to paste. The installing AI reads the intent and synthesizes it into the NLA — matching voice, structure, and conventions. A formal NLA and a casual NLA should both get the same capability, expressed differently.
+
+This is the same principle as `/create-app`: the framework describes structure, the AI generates content that fits the domain. The intent files are the `/create-app` equivalent for individual capabilities rather than whole projects.
+
+### The install log as source of truth
+
+`reference/installed-packages.md` records what packages are installed, when, in what state, and what was done. This serves three purposes:
+
+1. **`/update` needs it** to detect changes — it compares the logged state against current package state
+2. **Humans need it** to understand what came from where — especially when debugging or customizing
+3. **History is preserved** — update records are appended, never replacing install records, so the full story is traceable
+
+### Relationship to `/create-app`
+
+`/create-app` bootstraps a new NLA from scratch. `/install` adds capabilities to an existing NLA. They share the synthesis principle (read intent, generate content that fits) but solve different problems:
+
+- `/create-app` has a conversation, asks about domain and voice, generates everything
+- `/install` reads a manifest, applies specific intents, logs what was done
+
+`/create-app` generates the initial install log with the framework as the first entry. After that, `/install` and `/update` maintain it.
+
+### Blast radius
+
+Both skills live in `core/skills/` — they affect all domain projects. The thin wrappers follow the standard pattern documented in `install/skills-intent.md`.
 
 ---
 
@@ -429,7 +480,7 @@ This applies to all skills in all projects — framework, scaffold, and extensio
 When you make architectural changes to the framework, add an entry here documenting:
 - What was decided
 - Why (including what alternatives were considered)
-- Blast radius (core = all projects, scaffold = new projects, reference = maintainers)
+- Blast radius (core = all projects, install = project generation, reference = maintainers)
 
 ---
 

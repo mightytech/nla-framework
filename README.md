@@ -50,36 +50,15 @@ claude
 
 ### See a working example first
 
-If you want to explore a complete NLA before building your own, run `/create-sample-app`. It installs a working article formatter you can try immediately.
+If you want to explore a complete NLA before building your own, run `/install-app`. It presents a catalog of example NLA projects you can clone and try immediately.
 
 ```bash
 cd nla-framework
 claude
 
 # Then:
-/create-sample-app
+/install-app
 ```
-
-### Manual alternative
-
-You can also copy the scaffold directly and customize by hand:
-
-```bash
-cp -r nla-framework/scaffold my-project
-cd my-project
-git init
-```
-
-Key files to customize:
-
-| File | What to customize |
-|------|-------------------|
-| `app/shared/voice-and-values.md` | Your brand's tone and editorial identity |
-| `app/shared/common-patterns.md` | Transformations specific to your content |
-| `app/shared/output-spec.md` | Your output format (Markdown, HTML, JSON, etc.) |
-| `app/format-article.md` | Replace with your domain task, or rename and adapt |
-| `.claude/skills/format-article/` | Replace with your domain skill |
-| `CLAUDE.md` | Update the skills table and environment section |
 
 ---
 
@@ -119,18 +98,21 @@ The framework must be a sibling directory to your project. If you put it elsewhe
 nla-framework/
 ├── core/
 │   ├── nla-foundations.md     # What NLAs are, key principles, the hybrid model
-│   └── skills/
-│       ├── startup.md         # Load foundational context at session start
-│       ├── maintain.md        # System maintenance mode
-│       ├── friction-log.md    # Capture observations to the learning journal
-│       ├── validate.md        # System validation and debugging
-│       └── plan.md            # Planning mode for new tasks or major changes
-├── scaffold/                  # Template project (reference for /create-app)
-└── .claude/skills/
-    └── create-app/            # Conversational project creation
+│   └── skills/               # Skill logic (delegated to by domain project wrappers)
+├── install/                   # Intent files — what NLAs need (source of truth for /create-app)
+│   ├── CLAUDE-intent.md       # Runtime identity intent
+│   ├── skills-intent.md       # Skill wrapper intent with reference implementations
+│   ├── structure-intent.md    # Directory structure and reference file intent
+│   ├── example-catalog.md     # Example NLA projects catalog
+│   ├── install.md             # Install manifest
+│   └── README.md              # How intent files work
+├── reference/                 # Framework maintenance records
+└── .claude/skills/            # Framework-level skills
+    ├── create-app/            # Conversational project creation
+    └── install-app/           # Browse and install example NLAs
 ```
 
-`core/` contains universal NLA building blocks — they work with any domain content. `scaffold/` is the structural reference that `/create-app` uses when generating your project.
+`core/` contains universal NLA building blocks — they work with any domain content. `install/` contains intent files that describe what a well-formed NLA should have — the single source of truth that `/create-app` reads when generating projects.
 
 ---
 
@@ -169,7 +151,7 @@ That's it. The thin wrappers in your project point to framework files, so update
 |---|---|
 | nla-foundations.md | Grounding principles in your CLAUDE.md |
 | All skill logic | Friction log format changes |
-| Framework README, docs | Scaffold improvements (new projects only) |
+| Framework README, docs | Intent file improvements (affect new projects only) |
 
 ---
 

@@ -14,7 +14,7 @@ Running log of learnings from framework development, domain project feedback, an
 
 **Entry types:**
 - `core` — Issues with framework foundations or skill logic
-- `scaffold` — Gaps or improvements in the project scaffold
+- `intent` — Gaps or improvements in the install/intent files
 - `process` — How framework maintenance workflows function
 - `documentation` — Clarity or gaps in framework docs (README, CONTRIBUTING)
 
@@ -27,9 +27,9 @@ Running log of learnings from framework development, domain project feedback, an
 ```markdown
 ### YYYY-MM-DD — [Brief descriptive title]
 
-**Type:** core | scaffold | process | documentation
+**Type:** core | intent | process | documentation
 **Severity:** positive | minor | major
-**Blast radius:** all projects | new projects | maintainers
+**Blast radius:** all projects | project generation | maintainers
 **Status:** pending | resolved | deferred | wont-fix
 
 **Observation:**
@@ -42,7 +42,7 @@ Running log of learnings from framework development, domain project feedback, an
 [The human's explanation — their words, not a summary]
 
 **Affected files:**
-[Which core/ or scaffold/ files would need to change]
+[Which core/ or install/ files would need to change]
 
 **Proposed fix:**
 [Specific enough for /maintain to act on]
@@ -141,7 +141,7 @@ This connects to the framework's core philosophy: iterate through documentation.
 
 2. **Path resolution** — Domain projects use `../nla-framework/` paths. Watch for breakage when projects are in unexpected locations.
 
-3. **Scaffold drift** — As the framework evolves, scaffold may fall behind. Track gaps between scaffold content and current best practices.
+3. **Intent file completeness** — As the framework evolves, intent files must stay in sync. Track gaps between what `/create-app` needs and what intent files provide.
 
 ---
 

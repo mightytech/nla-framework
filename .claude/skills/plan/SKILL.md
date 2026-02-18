@@ -40,8 +40,8 @@ For each proposed change:
 ### 4. Check Downstream Effects
 
 - Will this break existing domain projects?
-- Do scaffold wrappers need updating?
-- Does the scaffold README need changes?
+- Do intent files need updating? (`install/`)
+- Does the framework README need changes?
 - Should this be documented in CONTRIBUTING.md?
 
 ### 5. Produce a Plan Document

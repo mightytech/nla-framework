@@ -47,7 +47,7 @@ Runtime tracing logs the LLM's decisions during real work sessions — which doc
 - **Off** — No tracing. Default.
 - **Standard** — Log major decisions: which docs read, what directives found, what was decided, and why. Enough to reconstruct the decision chain without cluttering the session.
 - **Detailed** — Log everything including routine operations, alternatives considered, and directives that were read but didn't apply. Produces verbose output.
-- **Custom** — User writes natural language describing exactly what to trace. Examples: "Detailed for maintenance decisions, standard for everything else" or "Only trace when reading scaffold files." The LLM interprets the description and applies judgment about what to log.
+- **Custom** — User writes natural language describing exactly what to trace. Examples: "Detailed for maintenance decisions, standard for everything else" or "Only trace when reading intent files." The LLM interprets the description and applies judgment about what to log.
 
 **Trace output:** `reference/sessions/trace-YYYY-MM-DD.md`. One file per day; if a trace file already exists for today, append with a session separator.
 

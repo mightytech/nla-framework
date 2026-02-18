@@ -19,10 +19,11 @@ You are helping someone build a new Natural Language Application. This is often 
 Read these to understand what a well-formed NLA project looks like:
 
 1. **`core/nla-foundations.md`** — What NLAs are, key principles
-2. **`scaffold/CLAUDE.md`** — How a domain project's runtime config is structured
-3. **`scaffold/app/overview.md`** — How a domain project describes itself
+2. **`install/CLAUDE-intent.md`** — What an NLA's runtime identity should establish
+3. **`install/structure-intent.md`** — What directory structure and reference files an NLA needs
+4. **`install/skills-intent.md`** — What skill wrappers an NLA should have
 
-Don't read every scaffold file now. You'll read each one as a structural reference immediately before generating its counterpart.
+These intent files are your primary source for structural guidance. They describe WHAT each file should contain and WHY; you generate content that fits the user's domain.
 
 ---
 
@@ -98,64 +99,131 @@ Files to generate: [count]
 
 ## File Generation
 
-### Two Categories
+### Three Categories
 
-**1. Copied verbatim from scaffold** (no generation needed):
+**Category 1 — Generated from intent files (mechanical):**
 
-| File | Notes |
-|------|-------|
-| `.claude/skills/startup/SKILL.md` | Thin wrapper — identical for all projects |
-| `.claude/skills/maintain/SKILL.md` | Thin wrapper |
-| `.claude/skills/friction-log/SKILL.md` | Thin wrapper |
-| `.claude/skills/plan/SKILL.md` | Thin wrapper |
-| `.claude/skills/preferences/SKILL.md` | Thin wrapper |
-| `.claude/skills/validate/SKILL.md` | Thin wrapper — identical for all projects |
-| `reference/friction-log-archive.md` | Empty archive structure |
-| `reference/feedback-log-archive.md` | Empty archive structure |
-| `lib/.gitkeep` | Directory placeholder |
-| `reference/sessions/.gitkeep` | Directory placeholder |
-| `config/.gitkeep` | Config sub-directory placeholder |
-| `.gitignore` | Excludes config.md and config/ from git |
+These files have the same structure in every NLA. Read reference implementations from
+`install/skills-intent.md` and templates from `install/structure-intent.md`.
 
-**2. Generated from conversation** (read scaffold file as structural reference, then generate new content):
+| File | Source |
+|------|--------|
+| `.claude/skills/startup/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/maintain/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/friction-log/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/plan/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/preferences/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/validate/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/install/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/update/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `reference/friction-log-archive.md` | Structure in `install/structure-intent.md` |
+| `reference/feedback-log-archive.md` | Structure in `install/structure-intent.md` |
+| `lib/.gitkeep` | Empty file |
+| `reference/sessions/.gitkeep` | Empty file |
+| `config/.gitkeep` | Empty file |
+| `.gitignore` | Template in `install/structure-intent.md` |
 
-| Generated file | Read this scaffold file first | What to customize |
-|---|---|---|
-| `CLAUDE.md` | `scaffold/CLAUDE.md` | Skills table, project identity, environment section |
-| `app/overview.md` | `scaffold/app/overview.md` | Task descriptions, diagrams, skills table, document hierarchy |
-| `app/shared/voice-and-values.md` | `scaffold/app/shared/voice-and-values.md` | Tone, values, editorial standards from conversation |
-| `app/shared/common-patterns.md` | `scaffold/app/shared/common-patterns.md` | Domain-specific patterns (start minimal, user iterates) |
-| `app/shared/output-spec.md` | `scaffold/app/shared/output-spec.md` | Output format from conversation |
-| `app/[task-name].md` | `scaffold/app/format-article.md` | Purpose, steps, judgment calls for the domain task |
-| `.claude/skills/[task-name]/SKILL.md` | `scaffold/.claude/skills/format-article/SKILL.md` | Skill entry point for domain task |
-| `reference/design-rationale.md` | `scaffold/reference/design-rationale.md` | Starter rationale with creation decisions |
-| `reference/system-status.md` | `scaffold/reference/system-status.md` | Actual tasks and skills |
-| `reference/friction-log.md` | `scaffold/reference/friction-log.md` | Keep format and guidance, remove sample entry |
-| `reference/feedback-log.md` | `scaffold/reference/feedback-log.md` | Keep format and guidance |
-| `README.md` | `scaffold/README.md` | Project name, tasks, skills, getting started |
-| `app/config-spec.md` | `scaffold/app/config-spec.md` | Configurable behaviors, defaults, constraints from conversation |
-| `config.md` | `scaffold/config.md` | Starter config with defaults from config-spec |
+**Category 2 — Generated from intent files + conversation (structured framework files):**
+
+These files follow framework-defined structures but are customized with conversation
+content. Read reference structures from intent files, then generate content that fits
+the user's domain.
+
+| File | Structural source | What to customize |
+|------|-------------------|-------------------|
+| `CLAUDE.md` | `install/CLAUDE-intent.md` reference structure | Project identity, skills table, modes, environment |
+| `reference/design-rationale.md` | `install/structure-intent.md` | Starter rationale with creation decisions for this domain |
+| `reference/system-status.md` | `install/structure-intent.md` | Actual tasks and skills from the conversation |
+| `reference/friction-log.md` | `install/structure-intent.md` | Keep format and guidance, seed patterns for this domain |
+| `reference/feedback-log.md` | `install/structure-intent.md` | Keep format and guidance |
+| `reference/installed-packages.md` | `install/structure-intent.md` | Add framework as first entry with date and commit hash |
+| `README.md` | `install/structure-intent.md` | Project name, tasks, skills, getting started |
+| `app/config-spec.md` | `install/structure-intent.md` | Configurable behaviors from the conversation |
+| `config.md` | `install/structure-intent.md` | Starter config with defaults from config-spec |
+| `config/maintenance.md` | Always-active maintenance preferences | Propose before editing, summarize plans |
+
+**Category 3 — Generated from conversation (domain-specific):**
+
+These files are unique to the user's domain. No framework-level structural source exists
+because they vary completely by project. The structural guidance below is all you need.
+
+| File | Structure guidance |
+|------|-------------------|
+| `app/overview.md` | See "Domain File Structures" below |
+| `app/shared/voice-and-values.md` | See "Domain File Structures" below |
+| `app/shared/common-patterns.md` | See "Domain File Structures" below |
+| `app/shared/output-spec.md` | See "Domain File Structures" below |
+| `app/[task-name].md` | See "Domain File Structures" below (one per task) |
+| `.claude/skills/[task-name]/SKILL.md` | Domain skill pattern in `install/skills-intent.md` (one per task) |
+
+### Domain File Structures
+
+**`app/overview.md`** — How the NLA's pieces connect:
+- What this NLA does (1-2 paragraphs)
+- Tasks table: Task name, what it does, source file
+- How it connects (brief description or diagram of the workflow)
+- Skills table: all skills with purpose
+- The improvement pipeline (friction-log → maintain cycle)
+- For humans: key workflow patterns (change behavior, debug, add tasks)
+- Document hierarchy: tree of all `app/` files with descriptions
+- Document index: links to all docs
+- Getting started: first-time setup
+
+**`app/shared/voice-and-values.md`** — Tone, personality, editorial standards:
+- Who we are (brief identity)
+- Voice: 3-5 tone principles, each with a clear/not pattern (e.g., "Clear, not clever")
+- The test: one question to check if output matches the voice
+- Values: 2-4 editorial values with explanations
+- Editorial standards: domain-relevant rules (attribution, links, structure, etc.)
+
+**`app/shared/common-patterns.md`** — Recurring patterns the LLM should recognize:
+- Start minimal — 2-4 patterns that are clearly relevant to the domain
+- Each pattern: what to look for, what to do, when NOT to apply
+- Note that patterns grow through `/friction-log` + `/maintain` iteration
+
+**`app/shared/output-spec.md`** — Output format specification:
+- Format: what format and why
+- Structure: general template showing the shape of typical output
+- Flexibility: what varies, what's consistent
+- What stays raw: what the NLA should NOT transform
+
+**`app/[task-name].md`** — One doc per task (the actual application logic):
+- Purpose: what this task does in one sentence
+- Input: what it receives
+- Output: what it produces
+- Prerequisites: which docs to read first (voice, patterns, output spec)
+- Processing steps: numbered steps with enough detail for the LLM to follow
+- Judgment calls: when to flag uncertainty, domain-specific edge cases
 
 ### Generation Order
 
 Follow this order — later files reference earlier ones:
 
 1. **Directory structure** — Create all directories with `mkdir -p`
-2. **Copied files** — Thin wrapper skills, .gitkeep files, friction-log-archive
+2. **Category 1 files** — Thin wrapper skills, .gitkeep files, archives, .gitignore
 3. **Shared context** — voice-and-values.md, common-patterns.md, output-spec.md
 4. **Task docs and skills** — Task-specific files for each task
 5. **Integration files** — overview.md, CLAUDE.md, README.md (generated last because they reference everything above)
-6. **Reference files** — design-rationale.md, system-status.md, friction-log.md
-7. **Config files** — config-spec.md, config.md, .gitignore
+6. **Reference files** — design-rationale.md, system-status.md, friction-log.md, feedback-log.md, installed-packages.md
+7. **Config files** — config-spec.md, config.md, config/maintenance.md
 
 ### How to Generate Each File
 
-For each file in category 2:
+**Category 1 (mechanical):**
+Read the reference implementation from the intent file and reproduce it. These are
+identical across all projects.
 
-1. **Read the scaffold reference** listed in the table above
-2. **Use it as structural guidance** — match the section organization, level of detail, and relationship patterns
-3. **Generate new content** based on the conversation — don't copy the scaffold's sample content
-4. **Keep framework references intact** — paths like `../nla-framework/core/` must be preserved exactly
+**Category 2 (intent + conversation):**
+1. Read the reference structure from the relevant intent file
+2. Use it as structural guidance — match the section organization and purpose
+3. Generate content based on the conversation — don't use sample domain content
+4. Keep framework references intact — paths like `../nla-framework/core/` must be preserved exactly
+
+**Category 3 (conversation only):**
+1. Read the structural guidance in "Domain File Structures" above
+2. Generate content entirely from the conversation
+3. Match the voice and domain the user described
+4. Start minimal — especially common-patterns.md. Better to add through `/friction-log` + `/maintain` than to guess
 
 **Critical path details:**
 - Framework references: `../nla-framework/core/nla-foundations.md`, `../nla-framework/core/skills/`
@@ -178,6 +246,7 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | **Friction log** | Your learning journal. `/friction-log` captures observations, `/maintain` turns them into improvements. |
 | **Config** | Config lets users personalize the NLA without editing the application. Their preferences live in `config.md`, separate from the app. `/preferences` creates and edits it. |
 | **Validation** | `/validate` checks that your system's internal references are consistent, and can trace through docs to debug when output doesn't match expectations. |
+| **Package management** | `/install` adds new capabilities from extension packages. `/update` keeps them current. Your install log tracks what's installed. |
 
 Don't narrate every file. Group the thin wrappers, group the reference files. Focus on what helps the user understand the system.
 
@@ -198,7 +267,7 @@ Next steps:
 5. Try /[task-name] with some sample content
 ```
 
-**Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/create-sample-app` — it installs a complete sample NLA they can explore before building their own.
+**Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/install-app` — it can install example NLA projects they can explore.
 
 ---
 
@@ -225,4 +294,4 @@ If anything doesn't match, fix it before reporting done.
 - **Don't run `git init`** — The user handles post-creation setup
 - **Don't create `.env` or credentials** — Note in CLAUDE.md if the project will need them
 - **Don't over-generate** — Common patterns should start minimal. Better to add through `/friction-log` + `/maintain` than to guess
-- **Don't copy scaffold prose** — Read scaffold for structure, generate fresh content for the domain. The sample article-formatter language shouldn't leak into a ticket-classification project.
+- **Don't use sample domain content** — Generate fresh content for the user's domain. Article-formatter language shouldn't leak into a ticket-classification project.
