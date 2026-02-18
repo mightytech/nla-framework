@@ -59,6 +59,8 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/preferences` | Create or edit your framework preferences | When you want to personalize tool behavior |
 | `/validate` | Check framework consistency, trace scenarios, debug behavior | When you want to verify the framework works as documented |
 | `/plan` | Planning mode for framework changes | When planning before building |
+| `/check-feedback` | Discover and triage feedback from intake channels | Periodically, or when you want to see what's arrived |
+| `/write-letter` | Draft and submit feedback to another project | At the end of maintenance sessions when learnings are fresh |
 
 ### If the user asks about the framework:
 -> Explain based on `core/nla-foundations.md` and `README.md`
@@ -78,6 +80,8 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `config-spec.md` | What's configurable in the framework (developer-defined) |
 | `config.md` | User preferences for framework tool behavior |
 | `reference/` | Framework maintenance records |
+| `reference/feedback-log.md` | Accepted external feedback, pending implementation |
+| `../nla-penny-post/` | Penny post extension (feedback conventions and skills) |
 
 ---
 
