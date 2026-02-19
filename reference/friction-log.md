@@ -113,7 +113,8 @@ This is the first "maintenance exit interview" — the pattern itself (item #9) 
 **Type:** process
 **Severity:** minor
 **Blast radius:** new projects
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-02-18 — Added `/maintain` as development cycle guidance in post-creation steps; added complex project edge case (4+ tasks → generate skeleton + one starter task, defer the rest to `/maintain`).
 
 **Observation:**
 `/create-app` currently generates all files with full content — voice, patterns, task docs, output spec, reference files. This works well for small, focused apps (1-2 tasks). For larger apps with many tasks or complex domain logic, generating everything in one pass may produce shallow content that needs immediate rework.

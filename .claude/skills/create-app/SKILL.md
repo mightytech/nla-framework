@@ -94,6 +94,7 @@ Files to generate: [count]
 - **Multiple tasks** — Generate a task doc and skill for each. All integration files (overview, CLAUDE.md) reflect all tasks.
 - **User changes mind** — The confirmation step exists for this. Adjust and re-summarize.
 - **Vague voice description** ("professional" or "friendly") — Generate a reasonable starter voice doc. Note to the user that `/maintain` can refine it later.
+- **Complex project with many tasks** — If the user describes 4+ tasks or a domain with unclear boundaries, generate the full structure but only one or two starter tasks. Note which tasks were deferred and tell the user to add them via `/maintain` — iterating is better than generating shallow content for everything at once.
 
 ---
 
@@ -265,6 +266,11 @@ Next steps:
 3. Start Claude Code
 4. Run /startup to load foundational context
 5. Try /[task-name] with some sample content
+
+The project is ready to use, but it'll get better with use. Run `/maintain` to refine
+your voice doc after seeing real output, add patterns as they emerge, or flesh out
+additional tasks. `/friction-log` captures observations; `/maintain` turns them into
+improvements. That's the development cycle.
 ```
 
 **Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/install-app` — it can install example NLA projects they can explore.
