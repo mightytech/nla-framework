@@ -46,6 +46,22 @@ For each package in scope:
 
 If nothing changed: "Package [name] is up to date (no changes to install intents since [date])."
 
+### 3b. Read Update Notes
+
+Check if the package has an `install/update-notes.md` file. If it does, read it and
+find entries between the project's last-known commit hash and the package's current
+HEAD. These notes provide maintainer context about what changed and why — use them
+alongside the intent diffs when proposing changes in step 4.
+
+Notes may cover both intent-file changes (which you act on) and core-file changes
+(which propagate automatically via the framework). For core-file changes, surface
+the note as context for the project maintainer without proposing edits.
+
+If no update notes file exists, or no entries fall in the relevant range, proceed
+without them — notes are supplementary context, not a requirement. If the project's
+last-known commit is old enough that relevant notes may have been archived, check
+`install/update-notes-archive.md` too.
+
 ### 4. Apply Changes
 
 **For changed intents:**
@@ -53,7 +69,8 @@ If nothing changed: "Package [name] is up to date (no changes to install intents
 2. Read the install log entry for what was previously done
 3. Examine the NLA's current state at the integration point
 4. Identify the delta — what the updated intent wants that differs from what's there
-5. Propose the change to the user, explaining what's different and why
+5. Propose the change to the user, explaining what's different and why — incorporate
+   any relevant update notes as additional context for the proposal
 6. Wait for approval, then synthesize
 
 **For new intents:**

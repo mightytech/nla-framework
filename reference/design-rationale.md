@@ -525,6 +525,179 @@ The framework's own `.claude/skills/validate/SKILL.md` was a 140-line monolith t
 
 ---
 
+## Update Notes: A Changelog for NLA Packages
+
+*Designed 2026-02-19. Not yet implemented.*
+
+### The problem
+
+When the framework changes intent files or core files, domain projects need to update.
+`/update` detects changes by diffing git commits and reading current intent files. This
+works for mechanical changes — the intent file says what should exist, the project has
+something different, the delta is clear.
+
+But some changes carry context that the intent diff alone doesn't convey:
+- "We broadened the Cardinal Rule because the old version was transformation-specific"
+- "Startup now has an extension point — if you ejected, you can un-eject"
+- "NLA Shapes was added to foundations — consider which shape your project is"
+
+These are things the framework maintainer knows at change time that would help the
+updating AI make better proposals. Without them, `/update` either misses the nuance
+or the project maintainer has to figure it out themselves.
+
+### The design: update notes as changelog
+
+A changelog-style file in `install/` where the framework maintainer writes notes when
+making changes that affect domain projects. Each entry provides context that `/update`
+reads alongside intent diffs when proposing changes.
+
+**File:** `install/update-notes.md`
+
+**Entry format:**
+
+```markdown
+### YYYY-MM-DD — [Brief title]
+
+**Commit:** [hash — for sessions with multiple commits, use the final commit]
+**Affects:** [which intent files or core files changed]
+
+[Narrative guidance — written for both human readers and the AI running /update.
+Not migration steps to execute, but context for judgment. What changed, why,
+and what it might mean for different kinds of projects.]
+```
+
+**Example entry:**
+
+```markdown
+### 2026-02-19 — Cardinal Rule broadened, NLA Shapes added
+
+**Commit:** 25e9c00
+**Affects:** core/nla-foundations.md, install/CLAUDE-intent.md, install/skills-intent.md
+
+The Cardinal Rule changed from "the human must always be able to compare changes
+against the original and easily revert" to "the human decides." The old framing was
+transformation-specific — it assumed an original to compare against. The new framing
+is universal across stateless, persistent, and creative NLAs.
+
+Projects with custom Cardinal Rule language in their CLAUDE.md: check whether your
+framing is already aligned with the broader principle. If so, no change needed.
+
+NLA Shapes (stateless, persistent, tool-using) was added to nla-foundations.md. This
+is loaded by all projects automatically. Consider whether your overview.md reflects
+which shape your NLA is.
+
+TK note references were removed throughout — "flag uncertainty" replaces "use TK notes."
+Projects using TK conventions in their own docs can keep them (they're domain choices),
+but framework-generated references should use the general language.
+```
+
+### How /update uses notes
+
+`/update` already knows the project's last-known commit hash from the install log. When
+it detects changes:
+
+1. Read `install/update-notes.md` (and the archive if the hash is old enough)
+2. Filter to entries between the project's last-known commit and current HEAD
+3. Use matching notes as additional context when proposing changes — not as instructions
+   to execute, but as maintainer guidance that informs judgment
+
+Notes can cover both intent-file changes (which `/update` acts on directly) and core-file
+changes (which propagate automatically via `git pull`). For core-file changes, `/update`
+surfaces the note as context — "foundations changed, consider whether your overview
+reflects it" — without proposing edits. This gives the project maintainer a complete
+picture of what's new, not just what `/update` can mechanically apply.
+
+When there are no notes for a change range, `/update` proceeds as usual. Notes are a
+bonus, not a requirement.
+
+The AI exercises judgment about each note's applicability to the specific project. Two
+projects updating from the same commit may get different proposals because they're
+different projects — different shapes, different customizations, different ejections.
+This is non-determinism as a feature: the same update notes, interpreted in context,
+produce recommendations tailored to each project.
+
+This is fundamentally different from traditional package updates, where applying a patch
+produces uniform results. A traditional update system facing divergent projects either
+overwrites everything (dangerous) or refuses to update (useless). The judgment layer
+is what makes context-sensitive updates possible — something that was never on the table
+with deterministic systems.
+
+The safety model isn't determinism — it's the Cardinal Rule. Every proposed change is
+inspectable and rejectable. The human decides.
+
+### How notes are created
+
+During `/maintain` sessions, after changes to intent files or core files that affect
+domain projects, the maintainer writes an update note. The maintain skill prompts for
+this: "This change affects domain projects. Want to add an update note?"
+
+Notes are written in the moment, when the maintainer has full context about what changed
+and why. They're written for a dual audience: humans scanning a changelog, and an AI
+that will use the notes as context for update proposals.
+
+Not every change needs a note. Typo fixes, formatting changes, and mechanical
+corrections where the intent diff speaks for itself don't need notes. Notes are for
+changes where the *so what for your project* isn't obvious from the diff alone.
+
+### Lifecycle and archival
+
+Notes accumulate chronologically, newest first. They don't expire per-project because
+different projects may be at different framework versions.
+
+When the file gets long, old entries move to `install/update-notes-archive.md`. The
+maintain skill handles this — same pattern as friction log archival. `/update` checks
+the archive when a project's last-known commit is old enough that relevant notes might
+have been archived. A brief note in the main file: "For notes older than [date], see
+the archive."
+
+No prescribed rotation schedule. Maintainers archive when it feels right. The AI can
+check the archive when needed. Flexibility over rules.
+
+### What notes are NOT
+
+- **Not migration scripts.** They don't prescribe exact steps. They provide context
+  that the AI uses with judgment.
+- **Not required.** An update without notes works fine when the intent diff is clear.
+- **Not authoritative over intent files.** If a note and an intent file disagree, the
+  intent file wins. Notes are context from a moment in time; intent files are the
+  current source of truth.
+
+### Alternatives considered
+
+**Bake migration intelligence into /update's general logic.** Rejected — it's
+over-engineering for cases that are individually rare. Update notes handle the general
+case without adding complexity to the skill itself.
+
+**Use git commit messages as the context source.** Commit messages are brief and
+already exist, but they're written for the framework maintainer, not for domain
+projects. Update notes are specifically the domain-project-facing view of a change.
+
+**Per-commit note files (like database migrations).** Too granular. A single maintenance
+session might produce multiple commits but one coherent set of changes worth one note.
+Changelog entries at the session level match how changes are actually made.
+
+**Penny post letters instead of update notes.** Letters are project-to-project
+communication about specific situations. Update notes are broadcast guidance for all
+projects. Different audiences, different purposes. A change might warrant both — a
+note for `/update` and a letter to a specific project that needs extra attention.
+
+### Blast radius
+
+- `install/update-notes.md` (new file): project generation, `/update` behavior
+- `core/skills/update.md`: all domain projects (adding note-reading step)
+- `core/skills/maintain.md` or `.claude/skills/maintain/SKILL.md`: maintainers (prompting for notes)
+
+### Implementation path
+
+1. Create `install/update-notes.md` with format guidance and seed it with entries for
+   recent changes (today's foundations work, the startup extension point)
+2. Add a step to `/update` processing flow: after detecting changes, read update notes
+   for the relevant range
+3. Add a prompt to `/maintain`: after intent file changes, ask about update notes
+4. Add archive guidance
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

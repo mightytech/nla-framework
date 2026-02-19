@@ -105,6 +105,7 @@ nla-framework/
 │   ├── structure-intent.md    # Directory structure and reference file intent
 │   ├── example-catalog.md     # Example NLA projects catalog
 │   ├── install.md             # Install manifest
+│   ├── update-notes.md        # Changelog for domain projects (read by /update)
 │   └── README.md              # How intent files work
 ├── reference/                 # Framework maintenance records
 └── .claude/skills/            # Framework-level skills

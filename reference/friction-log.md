@@ -65,6 +65,60 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-19 — README directory tree falls out of sync on every file change
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+The README's directory tree is a manual mirror of the filesystem. Every time a file is
+added, moved, or deleted, the tree may need updating — but because the README isn't in
+any functional chain (not read by skills, not loaded at startup, not an intent file),
+there's no natural trigger to check it. The maintainer's mental model of "what needs
+updating" is driven by functional blast radius, and the README is outside that model.
+
+This keeps showing up in `/validate` structural checks. The system catches it reliably,
+but after the fact — creating a recurring low-severity finding in every validation pass
+that involves file changes.
+
+**Proposed fix:**
+Add a brief reminder to the maintain skill's file-creation workflow: "If you created,
+moved, or deleted files, check that README.md's directory tree is current." Small
+friction cost, prevents the recurring validate finding. Alternatively, accept that
+validate catches it and don't add prevention — the cost of a stale README line is low.
+
+**Notes:**
+The deeper pattern: documentation artifacts that mirror filesystem state will always
+drift unless there's a trigger in the workflow that creates the drift. This applies
+to README trees, but could also apply to any manually-maintained index or listing.
+
+---
+
+### 2026-02-19 — Pre-flight design review caught gaps before implementation
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+After drafting the update notes design in design-rationale.md, we did a critical re-read
+before implementation — checking for gaps, viability, appropriateness to the framework,
+and extraneous content. It caught two real gaps (multi-commit sessions, core vs. intent
+file distinction in notes) that would have surfaced during implementation at higher cost.
+
+This is a distinct activity from the existing `/validate` modes: those check what exists
+(coherence of the document chain, scenario traces, debug). This checks what's proposed
+(is a design complete and viable before building it). Worth repeating for future designs.
+
+**Notes:**
+Not yet clear where this belongs — could be a `/validate` mode, a `/maintain` best
+practice, or a standalone pattern. Watch for recurrence before deciding.
+
+---
+
 ### 2026-02-14 — Duet maintenance session: 9 framework-level learnings
 
 **Type:** core

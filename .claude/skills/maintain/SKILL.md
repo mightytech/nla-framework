@@ -171,6 +171,13 @@ Maintenance sessions generate intent history. Create a session log in `reference
 1. Make changes in `install/` intent files
 2. Check that intent files are internally consistent (skills listed match core/skills/, structures are complete)
 3. Note: these changes affect `/create-app` generation and `/install`/`/update` behavior
+4. If the change affects domain projects in a non-obvious way, ask the maintainer: "This change affects domain projects. Want to add an update note?" If yes, add an entry to `install/update-notes.md` — see that file for format. Not every change needs a note; only changes where the *so what for your project* isn't obvious from the intent diff alone.
+
+### Updating Core Files
+
+1. Make changes in `core/` files
+2. Propose changes (blast radius: all domain projects — loaded via `../nla-framework/`)
+3. Core file changes propagate automatically via `git pull`, but if the change has implications domain projects should know about (e.g., new concepts they might want to reflect in their overview), consider adding an update note to `install/update-notes.md`.
 
 ---
 
