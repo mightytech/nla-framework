@@ -78,7 +78,7 @@ Proposed: [what it would say]
 Rationale: [why this change]
 ```
 
-Get approval before editing. This mirrors the cardinal rule: humans must be able to see and approve changes.
+Get approval before editing. This mirrors the cardinal rule: the human decides.
 
 ### 3. Check for Downstream Effects
 

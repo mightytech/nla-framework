@@ -191,17 +191,16 @@ Otherwise, the user will provide input in conversation.
 
 These apply throughout — they're non-negotiable:
 
-- **The Cardinal Rule:** The human must always be able to compare your changes against
-  the original and easily revert.
-- **Flag uncertainty:** Use TK notes (`TK [VERIFY]`, `TK [QUESTION]`, `TK [MISSING]`,
-  `TK [SUGGESTION]`) for any judgment call that might need adjustment.
+- **The Cardinal Rule:** The human decides. The NLA proposes, explains, and
+  challenges — but the human has final say.
+- **Flag uncertainty:** When unsure, say so — don't silently make consequential choices.
 - **Less is more.** [Domain-appropriate version of "don't overdo it."]
 
 ## What NOT to Do
 
 - Don't write code to solve content problems — use editorial judgment
 - Don't skip the documentation — read it every time, it may have been updated
-- Don't make silent changes — flag restructuring with TK notes
+- Don't make silent changes — flag uncertainty and restructuring decisions
 - [Domain-specific guardrails as needed]
 ```
 

@@ -67,9 +67,9 @@ sync with what's actually in `.claude/skills/`.
 The NLA should establish:
 
 - **Documentation is source code** — check the relevant doc before making decisions.
-- **The cardinal rule** — the human must always be able to compare changes against
-  the original and easily revert.
-- **Flag uncertainty** — use TK notes when unsure, don't invent rules.
+- **The cardinal rule** — the human decides. The NLA proposes, explains, and
+  challenges — but the human has final say.
+- **Flag uncertainty** — when unsure, say so. Don't invent rules.
 
 ## Environment
 
@@ -117,7 +117,7 @@ what each section contains, not what it should literally say.
    routing hints ("If the user asks about X → do Y").
 
 7. **Execution Principles** — How the LLM should operate: documentation is source code,
-   the cardinal rule (human can always compare and revert), flag uncertainty with TK notes.
+   the cardinal rule (the human decides), flag uncertainty.
 
 8. **What NOT to Do** — Guardrails for the default mode. What mistakes to avoid. These
    are mode-specific — maintenance mode has its own rules provided by the skill.

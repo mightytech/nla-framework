@@ -184,7 +184,7 @@ Domain skills reference `app/` files directly — they don't go through the fram
 
 These are explained in depth in [core/nla-foundations.md](core/nla-foundations.md):
 
-- **The Cardinal Rule** — The human must always be able to compare changes against the original and easily revert.
+- **The Cardinal Rule** — The human decides. Humans bear consequences, so humans hold authority.
 - **Judgment Over Rules** — Explain *why*, not just *what*. Purpose enables edge-case handling.
 - **The Structure Gradient** — Humans provide flexibility, the LLM adds structure, traditional code handles determinism.
 - **Iterate Through Documentation** — The system improves by improving documentation, formalized through the friction log and maintenance cycle.

@@ -64,6 +64,30 @@ NLAs don't replace traditional code — they complement it. A well-designed syst
 
 The traditional code is plumbing. The NLA is the intelligence.
 
+### NLA Shapes
+
+NLAs aren't all the same shape:
+
+**Stateless** — Input in, output out, done. An article formatter, a ticket classifier,
+a code reviewer. No state persists between sessions.
+
+**Persistent** — Work evolves across sessions. A composition tool, a writing assistant,
+a design system. Persistent NLAs need some form of state management: where work lives,
+how sessions pick up where they left off, how work moves through stages. The specific
+mechanisms vary — the need doesn't.
+
+The key challenge is session continuity. The LLM starts cold each session. Persistent
+NLAs need curated state files that capture decisions, reasoning, and open questions —
+not transcripts, but distillations of *why*. The framework's own session logs
+(`reference/sessions/`) follow this pattern for maintenance work.
+
+**Tool-using** — Some NLAs drive external tools: compilers, APIs, interpreters. The LLM
+handles judgment and intent; external tools handle execution. When the NLA generates
+runnable artifacts, the LLM can execute them directly — errors become conversation, not
+stack traces.
+
+Most NLAs are a mix. The shape informs which patterns apply.
+
 ---
 
 ## How to Read This System
@@ -74,7 +98,7 @@ When executing an NLA task:
 2. **Read the overview** (`overview.md`) — understand what this specific NLA does
 3. **Read shared context** — voice, patterns, and output specs that all tasks use
 4. **Read the specific task document** — follow it step by step
-5. **Flag uncertainty** — use TK notes when you're unsure
+5. **Flag uncertainty** — when you're unsure, say so
 
 The task document IS your instructions. Execute it, using judgment informed by shared context.
 
@@ -98,13 +122,15 @@ The LLM can apply judgment when it understands purpose.
 
 ### 3. The Cardinal Rule
 
-**The human must always be able to compare changes against the original and easily revert.**
+**The human decides.** Humans bear consequences, so humans hold authority. The NLA
+proposes, explains, and challenges — but the human has final say.
 
-This means:
-- Obvious additions (headers, callouts) don't need comment — the original had none
-- Text restructuring must offer options, including "keep original"
-- TK notes flag uncertainty
-- Never silently change meaning
+What this means in practice depends on the NLA's shape:
+- Transformation: offer comparison against the original; make changes easy to revert
+- Creation: explain decisions and reasoning; make work revertible through snapshots
+- Classification/analysis: show confidence and reasoning; make it easy to override
+
+In all cases: flag uncertainty. Never silently make consequential choices.
 
 ### 4. Hybrid Architecture
 
@@ -124,6 +150,21 @@ The system improves by improving documentation:
 5. Run again
 
 This is the development cycle for NLAs. The friction log and maintenance cycle formalize it.
+
+### 6. Configuration Is Natural Language
+
+Traditional config is structured: enums, booleans, key-value pairs. NLA config is
+prose — interpreted by the LLM with the same judgment it applies to everything else.
+
+This means config can express nuance that traditional config cannot:
+- "Option A, but with this modification..."
+- "Detailed explanations for voice decisions, brief for formatting"
+- "Creative partner, but shift into educator mode when I'm struggling"
+
+Enum options are convenient defaults — they make common choices easy. But natural
+language is the real interface. Users can modify any setting with prose, and the LLM
+synthesizes intent from the combination. No plugin architecture needed — the LLM's
+ability to interpret nuanced instructions IS the extension mechanism.
 
 ---
 
