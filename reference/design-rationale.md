@@ -794,6 +794,50 @@ Reference only — this entry captures lessons, not operative changes. The opera
 
 ---
 
+## Removing the /plan Skill
+
+*Added 2026-02-19. Origin: Observation during the Duet feedback session that /plan was never invoked.*
+
+### What was decided
+
+Remove `/plan` as a standalone skill. Fold its unique design thinking concepts (structure
+gradient, learning loop design) into `/maintain`'s Principle 2. Let Claude Code's built-in
+plan mode handle implementation planning.
+
+### Why
+
+During the Duet feedback session — a full-day maintenance session with significant design
+work — the `/plan` skill was never invoked. Its NLA design thinking concepts (blast radius,
+downstream effects, structure gradient) were used constantly, but through `/maintain`'s
+existing principles. Claude Code's plan mode handled implementation planning and was
+described by the user as "really, really helpful." The two tools complemented each other
+naturally without the framework's `/plan` skill being involved.
+
+The `/plan` skill's unique content was: structure gradient (where does the human need
+flexibility / where does the LLM add structure / where does code handle things) and
+learning loop design (how will we know this works). Everything else was already in
+`/maintain`. Folding these two concepts into Principle 2 preserves the behavior while
+eliminating a redundant entry point.
+
+### Alternatives considered
+
+1. **Rename to /design** — eliminates name collision with Claude Code plan mode, clearer
+   purpose. Rejected because the behavior was already delivered by maintain + plan mode;
+   a rename doesn't address the redundancy.
+2. **Keep but clarify** — add documentation distinguishing it from Claude Code plan mode.
+   Rejected because a skill that exists but never gets used is worse than no skill.
+3. **Merge into /maintain** (chosen) — fold unique content, remove the skill. Cleanest
+   option with the least surface area.
+
+### Blast radius
+
+- All domain projects: orphaned `/plan` wrapper needs manual removal
+- Install/skills-intent: `/plan` section removed, affects project generation
+- Core/maintain: enriched with folded content, affects all projects using /maintain
+- First framework skill removal — enriched `/update`'s removed-intents guidance
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

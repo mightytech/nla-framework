@@ -78,6 +78,7 @@ last-known commit is old enough that relevant notes may have been archived, chec
 
 **For removed intents:**
 - Don't undo previous work. Inform the user: "The package no longer includes [intent file]. The changes it previously made are still in your NLA. Remove them manually if you want."
+- Check update notes for context about why the intent was removed and what replaces it. Surface this to the user alongside the removal notification — it helps them decide whether and how to clean up.
 
 **Respect ejected wrappers.** If a skill wrapper has been customized (ejected), don't overwrite it. Inform the user of upstream changes and let them decide how to integrate.
 

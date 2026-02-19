@@ -33,6 +33,28 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-19 — /plan skill removed, design thinking folded into /maintain
+
+**Affects:** install/skills-intent.md, core/skills/maintain.md
+
+The `/plan` skill has been removed from the framework. Its design thinking concepts
+(structure gradient, learning loop design) are now part of `/maintain`'s Principle 2
+("Confirm Before Implementing"). Implementation planning is handled by Claude Code's
+built-in plan mode, which activates naturally for larger changes.
+
+**What to do in your project:**
+- Delete `.claude/skills/plan/` (the wrapper is now orphaned)
+- Remove `/plan` from your CLAUDE.md skills table
+- Remove `/plan` from your README.md if listed
+- Update `reference/system-status.md` if it lists /plan as a skill
+
+This is simplification, not loss of capability. The behavior you got from `/plan` is
+now delivered by `/maintain` (NLA-specific design thinking) plus Claude Code plan mode
+(implementation mechanics). If you had `/plan` in your config.md directives (e.g.,
+"always use /plan before changes"), update those to reference "planning mode" generally.
+
+---
+
 ### 2026-02-19 — Maintenance learnings captured in foundations, validate, maintain
 
 **Affects:** core/nla-foundations.md, core/skills/validate-architecture.md, core/skills/maintain.md
