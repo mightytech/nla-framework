@@ -44,7 +44,7 @@ The NLA should have at least two modes:
 The NLA should support session startup:
 
 - **`/startup`** loads foundational context (shared docs, voice, patterns) at session
-  start.
+  start, then runs app-specific initialization if `app/startup.md` exists.
 - **Context refresh** — after compaction or long sessions, `/startup` can be rerun.
 
 ## Configuration

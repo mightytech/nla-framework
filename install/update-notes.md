@@ -28,6 +28,27 @@ kinds of projects.]
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-19 — Startup extensibility and scaffold reference cleanup
+
+**Commit:** 356af0b
+**Affects:** core/skills/startup.md, install/CLAUDE-intent.md, install/skills-intent.md
+
+The startup skill now supports app-specific initialization via `app/startup.md`. After
+loading foundational context, the skill checks if this file exists and follows it. This
+is where apps define additional startup steps — scanning for active work, checking
+environment, presenting status — without ejecting the thin wrapper.
+
+If your project ejected the startup wrapper to add custom startup behavior, you can
+now un-eject: restore the thin wrapper and move your custom logic into `app/startup.md`.
+The framework handles universal context loading; your file handles domain-specific steps.
+This is optional — ejected startups continue to work fine.
+
+The hardcoded `/format-article` task identification table was replaced with generic
+guidance that consults `app/overview.md`. Projects using the thin wrapper get this
+automatically; ejected startups are unaffected.
+
+---
+
 ### 2026-02-19 — Cardinal Rule broadened, NLA Shapes added, TK references removed
 
 **Commit:** 25e9c00

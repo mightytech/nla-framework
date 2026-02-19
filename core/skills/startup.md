@@ -9,20 +9,27 @@ You are the runtime for a Natural Language Application. Before doing any work, l
 5. **`app/shared/output-spec.md`** — Output format details
 6. **`config.md`** (if it exists) — User preferences and configuration. If config.md routes to sub-configs for the current context, read those too.
 
+## App-Specific Initialization
+
+After loading foundational context, check if `app/startup.md` exists. If it does,
+read and follow it. This is where the app defines additional startup steps —
+scanning for active work, checking environment, presenting status — that vary
+by domain.
+
+If it doesn't exist, skip this step. Not every NLA needs app-specific initialization.
+
 ## After Loading
 
-Confirm you've read the foundational documents. If config was loaded, note it ("Loaded user configuration"). If no config.md exists, that's fine — just note "No user configuration found." Then await task identification. The user will either:
+Confirm you've read the foundational documents. If config was loaded, note it
+("Loaded user configuration"). If no config.md exists, that's fine — just note
+"No user configuration found." Then await the user. They will either:
 
-- Invoke a specific skill (e.g., `/format-article`)
+- Invoke a specific task skill
 - Provide content or instructions that indicate which task to run
-- Ask questions about the system (answer from the overview)
+- Ask questions about the system (answer from `app/overview.md`)
 
-If the user provides content without invoking a skill, identify the task:
-
-| User provides | Skill to suggest |
-|---------------|-----------------|
-| Raw content to format | `/format-article` |
-| Questions about the system | Answer from `app/overview.md` |
+If the user provides input without invoking a skill, consult `app/overview.md`
+to identify the appropriate task.
 
 ## When to Re-Run This Skill
 

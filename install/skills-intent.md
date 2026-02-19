@@ -12,7 +12,7 @@ This means pulling the framework repo updates skill logic without touching the N
 
 ### /startup
 
-**Purpose:** Load foundational context at session start.
+**Purpose:** Load foundational context at session start, then run app-specific initialization if `app/startup.md` exists.
 **Wrapper location:** `.claude/skills/startup/SKILL.md`
 **Delegates to:** `../nla-framework/core/skills/startup.md`
 
