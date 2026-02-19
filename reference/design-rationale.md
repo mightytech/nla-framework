@@ -698,6 +698,76 @@ note for `/update` and a letter to a specific project that needs extra attention
 
 ---
 
+## Output Spec as Optional Shared Context
+
+*Designed 2026-02-19. Not yet implemented.*
+
+### The observation
+
+The framework treats `app/shared/output-spec.md` as a default part of every NLA —
+startup loads it, validate checks for it, `/create-app` always generates it. This
+originates from the framework's roots in Copydesk (an article formatter) where output
+format specification is central.
+
+But NLAs are broader than transformation. A classification NLA's "output" is a label
+and a confidence score — a line in the task doc, not a file. A conversational NLA has
+no discrete output at all. A creative NLA's output spec is tool-specific (Duet renamed
+theirs to `output-spec-sc.md`).
+
+### The decision
+
+Make `output-spec.md` conditional — present when useful, not assumed to always exist.
+The file works exactly as before when present; it's just no longer mandatory.
+
+The principle: `output-spec.md` is shared context, like `voice-and-values.md` and
+`common-patterns.md`. It prevents duplication when multiple tasks share output format
+concerns. When there's one task, or output is simple, the guidance belongs in the task
+doc and the file is skipped.
+
+### Changes required
+
+Eight references across five files, all expressing the same idea:
+
+| File | Line | Change |
+|------|------|--------|
+| `core/skills/startup.md` | 9 | Add "(if it exists)" — same pattern as config.md |
+| `core/skills/validate-structural.md` | 13 | Only flag if referenced but missing, not if absent entirely |
+| `core/skills/maintain.md` | 91 | Add "(if it exists)" to downstream effects table |
+| `core/skills/maintain.md` | 212-218 | Condition the "Updating the Output Spec" section |
+| `.claude/skills/create-app/SKILL.md` | 156 | Mark as conditional in Category 3 table |
+| `.claude/skills/create-app/SKILL.md` | 185-189 | Note it's for complex/shared output; simple output goes in task doc |
+| `.claude/skills/create-app/SKILL.md` | 205 | Add "(if needed)" in generation order |
+| `install/structure-intent.md` | 20 | Mark as optional in directory tree |
+| `.claude/skills/create-app/SKILL.md` | 195 | Task doc prerequisites — make output spec conditional |
+| `install/skills-intent.md` | ~181 | Domain skill pattern — make output spec prerequisite conditional |
+
+### /create-app heuristic
+
+The conversation flow already asks about output format (information target #5). The
+change is that the answer doesn't always become a file:
+
+- Multiple tasks sharing output format → create output-spec.md
+- One task with complex output → AI uses judgment
+- Simple output or conversational NLA → guidance goes in task doc, skip the file
+
+### Blast radius
+
+- `core/skills/startup.md`, `validate-structural.md`, `maintain.md`: all domain projects
+- `.claude/skills/create-app/SKILL.md`: project generation
+- `install/structure-intent.md`: project generation, `/install`, `/update`
+
+Existing projects with output-spec.md are unaffected — the file still works. Projects
+without one stop being flagged as incomplete.
+
+### Why this matters beyond output-spec
+
+This is part of a broader pattern: the framework was designed around a transformation
+NLA and some of its defaults assume that shape. Making output-spec.md conditional is
+one step toward a framework that fits all NLA shapes equally well, without removing
+anything that works for transformation NLAs.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

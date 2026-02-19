@@ -88,7 +88,7 @@ Changes to shared docs affect all tasks:
 |----------------|---------------|
 | `app/shared/common-patterns.md` | All tasks that use shared patterns |
 | `app/shared/voice-and-values.md` | All content decisions across the system |
-| `app/shared/output-spec.md` | All output generation |
+| `app/shared/output-spec.md` (if it exists) | All output generation |
 | `CLAUDE.md` | All modes and skills |
 
 Name the affected downstream components when proposing changes.
@@ -211,9 +211,9 @@ External feedback (via `/check-feedback` or other intake mechanisms) produces fe
 
 ### Updating the Output Spec
 
-When the output format changes:
+If the NLA has an output spec (`app/shared/output-spec.md`), when the output format changes:
 
-1. Update `app/shared/output-spec.md`
+1. Update the output spec
 2. Update any traditional code helpers in `lib/` if needed
 3. Test with a sample to verify output is still valid
 

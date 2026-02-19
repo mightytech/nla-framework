@@ -33,6 +33,25 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-19 — Output spec is now optional
+
+**Affects:** core/skills/startup.md, core/skills/validate-structural.md, core/skills/maintain.md, install/structure-intent.md, install/skills-intent.md
+
+`app/shared/output-spec.md` is no longer assumed to exist in every NLA. The startup
+skill loads it only if present (same pattern as config.md). Validate no longer flags
+its absence unless a task doc references it. The maintain skill and intent files treat
+it as conditional.
+
+This reflects that not every NLA needs a dedicated output spec file. Classification
+NLAs, conversational NLAs, and NLAs with simple output can put format guidance directly
+in their task docs. NLAs with complex or shared output format concerns still benefit
+from the file — it just isn't mandatory.
+
+Existing projects with output-spec.md: no changes needed. Everything works as before.
+Projects without one: you'll no longer see it flagged as missing.
+
+---
+
 ### 2026-02-19 — Startup extensibility and scaffold reference cleanup
 
 **Commit:** 0d6b1b2

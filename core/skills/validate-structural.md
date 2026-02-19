@@ -10,7 +10,7 @@ Check that the system's internal references are consistent. This is a mechanical
 
 3. **Thin wrapper targets.** For every skill in `.claude/skills/` that delegates to the framework (contains a `Read and follow` line pointing to `../nla-framework/`), verify the target file exists. Report any broken wrappers.
 
-4. **Task doc references.** For each task doc in `app/`, check that referenced shared docs (`app/shared/voice-and-values.md`, `app/shared/common-patterns.md`, `app/shared/output-spec.md`) exist. Report missing shared docs.
+4. **Task doc references.** For each task doc in `app/`, check that referenced shared docs exist (e.g., `app/shared/voice-and-values.md`, `app/shared/common-patterns.md`). If a task doc references `app/shared/output-spec.md`, verify it exists — but don't flag its absence if nothing references it. Not every NLA needs an output spec file.
 
 5. **Document hierarchy.** If `app/overview.md` has a document hierarchy or index section, check that every file listed exists and every existing `app/` file is listed. Report gaps in either direction.
 

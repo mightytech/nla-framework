@@ -65,6 +65,52 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-19 — Voice and values may need splitting; values as transparent ethics
+
+**Type:** core
+**Severity:** major
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+Voice (tone, personality, style) and values (ethics, priorities, non-negotiables) are
+conceptually different things bundled into one file (`voice-and-values.md`). Voice might
+vary by context — the same NLA could use different tones for different platforms or
+audiences (Substack vs. Twitter, creative partner vs. educator). Values should be stable
+across all contexts — you don't have different ethics for different platforms.
+
+This suggests three potential changes:
+
+1. **Split voice and values** into separate files. Values are stable and universal;
+   voice may be contextual. Different lifecycles, different reasons to edit.
+
+2. **Support multiple voices.** Like output-spec, a single voice file works for simple
+   NLAs. NLAs with contextual tone needs could have multiple voice files
+   (voice-substack.md, voice-twitter.md) referenced by the relevant task doc.
+
+3. **Values as a foundational NLA concept.** Traditional code has always embedded values
+   (what gets prioritized, who gets served, what gets filtered), but they're hidden in
+   logic — scoring functions, filter criteria, if/else branches. In an NLA, values are
+   written in natural language: readable, debatable, and modifiable by anyone who can
+   read. "We never sacrifice accuracy for engagement" is a values statement that
+   traditional code expresses through opaque logic nobody can inspect. An NLA just
+   says it. This transparency is a fundamental capability worth discussing in
+   `nla-foundations.md`.
+
+**Affected files:**
+- `core/nla-foundations.md` — values transparency as a foundational concept
+- `app/shared/voice-and-values.md` convention — splitting, multiple voices
+- `core/skills/startup.md` — loading voice context
+- `install/structure-intent.md` — file structure
+- `install/CLAUDE-intent.md` — runtime identity
+- `.claude/skills/create-app/SKILL.md` — conversation flow and generation
+
+**Notes:**
+This is a bigger design than output-spec conditionality. Deserves its own session with
+fresh context. Captured here so the insights aren't lost.
+
+---
+
 ### 2026-02-19 — README directory tree falls out of sync on every file change
 
 **Type:** process

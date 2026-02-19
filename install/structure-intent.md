@@ -17,7 +17,7 @@ my-nla/
 │   ├── shared/                   # Context shared across all tasks
 │   │   ├── voice-and-values.md   # Tone, personality, editorial standards
 │   │   ├── common-patterns.md    # Recurring patterns the LLM should recognize
-│   │   └── output-spec.md        # Output format specification
+│   │   └── output-spec.md        # Output format specification (optional — see below)
 │   └── [task-name].md            # One doc per task (the actual application logic)
 ├── reference/                    # Maintenance records (non-executing channel)
 │   ├── design-rationale.md       # Why the system is built this way

@@ -153,7 +153,7 @@ because they vary completely by project. The structural guidance below is all yo
 | `app/overview.md` | See "Domain File Structures" below |
 | `app/shared/voice-and-values.md` | See "Domain File Structures" below |
 | `app/shared/common-patterns.md` | See "Domain File Structures" below |
-| `app/shared/output-spec.md` | See "Domain File Structures" below |
+| `app/shared/output-spec.md` | See "Domain File Structures" below (if output format warrants its own file) |
 | `app/[task-name].md` | See "Domain File Structures" below (one per task) |
 | `.claude/skills/[task-name]/SKILL.md` | Domain skill pattern in `install/skills-intent.md` (one per task) |
 
@@ -182,17 +182,22 @@ because they vary completely by project. The structural guidance below is all yo
 - Each pattern: what to look for, what to do, when NOT to apply
 - Note that patterns grow through `/friction-log` + `/maintain` iteration
 
-**`app/shared/output-spec.md`** — Output format specification:
+**`app/shared/output-spec.md`** (optional) — Output format specification. Create this
+when output format is complex or shared across multiple tasks. When output is simple
+(a classification, a short response) or the NLA has only one task, output guidance
+can go directly in the task doc instead.
+
+When created, it should cover:
 - Format: what format and why
 - Structure: general template showing the shape of typical output
 - Flexibility: what varies, what's consistent
-- What stays raw: what the NLA should NOT transform
+- What stays raw: what the NLA should NOT change
 
 **`app/[task-name].md`** — One doc per task (the actual application logic):
 - Purpose: what this task does in one sentence
 - Input: what it receives
 - Output: what it produces
-- Prerequisites: which docs to read first (voice, patterns, output spec)
+- Prerequisites: which docs to read first (voice, patterns, output spec if it exists)
 - Processing steps: numbered steps with enough detail for the LLM to follow
 - Judgment calls: when to flag uncertainty, domain-specific edge cases
 
@@ -202,7 +207,7 @@ Follow this order — later files reference earlier ones:
 
 1. **Directory structure** — Create all directories with `mkdir -p`
 2. **Category 1 files** — Thin wrapper skills, .gitkeep files, archives, .gitignore
-3. **Shared context** — voice-and-values.md, common-patterns.md, output-spec.md
+3. **Shared context** — voice-and-values.md, common-patterns.md, output-spec.md (if needed)
 4. **Task docs and skills** — Task-specific files for each task
 5. **Integration files** — overview.md, CLAUDE.md, README.md (generated last because they reference everything above)
 6. **Reference files** — design-rationale.md, system-status.md, friction-log.md, feedback-log.md, installed-packages.md
