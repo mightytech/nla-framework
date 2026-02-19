@@ -72,3 +72,12 @@ Three friction log entries added during the session: pre-flight design review (p
 pattern), README directory tree drift (recurring), voice/values splitting (deferred to
 future session). The voice/values item is the most significant open question — it touches
 on NLAs as vehicles for transparent, debatable ethics.
+
+## Addendum: Post-Session Learning Capture
+
+After closing the session, a reflective review identified 7 meta-learnings about how NLAs
+fail, how maintenance works, and how the framework should evolve. These were captured into
+permanent homes: foundations (language note), validate-architecture (language breadth
+category), maintain (three principle enrichments), design-rationale (lessons entry),
+friction-log (pattern #4), and update-notes (entry for domain projects). See commits
+464b618 (core files) and bd32ac6 (reference docs + update notes) for the full changes.

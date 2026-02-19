@@ -33,6 +33,29 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-19 — Maintenance learnings captured in foundations, validate, maintain
+
+**Affects:** core/nla-foundations.md, core/skills/validate-architecture.md, core/skills/maintain.md
+
+Three core files now carry learnings from the first cross-NLA feedback session:
+
+- **Foundations** ("How to Read This System"): A note about language encoding assumptions —
+  narrow language causes narrow NLA behavior, and broadening language is usually more effective
+  than adding rules. All projects load this automatically.
+
+- **Validate architecture review**: New analytical category "Language breadth" — checking
+  whether docs assume a specific NLA shape when they should be shape-neutral.
+
+- **Maintain skill**: Two enrichments folded into existing principles and processing
+  guidance — broadening over adding (Principle 1) and proportional resolution
+  (feedback/friction processing). Principle 2 already had pre-flight/post-validate
+  guidance from the earlier validate dispatcher update.
+
+No action needed — these propagate automatically via `../nla-framework/`. If you ejected
+any of these files, review the changes and consider whether to incorporate them.
+
+---
+
 ### 2026-02-19 — Output spec is now optional
 
 **Affects:** core/skills/startup.md, core/skills/validate-structural.md, core/skills/maintain.md, install/structure-intent.md, install/skills-intent.md

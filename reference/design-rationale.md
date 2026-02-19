@@ -768,6 +768,32 @@ anything that works for transformation NLAs.
 
 ---
 
+## Lessons from First Cross-NLA Feedback Session
+
+*Added 2026-02-19. Origin: Duet's 11-item feedback letter processed in session `reference/sessions/2026-02-19-duet-feedback-and-update-notes.md`.*
+
+### What happened
+
+Duet (a persistent, creative, tool-using NLA) sent an 11-item feedback letter exposing transformation-NLA assumptions throughout the framework. Processing it produced three evolution principles:
+
+1. **Broadening over adding.** Most fixes removed constraints rather than added features. The Cardinal Rule changed from transformation-specific ("compare against the original") to universal ("the human decides"). NLA Shapes replaced assumptions with explicit categories. Output-spec became optional. The pattern: when the LLM behaves too narrowly, loosen the language rather than adding more rules.
+
+2. **The feedback-to-resolution pipeline works.** Penny post letter → triage → item-by-item processing → session log → close is a repeatable workflow. The 11-item letter processed cleanly in one session with full traceability.
+
+3. **Proportional resolution.** Not every gap needs a full implementation. Item 8 (deeper `/create-app` questions) got a light touch — one line in the conversation groupings — because the root cause (framework not recognizing NLA shapes) was addressed in foundations. Match the fix to the gap.
+
+### What this means for the framework
+
+The framework was built around Copydesk (an article formatter — stateless, transformation-focused). Duet was the first non-transformation NLA to provide systematic feedback. The session confirmed that NLA-general language is achievable without losing transformation-NLA utility — broadening the Cardinal Rule didn't weaken it for Copydesk, it just stopped excluding Duet.
+
+This is evidence for the design principle: when in doubt, broaden rather than specialize. The LLM applies judgment regardless; narrow language just constrains which judgment it applies.
+
+### Blast radius
+
+Reference only — this entry captures lessons, not operative changes. The operative changes (foundations, validate, maintain) are recorded in their respective files and the session log.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:
