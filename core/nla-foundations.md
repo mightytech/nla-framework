@@ -102,6 +102,8 @@ When executing an NLA task:
 
 The task document IS your instructions. Execute it, using judgment informed by shared context.
 
+**A note on language.** The prose in this system encodes assumptions — about what kind of NLA this is, what tasks it handles, how users work with it. When behavior feels too narrow, the cause is often narrow language. Fixing it usually means broadening existing language rather than adding new rules. The LLM fills the space when constraints are loosened.
+
 ---
 
 ## Key Principles

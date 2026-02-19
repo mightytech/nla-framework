@@ -31,7 +31,7 @@ Not all categories apply to all NLAs. Before beginning, consider which matter mo
 
 **Layer boundaries** — Is each concern in the right file? Platform rendering shouldn't live in voice pattern files. Voice conventions shouldn't live in CLAUDE.md. When restructuring splits files, content sometimes lands in the wrong layer.
 
-**Consistency** — Is the same concept described the same way everywhere? Look for conventions (TK markers, emoji patterns, formatting rules) defined in one place and described differently in another.
+**Consistency** — Is the same concept described the same way everywhere? Look for conventions (naming conventions, emoji patterns, formatting rules) defined in one place and described differently in another.
 
 **Conditional completeness** — When something is optional, do all references handle the missing case? If prerequisites say "Voice Format Guide (if available)" but the processing step says "Use the voice format guide" without the conditional, there's a gap.
 
@@ -42,6 +42,8 @@ Not all categories apply to all NLAs. Before beginning, consider which matter mo
 **Contradiction** — Do two documents give opposing instructions? Look for directives that conflict — one file says "always" while another says "only when." Contradictions are especially common after restructuring when content is split across files.
 
 **Orphaned content** — Files or sections that nothing in the document chain references. After restructuring, some content may be left behind — still present in the directory but unreachable from the document chain. This is dead code.
+
+**Language breadth** — Do docs assume a specific NLA shape when they should be shape-neutral? Look for language that implicitly narrows the NLA's identity — words that assume transformation, deterministic output, or a specific workflow when the context should be universal. This is a distinctly NLA failure mode: constraints encoded in word choices rather than logic.
 
 ### 4. Write Findings Incrementally
 

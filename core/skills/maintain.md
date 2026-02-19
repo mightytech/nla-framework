@@ -61,11 +61,15 @@ This surfaces actionable work and provides session continuity. The maintainer de
 
 Read the relevant doc and the design rationale before modifying anything. If a pattern exists, there's usually a reason. If you're about to change something and can't explain why it's the way it is, stop and investigate first.
 
+When the fix is behavioral — the NLA does the wrong thing, not the structurally wrong thing — check whether the language needs broadening rather than adding. Narrow language causes narrow behavior; the LLM fills the space when constraints are loosened.
+
 ### 2. Confirm Before Implementing
 
 Always confirm your approach before making changes. For small changes, a sentence is enough: "I'm thinking [X] — anything to change before I do it?" For larger changes, use `/plan`. The only exception is purely mechanical fixes where confirming would feel absurd — a typo, a broken path, a dead reference.
 
 This catches design questions disguised as small changes. A two-line edit can still involve a real decision about wording, policy, or approach. If there's any judgment involved, confirm first.
+
+For design work — new entries in design-rationale, new patterns, new file structures — do a critical re-read of the design before implementing. Pre-flight catches gaps that are cheaper to fix on paper than in prose. Post-implementation, run `/validate` architecture review for structural changes to catch downstream inconsistencies.
 
 When proposing, show what you'd change and why:
 
@@ -182,7 +186,7 @@ The `/friction-log` skill and direct observation produce friction log entries. T
 2. Read the affected documentation
 3. Confirm your approach (per principle #2 above), then propose specific changes
 4. Get human approval
-5. Make approved changes
+5. Make approved changes — match the resolution to the gap. Not every item needs a full implementation; when the root cause was addressed elsewhere, a minimal fix on the symptom is the right size.
 6. Mark friction log entries as resolved
 7. Archive resolved entries: Move them from `friction-log.md` to `reference/friction-log-archive.md`, preserving their complete content including the `**Resolved:**` line. Keep only pending and deferred entries in the active log.
 
@@ -194,7 +198,7 @@ External feedback (via `/check-feedback` or other intake mechanisms) produces fe
 2. Read the source material (linked GitHub Issue or intake item) for full context
 3. Confirm your approach (per principle #2 above), then propose specific changes
 4. Get human approval
-5. Make approved changes
+5. Make approved changes — match the resolution to the gap. Not every item needs a full implementation; when the root cause was addressed elsewhere, a minimal fix on the symptom is the right size.
 6. Mark feedback log entries as resolved
 7. Archive resolved entries: Move them from `feedback-log.md` to `reference/feedback-log-archive.md`, preserving their complete content including the `**Resolved:**` line. Keep only pending and deferred entries in the active log.
 8. Close the loop: If the entry has a source link (GitHub Issue, etc.), post a follow-up comment describing what was implemented. This gives submitters visibility into the full lifecycle: submission → triage → implementation.

@@ -79,11 +79,15 @@ This is the most important consideration for framework maintenance:
 
 Read the relevant doc and the design rationale before modifying anything. If a pattern exists, there's usually a reason.
 
+When the fix is behavioral — the NLA does the wrong thing, not the structurally wrong thing — check whether the language needs broadening rather than adding. Narrow language causes narrow behavior; the LLM fills the space when constraints are loosened.
+
 ### 2. Confirm Before Implementing
 
 Always confirm your approach before making changes. For small changes, a sentence is enough: "I'm thinking [X] — anything to change before I do it?" For larger changes, use `/plan`. The only exception is purely mechanical fixes where confirming would feel absurd — a typo, a broken path, a dead reference.
 
 This catches design questions disguised as small changes. A two-line edit can still involve a real decision about wording, policy, or approach. If there's any judgment involved, confirm first.
+
+For design work — new entries in design-rationale, new patterns, new file structures — do a critical re-read of the design before implementing. Pre-flight catches gaps that are cheaper to fix on paper than in prose. Post-implementation, run `/validate` architecture review for structural changes to catch downstream inconsistencies.
 
 When proposing, show what you'd change and why:
 
@@ -148,7 +152,7 @@ Maintenance sessions generate intent history. Create a session log in `reference
 1. Read pending entries in `reference/friction-log.md`
 2. Read affected files
 3. Confirm your approach (per principle #2 above), then propose changes (noting blast radius)
-4. Get approval, implement, mark resolved
+4. Get approval, implement, mark resolved — match the resolution to the gap. Not every item needs a full implementation; when the root cause was addressed elsewhere, a minimal fix on the symptom is the right size.
 5. Archive resolved entries to `reference/friction-log-archive.md`
 
 ### Processing Feedback Log Entries
@@ -156,7 +160,7 @@ Maintenance sessions generate intent history. Create a session log in `reference
 1. Read pending entries in `reference/feedback-log.md`
 2. Read the source material (linked GitHub Issue or intake item) for full context
 3. Confirm your approach (per principle #2 above), then propose changes (noting blast radius)
-4. Get approval, implement, mark resolved
+4. Get approval, implement, mark resolved — match the resolution to the gap. Not every item needs a full implementation; when the root cause was addressed elsewhere, a minimal fix on the symptom is the right size.
 5. Archive resolved entries to `reference/feedback-log-archive.md`
 6. Close the loop: If the entry has a source link (GitHub Issue, etc.), post a follow-up comment describing what was implemented.
 
