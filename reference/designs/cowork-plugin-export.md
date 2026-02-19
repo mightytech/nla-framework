@@ -229,7 +229,6 @@ A Cowork plugin directory containing:
    - /maintain → omit (development tool)
    - /friction-log → omit (development tool)
    - /validate → omit (development tool)
-   - /plan → omit (development tool)
    - /preferences → keep (user-facing)
 
 8. Copy lib/ → lib/

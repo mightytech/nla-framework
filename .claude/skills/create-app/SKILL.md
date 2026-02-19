@@ -113,7 +113,6 @@ These files have the same structure in every NLA. Read reference implementations
 | `.claude/skills/startup/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/maintain/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/friction-log/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
-| `.claude/skills/plan/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/preferences/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/validate/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/install/SKILL.md` | Reference wrapper in `install/skills-intent.md` |

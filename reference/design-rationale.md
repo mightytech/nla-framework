@@ -42,7 +42,7 @@ The friction log + maintain cycle is the universal learning loop. `/learning-fee
 
 ### Framework Self-Maintenance
 
-The framework has its own CLAUDE.md, `/maintain`, `/friction-log`, and `/plan` skills, plus a `reference/` directory. These are full skills (not thin wrappers) because the framework's working directory IS the framework — `../nla-framework/` paths would be self-referential.
+The framework has its own CLAUDE.md, `/maintain`, and `/friction-log` skills, plus a `reference/` directory. These are full skills (not thin wrappers) because the framework's working directory IS the framework — `../nla-framework/` paths would be self-referential.
 
 **Why full skills instead of wrappers:** The logic files in `core/skills/` use `../nla-framework/core/` paths, designed for domain projects whose working directory is elsewhere. When the working directory is the framework itself, those paths break. Framework skills use project-relative paths (`core/...`, `reference/...`).
 
@@ -411,7 +411,7 @@ Effect #2 is more important than #1. The active prompt shapes how the AI reasons
 
 Every NLA skill — framework skills, extension skills (penny post), and domain-specific skills — should set `disable-model-invocation: true`. The reasoning:
 
-- **Mode switches** (`/maintain`, `/plan`) change the AI's operating context. Always user-initiated.
+- **Mode switches** (`/maintain`) change the AI's operating context. Always user-initiated.
 - **Expensive operations** (`/startup`, `/validate`) load many files. The user should opt into the context cost.
 - **Observation skills** (`/friction-log`) could cause the AI to interrupt primary work to log things.
 - **External actions** (`/write-letter`, `/check-feedback`) post to GitHub Issues or other external services. Spontaneous external actions are especially problematic.

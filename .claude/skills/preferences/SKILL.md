@@ -82,7 +82,7 @@ When generating files during /create-app, narrate what each file does rather tha
 Or conditional:
 
 ```markdown
-When in maintenance mode, always use /plan before making changes.
+When in maintenance mode, always enter planning mode before making changes.
 ```
 
 The LLM reads these and applies judgment. Both forms are valid. Use whichever is clearest for the directive. Structured for values, behavioral for preferences, conditional for context-dependent rules.

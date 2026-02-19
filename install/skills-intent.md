@@ -75,22 +75,6 @@ disable-model-invocation: true
 Read and follow `../nla-framework/core/skills/validate.md`.
 ```
 
-### /plan
-
-**Purpose:** Planning mode for new tasks or major changes.
-**Wrapper location:** `.claude/skills/plan/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/plan.md`
-
-**Reference wrapper:**
-```yaml
----
-name: plan
-description: Planning mode for building new tasks or making major changes to the NLA system
-disable-model-invocation: true
----
-Read and follow `../nla-framework/core/skills/plan.md`.
-```
-
 ### /preferences
 
 **Purpose:** Create or edit user configuration.

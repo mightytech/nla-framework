@@ -81,3 +81,15 @@ permanent homes: foundations (language note), validate-architecture (language br
 category), maintain (three principle enrichments), design-rationale (lessons entry),
 friction-log (pattern #4), and update-notes (entry for domain projects). See commits
 464b618 (core files) and bd32ac6 (reference docs + update notes) for the full changes.
+
+## Addendum: Remove /plan Skill
+
+Following the learnings capture, analysis of the session revealed that the framework's `/plan`
+skill was never invoked — its NLA design thinking concepts were used through `/maintain`, and
+Claude Code's built-in plan mode handled implementation planning. Decision: remove `/plan` as
+a standalone skill, fold its unique content (structure gradient, learning loop design) into
+`/maintain`, and let Claude Code plan mode handle implementation planning.
+
+This is the first framework skill removal, requiring enriched `/update` guidance for domain
+projects. The config-spec "Plan first" option is reframed to reference planning mode generally
+rather than the removed skill. Full plan in `.claude/plans/expressive-herding-lemon.md`.

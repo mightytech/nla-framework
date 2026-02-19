@@ -65,11 +65,13 @@ When the fix is behavioral — the NLA does the wrong thing, not the structurall
 
 ### 2. Confirm Before Implementing
 
-Always confirm your approach before making changes. For small changes, a sentence is enough: "I'm thinking [X] — anything to change before I do it?" For larger changes, use `/plan`. The only exception is purely mechanical fixes where confirming would feel absurd — a typo, a broken path, a dead reference.
+Always confirm your approach before making changes. For small changes, a sentence is enough: "I'm thinking [X] — anything to change before I do it?" For larger changes, enter planning mode. The only exception is purely mechanical fixes where confirming would feel absurd — a typo, a broken path, a dead reference.
 
 This catches design questions disguised as small changes. A two-line edit can still involve a real decision about wording, policy, or approach. If there's any judgment involved, confirm first.
 
 For design work — new entries in design-rationale, new patterns, new file structures — do a critical re-read of the design before implementing. Pre-flight catches gaps that are cheaper to fix on paper than in prose. Post-implementation, run `/validate` architecture review for structural changes to catch downstream inconsistencies.
+
+For larger changes, think through the structure gradient: Where does the human need flexibility? Where does the LLM add structure? Where does traditional code handle things? And design the learning loop: How will we know this works? What should the friction log capture? How will corrections feed back into improvements?
 
 When proposing, show what you'd change and why:
 

@@ -19,7 +19,7 @@ Users can adjust how the framework's tools behave without modifying the framewor
 
 ### Maintenance Mode
 
-- **Plan first** — Whether to always enter `/plan` before making framework changes, or allow direct editing for small changes.
+- **Plan first** — Whether to always enter planning mode before making framework changes, or allow direct editing for small changes.
 - **Proposal style** — How detailed change proposals should be. Ranges from full (current text, proposed text, rationale) to brief (proposed text and one-line rationale).
 
 **Defaults:** Propose before editing (always). Full proposal style.

@@ -58,7 +58,6 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/friction-log` | Log observations to the framework's friction log | When you notice something worth recording |
 | `/preferences` | Create or edit your framework preferences | When you want to personalize tool behavior |
 | `/validate` | Check framework consistency, review architecture, trace scenarios, debug behavior | When you want to verify the framework works as documented |
-| `/plan` | Planning mode for framework changes | When planning before building |
 | `/check-feedback` | Discover and triage feedback from intake channels | Periodically, or when you want to see what's arrived |
 | `/write-letter` | Draft and submit feedback to another project | At the end of maintenance sessions when learnings are fresh |
 | `/install` | Install a new NLA package into a project | When adding extensions or capabilities to an NLA |
