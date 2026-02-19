@@ -353,11 +353,12 @@ Tracing changes the system being observed. An LLM narrating its decisions may re
 
 NLA debugging is fundamentally different from traditional debugging. There are no syntax errors, no stack traces, no line numbers. Bugs are behavioral — an ambiguous directive in voice-and-values.md that the LLM interprets differently than intended, or a conflict between two docs that surfaces only with certain inputs.
 
-`/validate` provides three tools for this:
+`/validate` provides four modes:
 
 1. **Structural validation** — mechanical checks (file references resolve, skill tables consistent). The NLA equivalent of a linter.
-2. **Scenario walkthrough** — trace through docs for a hypothetical scenario, narrating each decision. The NLA equivalent of a debugger's step-through.
-3. **Debug mode** — given expected vs. actual behavior, trace through docs to explain the divergence. The NLA equivalent of a stack trace.
+2. **Architecture review** — walk the full document chain checking for coherence issues (path resolution, cross-reference integrity, layer boundaries, consistency). The NLA equivalent of a code review.
+3. **Scenario walkthrough** — trace through docs for a hypothetical scenario, narrating each decision. The NLA equivalent of a debugger's step-through.
+4. **Debug mode** — given expected vs. actual behavior, trace through docs to explain the divergence. The NLA equivalent of a stack trace.
 
 ### Why read-only with handoff
 
@@ -472,6 +473,55 @@ This is the same principle as `/create-app`: the framework describes structure, 
 ### Blast radius
 
 Both skills live in `core/skills/` — they affect all domain projects. The thin wrappers follow the standard pattern documented in `install/skills-intent.md`.
+
+---
+
+## Validate Dispatcher + Mode Files
+
+*Added 2026-02-18. Origin: Copydesk Issue #4 (proposal for `/code-review` skill).*
+
+### Why a dispatcher, not separate skills
+
+Copydesk proposed a standalone `/code-review` skill for architecture review. We implemented it as Mode 4 of `/validate` instead, because:
+
+1. **Conceptual unity.** All four modes answer "is my NLA working correctly?" — structural checks, architecture review, scenario walkthroughs, and debug are different lenses on the same question.
+2. **Shared setup.** All modes need the same required reading (CLAUDE.md, app/overview.md) and the same scope constraints (read-only, suggest fixes, don't edit).
+3. **Wrapper simplicity.** Domain projects have one thin wrapper pointing to one dispatcher. Four separate skills would mean four wrappers in every project.
+
+### Why the dispatcher + mode file split
+
+With four modes, the monolithic `validate.md` grew too large. Splitting into a dispatcher (menu + routing) and mode files (one per mode) keeps each file focused:
+
+- **Dispatcher** (~55 lines): opening, required reading, mode selection menu, routing table, scope constraints
+- **Mode files** (~30-60 lines each): self-contained logic for one mode
+
+The dispatcher owns the shared context. Mode files own the analytical logic. This matches the pattern of a traditional router dispatching to handlers.
+
+### Why the hybrid menu
+
+The mode selection menu maps user concerns to system approaches:
+- "Are my files wired up correctly?" → Structural check
+- "Do my docs tell a consistent story?" → Architecture review
+- "Walk me through a scenario" → Scenario walkthrough
+- "Something's not working as expected" → Debug
+
+Users think in terms of problems, not modes. The menu translates. When invoked with clear intent, the menu is skipped — the LLM routes directly.
+
+### Architecture review origin
+
+Copydesk ran a manual architecture review after a 6-phase restructuring and found 12 coherence issues that `/validate`'s existing modes didn't catch. The issues fell into categories (path resolution, cross-reference integrity, layer boundaries, consistency, conditional completeness, generic/specific alignment) that are universal to any NLA with multiple doc files. We added prerequisite sufficiency, contradiction, and orphaned content as additional categories.
+
+The architecture review mode is read-only — it produces a findings file that `/maintain` acts on. This respects the separation between analysis and editing.
+
+### Framework validate refactoring
+
+The framework's own `.claude/skills/validate/SKILL.md` was a 140-line monolith that duplicated and extended each core mode. Refactored to delegate to core mode files with framework-specific addenda (blast radius tagging, intent file checks, dual-context scenario tracing). This eliminates dual maintenance — mode logic lives in one place (`core/skills/validate-*.md`), framework extensions live in the wrapper.
+
+### Blast radius
+
+- Mode files (`core/skills/validate-*.md`): all domain projects
+- Core dispatcher (`core/skills/validate.md`): all domain projects
+- Framework wrapper (`.claude/skills/validate/SKILL.md`): framework only
 
 ---
 

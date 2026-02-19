@@ -24,98 +24,63 @@ Do not read every file upfront. Read specific files as validation requires them.
 
 ---
 
-## Modes
+## Mode Selection
 
-`/validate` operates in three modes. If invoked with no arguments, run structural validation. If invoked with a scenario description, run scenario walkthrough. If the user describes expected-vs-actual behavior, run debug mode. If ambiguous, ask.
+When invoked with clear intent, skip the menu and route directly to the appropriate mode. When invoked without clear intent, present these options:
 
-### Mode 1: Structural Validation
+> **"Are the framework's files wired up correctly?"**
+> Structural check. Verifies file references, skill registrations, intent file consistency, and README accuracy. Fast and mechanical.
 
-Check that the framework's internal references are consistent. The framework has more reference surfaces than a domain project — check them all.
+> **"Do the framework's docs tell a consistent story?"**
+> Architecture review. Walks the full document chain checking for coherence issues. Thorough — reads most of the framework's docs. Writes findings to a file in `reference/sessions/`.
 
-**What to check:**
+> **"Walk me through a scenario"**
+> Scenario walkthrough. Describe a situation and I'll trace through the docs showing what would happen and where gaps exist. Supports both framework context (using `/create-app`, `/maintain`, etc.) and domain project context (using intent files to understand a well-formed project).
 
-1. **Framework file references.** Read `CLAUDE.md` and `README.md`. For every file path mentioned, verify the file exists. Report broken references.
+> **"Something's not working as expected"**
+> Debug. Describe expected vs. actual behavior and I'll trace through docs to explain the divergence.
 
-2. **Framework skill registration.** List all skills in `.claude/skills/`. Compare against the skills table in `CLAUDE.md`. Report any mismatches (skill directory exists but not in table, or table entry with no skill directory).
+---
 
-3. **Core skill coverage.** For every file in `core/skills/`, check that a corresponding entry exists in `install/skills-intent.md` with a reference wrapper. Report any core skills missing from the intent file.
+## Mode Routing
 
-4. **Intent file skill consistency.** For every skill listed in `install/skills-intent.md`, verify the target core skill file exists at `core/skills/[skill].md`. Report broken references.
+After selecting a mode, read and follow the corresponding core file, then apply the framework-specific addenda below.
 
-5. **Intent file completeness.** Verify `install/CLAUDE-intent.md`, `install/skills-intent.md`, and `install/structure-intent.md` all exist. Check that the example catalog (`install/example-catalog.md`) exists.
+| Mode | Core file |
+|------|-----------|
+| Structural check | `core/skills/validate-structural.md` |
+| Architecture review | `core/skills/validate-architecture.md` |
+| Scenario walkthrough | `core/skills/validate-scenario.md` |
+| Debug | `core/skills/validate-debug.md` |
 
-6. **Config consistency.** Check that `config-spec.md` exists at framework root. If `config.md` exists, check that routing rules point to existing files in `config/`. Report issues.
+### Structural Addenda
 
-7. **README directory listings.** Check that directory trees in `README.md` reflect the actual directory contents. Report stale listings.
+After running the core structural checks, also check:
+
+1. **Framework file references.** Read `CLAUDE.md` and `README.md`. For every file path mentioned, verify the file exists.
+2. **Framework skill registration.** List all skills in `.claude/skills/`. Compare against the skills table in `CLAUDE.md`. Report mismatches.
+3. **Core skill coverage.** For every file in `core/skills/`, check that a corresponding entry exists in `install/skills-intent.md`. Report missing entries.
+4. **Intent file skill consistency.** For every skill in `install/skills-intent.md`, verify the target core skill file exists. Report broken references.
+5. **Intent file completeness.** Verify `install/CLAUDE-intent.md`, `install/skills-intent.md`, and `install/structure-intent.md` all exist. Check that `install/example-catalog.md` exists.
+6. **Config consistency.** Check that `config-spec.md` exists. If `config.md` exists, check routing targets.
+7. **README directory listings.** Check that directory trees in `README.md` reflect actual contents.
 
 **Blast radius tagging:** For each issue found, note:
 - **Framework operation** — issues in `.claude/skills/`, `CLAUDE.md`, `config-spec.md`
 - **All domain projects** — issues in `core/`
 - **Project generation** — issues in `install/` intent files
 
-**Output format:**
+### Scenario Addenda
 
-```
-## Validation Results
-
-### Issues Found
-- [Category] (blast radius: [framework | all projects | project generation]): [Specific issue]
-
-### All Clear
-- [Category]: [What was checked and passed]
-```
-
-Suggest fixes but do not make them — that is `/maintain`'s job.
-
-### Mode 2: Scenario Walkthrough
-
-Trace through documentation step by step for a hypothetical scenario. The framework supports two contexts:
-
-- **Framework context** (default): Trace a scenario where someone uses the framework itself — running `/create-app`, `/maintain`, etc.
-- **Domain project context**: Trace a scenario as if operating inside a domain project — running domain tasks, `/startup`, etc. Use the intent files to understand what a well-formed domain project looks like.
+The framework supports two trace contexts:
+- **Framework context** (default): Trace scenarios where someone uses the framework itself — running `/create-app`, `/maintain`, etc.
+- **Domain project context**: Trace scenarios as if operating inside a domain project — running domain tasks, `/startup`, etc. Use the intent files to understand what a well-formed domain project looks like.
 
 Ask the user which context if ambiguous.
 
-**Process:**
+### Debug Addenda
 
-1. **Parse the scenario.** Identify which skill and context this maps to.
-
-2. **Trace the doc chain.** Starting from the relevant CLAUDE.md, walk through every document the LLM would read. For each document:
-   - Name the document and the relevant section
-   - Quote or paraphrase the directive that applies
-   - State what decision it leads to
-   - Note when judgment is being applied (vs. following explicit instruction)
-
-3. **Identify gaps.** Note:
-   - Points where no doc covers what to do
-   - Ambiguous directives that could go multiple ways
-   - Conflicting directives between documents
-   - Judgment calls that feel under-specified
-
-4. **Summarize.** Provide the complete decision chain, any issues found, and suggestions for doc improvements.
-
-This traces one plausible path through the docs. Actual behavior may vary at judgment points — non-determinism is by design.
-
-### Mode 3: Debug
-
-The user describes what they expected the framework to do and what it actually did. Trace through the docs to explain the divergence.
-
-**Process:**
-
-1. **Understand the gap.** Ask clarifying questions if needed: What was the input? What did you expect? What actually happened? Which skill was running?
-
-2. **Trace through docs.** Trace the path that would lead to the actual behavior. Identify the specific document and directive that caused the divergence.
-
-3. **Check for trace files.** If tracing was enabled, ask if a trace file exists in `reference/sessions/`. If so, read it for the actual decision chain.
-
-4. **Diagnose.** Identify the root cause:
-   - **Missing guidance** — No doc covers this case
-   - **Ambiguous directive** — Could be read multiple ways
-   - **Conflicting directives** — Two docs disagree
-   - **Correct behavior, wrong expectation** — Docs are right; expectation didn't match
-   - **Non-determinism** — Docs allow judgment; different runs produce different results
-
-5. **Recommend a fix.** Point to the specific document and section. Note the blast radius of any suggested change. Do not make the change.
+When recommending fixes, note the blast radius of each suggested change (framework operation / all domain projects / project generation).
 
 ---
 
@@ -123,6 +88,7 @@ The user describes what they expected the framework to do and what it actually d
 
 **You do:**
 - Check internal consistency across framework, core, and intent file layers
+- Walk the document chain checking for coherence issues
 - Trace through docs for hypothetical scenarios in either context
 - Diagnose behavior divergence
 - Read trace files when available

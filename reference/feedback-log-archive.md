@@ -12,6 +12,28 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-18 — Architecture review mode for /validate (adapted from /code-review proposal)
+
+**Source:** [Issue #4](https://github.com/mightytech/nla-framework/issues/4)
+**Verdict:** Adapt — implemented as Mode 4 of `/validate` rather than standalone `/code-review` skill
+**Status:** resolved
+**Resolved:** 2026-02-18 — Split `/validate` into dispatcher + mode files. Added architecture review as Mode 4 with nine analytical categories derived from Copydesk's review. Refactored framework's own validate to delegate to core mode files. Added session-close reminder in `/maintain` for structural changes.
+
+**What to do:**
+Add architecture review capability that walks the full document chain checking for
+coherence issues after restructuring. Copydesk found 12 issues in six categories
+(path resolution, cross-reference integrity, layer boundaries, consistency,
+conditional completeness, generic/specific alignment) that existing `/validate`
+modes don't catch.
+
+**Why it was accepted:**
+The categories are universal to any NLA with multiple doc files. Architecture review
+complements existing modes the way code review complements testing in traditional
+software — tests check behavior, reviews check structure. Implementing as a `/validate`
+mode (not a standalone skill) preserves conceptual unity and avoids wrapper proliferation.
+
+---
+
 ### 2026-02-17 — Create `install/` directory for framework package management
 
 **Source:** [Issue #1](https://github.com/mightytech/nla-framework/issues/1)

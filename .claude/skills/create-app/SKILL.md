@@ -245,7 +245,7 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | **Common patterns** | Starting minimal — as you use the system and run `/friction-log`, patterns will emerge and you'll add them here. |
 | **Friction log** | Your learning journal. `/friction-log` captures observations, `/maintain` turns them into improvements. |
 | **Config** | Config lets users personalize the NLA without editing the application. Their preferences live in `config.md`, separate from the app. `/preferences` creates and edits it. |
-| **Validation** | `/validate` checks that your system's internal references are consistent, and can trace through docs to debug when output doesn't match expectations. |
+| **Validation** | `/validate` checks internal consistency, reviews architecture after restructuring, traces scenarios through docs, and debugs when output doesn't match expectations. |
 | **Package management** | `/install` adds new capabilities from extension packages. `/update` keeps them current. Your install log tracks what's installed. |
 
 Don't narrate every file. Group the thin wrappers, group the reference files. Focus on what helps the user understand the system.

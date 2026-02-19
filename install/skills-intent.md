@@ -60,15 +60,15 @@ Read and follow `../nla-framework/core/skills/friction-log.md`.
 
 ### /validate
 
-**Purpose:** Check system consistency, trace scenarios, debug behavior.
+**Purpose:** Check system consistency (structural check, architecture review, scenario walkthrough, debug).
 **Wrapper location:** `.claude/skills/validate/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/validate.md`
+**Delegates to:** `../nla-framework/core/skills/validate.md` (dispatcher that routes to mode files)
 
 **Reference wrapper:**
 ```yaml
 ---
 name: validate
-description: Validate the NLA system's internal consistency, trace scenarios through docs, or debug unexpected behavior.
+description: Validate the NLA system — structural checks, architecture review, scenario walkthroughs, or debug unexpected behavior.
 disable-model-invocation: true
 ---
 

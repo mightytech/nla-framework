@@ -134,6 +134,11 @@ Maintenance sessions generate intent history. Create a session log in `reference
 [What's working, what's pending, what's next]
 ```
 
+### Session Close Steps
+
+1. Finalize the session log (fill in State at Close, set status to Complete)
+2. If the session involved structural changes (file moves, renames, splits, new files), suggest running `/validate` architecture review to check that the document chain still tells a consistent story. Note blast radius when suggesting — structural changes to `core/` affect all domain projects.
+
 ---
 
 ## Common Tasks

@@ -32,11 +32,19 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `startup.md` | `/startup` | Load foundational context at session start |
 | `maintain.md` | `/maintain` | System maintenance mode — edit docs, skills, config |
 | `friction-log.md` | `/friction-log` | Capture observations to the learning journal |
-| `validate.md` | `/validate` | Check consistency, trace scenarios, debug behavior |
+| `validate.md` | `/validate` | Dispatcher — routes to mode files below |
+| `validate-structural.md` | `/validate` | Structural check — file references, skill tables, hierarchy |
+| `validate-architecture.md` | `/validate` | Architecture review — document chain coherence |
+| `validate-scenario.md` | `/validate` | Scenario walkthrough — trace docs for a hypothetical |
+| `validate-debug.md` | `/validate` | Debug — explain divergence between expected and actual |
 | `plan.md` | `/plan` | Planning mode for new tasks or major changes |
 | `preferences.md` | `/preferences` | Create or edit user configuration |
 | `install.md` | `/install` | Install a new NLA package |
 | `update.md` | `/update` | Update installed packages |
+
+### Multi-file skills
+
+Some skills use a dispatcher + mode file pattern. The dispatcher (`validate.md`) presents a mode selection menu and routes to the appropriate mode file (`validate-*.md`). This keeps each mode focused while sharing common setup (required reading, scope constraints) in the dispatcher. Domain project wrappers still point to the dispatcher — they don't need to know about mode files.
 
 ---
 

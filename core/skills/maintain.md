@@ -162,6 +162,9 @@ This is the most important section.]
    - Finalize the session log (fill in State at Close)
    - Update `reference/system-status.md` with current state
    - Set status to Complete
+4. **Suggest validation** — If the session involved structural changes (file moves,
+   renames, splits, new files), suggest running `/validate` architecture review to
+   check that the document chain still tells a consistent story.
 
 ### Keep It Flexible
 

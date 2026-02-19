@@ -53,6 +53,8 @@ accepted, Status.
 
 *Entries are added chronologically, newest first.*
 
+*(No pending entries.)*
+
 ---
 
 *This log is populated by `/check-feedback` (or any external feedback tool) and consumed
