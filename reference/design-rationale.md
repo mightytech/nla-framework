@@ -558,8 +558,8 @@ reads alongside intent diffs when proposing changes.
 ```markdown
 ### YYYY-MM-DD — [Brief title]
 
-**Commit:** [hash — for sessions with multiple commits, use the final commit]
 **Affects:** [which intent files or core files changed]
+**Commit:** [optional — a hash for precise anchoring, if convenient]
 
 [Narrative guidance — written for both human readers and the AI running /update.
 Not migration steps to execute, but context for judgment. What changed, why,

@@ -15,12 +15,17 @@ For older notes, check `update-notes-archive.md`.
 ```markdown
 ### YYYY-MM-DD — [Brief title]
 
-**Commit:** [hash — for sessions with multiple commits, use the final commit]
 **Affects:** [which intent files or core files changed]
+**Commit:** [optional — a hash for precise anchoring, if convenient]
 
 [Narrative guidance. What changed, why, and what it might mean for different
 kinds of projects.]
 ```
+
+The date and "Affects" field do the real work — `/update` matches notes to changes
+using those plus the actual git diff. The commit hash is a convenience anchor: include
+it when it's easy (e.g., writing the note after committing), omit it when it's not
+(e.g., the note is part of the same commit as the change).
 
 ---
 
