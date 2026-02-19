@@ -30,7 +30,7 @@ kinds of projects.]
 
 ### 2026-02-19 — Startup extensibility and scaffold reference cleanup
 
-**Commit:** 356af0b
+**Commit:** 0d6b1b2
 **Affects:** core/skills/startup.md, install/CLAUDE-intent.md, install/skills-intent.md
 
 The startup skill now supports app-specific initialization via `app/startup.md`. After
