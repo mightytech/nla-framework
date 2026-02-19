@@ -23,4 +23,18 @@ Trace through the system's documentation step by step for a hypothetical scenari
    - Any gaps, ambiguities, or conflicts found
    - Suggestions for doc improvements (if any)
 
+### Creative and Generative NLAs
+
+When output is non-deterministic by design, scenario walkthroughs focus on process
+rather than result:
+- Did the AI read and follow the relevant task doc?
+- Did it apply shared context (voice, patterns)?
+- Did it explain its reasoning and flag uncertainty?
+- Did it invite human feedback rather than presenting output as final?
+
+The question isn't "did it produce the right output?" but "did it follow the right
+process with appropriate judgment?"
+
+---
+
 This traces one plausible path through the docs. Actual behavior may vary at judgment points — non-determinism is by design.
