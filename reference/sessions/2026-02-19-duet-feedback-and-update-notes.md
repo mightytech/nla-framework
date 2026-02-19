@@ -93,3 +93,31 @@ a standalone skill, fold its unique content (structure gradient, learning loop d
 This is the first framework skill removal, requiring enriched `/update` guidance for domain
 projects. The config-spec "Plan first" option is reframed to reference planning mode generally
 rather than the removed skill. Full plan in `.claude/plans/expressive-herding-lemon.md`.
+
+Implemented in commits 497b1bf (fold + remove + update references) and 61f801c (update
+mechanism + notes + rationale).
+
+## Addendum: Post-Implementation Validation
+
+Ran `/validate` with both structural check and architecture review as a post-implementation
+verification and a test of the validate skill itself.
+
+**Structural check:** Clean. Confirmed /plan removal left no dangling references. All skill
+tables match, all thin wrapper targets resolve, all file references valid. Found 2 low-severity
+items (update-notes-archive.md forward reference, README tree incomplete).
+
+**Architecture review:** 18 findings (3 fix, 9 improve, 6 note). Recurring theme: documentation
+artifacts that mirror filesystem state drifting after changes (README tree, core/skills README
+table, structure-intent directory tree). Language breadth assessment confirmed clean — no
+remaining transformation-specific language in shape-neutral contexts.
+
+All 12 actionable findings fixed in commit 2504ace. Key changes: README directory tree now
+reflects all 10 skills and reference contents, validate dispatcher uses relative paths,
+core skills note they assume domain project context, skills-intent clarifies extension
+package management, CLAUDE.md flags penny-post as optional.
+
+## Final State
+
+The framework is current. All Duet feedback processed, meta-learnings captured, /plan removed,
+validation run, findings resolved. Open items for future sessions: voice/values splitting
+(friction log), update-notes-archive.md (create when needed).
