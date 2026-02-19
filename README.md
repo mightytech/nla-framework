@@ -110,9 +110,12 @@ nla-framework/
 ├── reference/                 # Framework maintenance records
 │   ├── design-rationale.md    # Why the framework is built this way
 │   ├── friction-log.md        # Internal observations and learnings
+│   ├── friction-log-archive.md # Resolved friction log entries
 │   ├── feedback-log.md        # Accepted external feedback
+│   ├── feedback-log-archive.md # Resolved feedback log entries
 │   ├── installed-packages.md  # Packages installed in this project
 │   ├── designs/               # Design documents for future work
+│   ├── feedback/              # Feedback intake drafts
 │   └── sessions/              # Maintenance session logs
 ├── config-spec.md             # What's configurable (developer-defined)
 ├── CONTRIBUTING.md            # Contribution guidelines

@@ -87,8 +87,6 @@ Always confirm your approach before making changes. For small changes, a sentenc
 
 This catches design questions disguised as small changes. A two-line edit can still involve a real decision about wording, policy, or approach. If there's any judgment involved, confirm first.
 
-For design work — new entries in design-rationale, new patterns, new file structures — do a critical re-read of the design before implementing. Pre-flight catches gaps that are cheaper to fix on paper than in prose. Post-implementation, run `/validate` architecture review for structural changes to catch downstream inconsistencies.
-
 For larger changes, think through the structure gradient: Where does the human need flexibility? Where does the LLM add structure? Where does traditional code handle things? And design the learning loop: How will we know this works? What should the friction log capture? How will corrections feed back into improvements?
 
 When proposing, show what you'd change and why:
@@ -102,6 +100,31 @@ Current: [what it says now]
 Proposed: [what it would say]
 Rationale: [why this change]
 ```
+
+For design work with multiple moving parts, run a pre-flight review before presenting your proposal — see below.
+
+#### Pre-flight review
+
+Before implementing design work — new patterns, new file structures, new entries in
+design-rationale, or any proposal with multiple moving parts — step back and review
+your own design. This is a distinct step from confirming with the user. Confirmation
+asks "does the human approve?" Pre-flight asks "is this actually ready to propose?"
+
+Check for:
+- **Gaps** — what doesn't the design address? What questions would someone ask?
+- **Unconsidered alternatives** — are there approaches you haven't evaluated?
+- **Unintended consequences** — what second-order effects could this create?
+- **Cost/benefit** — does this optimize for rare cases at common-case expense?
+- **Scope** — does this solve more than what was asked?
+- **Maintenance burden** — does this create things that need to stay in sync?
+
+Pre-flight catches problems that are cheaper to fix on paper than in prose. When it
+surfaces issues, revise the design before proposing it — don't present known gaps for
+the human to catch.
+
+Post-implementation, run `/validate` architecture review for structural changes to
+catch downstream inconsistencies. Pre-flight and post-validate are complementary:
+pre-flight catches design gaps early, post-validate catches integration gaps late.
 
 ### 3. One Change at a Time
 
@@ -144,6 +167,7 @@ Maintenance sessions generate intent history. Create a session log in `reference
 
 1. Finalize the session log (fill in State at Close, set status to Complete)
 2. If the session involved structural changes (file moves, renames, splits, new files), suggest running `/validate` architecture review to check that the document chain still tells a consistent story. Note blast radius when suggesting — structural changes to `core/` affect all domain projects.
+3. If you created, moved, or deleted files, check that README.md's directory tree and any other manually-maintained listings are current.
 
 ---
 
