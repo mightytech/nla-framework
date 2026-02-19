@@ -38,8 +38,8 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `validate-scenario.md` | `/validate` | Scenario walkthrough — trace docs for a hypothetical |
 | `validate-debug.md` | `/validate` | Debug — explain divergence between expected and actual |
 | `preferences.md` | `/preferences` | Create or edit user configuration |
-| `install.md` | `/install` | Install a new NLA package |
-| `update.md` | `/update` | Update installed packages |
+| `install.md` | `/install` | Install a new NLA package into a project |
+| `update.md` | `/update` | Update installed packages to latest versions |
 
 ### Multi-file skills
 

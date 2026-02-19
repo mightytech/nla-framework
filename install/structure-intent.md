@@ -25,6 +25,7 @@ my-nla/
 │   ├── friction-log-archive.md   # Resolved friction log entries
 │   ├── feedback-log.md           # Accepted external feedback, pending implementation
 │   ├── feedback-log-archive.md   # Resolved feedback log entries
+│   ├── installed-packages.md     # Record of installed NLA packages
 │   ├── system-status.md          # Current state of the NLA
 │   └── sessions/                 # Maintenance session logs
 ├── config.md                     # User preferences (gitignored)

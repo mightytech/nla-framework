@@ -108,9 +108,25 @@ nla-framework/
 │   ├── update-notes.md        # Changelog for domain projects (read by /update)
 │   └── README.md              # How intent files work
 ├── reference/                 # Framework maintenance records
+│   ├── design-rationale.md    # Why the framework is built this way
+│   ├── friction-log.md        # Internal observations and learnings
+│   ├── feedback-log.md        # Accepted external feedback
+│   ├── installed-packages.md  # Packages installed in this project
+│   ├── designs/               # Design documents for future work
+│   └── sessions/              # Maintenance session logs
+├── config-spec.md             # What's configurable (developer-defined)
+├── CONTRIBUTING.md            # Contribution guidelines
 └── .claude/skills/            # Framework-level skills
     ├── create-app/            # Conversational project creation
-    └── install-app/           # Browse and install example NLAs
+    ├── install-app/           # Browse and install example NLAs
+    ├── maintain/              # Framework maintenance mode
+    ├── validate/              # System validation (structural, architecture, scenarios, debug)
+    ├── friction-log/          # Log observations to the friction log
+    ├── preferences/           # Create or edit framework preferences
+    ├── install/               # Install NLA packages
+    ├── update/                # Update installed packages
+    ├── check-feedback/        # Discover and triage external feedback
+    └── write-letter/          # Draft and submit feedback to other projects
 ```
 
 `core/` contains universal NLA building blocks — they work with any domain content. `install/` contains intent files that describe what a well-formed NLA should have — the single source of truth that `/create-app` reads when generating projects.
@@ -153,6 +169,8 @@ That's it. The thin wrappers in your project point to framework files, so update
 | nla-foundations.md | Grounding principles in your CLAUDE.md |
 | All skill logic | Friction log format changes |
 | Framework README, docs | Intent file improvements (affect new projects only) |
+
+For intent-file-level changes (new skills, changed structure expectations), run `/update` in your project. It compares the framework's current intent files against what was installed and proposes changes. The framework's `install/update-notes.md` provides context about what changed and why.
 
 ---
 

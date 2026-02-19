@@ -18,6 +18,8 @@ Before making any changes, read these in order:
 
 Then read the specific files relevant to your task.
 
+*Note: These instructions assume a domain project context. When maintaining the framework itself, the framework's maintain wrapper provides adjusted reading targets and editing scope.*
+
 ---
 
 ## Session Start

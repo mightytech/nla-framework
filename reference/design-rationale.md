@@ -482,7 +482,7 @@ Both skills live in `core/skills/` — they affect all domain projects. The thin
 
 ### Why a dispatcher, not separate skills
 
-Copydesk proposed a standalone `/code-review` skill for architecture review. We implemented it as Mode 4 of `/validate` instead, because:
+Copydesk proposed a standalone `/code-review` skill for architecture review. We implemented it as a mode of `/validate` instead, because:
 
 1. **Conceptual unity.** All four modes answer "is my NLA working correctly?" — structural checks, architecture review, scenario walkthroughs, and debug are different lenses on the same question.
 2. **Shared setup.** All modes need the same required reading (CLAUDE.md, app/overview.md) and the same scope constraints (read-only, suggest fixes, don't edit).

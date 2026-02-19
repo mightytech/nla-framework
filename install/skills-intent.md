@@ -199,6 +199,15 @@ This is the "eject" pattern — the NLA takes ownership of the skill logic and
 no longer receives framework updates for that skill. This is a deliberate choice,
 not an accident.
 
+## Extension Package Skills
+
+Some skills (like `/check-feedback` and `/write-letter` from the penny post package) are
+managed by their own package's install manifest, not by this file. If those packages are
+installed, they'll appear in `CLAUDE.md`'s skills table alongside framework skills, but
+their wrappers are created by the package's own install process.
+
+---
+
 ## What NOT to Change
 
 When updating an existing NLA's skills:

@@ -9,9 +9,11 @@ You are validating this NLA system — checking that its pieces are consistent, 
 Before validating, read:
 
 1. **`CLAUDE.md`** — Skills table, key files, runtime identity
-2. **`app/overview.md`** — How pieces connect, skill tables, document hierarchy
+2. **`app/overview.md`** (or equivalent project map) — How pieces connect, skill tables, document hierarchy
 
 Do not read every app file upfront. Read specific files as validation requires them.
+
+*Note: These instructions assume a domain project context. When validating the framework itself, the framework's validate wrapper provides adjusted reading targets.*
 
 ---
 
@@ -39,10 +41,10 @@ After selecting a mode, read and follow the corresponding file:
 
 | Mode | File |
 |------|------|
-| Structural check | `../nla-framework/core/skills/validate-structural.md` |
-| Architecture review | `../nla-framework/core/skills/validate-architecture.md` |
-| Scenario walkthrough | `../nla-framework/core/skills/validate-scenario.md` |
-| Debug | `../nla-framework/core/skills/validate-debug.md` |
+| Structural check | `validate-structural.md` (same directory as this file) |
+| Architecture review | `validate-architecture.md` (same directory as this file) |
+| Scenario walkthrough | `validate-scenario.md` (same directory as this file) |
+| Debug | `validate-debug.md` (same directory as this file) |
 
 ---
 

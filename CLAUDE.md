@@ -82,7 +82,7 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `config.md` | User preferences for framework tool behavior |
 | `reference/` | Framework maintenance records |
 | `reference/feedback-log.md` | Accepted external feedback, pending implementation |
-| `../nla-penny-post/` | Penny post extension (feedback conventions and skills) |
+| `../nla-penny-post/` | Penny post extension — optional (feedback conventions and skills) |
 
 ---
 
