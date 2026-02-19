@@ -170,41 +170,7 @@ practice, or a standalone pattern. Watch for recurrence before deciding.
 **Type:** core
 **Severity:** major
 **Blast radius:** all projects
-**Status:** pending
-
-**Observation:**
-Duet's first major maintenance session (resolving all founding friction log entries) surfaced nine patterns that appear framework-general, not app-specific. The full analysis with suggested markdown additions is at `../nla-penny-post/boxes/framework/2026-02-14-duet-maintenance-learnings.md`.
-
-Summary of gaps (items 1–9), NLA config insight (item 10), and assumptions to broaden (item 11):
-1. No guidance on artifact persistence (multi-session work)
-2. No session bridge / context file pattern
-3. No lifecycle skill template (snapshot/shelve/finish/resume)
-4. Startup skill not extensible (had to fully replace it)
-5. No environment management pattern for external tools
-6. Output spec should be tool-specific, not generic
-7. No discussion of AI executing its own output (auto-play pattern)
-8. `/create-app` doesn't ask about persistence, tools, or lifecycle
-9. No structured NLA → framework feedback channel (the letter itself is the prototype)
-10. Natural language config is a fundamental NLA capability — enums are defaults, prose is the real interface. Users can modify any setting with "option X, but..." The LLM IS the extension system.
-11. Framework assumptions reveal transformation-NLA origin:
-    - Cardinal Rule framing is transformation-specific
-    - Startup skill leaks scaffold references (`/format-article`)
-    - Scaffold shapes expectations toward stateless transformation
-    - Validate skill assumes deterministic output
-
-**Affected files:**
-- `core/nla-foundations.md` — Stateless vs. persistent NLAs, tool execution, NLA config capabilities, broaden Cardinal Rule
-- `core/skills/startup.md` — Two-phase extensibility, remove scaffold-specific references
-- `core/skills/validate.md` — Add guidance for non-deterministic NLAs
-- `core/skills/maintain.md` — Processing feedback letters
-- `.claude/skills/create-app/SKILL.md` — Deeper scaffolding questions
-- `scaffold/` — Templates for context files, lifecycle skills, environment.md; notes acknowledging this is one shape of NLA
-
-**Proposed fix:**
-Process the feedback letter item by item via `/maintain`. Each learning can be accepted, adapted, or deferred independently. The letter includes specific suggested markdown for several items.
-
-**Notes:**
-This is the first "maintenance exit interview" — the pattern itself (item #9) is proposed as a framework feature. If adopted, `reference/feedback/` becomes the inbox for NLA → framework learnings.
+**Status:** resolved — 2026-02-19. All 11 items processed in session `reference/sessions/2026-02-19-duet-feedback-and-update-notes.md`. Items 1-7, 9-11 implemented across foundations, startup, validate, maintain, create-app, and intent files. Item 8 addressed with light-touch NLA shape prompt in create-app (may revisit if insufficient). Update notes system designed and implemented for propagating changes to domain projects.
 
 ---
 

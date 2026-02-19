@@ -60,6 +60,7 @@ Based on what's missing after Phase A, ask focused follow-up questions. Group re
 - Output format + task description (what the LLM produces shapes how it works)
 - Multiple tasks (if hinted at — "Do you need separate tasks for X and Y, or is that one task?")
 - Configuration (what should users be able to customize?)
+- NLA shape (if ambiguous — "Will this maintain state across sessions?" or "Does it need to call external tools or APIs?")
 
 **Configuration guidance:** Ask what behaviors the app developer wants users to be able to customize. Examples: "Should users be able to adjust the tone? Change output length? Modify specific task behaviors?" Some developers want tight control ("only output format"); others want maximum flexibility ("let them change anything — it's an LLM"). If the developer isn't sure, suggest starting with common settings (voice adjustments, output preferences) and note that `/maintain` can expand the config-spec later.
 
