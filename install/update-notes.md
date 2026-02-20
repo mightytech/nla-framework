@@ -33,6 +33,31 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-20 — New /export skill for plugin distribution
+
+**Affects:** install/skills-intent.md
+
+A new `/export` skill converts your NLA project into a self-contained plugin for Claude
+Code or Cowork. Think of it as compiling: the NLA project is your source code, the plugin
+is the artifact you ship. The plugin bundles all dependencies (framework skills are
+resolved and inlined, shared context is copied per skill, paths are rewritten) so it
+works without the framework directory.
+
+**What to do in your project:**
+- Create `.claude/skills/export/SKILL.md` — standard thin wrapper (the intent diff shows
+  the reference wrapper)
+- Add `/export` to your CLAUDE.md skills table
+
+The skill is additive — it doesn't change any existing behavior. You only need it when
+you're ready to distribute your NLA as a plugin.
+
+**What the export does:** Inventories your skills, classifies them (domain skills become
+auto-invocable, dev tools stay hidden, startup is absorbed into a foundation skill),
+resolves all framework references, bundles shared context, and generates a plugin
+directory at `../[project-name]-plugin/`.
+
+---
+
 ### 2026-02-19 — /plan skill removed, design thinking folded into /maintain
 
 **Affects:** install/skills-intent.md, core/skills/maintain.md

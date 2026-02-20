@@ -40,6 +40,7 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `preferences.md` | `/preferences` | Create or edit user configuration |
 | `install.md` | `/install` | Install a new NLA package into a project |
 | `update.md` | `/update` | Update installed packages to latest versions |
+| `export.md` | `/export` | Export NLA project as a plugin for Claude Code or Cowork |
 
 ### Multi-file skills
 
@@ -57,7 +58,7 @@ To eject a skill:
 3. Add YAML frontmatter at the top
 4. Customize as needed
 
-The ejected skill no longer receives framework updates for that skill. The project can always re-wrap later by replacing the full file with a thin wrapper.
+Because `/update` communicates intent rather than diffs, ejected skills can still receive framework improvements — the LLM proposes how new intent applies to the custom implementation. The project can also re-wrap later by replacing the full file with a thin wrapper.
 
 ---
 

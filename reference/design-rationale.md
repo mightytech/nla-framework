@@ -82,69 +82,235 @@ The framework's CLAUDE.md defaults to project creation (welcoming, directs to `/
 
 ---
 
-## Future Direction: Cowork as a Target Environment
+## Plugin Export: NLA as Source, Plugin as Artifact
 
-NLAs built on this framework currently require Claude Code. Cowork (Anthropic's desktop agent, launched January 2026) could dramatically expand the audience. Cowork has local file access and can read/write to a designated folder — the core NLA architecture (`app/`, `reference/`, friction log) works unchanged. The difference is skill discovery and project setup.
+*Added 2026-02-20. Supersedes the earlier "Cowork as a Target Environment" draft (which imagined routing tables and startup banners before the plugin system shipped).*
 
-### The key insight
+### The compile analogy
 
-The framework (Claude Code) is a *builder* tool. The generated project could be a *user* tool on either platform. `/create-app` always runs from Claude Code, but the project it generates could target Cowork or Claude Code. This separates building from using — the technical person builds the NLA, and non-technical people can use it in Cowork.
+The NLA project is source code. The plugin is the compiled artifact. You develop with
+the framework's full tooling — maintenance cycle, friction logs, validation, learning
+loops. You distribute as a self-contained plugin that anyone can install in Claude Code
+or Cowork. To improve the plugin, improve the NLA and re-export.
 
-This is the difference between "neat geeky idea" and "idea that resonates with many types of people." Content teams, editors, marketers — people who work with voice and tone daily — are natural NLA users. They don't use a terminal.
+This separates building from using. The technical person builds the NLA. Anyone can use
+the plugin — including non-technical users in Cowork who work with voice, tone, and
+content daily but don't use a terminal.
 
-### Skill mimicry in Cowork
+### Why plugins, not a Cowork-specific conversion
 
-Claude Code discovers skills by scanning `.claude/skills/`. Cowork doesn't have this. But skills are just named entry points with instructions. A routing table in the project's instruction file replaces Claude Code's skill scanner:
+The Cowork plugin system (shipped January 2026) uses the same format as Claude Code
+plugins: markdown skills with YAML frontmatter, supporting files in skill directories,
+a JSON manifest. One export produces a plugin that works in both environments. No need
+for platform-specific conversions, routing tables, or skill mimicry — the plugin system
+handles discovery natively.
 
-```markdown
-## Available Commands
+### Why a converter, not dual-target /create-app
 
-When the user asks for any of these, read the corresponding file and follow it:
+`/create-app` generates an NLA project — a development environment with friction logs,
+maintenance tools, validation, and a learning loop. A plugin is the distribution artifact
+that ships *from* that environment. Conflating them would mean either: (a) plugins carry
+dev tools they don't need, or (b) NLA projects lack dev tools to keep plugins clean.
+The converter keeps both optimized for their purpose.
 
-| User says | Read this |
-|-----------|-----------|
-| "startup" or "load context" | skills/startup.md |
-| "format this" or "format article" | skills/format-article.md |
-| "maintain" or "edit the system" | skills/maintain.md |
-```
+(Dev tools DO ship in the plugin — see below — but as a deliberate design choice, not
+an artifact of conflation.)
 
-This is actually more natural than `/command` syntax — the LLM fuzzy-matches intent instead of requiring exact invocation. "Fix up this article" matches format-article without the user knowing the skill name.
+### The structural mapping
 
-### Discoverability
+The mapping between NLA projects and plugins is nearly 1:1:
 
-Claude Code has `/` autocomplete. Cowork has nothing — the user needs to know what to ask for. Three layers of discoverability:
+| NLA Project | Plugin | Notes |
+|------------|--------|-------|
+| `.claude/skills/*/SKILL.md` | `skills/*/SKILL.md` | Same format, same frontmatter |
+| `app/shared/*` | Supporting files per skill | Bundled into each skill directory |
+| `app/[task].md` | Supporting file in skill dir | Bundled into the skill that uses it |
+| `CLAUDE.md` | `skills/foundation/SKILL.md` | Synthesized identity with `user-invocable: false` |
+| `lib/` | `lib/` | Copied as-is |
+| `reference/` | Not shipped | Development records, not runtime |
 
-1. **Startup banner.** On new conversation, the LLM lists what it can do: "I can help with: Format article, Friction log, Maintain. Just tell me what you'd like to do, or paste some content."
-2. **Help keyword.** "What can you do?" prints available commands with descriptions.
-3. **Context-aware hints.** After completing a task, suggest the natural next step: "If something felt off, you can say 'log that' to capture it." Teaches the workflow through use.
+The main transformation is dependency resolution: flattening the two-hop thin wrapper
+pattern (wrapper → framework file) into self-contained skills. Plugins cannot reference
+files outside their directory (`../` paths fail after installation), so every dependency
+must be bundled.
 
-All three live in the instruction files — no special infrastructure, just better prose. The startup banner and help keyword would also benefit Claude Code projects.
+### The foundation skill
 
-### Generation differences by target
+CLAUDE.md can't be auto-loaded in plugins. A `skills/foundation/SKILL.md` with
+`user-invocable: false` is auto-loaded as background knowledge — functionally equivalent
+to CLAUDE.md. It synthesizes:
 
-| Aspect | Claude Code target | Cowork target |
-|---|---|---|
-| Skills | `.claude/skills/` with YAML frontmatter | `skills/` plain markdown + routing table |
-| Framework link | Thin wrappers → `../nla-framework/` | Self-contained (full skill files inlined) |
-| Updates | `git pull` the framework | Re-run `/create-app` or manual |
-| Instructions | `CLAUDE.md` | Cowork instruction file (TBD — need to test exact mechanism) |
-| Discoverability | `/` autocomplete | Startup banner + help keyword + hints |
-| `app/`, `reference/` | Same | Same |
+- NLA identity and grounding principles (from CLAUDE.md)
+- Behavioral principles (Key Principles 1-6 from nla-foundations.md — NOT the explainer)
+- System overview (from app/overview.md)
+- Configuration spec (from app/config-spec.md)
+- Available skills table
 
-The Cowork version is self-contained because Cowork users aren't running `git pull`. Trade-off: no automatic framework updates, but zero-setup simplicity.
+This is a synthesis, not a concatenation. The foundation skill should read as one
+coherent identity document in the NLA's own voice.
 
-### Implementation path
+### Dev tools always ship
 
-1. Validate Claude Code `/create-app` first (current work)
-2. Manually test a simple Cowork project — learn the instruction model, verify file reading works as expected
-3. Build `/convert` (or `/deploy`) — a framework skill that takes an existing Claude Code NLA project and generates a Cowork-ready version: ejects thin wrappers into full skill files, adds routing table, adds discoverability (startup banner, help, hints), removes `.claude/skills/`. This is cleaner than complicating `/create-app` with dual-target generation — build for Claude Code first, convert when ready for Cowork.
-4. If `/create-app` eventually needs a Cowork target, it can call `/convert` internally rather than duplicating the logic
+Every dev tool (maintain, friction-log, validate) ships in the plugin with
+`disable-model-invocation: true`. This was a deliberate design choice driven by three
+arguments:
+
+1. **Paradigm evangelism.** The NLA framework demonstrates a new paradigm. Showing the
+   maintenance cycle, feedback loop, and validation system is part of the demonstration.
+   Like View Source in browsers — it turns users into developers.
+
+2. **Browser dev tools model.** Chrome ships developer tools to everyone. They're hidden
+   until opened. `disable-model-invocation: true` means dev skills aren't loaded into
+   context — zero runtime cost, present when needed.
+
+3. **Early-stage necessity.** NLAs are new. Things won't always work right. The ability
+   to debug and validate in the production environment is essential. Removing dev tools
+   is like only putting black boxes on test aircraft.
+
+The only skills excluded from plugins are `/install` and `/update` — framework package
+management tools that are meaningless without the framework. `/startup` is absorbed into
+the foundation skill (its purpose — loading context — happens automatically via
+`user-invocable: false`).
+
+### Domain skill frontmatter adjustment
+
+Domain skills lose `disable-model-invocation: true` in the plugin. In the NLA project,
+the flag prevents spontaneous invocation (CLAUDE.md's skills table provides awareness).
+In a plugin, non-technical users say "help me format this" — they don't know about
+`/pluginname:format-article`. Removing the flag lets Claude auto-match user intent to
+available skills.
+
+Dev and utility skills keep the flag. The foundation skill uses `user-invocable: false`
+(always loaded, never explicitly invoked).
+
+### The export is NLA-scoped
+
+The export reads the NLA project's `.claude/skills/` directory as the complete manifest.
+The framework's own skills are invisible — it's infrastructure. If penny post is installed
+in the NLA, its skills ship. If not, they don't. The export doesn't check for specific
+extensions or inspect installed-packages.md. It walks the skill directory and bundles
+what's there.
+
+### What gets lost
+
+- **Framework update propagation.** The plugin is a snapshot, frozen at export time.
+  `git pull` on the framework doesn't reach it. To get improvements, re-export.
+- **The two-hop pattern.** Thin wrappers are resolved and inlined. The indirection that
+  enables framework updates is flattened for self-containment.
+- **Reference documentation.** Design rationale, session archives, friction log archives
+  are development context, not shipped.
+
+### What gets gained
+
+- **Zero-setup distribution.** Install the plugin, start using it. No framework clone,
+  no sibling directory setup, no git.
+- **Non-technical user access.** Cowork users who would never use Claude Code can use
+  NLA capabilities through plugins.
+- **The learning loop persists.** Friction-log and maintain ship in the plugin, enabling
+  local observation and tweaking. If penny post is installed, write-letter enables
+  upstream feedback to the NLA developer.
+
+### LLM self-aware diagnostics
+
+A capability unique to the paradigm: when an NLA plugin user hits friction, the LLM can
+explain its own behavior — which instructions it read, what judgment it applied, and what
+documentation change might fix it. "I suggested 4/4 time because common-patterns.md
+step 3 says [exact quote]. The user appears experienced. Consider rewording to: [proposed
+change]." This is a diagnostic with a proposed documentation patch, not just a bug report.
+
+Risks: confabulation (the LLM might construct plausible but inaccurate explanations —
+mitigation: include exact quotes, not paraphrases), context window decay (early decisions
+may be compressed — mitigation: capture feedback close to the moment), and incomplete
+proposals (the LLM has limited context about all cases a doc serves — mitigation: the
+Cardinal Rule, the human decides).
+
+This capability lives in the friction-log and write-letter skills, not as a separate
+tool. It's a quality characteristic of NLA feedback, not a feature to build.
 
 ### Open questions
 
-- What is Cowork's exact mechanism for persistent project instructions? This determines where the routing table and grounding principles live.
-- Does Cowork support plugins/MCP that could provide skill-like discoverability?
-- How does Cowork handle the 1M context window across sessions — does it reload project files each time, or is there session continuity?
+- **Plugin size.** Bundling shared context per skill creates duplication. At what point
+  does this become a practical problem? Worth monitoring but not optimizing prematurely.
+- **Plugin versioning.** Should the plugin version track the NLA project's git tags?
+  The framework version? Both?
+- **Cowork folder instructions.** How do folder instructions interact with the
+  foundation skill? Both provide background context. Need to test.
+
+---
+
+## The Wrapper Spectrum
+
+*Added 2026-02-20. Emerged from the plugin export design discussion.*
+
+### Four states of a skill wrapper
+
+The thin wrapper pattern enables more than just delegation. A skill wrapper can exist in
+four states, each with different update characteristics:
+
+**1. Thin wrapper** — Full delegation to framework. Updates flow automatically via
+`git pull`. This is the default state after `/create-app` or `/install`.
+
+```yaml
+---
+name: startup
+---
+Read and follow `../nla-framework/core/skills/startup.md`.
+```
+
+**2. Annotated wrapper** — Delegates to framework but adds project-specific context.
+Framework updates flow for the delegated part; annotations persist.
+
+```yaml
+---
+name: startup
+---
+Read and follow `../nla-framework/core/skills/startup.md`.
+
+After standard startup, also check `app/deployment-checklist.md`.
+```
+
+**3. Ejected (customized) skill** — Full custom implementation. The wrapper is replaced
+with a complete skill file. The NLA takes ownership of the skill logic.
+
+**4. Redirected wrapper** — Points at a different implementation, typically provided by
+an extension package. Penny post does this: its installer replaces the write-letter
+wrapper with penny post's own version.
+
+### Ejection is not forking
+
+In traditional software, ejecting from a framework means forking — no more updates. In
+an NLA, `/update` communicates *intent*, not diffs. When the framework changes a skill's
+purpose, the LLM can propose how that intent applies to a customized implementation:
+
+"Your startup already loads voice context and checks for SuperCollider. The framework
+now recommends also loading extension context. Here's where that would fit in your
+custom implementation, and here's why."
+
+This is the judgment layer doing something deterministic systems cannot: understanding
+both sides of a customization boundary and proposing a merge that respects both.
+
+### Risks of intent-based updates to ejected skills
+
+- **Misunderstanding customization.** A subtle guardrail added for a reason the LLM
+  doesn't recognize might be weakened by a merge proposal.
+- **Misinterpreting intent.** The framework's new intent might be applied too broadly
+  or too narrowly in the custom context.
+- **Compounding drift.** Multiple intent-merges over time, each slightly different from
+  both the framework's original and the user's customization, create a skill nobody fully
+  understands.
+
+The Cardinal Rule applies: the human reviews and approves every merge. But the risks are
+worth documenting so that `/update` can flag them when proposing changes to ejected skills.
+
+### The override pattern
+
+Any framework skill can be overridden by redirecting the wrapper to a different
+implementation. This is the NLA equivalent of dependency injection — same interface
+(the user still says `/write-letter`), different implementation (penny post's GitHub
+delivery instead of the base local-file delivery), decided at install time.
+
+No new machinery is needed. The thin wrapper pattern already supports this. The wrapper
+just points somewhere else.
 
 ---
 
@@ -307,7 +473,7 @@ Each of these would require custom code in a traditional app. In an NLA, they're
 
 ### Open questions
 
-- **Config and Cowork.** The Cowork target (see above) changes the config picture. Cowork users aren't running git, so the "gitignored from app repo" model doesn't apply the same way. Config might live in Cowork's designated folder alongside the project. Need to test how Cowork handles user-specific files.
+- **Config and Cowork.** The plugin export model (see "Plugin Export" above) changes the config picture. Cowork users aren't running git, so the "gitignored from app repo" model doesn't apply the same way. Config might live in Cowork's designated folder alongside the project. Need to test how Cowork handles user-specific files.
 - **Config migration.** When the app developer updates `config-spec.md` (adds new configurable behaviors, changes defaults), existing user configs may need updating. Should `/preferences` detect spec changes and offer to migrate? Or is this a manual "re-run /preferences" step?
 - **Config sharing.** Can users export/import config? "Here's my config for the article formatter, try it." This would be natural (it's just Markdown files) but may have implications for the conflict detection step.
 

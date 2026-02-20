@@ -124,6 +124,24 @@ disable-model-invocation: true
 Read and follow `../nla-framework/core/skills/update.md`.
 ```
 
+### /export
+
+**Purpose:** Export this NLA project as a plugin for Claude Code or Cowork.
+**Wrapper location:** `.claude/skills/export/SKILL.md`
+**Delegates to:** `../nla-framework/core/skills/export.md`
+
+**Reference wrapper:**
+```yaml
+---
+name: export
+description: Export this NLA project as a plugin for Claude Code or Cowork. Converts the project into a self-contained plugin directory with all dependencies resolved.
+disable-model-invocation: true
+---
+Read and follow `../nla-framework/core/skills/export.md`.
+```
+
+---
+
 ## Wrapper Pattern
 
 Each wrapper follows the structure shown in the reference wrappers above: YAML frontmatter

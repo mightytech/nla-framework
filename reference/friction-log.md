@@ -65,6 +65,74 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-20 — Need a "thinking it through" mode for design exploration
+
+**Type:** process
+**Severity:** major
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+There's a gap between "exploring what and why" and "planning how to implement." Claude
+Code's plan mode is implementation-oriented — it wants to produce steps and exit with an
+actionable plan. `/maintain` is execution-oriented — it wants to edit files. The old
+`/plan` skill was removed because it overlapped with both. But the *thinking space* —
+collaborative exploration of what to build and why — doesn't have a dedicated home.
+
+During the plugin export design session, we needed to:
+- Walk through key decisions and their rationale
+- Challenge assumptions (e.g., "should dev tools ship in plugins?")
+- Explore paradigm-level questions (what does a feedback loop look like when distributed?)
+- Capture evolving understanding without committing to implementation
+
+Plan mode kept pushing toward decisions (AskUserQuestion with multiple choice options)
+and action (ExitPlanMode). The actual design thinking happened by working around the
+mode, not within it.
+
+This isn't just a framework gap — it's a gap in how NLAs are designed. The "what and
+why" phase is where the most important decisions happen. It deserves its own support,
+separate from implementation planning.
+
+**Notes:**
+Related to the /plan removal (2026-02-19). /plan was removed because it overlapped with
+maintain + plan mode. But what it offered — and what's now missing — is a space for
+design thinking that isn't rushing toward implementation. The fix might not be a new
+skill. It might be guidance in maintain or foundations about how to hold a design
+conversation. Or it might be something else entirely. Needs its own thinking session.
+
+---
+
+### 2026-02-20 — Need a way to export NLAs for use in Claude Cowork
+
+**Type:** core
+**Severity:** major
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-02-20 — Created `/export` skill (`core/skills/export.md`) that converts
+NLA projects into self-contained plugins for Claude Code and Cowork. Added to
+`install/skills-intent.md`, `CLAUDE.md`, and `README.md`. Updated design rationale with
+plugin export section and wrapper spectrum patterns. See session log
+`reference/sessions/2026-02-20-plugin-export-design.md` for full design discussion.
+
+**Observation:**
+There's no path for taking an NLA built with this framework and exporting it for use
+in Claude Cowork. The design rationale has a "Cowork as a Target Environment" section
+with conceptual thinking (skill mimicry via routing tables, discoverability via startup
+banners, self-contained generation), but nothing is implemented. Users who build NLAs
+today are locked to Claude Code as the runtime.
+
+**Notes:**
+Design rationale already covers: routing tables replacing skill discovery, three layers
+of discoverability (startup banner, help keyword, context-aware hints), generation
+differences by target, and a proposed `/convert` implementation path. Open questions
+remain about Cowork's exact instruction mechanism and session continuity model.
+
+This is the gap between "neat geeky idea" and "idea that resonates with many types of
+people" — Cowork reaches non-technical users who work with voice, tone, and content
+daily but don't use a terminal.
+
+---
+
 ### 2026-02-19 — Voice and values may need splitting; values as transparent ethics
 
 **Type:** core

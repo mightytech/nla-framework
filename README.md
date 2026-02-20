@@ -129,7 +129,8 @@ nla-framework/
     ├── install/               # Install NLA packages
     ├── update/                # Update installed packages
     ├── check-feedback/        # Discover and triage external feedback
-    └── write-letter/          # Draft and submit feedback to other projects
+    ├── write-letter/          # Draft and submit feedback to other projects
+    └── export/                # Export NLA projects as plugins
 ```
 
 `core/` contains universal NLA building blocks — they work with any domain content. `install/` contains intent files that describe what a well-formed NLA should have — the single source of truth that `/create-app` reads when generating projects.
@@ -186,7 +187,25 @@ If you need to customize a framework skill, replace the thin wrapper with a full
 3. Add YAML frontmatter at the top
 4. Customize as needed
 
-The ejected skill won't receive framework updates, but you have full control. You can always re-wrap it later.
+Unlike traditional frameworks, ejecting doesn't mean forking. Because `/update` communicates intent — not diffs — the LLM can still propose how framework improvements apply to your customized implementation. You get full control AND intent-level updates. See "The Wrapper Spectrum" in [design-rationale.md](reference/design-rationale.md) for the full picture.
+
+---
+
+## Distributing as a Plugin
+
+Once your NLA is working, you can export it as a plugin for Claude Code or Cowork:
+
+```bash
+cd ../my-project
+claude
+
+# Then:
+/export
+```
+
+`/export` converts the NLA project into a self-contained plugin directory. It resolves all framework dependencies (flattening thin wrappers into full skills), bundles shared context, and generates a foundation skill that replaces CLAUDE.md. The result is a plugin anyone can install — no framework clone, no sibling directory, no git.
+
+Think of it as compiling: the NLA project is your source code, the plugin is the artifact you ship. To improve the plugin, improve the NLA and re-export.
 
 ---
 
@@ -208,7 +227,7 @@ These are explained in depth in [core/nla-foundations.md](core/nla-foundations.m
 
 - **The Cardinal Rule** — The human decides. Humans bear consequences, so humans hold authority.
 - **Judgment Over Rules** — Explain *why*, not just *what*. Purpose enables edge-case handling.
-- **The Structure Gradient** — Humans provide flexibility, the LLM adds structure, traditional code handles determinism.
+- **The Hybrid Model** — Humans provide flexibility, the LLM adds structure, traditional code handles determinism.
 - **Iterate Through Documentation** — The system improves by improving documentation, formalized through the friction log and maintenance cycle.
 
 ---
