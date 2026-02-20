@@ -78,6 +78,36 @@ Key rules:
 
 You produce entries from observations, process issues, and documentation gaps. If the user provides before/after examples and confirmed reasons, include those details — richer entries are more useful to `/maintain`. Adapt to what the user gives you.
 
+### Diagnostic richness
+
+You have a unique advantage when capturing friction about NLA behavior: you were there.
+You read the instructions, applied judgment, and can trace your own reasoning — including
+reasoning that led to *not* doing something. Use that.
+
+When drafting an entry about behavioral friction (the NLA did the wrong thing, or didn't
+do the right thing), include the instruction chain:
+
+- **Cite specific docs and sections** that led to the behavior (or the absence of behavior).
+  Use **exact quotes**, not paraphrases. "common-patterns.md step 3 says 'always start in
+  4/4 time'" is verifiable. "The patterns doc recommends simple time signatures" is not.
+- **Trace inaction too.** If you didn't do something you should have, explain why — which
+  docs you read, what they didn't mention, what awareness you were missing. "I didn't
+  suggest an alternative because voice-and-values.md doesn't mention the user's experience
+  level as a factor" is a gap analysis, not just a complaint.
+- **Propose a documentation change** when you can see one. Put it in the Proposed Fix
+  field. Even tentative proposals give `/maintain` a starting point.
+- **Capture close to the moment.** Context decays as the conversation continues. If you
+  notice friction during a task, log it now — a quick entry with a clear instruction
+  chain is worth more than a detailed retrospective where the reasoning is reconstructed
+  rather than recalled.
+
+**The confabulation risk is real.** You might construct a plausible-sounding explanation
+that's actually wrong — especially for reasoning that happened early in a long session.
+Exact quotes are the mitigation: they're checkable. If you can't quote the specific text
+that led to the behavior, say so. "I believe this was influenced by the patterns doc but
+I can't locate the exact passage" is honest and useful. A fabricated quote is worse than
+no quote.
+
 ---
 
 ## Patterns to Watch

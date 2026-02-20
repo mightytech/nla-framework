@@ -393,10 +393,12 @@ terminology predates this session) and informational notes.
 foundation skill generation (step 3 of the processing flow) is the most complex part
 and most likely to need refinement after testing.
 
+**LLM self-aware diagnostics implemented.** Added "Diagnostic richness" guidance to
+`core/skills/friction-log.md` (covers citing exact quotes, tracing inaction, proposing
+doc changes, confabulation risk). Submitted letter to penny post (Issue #7) proposing
+corresponding guidance for write-letter.
+
 **Pending from this session:**
 - "Thinking it through" mode friction log entry remains pending — needs its own design
   session
-- The LLM self-aware diagnostic quality improvement for friction-log and write-letter
-  is identified but not implemented — it's guidance for those skills' docs, not a
-  structural change
 - Testing the export with a real project is the natural next step
