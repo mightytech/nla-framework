@@ -79,6 +79,7 @@ last-known commit is old enough that relevant notes may have been archived, chec
 **For removed intents:**
 - Don't undo previous work. Inform the user: "The package no longer includes [intent file]. The changes it previously made are still in your NLA. Remove them manually if you want."
 - Check update notes for context about why the intent was removed and what replaces it. Surface this to the user alongside the removal notification — it helps them decide whether and how to clean up.
+- **Search for stale references.** Grep the project for mentions of the removed item — skill names, file paths, descriptions. Check beyond the known integration points: overview.md, system-status.md, README.md, and any other files that reference project structure or capabilities. Include stale references in your proposal so they can be cleaned up in the same pass.
 
 **Respect ejected wrappers.** If a skill wrapper has been customized (ejected), don't overwrite it. Inform the user of upstream changes and let them decide how to integrate.
 
@@ -100,13 +101,21 @@ Append an update record to the package's section. Don't replace the original ins
 **Notes:** [decisions, skipped items, issues]
 ```
 
-### 6. Summary
+### 6. Summary and Verification
 
 Report what was updated:
 - Which packages had changes
 - What capabilities were added or modified
 - Any manual steps remaining
-- Suggest running `/validate` to check consistency
+
+**Check downstream targets.** After applying changes, review these files for consistency:
+- **README.md** — hand-maintained directory trees and skill listings drift after structural changes
+- **CLAUDE.md** — skill tables and file references
+- **`app/overview.md`** — system descriptions and file hierarchies
+
+Propose fixes for any inconsistencies found.
+
+**Run `/validate`** structural check to verify consistency. Updates often have downstream effects that intent-diff analysis doesn't catch — validation is the safety net.
 
 ---
 

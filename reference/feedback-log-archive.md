@@ -12,6 +12,65 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-21 — Add reference-search step to /update for removals and renames
+
+**Source:** [Issue #5](https://github.com/mightytech/nla-framework/issues/5), Item 1
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-02-21 — Added "Search for stale references" substep to step 4 "For removed intents" in `core/skills/update.md`. Instructs the AI to grep the project for mentions of removed items beyond known integration points.
+
+**What to do:**
+Add a substep to `/update` step 4 for removals and renames: after identifying removed
+or renamed items, grep the project for remaining references and clean them up. Currently
+the update skill focuses on known integration points (CLAUDE.md, skills, structure) but
+removals have tendrils throughout the project (overview.md, system-status.md, README.md).
+
+**Why it was accepted:**
+First real `/update` run (penny post) demonstrated the gap — `/plan` removal left stale
+references in three files beyond the integration points the skill knows about. A
+systematic search is low-cost and catches what intent-driven updates miss.
+
+---
+
+### 2026-02-21 — Add README.md as explicit downstream check in /update
+
+**Source:** [Issue #5](https://github.com/mightytech/nla-framework/issues/5), Item 2
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-02-21 — Added "Check downstream targets" section to step 6 in `core/skills/update.md` listing README.md, CLAUDE.md, and app/overview.md as explicit post-update consistency checks.
+
+**What to do:**
+Add README.md to the downstream effects check in the update skill, at minimum after
+structural changes to skills or reference files. README contains a hand-maintained
+directory tree that mirrors project structure — any structural change causes drift.
+
+**Why it was accepted:**
+README drift was caught by post-update validation, not by the update itself. README
+is a predictable downstream target (like CLAUDE.md and overview.md) that should be
+checked systematically rather than relying on validation as a safety net.
+
+---
+
+### 2026-02-21 — Strengthen validate-after-update from suggestion to recommendation
+
+**Source:** [Issue #5](https://github.com/mightytech/nla-framework/issues/5), Item 3
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-02-21 — Renamed step 6 to "Summary and Verification", changed validate from a suggestion bullet to a bolded recommendation with rationale: "Updates often have downstream effects that intent-diff analysis doesn't catch — validation is the safety net."
+
+**What to do:**
+Strengthen step 6 of the update skill from "suggest running `/validate`" to recommend
+it as a standard final step. Something like: "Run `/validate` structural check to verify
+consistency. Updates often have downstream effects that the intent-diff approach doesn't
+catch."
+
+**Why it was accepted:**
+Post-update validation caught 4 issues the update itself missed (stale README tree,
+missing entries in system-status.md, unarchived log entries, missing file in overview.md
+hierarchy). The evidence is strong that validation after update is essential, not optional.
+
+---
+
 ### 2026-02-18 — Architecture review mode for /validate (adapted from /code-review proposal)
 
 **Source:** [Issue #4](https://github.com/mightytech/nla-framework/issues/4)
