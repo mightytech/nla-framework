@@ -140,6 +140,22 @@ disable-model-invocation: true
 Read and follow `../nla-framework/core/skills/export.md`.
 ```
 
+### /think
+
+**Purpose:** Collaborative design exploration — think through what to build and why before planning how.
+**Wrapper location:** `.claude/skills/think/SKILL.md`
+**Delegates to:** `../nla-framework/core/skills/think.md`
+
+**Reference wrapper:**
+```yaml
+---
+name: think
+description: Collaborative design exploration — think through what to build and why before planning how. Use when work involves design judgment, unfamiliar territory, or multiple valid approaches.
+disable-model-invocation: true
+---
+Read and follow `../nla-framework/core/skills/think.md`.
+```
+
 ---
 
 ## Wrapper Pattern

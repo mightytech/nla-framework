@@ -1004,6 +1004,97 @@ eliminating a redundant entry point.
 
 ---
 
+## Collaborative Design Exploration (/think)
+
+*Added 2026-02-21. Origin: friction log entry "Need a 'thinking it through' mode for
+design exploration" (2026-02-20), observed during the plugin export design session.*
+
+### What was decided
+
+Create a lightweight skill (`/think`) that establishes space for collaborative design
+exploration — the what/why phase before planning (how) and implementation. The skill
+is deliberately short (~90 lines) because the AI is already good at collaborative
+thinking when it knows that's its job. The value is in signaling, posture, and
+transition — not procedure.
+
+### Why a skill, not general guidance
+
+General context in CLAUDE.md or foundations competes with everything else the AI
+attends to. A skill — even non-invokable — creates a discrete moment: the AI
+recognizes "this needs exploration" and suggests it, or the human invokes it directly.
+When loaded, the skill's posture guidance actively shapes the conversation.
+
+Evidence from penny post: the AI knows write-letter exists and suggests it at the
+right moment. But the quality of the letter comes from loading the skill file. Without
+it, the AI writes a letter, but a worse one. The same applies to thinking — without
+the skill, the AI can explore collaboratively but drifts toward action because nothing
+is actively saying "stay in this space."
+
+### Why lightweight
+
+The plugin export design session (2026-02-20) demonstrated that the best design
+thinking happened through open-ended conversation, not structured decision-making.
+The AI's corrections came from the human pushing back on framing. A heavy, procedural
+skill would formalize what works precisely because it's informal.
+
+The skill provides: posture nudges (bring expertise, be transparent, resist premature
+convergence), a named practice for keeping conversations open ("Thoughts? Concerns?
+Ideas? Questions?"), and a transition checkpoint for moving to planning. That's it.
+
+### The four-phase flow
+
+The skill completes a four-phase workflow that emerged from practice:
+
+1. **Think** (`/think`) — explore what to build and why
+2. **Plan** (Claude Code plan mode) — design how to implement
+3. **Implement** (`/maintain` or direct editing) — make the changes
+4. **Debrief** (future skill) — reflect on the process
+
+Not every task needs all four phases. Mechanical fixes skip to implementation. Clear
+requirements skip to planning. The phases exist so the AI knows when to suggest each
+one and the human knows what's available.
+
+### Relationship to /plan (removed 2026-02-19)
+
+`/plan` was removed because it overlapped with both `/maintain` and Claude Code plan
+mode. Its unique content (structure gradient, learning loop design) was folded into
+`/maintain`'s Principle 2. `/think` fills a different gap — not the overlap `/plan`
+occupied, but the space before it. `/plan` tried to be both design thinking and
+implementation planning. `/think` is purely the former; Claude Code plan mode is
+purely the latter.
+
+### The self-referential design session
+
+The `/think` skill was designed using the process it describes. The session began with
+open-ended exploration ("what's the gap?"), evolved through reframings ("the posture
+is more important than the process," "less code, better results"), and transitioned
+naturally to planning when shared understanding was sufficient. The conversation itself
+became evidence for what the skill should enable.
+
+### Alternatives considered
+
+1. **Guidance in maintain.md only** — just expand Principle 2. Rejected because general
+   context doesn't get prioritized when it matters most. The AI needs an active signal
+   to enter thinking posture.
+
+2. **Guidance in nla-foundations.md** — add a section on design thinking. Rejected
+   because foundations is conceptual (what NLAs are), not procedural (how to work with
+   them). Design thinking is a practice, not a concept.
+
+3. **A heavy, procedural skill** — required reading, structured phases, artifact
+   production. Rejected because the evidence (plugin export session, this session) shows
+   that the best thinking happens through informal conversation. Formalizing it would
+   kill it.
+
+### Blast radius
+
+- `core/skills/think.md`: all domain projects (new skill available via thin wrapper)
+- `core/skills/maintain.md`: all domain projects (brief reference to thinking phase
+  added to Principle 2)
+- `install/skills-intent.md`: project generation (new projects get /think wrapper)
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

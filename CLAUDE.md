@@ -62,6 +62,7 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/write-letter` | Draft and submit feedback to another project | At the end of maintenance sessions when learnings are fresh |
 | `/install` | Install a new NLA package into a project | When adding extensions or capabilities to an NLA |
 | `/update` | Update installed packages to latest versions | When checking for or applying package updates |
+| `/think` | Collaborative design exploration — what to build and why | When work involves design judgment before planning |
 | `/export` | Export an NLA project as a plugin | When preparing a project for distribution |
 
 ### If the user asks about the framework:

@@ -12,6 +12,47 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-20 — Need a "thinking it through" mode for design exploration
+
+**Type:** process
+**Severity:** major
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-02-21 — Created `/think` skill (`core/skills/think.md`) as a lightweight
+collaborative design exploration mode. Added to install/skills-intent.md, CLAUDE.md, README.md.
+Updated maintain.md Principle 2 with thinking phase reference. See session log
+`reference/sessions/2026-02-21-think-skill.md` and design rationale entry.
+
+**Observation:**
+There's a gap between "exploring what and why" and "planning how to implement." Claude
+Code's plan mode is implementation-oriented — it wants to produce steps and exit with an
+actionable plan. `/maintain` is execution-oriented — it wants to edit files. The old
+`/plan` skill was removed because it overlapped with both. But the *thinking space* —
+collaborative exploration of what to build and why — doesn't have a dedicated home.
+
+During the plugin export design session, we needed to:
+- Walk through key decisions and their rationale
+- Challenge assumptions (e.g., "should dev tools ship in plugins?")
+- Explore paradigm-level questions (what does a feedback loop look like when distributed?)
+- Capture evolving understanding without committing to implementation
+
+Plan mode kept pushing toward decisions (AskUserQuestion with multiple choice options)
+and action (ExitPlanMode). The actual design thinking happened by working around the
+mode, not within it.
+
+This isn't just a framework gap — it's a gap in how NLAs are designed. The "what and
+why" phase is where the most important decisions happen. It deserves its own support,
+separate from implementation planning.
+
+**Notes:**
+Related to the /plan removal (2026-02-19). /plan was removed because it overlapped with
+maintain + plan mode. But what it offered — and what's now missing — is a space for
+design thinking that isn't rushing toward implementation. The fix might not be a new
+skill. It might be guidance in maintain or foundations about how to hold a design
+conversation. Or it might be something else entirely. Needs its own thinking session.
+
+---
+
 ### 2026-02-19 — README directory tree falls out of sync on every file change
 
 **Type:** process

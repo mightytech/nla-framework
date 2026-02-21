@@ -40,6 +40,7 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `preferences.md` | `/preferences` | Create or edit user configuration |
 | `install.md` | `/install` | Install a new NLA package into a project |
 | `update.md` | `/update` | Update installed packages to latest versions |
+| `think.md` | `/think` | Collaborative design exploration — what/why before how |
 | `export.md` | `/export` | Export NLA project as a plugin for Claude Code or Cowork |
 
 ### Multi-file skills

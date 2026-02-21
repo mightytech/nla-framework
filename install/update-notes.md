@@ -33,6 +33,31 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-21 — New /think skill for collaborative design exploration
+
+**Affects:** install/skills-intent.md, core/skills/maintain.md
+
+A new `/think` skill creates space for collaborative design exploration — thinking
+through *what* to build and *why* before planning mode handles the *how*. It's a
+lightweight skill focused on conversational posture rather than procedure: the AI
+is already good at collaborative thinking when it knows that's its job.
+
+**What to do in your project:**
+- Create `.claude/skills/think/SKILL.md` — standard thin wrapper (the intent diff
+  shows the reference wrapper)
+- Add `/think` to your CLAUDE.md skills table
+
+The skill is additive — no existing behavior changes. It fits into a four-phase flow:
+think (what/why) → plan (how) → implement → debrief. Not every task needs thinking
+mode — mechanical fixes and well-specified features can skip straight to planning.
+It's most valuable when the work involves design judgment, unfamiliar territory, or
+multiple valid approaches.
+
+`/maintain`'s Principle 2 now references `/think` as the phase before planning mode.
+This propagates automatically via the thin wrapper.
+
+---
+
 ### 2026-02-20 — New /export skill for plugin distribution
 
 **Affects:** install/skills-intent.md

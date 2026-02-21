@@ -85,6 +85,8 @@ When the fix is behavioral — the NLA does the wrong thing, not the structurall
 
 Always confirm your approach before making changes. For small changes, a sentence is enough: "I'm thinking [X] — anything to change before I do it?" For larger changes, enter planning mode. The only exception is purely mechanical fixes where confirming would feel absurd — a typo, a broken path, a dead reference.
 
+For work that involves design judgment — new patterns, new concepts, unfamiliar territory — consider thinking it through first (`/think`). That's the collaborative exploration of *what* to build and *why*, before planning mode handles the *how*. Not every change needs it, but the changes where the most important decisions happen usually do.
+
 This catches design questions disguised as small changes. A two-line edit can still involve a real decision about wording, policy, or approach. If there's any judgment involved, confirm first.
 
 For larger changes, think through the structure gradient: Where does the human need flexibility? Where does the LLM add structure? Where does traditional code handle things? And design the learning loop: How will we know this works? What should the friction log capture? How will corrections feed back into improvements?

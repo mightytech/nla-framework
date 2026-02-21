@@ -130,7 +130,8 @@ nla-framework/
     ├── update/                # Update installed packages
     ├── check-feedback/        # Discover and triage external feedback
     ├── write-letter/          # Draft and submit feedback to other projects
-    └── export/                # Export NLA projects as plugins
+    ├── export/                # Export NLA projects as plugins
+    └── think/                 # Collaborative design exploration
 ```
 
 `core/` contains universal NLA building blocks — they work with any domain content. `install/` contains intent files that describe what a well-formed NLA should have — the single source of truth that `/create-app` reads when generating projects.
