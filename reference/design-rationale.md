@@ -1359,6 +1359,64 @@ break avoids dual-file ambiguity.
 
 ---
 
+## Moving Process Helpers to a Package (/unpack)
+
+*Added 2026-02-22. Origin: voice/values debrief observation that /unpack represents
+a different category of skill, followed by a /think session exploring core vs. package.*
+
+### What was decided
+
+Move `/unpack` from `core/skills/` to a standalone NLA package (`nla-process-helpers`).
+Phase skills (/think, /debrief) remain in core. The process helpers package is the
+second NLA extension after penny post.
+
+### Why
+
+The /think session identified a key distinction:
+
+**Phase skills define *when* in the work lifecycle.** /think (before planning), /debrief
+(after work) — these are universal. Every NLA does work. Every NLA has a lifecycle.
+
+**Process helpers define *how* within conversations.** /unpack (sequential
+thread-by-thread) is one approach to managing complex conversations. Others are
+equally valid: document-for-inline-annotation, everything-at-once-and-steer,
+structured Q&A. How you manage conversations is a preference, not infrastructure.
+
+The reframing that clinched it: "unpack is useful across sessions — but it's also the
+way *I* like to work. I can imagine other people preferring different ways." When a
+skill reflects a personal working style, it belongs in an installable package where
+users opt in.
+
+An analogy: phase skills are "what meeting are we in?" (standup, retrospective). Process
+helpers are "what facilitation technique are we using?" (round-robin, parking lot, dot
+voting). You always need meetings. You choose your facilitation style.
+
+### The update path
+
+Domain projects with `/unpack` wrappers pointing to `../nla-framework/core/skills/unpack.md`
+need to either:
+1. Install the process helpers package and redirect the wrapper to
+   `../nla-process-helpers/app/unpack.md`
+2. Remove the wrapper if they don't use /unpack
+
+This is the redirected wrapper pattern (state 4 in the wrapper spectrum) — the same
+mechanism penny post uses with `/write-letter`.
+
+### Selective installation (future direction)
+
+When the package has multiple techniques, users should be able to choose which ones to
+install. This would be a general `/install` enhancement, not specific to process helpers.
+Not implemented yet — with one technique, there's nothing to select.
+
+### Blast radius
+
+- `core/skills/unpack.md`: deleted (was: all domain projects)
+- `install/skills-intent.md`: /unpack section removed (affects project generation)
+- `CLAUDE.md`: /unpack removed from skills table, process-helpers added to key files
+- Domain projects with /unpack wrappers: need redirect or removal via `/update`
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

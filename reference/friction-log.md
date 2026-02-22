@@ -65,57 +65,6 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
-### 2026-02-22 — Framework install/update wrappers use wrong path prefix
-
-**Type:** core
-**Severity:** minor
-**Blast radius:** framework maintainers
-**Status:** resolved
-**Resolved:** 2026-02-22 — Changed `../nla-framework/core/skills/` → `core/skills/` in both wrappers
-
-**Observation:**
-The framework's own `.claude/skills/install/SKILL.md` and `.claude/skills/update/SKILL.md`
-use `../nla-framework/core/skills/` paths — the domain-project convention. Since the
-framework's working directory IS `nla-framework/`, these should use project-relative
-paths (`core/skills/install.md`, `core/skills/update.md`), matching the pattern used
-by the debrief, export, think, and unpack wrappers.
-
-`core/skills/README.md` explicitly states: "The framework's own skills in `.claude/skills/`
-use project-relative paths instead." These two wrappers violate that convention.
-
-**Affected files:**
-- `.claude/skills/install/SKILL.md`
-- `.claude/skills/update/SKILL.md`
-
-**Proposed fix:**
-Change `../nla-framework/core/skills/install.md` → `core/skills/install.md` and same
-for update. Mechanical fix.
-
----
-
-### 2026-02-22 — "Adding a New Skill" checklist missing framework wrapper step
-
-**Type:** documentation
-**Severity:** minor
-**Blast radius:** framework maintainers
-**Status:** resolved
-**Resolved:** 2026-02-22 — Added step 2: create `.claude/skills/[name]/SKILL.md` wrapper with project-relative paths
-
-**Observation:**
-The "Adding a New Skill" checklist in `core/skills/README.md` has 6 steps but doesn't
-include creating a `.claude/skills/[name]/SKILL.md` wrapper in the framework itself.
-When adding a new framework skill (as was done for think, debrief, unpack, export),
-this step is essential — without the wrapper, the skill isn't discoverable by Claude Code.
-
-**Affected files:**
-- `core/skills/README.md`
-
-**Proposed fix:**
-Add a step: "Create `.claude/skills/[name]/SKILL.md` with framework-adapted wrapper
-(project-relative paths, framework-specific context notes if needed)."
-
----
-
 ### 2026-02-22 — Context window awareness for session log nudges
 
 **Type:** process

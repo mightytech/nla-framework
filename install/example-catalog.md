@@ -10,6 +10,7 @@ on the framework.
 | Email Rewriter | Rewrites rough emails in user-chosen tones | https://github.com/mightytech/email-rewriter | Starter |
 | Penny Post | Feedback conventions and skills package for NLA projects | https://github.com/mightytech/nla-penny-post | Advanced |
 | Duet | Collaborative music composition with SuperCollider | https://github.com/mightytech/duet | Advanced |
+| Process Helpers | Facilitation technique package for NLA projects | https://github.com/mightytech/nla-process-helpers | Starter |
 
 ---
 

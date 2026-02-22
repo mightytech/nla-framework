@@ -43,7 +43,6 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `think.md` | `/think` | Collaborative design exploration — what/why before how |
 | `export.md` | `/export` | Export NLA project as a plugin for Claude Code or Cowork |
 | `debrief.md` | `/debrief` | Reflect on completed work — surface observations and learnings |
-| `unpack.md` | `/unpack` | Structure complex conversations — lay out threads sequentially |
 
 ### Multi-file skills
 

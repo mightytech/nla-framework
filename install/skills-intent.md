@@ -172,22 +172,6 @@ disable-model-invocation: true
 Read and follow `../nla-framework/core/skills/debrief.md`.
 ```
 
-### /unpack
-
-**Purpose:** Structure complex conversations — identify bundled threads and work through them sequentially.
-**Wrapper location:** `.claude/skills/unpack/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/unpack.md`
-
-**Reference wrapper:**
-```yaml
----
-name: unpack
-description: Structure complex conversations — identify bundled threads and work through them sequentially. Use when a discussion has more threads than it can hold at once.
-disable-model-invocation: true
----
-Read and follow `../nla-framework/core/skills/unpack.md`.
-```
-
 ---
 
 ## Wrapper Pattern

@@ -33,6 +33,29 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-22 — /unpack moved to process helpers package
+
+**Affects:** install/skills-intent.md, CLAUDE.md
+
+The `/unpack` skill has moved from the framework's core to the new process helpers
+package (`../nla-process-helpers/`). Process helpers are facilitation techniques that
+shape how conversations happen — that's a preference, not infrastructure. Phase skills
+(/think, /debrief) remain in core because they define work lifecycle stages.
+
+**What to do in your project:**
+- If you have `.claude/skills/unpack/SKILL.md` pointing to
+  `../nla-framework/core/skills/unpack.md`, you have two options:
+  1. **Install the process helpers package:** Clone `nla-process-helpers` as a sibling,
+     then update the wrapper to point to `../nla-process-helpers/app/unpack.md`
+  2. **Remove /unpack:** Delete `.claude/skills/unpack/` and remove it from your
+     CLAUDE.md skills table
+- If you don't use /unpack, no action needed.
+
+The process helpers package follows the same extension pattern as penny post — thin
+wrappers in your NLA pointing to skill logic in a sibling repo.
+
+---
+
 ### 2026-02-22 — voice-and-values.md split into values.md and voice.md
 
 **Affects:** core/nla-foundations.md, core/skills/startup.md, core/skills/maintain.md,

@@ -122,7 +122,6 @@ These files have the same structure in every NLA. Read reference implementations
 | `.claude/skills/export/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/think/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/debrief/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
-| `.claude/skills/unpack/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `reference/friction-log-archive.md` | Structure in `install/structure-intent.md` |
 | `reference/feedback-log-archive.md` | Structure in `install/structure-intent.md` |
 | `lib/.gitkeep` | Empty file |
