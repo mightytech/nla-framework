@@ -27,8 +27,9 @@ Then read the specific files relevant to your task.
 After completing the required reading, surface what's waiting before asking the user what to work on:
 
 1. **Count pending items** in the friction log and feedback log.
-2. **Check the most recent session log** in `reference/sessions/` — read its State at Close for continuity.
-3. **Present a summary:**
+2. **Check for resolved entries** in the friction log that haven't been archived yet. Mention them if any exist — "You also have N resolved friction log entries pending archival."
+3. **Check the most recent session log** in `reference/sessions/` — read its State at Close for continuity.
+4. **Present a summary:**
    - "You have X friction log entries and Y feedback items pending."
    - If a previous session left open questions or pending work, note it.
    - If nothing is pending: "No pending items. What would you like to work on?"

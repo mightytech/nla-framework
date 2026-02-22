@@ -56,6 +56,15 @@ mid-session (invoking /unpack) improved the conversation noticeably.
   history but don't need friction log entries. They validate existing design.
 - Observation 3: Already resolved in-session (both issues fixed before commit).
   The pattern (post-validate works) is confirmed.
-- Observation 4: Potential friction log material — the archival backlog pattern
-  has recurred across sessions. Light touch: maybe a sentence in session start
-  checking for resolved entries in the active log.
+- Observation 4: Resolved — added resolved-entry check to /maintain session start
+  (step 2 in `core/skills/maintain.md`). Lightweight nudge at the moment when
+  you're already surveying state.
+
+## Follow-up: Process Helper Skills as Optional Package
+
+During the debrief unpack, the human noted that /unpack represents a different category
+of skill — process helpers that shape conversation dynamics rather than operate the NLA.
+Ideas for more: brainstorming facilitation, card sorting exercises, others TBD. The
+question is whether these belong in core or in an optional penny post-style package,
+since not every NLA benefits from them. Worth a /think session to explore where the
+line is, whether /unpack itself stays core, and what the package would look like.
