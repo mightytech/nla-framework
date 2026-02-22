@@ -228,8 +228,9 @@ You are [brief role description]. Your job is to [what the task accomplishes].
 Read and follow the instructions in **`app/[task-name].md`**. That document is your
 primary source of truth for this task.
 
-It will direct you to read prerequisite docs (voice/values, common patterns, and
+It will direct you to read prerequisite docs (voice, common patterns, and
 output spec if one exists) if you haven't already. Follow that prerequisite chain.
+Values are loaded at startup and don't need task-level prerequisites.
 
 ## Input
 

@@ -33,6 +33,42 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-22 — voice-and-values.md split into values.md and voice.md
+
+**Affects:** core/nla-foundations.md, core/skills/startup.md, core/skills/maintain.md,
+core/skills/validate-architecture.md, core/skills/validate-structural.md,
+core/skills/preferences.md, core/skills/export.md, core/skills/friction-log.md,
+install/structure-intent.md, install/CLAUDE-intent.md, install/skills-intent.md
+
+The single `app/shared/voice-and-values.md` file is now two files:
+- **`app/shared/values.md`** — commitments, priorities, non-negotiables. Loaded at
+  startup as infrastructure. Present during both execution and maintenance.
+- **`app/shared/voice.md`** — tone, personality, style. Stays as task-level shared
+  context, referenced by task doc prerequisites.
+
+A new principle (#3, "Values Are Visible") was added to nla-foundations.md, renumbering
+the existing principles 3-6 to 4-7. This loads automatically via the framework.
+
+**What to do in your project:**
+1. Split `app/shared/voice-and-values.md` into `app/shared/values.md` and
+   `app/shared/voice.md`. Values get the priority/tradeoff/non-negotiable content;
+   voice gets tone, personality, style, and editorial standards.
+2. Update task doc prerequisites to reference `voice.md` instead of `voice-and-values.md`
+   (values are loaded at startup, so they don't need to be in task prerequisites).
+3. Update any references in `app/overview.md` and `CLAUDE.md` that mention
+   `voice-and-values.md`.
+4. Delete the old `voice-and-values.md` after confirming the split is complete.
+
+The multiple-voices pattern is now explicitly supported: an NLA can have multiple voice
+files (`voice-newsletter.md`, `voice-social.md`) referenced by different task docs.
+Values remain singular — one set of values per NLA.
+
+The validate architecture review now includes a "values consistency" analytical category
+that checks whether docs and behaviors align with stated values. The maintain skill
+now surfaces tensions between proposals and values ("are you sure?").
+
+---
+
 ### 2026-02-21 — New /unpack skill for conversation structure
 
 **Affects:** install/skills-intent.md

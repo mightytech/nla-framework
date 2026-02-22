@@ -1,7 +1,7 @@
 # Maintenance Session: Session Log Hygiene
 
 **Date:** 2026-02-22
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 Clean up stale architecture review findings and improve session log practices so logs stay accurate at every commit point.
@@ -19,4 +19,4 @@ Clean up stale architecture review findings and improve session log practices so
 - `reference/`: framework maintainers only
 
 ## State at Close
-[pending — session still in progress]
+All intended changes implemented and committed. Session log sync guidance is in place for both framework and core maintain skills. Two friction entries logged — one resolved (stale logs), one deferred (context window awareness, depends on Claude Code runtime capabilities). No open work items from this session.

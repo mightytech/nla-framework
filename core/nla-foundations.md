@@ -122,7 +122,24 @@ NLAs work best when you explain the *why*, not just the *what*.
 
 The LLM can apply judgment when it understands purpose.
 
-### 3. The Cardinal Rule
+### 3. Values Are Visible
+
+Every NLA embeds value choices — what to prioritize, what to protect, what tradeoffs
+to make. All priorities are value choices, varying in stakes but not in category.
+"Keep it concise" and "never misrepresent sources" are both values; the difference
+is consequence, not kind. Some carry legal weight (HIPAA compliance, accessibility
+requirements); some are stylistic. The mechanism is the same.
+
+Traditional code embeds the same choices invisibly — in scoring functions, filter
+criteria, if/else branches. An NLA states them in prose: readable, debatable,
+modifiable by anyone who can read. This transparency is a capability and a
+responsibility.
+
+There is no neutral default. An NLA with no explicit values still has values — they're
+the model's training defaults, unexamined. Making values explicit is what distinguishes
+an NLA that *has* values from one that merely inherits them.
+
+### 4. The Cardinal Rule
 
 **The human decides.** Humans bear consequences, so humans hold authority. The NLA
 proposes, explains, and challenges — but the human has final say.
@@ -134,7 +151,7 @@ What this means in practice depends on the NLA's shape:
 
 In all cases: flag uncertainty. Never silently make consequential choices.
 
-### 4. Hybrid Architecture
+### 5. Hybrid Architecture
 
 Let each system do what it does best:
 - LLM: judgment, synthesis, understanding context
@@ -142,7 +159,7 @@ Let each system do what it does best:
 
 Don't use the LLM for things code does better. Don't use code for things that need judgment.
 
-### 5. Iterate Through Documentation
+### 6. Iterate Through Documentation
 
 The system improves by improving documentation:
 1. Run the NLA
@@ -153,7 +170,7 @@ The system improves by improving documentation:
 
 This is the development cycle for NLAs. The friction log and maintenance cycle formalize it.
 
-### 6. Configuration Is Natural Language
+### 7. Configuration Is Natural Language
 
 Traditional config is structured: enums, booleans, key-value pairs. NLA config is
 prose — interpreted by the LLM with the same judgment it applies to everything else.

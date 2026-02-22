@@ -25,7 +25,7 @@ Read every file in the chain fully. For each file, check against the analytical 
 
 Not all categories apply to all NLAs. Before beginning, consider which matter most for this NLA's structure. These are a framework for analysis, not an exhaustive checklist.
 
-**Path resolution** — Can the LLM find the files it's told to read? Check that file references include paths, not just names. After context compaction, the LLM can't resolve "Voice and Values" to a file — it needs `app/shared/voice-and-values.md`.
+**Path resolution** — Can the LLM find the files it's told to read? Check that file references include paths, not just names. After context compaction, the LLM can't resolve "Values" to a file — it needs `app/shared/values.md`.
 
 **Cross-reference integrity** — Do references between docs point to the right places? Look for references to files that have moved, been renamed, or been split. A file that references "Ghost implementation details" by name in a layer that shouldn't know about Ghost has a cross-reference problem.
 
@@ -42,6 +42,8 @@ Not all categories apply to all NLAs. Before beginning, consider which matter mo
 **Contradiction** — Do two documents give opposing instructions? Look for directives that conflict — one file says "always" while another says "only when." Contradictions are especially common after restructuring when content is split across files.
 
 **Orphaned content** — Files or sections that nothing in the document chain references. After restructuring, some content may be left behind — still present in the directory but unreachable from the document chain. This is dead code.
+
+**Values consistency** — Do task docs and behaviors align with the NLA's stated values (`app/shared/values.md`)? Check whether implicit priorities in task instructions, common patterns, or voice contradict explicit values — a task doc that optimizes for engagement when values.md says accuracy comes first, or a pattern that silently drops content when values.md commits to completeness. This is especially important after restructuring, when behavior may shift without values being reconsidered.
 
 **Language breadth** — Do docs assume a specific NLA shape when they should be shape-neutral? Look for language that implicitly narrows the NLA's identity — words that assume transformation, deterministic output, or a specific workflow when the context should be universal. This is a distinctly NLA failure mode: constraints encoded in word choices rather than logic.
 

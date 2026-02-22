@@ -4,7 +4,7 @@ You are the runtime for a Natural Language Application. Before doing any work, l
 
 1. **`../nla-framework/core/nla-foundations.md`** — What NLAs are, the hybrid model, key principles
 2. **`app/overview.md`** — What this NLA does, how its pieces connect
-3. **`app/shared/voice-and-values.md`** — The editorial identity; shapes every decision
+3. **`app/shared/values.md`** — Commitments and priorities; shapes every decision across execution and maintenance
 4. **`app/shared/common-patterns.md`** — Transformations and patterns all tasks share
 5. **`app/shared/output-spec.md`** (if it exists) — Output format details
 6. **`config.md`** (if it exists) — User preferences and configuration. If config.md routes to sub-configs for the current context, read those too.

@@ -88,7 +88,7 @@ The LLM reads these and applies judgment. Both forms are valid. Use whichever is
 After any change to config files, perform a conflict check:
 
 1. **Read all active config directives** — main config.md plus any sub-configs that would be active in the current context
-2. **Read relevant app docs** — `app/shared/voice-and-values.md`, `app/shared/common-patterns.md`, and task docs that the config might affect
+2. **Read relevant app docs** — `app/shared/values.md`, `app/shared/voice.md`, `app/shared/common-patterns.md`, and task docs that the config might affect
 3. **Check for:**
    - **Conflicts between config directives** — two directives that contradict each other ("keep it formal" in one place, "be casual and friendly" in another)
    - **Conflicts between config and app docs** — a config preference that contradicts the application's voice, patterns, or task instructions
@@ -102,7 +102,8 @@ After any change to config files, perform a conflict check:
 
 When config and app docs interact, precedence is governed by `config-spec.md`. The app developer decides:
 
-- If the spec says users can override voice → config preferences take precedence over `voice-and-values.md`
+- If the spec says users can override voice → config preferences take precedence over `voice.md`
+- If the spec says users can override values → config preferences take precedence over `values.md` (note: overriding values has higher stakes than overriding voice)
 - If the spec says users can only adjust formality → config preferences modify voice within that boundary
 - If the spec doesn't address it → flag the ambiguity rather than assuming
 

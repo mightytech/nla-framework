@@ -15,7 +15,8 @@ my-nla/
 │   ├── overview.md               # How the pieces connect
 │   ├── config-spec.md            # What's configurable (developer-defined)
 │   ├── shared/                   # Context shared across all tasks
-│   │   ├── voice-and-values.md   # Tone, personality, editorial standards
+│   │   ├── values.md             # Commitments, priorities, non-negotiables
+│   │   ├── voice.md              # Tone, personality, style (one or more voice files)
 │   │   ├── common-patterns.md    # Recurring patterns the LLM should recognize
 │   │   └── output-spec.md        # Output format specification (optional — see below)
 │   └── [task-name].md            # One doc per task (the actual application logic)
@@ -36,6 +37,8 @@ my-nla/
 ├── README.md                     # Developer-facing documentation
 └── .gitignore                    # Excludes config.md and config/
 ```
+
+**Values vs. voice:** Values are loaded at startup — they're infrastructure, present during both task execution and maintenance. Voice is loaded by task docs as shared context. An NLA has one `values.md` but may have multiple voice files (`voice-newsletter.md`, `voice-social.md`) when different tasks need different tones. Each voice file is self-contained, referenced by the task docs that use it.
 
 ## Two Channels
 

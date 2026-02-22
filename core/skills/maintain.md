@@ -118,11 +118,14 @@ Changes to shared docs affect all tasks:
 | If you edit... | It affects... |
 |----------------|---------------|
 | `app/shared/common-patterns.md` | All tasks that use shared patterns |
-| `app/shared/voice-and-values.md` | All content decisions across the system |
+| `app/shared/values.md` | All decisions across the system — execution and maintenance |
+| `app/shared/voice.md` | Content tone and personality across all tasks |
 | `app/shared/output-spec.md` (if it exists) | All output generation |
 | `CLAUDE.md` | All modes and skills |
 
 Name the affected downstream components when proposing changes.
+
+**Values awareness:** When proposing any change, check whether it aligns with the NLA's stated values (`app/shared/values.md`, loaded at startup). If a proposal creates tension with a stated value, surface it explicitly: "This would prioritize X over Y — your values doc says Y comes first. Are you sure?" This is soft contradiction flagging, not a veto. The human decides.
 
 ### 4. One Change at a Time
 

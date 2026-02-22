@@ -147,7 +147,7 @@ my-project/
 ├── CLAUDE.md                    # Runtime identity and configuration
 ├── app/                         # The application (LLM reads and executes)
 │   ├── overview.md              # What this NLA does
-│   ├── shared/                  # Shared context (voice, patterns, output spec)
+│   ├── shared/                  # Shared context (values, voice, patterns, output spec)
 │   └── [task docs]              # Your domain tasks
 ├── reference/                   # Maintenance records (not loaded at runtime)
 │   ├── design-rationale.md

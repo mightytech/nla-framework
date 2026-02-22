@@ -39,9 +39,10 @@ Gather these through conversation (not as a checklist):
 2. **What the NLA does** — domain description in a sentence or two
 3. **Primary task(s)** — name and what the LLM should do for each
 4. **Voice/tone** — how output should sound
-5. **Output format** — Markdown, HTML, JSON, plain text, etc.
-6. **Audience** — who reads the output
-7. **Configuration** — what behaviors should users be able to customize?
+5. **Values/tradeoffs** — what the NLA prioritizes when tradeoffs arise
+6. **Output format** — Markdown, HTML, JSON, plain text, etc.
+7. **Audience** — who reads the output
+8. **Configuration** — what behaviors should users be able to customize?
 
 ### Phase A: Opening
 
@@ -57,6 +58,7 @@ Based on what's missing after Phase A, ask focused follow-up questions. Group re
 
 **Groupings that work well:**
 - Voice + audience (they inform each other)
+- Values/tradeoffs (a single lightweight question: "When your NLA faces a tradeoff — accuracy vs. speed, completeness vs. brevity, consistency vs. creativity — which side should it lean toward?" Even a sentence is enough to seed the file; values get refined through use.)
 - Output format + task description (what the LLM produces shapes how it works)
 - Multiple tasks (if hinted at — "Do you need separate tasks for X and Y, or is that one task?")
 - Configuration (what should users be able to customize?)
@@ -155,7 +157,8 @@ because they vary completely by project. The structural guidance below is all yo
 | File | Structure guidance |
 |------|-------------------|
 | `app/overview.md` | See "Domain File Structures" below |
-| `app/shared/voice-and-values.md` | See "Domain File Structures" below |
+| `app/shared/values.md` | See "Domain File Structures" below |
+| `app/shared/voice.md` | See "Domain File Structures" below |
 | `app/shared/common-patterns.md` | See "Domain File Structures" below |
 | `app/shared/output-spec.md` | See "Domain File Structures" below (if output format warrants its own file) |
 | `app/[task-name].md` | See "Domain File Structures" below (one per task) |
@@ -174,11 +177,16 @@ because they vary completely by project. The structural guidance below is all yo
 - Document index: links to all docs
 - Getting started: first-time setup
 
-**`app/shared/voice-and-values.md`** — Tone, personality, editorial standards:
+**`app/shared/values.md`** — Commitments, priorities, and non-negotiables:
+- What we prioritize (1-3 value statements expressing tradeoff preferences)
+- What we won't compromise (non-negotiables, if any)
+- Start minimal — a sentence or two from the conversation is enough. The maintenance
+  cycle refines values as real tradeoffs surface during use.
+
+**`app/shared/voice.md`** — Tone, personality, style:
 - Who we are (brief identity)
 - Voice: 3-5 tone principles, each with a clear/not pattern (e.g., "Clear, not clever")
 - The test: one question to check if output matches the voice
-- Values: 2-4 editorial values with explanations
 - Editorial standards: domain-relevant rules (attribution, links, structure, etc.)
 
 **`app/shared/common-patterns.md`** — Recurring patterns the LLM should recognize:
@@ -211,7 +219,7 @@ Follow this order — later files reference earlier ones:
 
 1. **Directory structure** — Create all directories with `mkdir -p`
 2. **Category 1 files** — Thin wrapper skills, .gitkeep files, archives, .gitignore
-3. **Shared context** — voice-and-values.md, common-patterns.md, output-spec.md (if needed)
+3. **Shared context** — values.md, voice.md, common-patterns.md, output-spec.md (if needed)
 4. **Task docs and skills** — Task-specific files for each task
 5. **Integration files** — overview.md, CLAUDE.md, README.md (generated last because they reference everything above)
 6. **Reference files** — design-rationale.md, system-status.md, friction-log.md, feedback-log.md, installed-packages.md
@@ -249,7 +257,8 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | Concept | What to say |
 |---------|-------------|
 | **Two channels** | `app/` is what the LLM reads and executes. `reference/` is for maintainers. They stay separate on purpose. |
-| **Voice file** | This is the most important file — it shapes every decision the LLM makes about your content. |
+| **Values file** | Your NLA's commitments — what it prioritizes when tradeoffs arise. Loaded at startup, shapes every decision. |
+| **Voice file** | How your NLA sounds — tone, personality, style. Shapes every piece of content it produces. |
 | **Thin wrappers** | These delegate to the framework. When you `git pull` the framework, they pick up improvements automatically. |
 | **Task doc** | This IS the application. Edit this file to change what the LLM does. |
 | **Common patterns** | Starting minimal — as you use the system and run `/friction-log`, patterns will emerge and you'll add them here. |

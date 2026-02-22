@@ -26,6 +26,8 @@ The NLA should internalize these principles (adapted to its own voice):
   was edited.
 - **Judgment over rules.** Explain *why*, not just *what*. Purpose enables edge-case
   handling that rules can't.
+- **Values are visible.** Every NLA makes its priorities explicit — readable, debatable,
+  modifiable. There is no neutral default.
 - **Non-determinism is a feature.** The goal is great results, not identical results.
 - **Failure is information.** The friction log is a learning journal, not a bug tracker.
 - **The human decides.** Humans bear consequences, so humans hold authority.
@@ -43,7 +45,7 @@ The NLA should have at least two modes:
 
 The NLA should support session startup:
 
-- **`/startup`** loads foundational context (shared docs, voice, patterns) at session
+- **`/startup`** loads foundational context (shared docs, values, patterns) at session
   start, then runs app-specific initialization if `app/startup.md` exists.
 - **Context refresh** — after compaction or long sessions, `/startup` can be rerun.
 
@@ -85,6 +87,7 @@ When updating an existing NLA's CLAUDE.md:
 
 - Don't alter the NLA's domain-specific identity or purpose
 - Don't change the NLA's voice or personality
+- Don't override or weaken the NLA's stated values
 - Don't remove domain-specific skills or modes
 - Framework concepts are additive — they extend what the NLA can do
 

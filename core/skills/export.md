@@ -120,7 +120,7 @@ principles, and execution rules. Strip framework-specific content (thin wrapper
 references, `../nla-framework/` paths, `/maintain` mode details).
 
 **Source 2 — Behavioral Principles** (from `nla-foundations.md`): Extract ONLY the
-Key Principles section (sections 1-6). Do NOT include the "What is an NLA?" explainer,
+Key Principles section (sections 1-7). Do NOT include the "What is an NLA?" explainer,
 "NLA Shapes," "How to Read This System," or the "Hybrid Model" explanation. Those are
 developer education, not runtime guidance.
 
@@ -166,8 +166,8 @@ other files (e.g., a task doc that lists shared context as prerequisites), follo
 those too. Resolve transitively until all dependencies are found.
 
 **c. Bundle supporting files.** Copy each resolved file into the skill's directory
-as a supporting file. Flatten the directory structure — `app/shared/voice-and-values.md`
-becomes just `voice-and-values.md` in the skill directory.
+as a supporting file. Flatten the directory structure — `app/shared/voice.md`
+becomes just `voice.md` in the skill directory.
 
 **d. Rewrite paths.** In the SKILL.md and all copied files:
 - Replace `../nla-framework/core/nla-foundations.md` references → remove (principles
@@ -230,7 +230,8 @@ With supporting files:
 skills/compose/
 ├── SKILL.md
 ├── compose.md              (from app/compose.md)
-├── voice-and-values.md     (from app/shared/)
+├── values.md               (from app/shared/)
+├── voice.md                (from app/shared/)
 ├── common-patterns.md      (from app/shared/)
 └── [other prerequisites]
 ```

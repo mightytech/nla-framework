@@ -92,7 +92,7 @@ do the right thing), include the instruction chain:
   4/4 time'" is verifiable. "The patterns doc recommends simple time signatures" is not.
 - **Trace inaction too.** If you didn't do something you should have, explain why — which
   docs you read, what they didn't mention, what awareness you were missing. "I didn't
-  suggest an alternative because voice-and-values.md doesn't mention the user's experience
+  suggest an alternative because voice.md doesn't mention the user's experience
   level as a factor" is a gap analysis, not just a complaint.
 - **Propose a documentation change** when you can see one. Put it in the Proposed Fix
   field. Even tentative proposals give `/maintain` a starting point.

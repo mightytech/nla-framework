@@ -141,7 +141,7 @@ CLAUDE.md can't be auto-loaded in plugins. A `skills/foundation/SKILL.md` with
 to CLAUDE.md. It synthesizes:
 
 - NLA identity and grounding principles (from CLAUDE.md)
-- Behavioral principles (Key Principles 1-6 from nla-foundations.md — NOT the explainer)
+- Behavioral principles (Key Principles 1-7 from nla-foundations.md — NOT the explainer)
 - System overview (from app/overview.md)
 - Configuration spec (from app/config-spec.md)
 - Available skills table
@@ -517,7 +517,7 @@ Tracing changes the system being observed. An LLM narrating its decisions may re
 
 ### Why a dedicated skill
 
-NLA debugging is fundamentally different from traditional debugging. There are no syntax errors, no stack traces, no line numbers. Bugs are behavioral — an ambiguous directive in voice-and-values.md that the LLM interprets differently than intended, or a conflict between two docs that surfaces only with certain inputs.
+NLA debugging is fundamentally different from traditional debugging. There are no syntax errors, no stack traces, no line numbers. Bugs are behavioral — an ambiguous directive in values.md that the LLM interprets differently than intended, or a conflict between two docs that surfaces only with certain inputs.
 
 `/validate` provides four modes:
 
@@ -885,7 +885,7 @@ theirs to `output-spec-sc.md`).
 Make `output-spec.md` conditional — present when useful, not assumed to always exist.
 The file works exactly as before when present; it's just no longer mandatory.
 
-The principle: `output-spec.md` is shared context, like `voice-and-values.md` and
+The principle: `output-spec.md` is shared context, like `values.md`, `voice.md`, and
 `common-patterns.md`. It prevents duplication when multiple tasks share output format
 concerns. When there's one task, or output is simple, the guidance belongs in the task
 doc and the file is skipped.
@@ -1265,6 +1265,97 @@ This follows the framework principle: structured underneath, flexible on top.
 
 - `core/skills/unpack.md`: all domain projects (new skill available via thin wrapper)
 - `install/skills-intent.md`: project generation (new projects get /unpack wrapper)
+
+---
+
+## Values and Voice Separation
+
+*Added 2026-02-22. Origin: friction log entry "Voice and values may need splitting;
+values as transparent ethics" (2026-02-19), designed in /think session
+(reference/sessions/2026-02-22-voice-values-design.md).*
+
+### What was decided
+
+Split `app/shared/voice-and-values.md` into two files: `values.md` (loaded at startup
+as infrastructure) and `voice.md` (task-level shared context). Add "Values Are Visible"
+as a new principle (#3) in nla-foundations.md.
+
+### Why
+
+Voice and values have different lifecycles and different scopes:
+- **Voice** varies by context — the same NLA could use different tones for different
+  audiences. It shapes content production.
+- **Values** are stable across all contexts — you don't have different ethics for
+  different audiences. They shape every decision, including maintenance proposals.
+
+Bundling them hid this distinction. The split makes values infrastructure (always
+present, loaded at startup) and voice task-level (loaded when producing content).
+
+### Values as infrastructure
+
+Loading values at startup enables "soft contradiction flagging" across the entire
+lifecycle — the AI can surface tensions between a maintenance proposal and the NLA's
+stated values ("This would prioritize X over Y — your values doc says Y comes first.
+Are you sure?"). This awareness was impossible when values were only loaded as task
+prerequisites.
+
+Values range from stylistic preferences ("keep it concise") to legal requirements
+(HIPAA compliance, accessibility). The mechanism is the same; the stakes differ.
+
+### Values transparency as a principle
+
+Traditional code embeds the same value choices (what gets prioritized, what gets
+filtered, who gets served) but hides them in logic. NLAs state them in prose:
+readable, debatable, modifiable. There is no neutral default — silence defers to
+model defaults. Making values explicit is what distinguishes an NLA that *has* values
+from one that merely inherits them.
+
+This is the third Key Principle in nla-foundations.md, sitting between "Judgment Over
+Rules" and "The Cardinal Rule." The flow: explain why (#2) → your docs embed values
+whether you intend to or not (#3) → the human decides (#4).
+
+### Multiple voices
+
+One or more voice files in `app/shared/`, self-contained, referenced by task docs.
+This is a supported pattern, not an engineered feature — no routing tables, no voice
+registry. Task docs reference the voice file they need. Values remain singular: one
+set per NLA.
+
+### Create-app approach
+
+Light touch: one tradeoffs-oriented question during conversation, seeds `values.md`
+with a sentence or two. The maintenance cycle refines. This follows the pattern of
+starting minimal and iterating — the same principle as common-patterns.md.
+
+### Backward compatibility
+
+No fallback for the old `voice-and-values.md` filename. Migration is via update notes
+and `/update`. The affected population is small (three domain projects); the clean
+break avoids dual-file ambiguity.
+
+### Alternatives considered
+
+1. **Keep the combined file.** Rejected because the loading distinction (values at
+   startup vs. voice at task level) requires separate files. A combined file either
+   loads everything at startup (wasting context on voice during maintenance) or loads
+   nothing at startup (losing values awareness during maintenance).
+
+2. **Values in CLAUDE.md.** Rejected because values are domain content that evolves
+   through the maintenance cycle. CLAUDE.md is infrastructure that changes rarely.
+
+3. **Values in nla-foundations.md.** Rejected because foundations is framework-level
+   (shared across all projects). Values are project-specific.
+
+4. **Graceful fallback for old filename.** Rejected — adds backward-compatibility
+   complexity to startup for a rare case. Update notes + `/update` handle migration.
+
+### Blast radius
+
+- `core/nla-foundations.md`: all projects (new principle, renumbering)
+- `core/skills/startup.md`, `maintain.md`, `validate-*.md`, `preferences.md`,
+  `export.md`, `friction-log.md`: all projects (reference updates, new behavior)
+- `install/` intent files: project generation and `/update`
+- `.claude/skills/create-app/SKILL.md`: project creation
 
 ---
 
