@@ -22,3 +22,22 @@ uninstalls.
 **From `skills-intent.md`:**
 - Created `.claude/skills/check-feedback/SKILL.md` — thin wrapper delegating to `../nla-penny-post/app/check-feedback.md`
 - Created `.claude/skills/write-letter/SKILL.md` — thin wrapper delegating to `../nla-penny-post/app/write-letter.md`
+
+---
+
+## process helpers
+
+**Source:** `../nla-process-helpers/`
+**Installed:** 2026-02-22
+**Package state:** commit `6c893ea`
+
+### What was done
+
+| Intent File | Integration Point | Changes Made |
+|-------------|------------------|--------------|
+| `CLAUDE-intent.md` | `CLAUDE.md` | Added `/unpack` to Available Skills table. Key files reference for `../nla-process-helpers/` was already present. |
+| `skills-intent.md` | `.claude/skills/unpack/` | Created thin wrapper delegating to `../nla-process-helpers/app/unpack.md` |
+
+### Notes
+
+- This is the framework itself, not a domain project. The `/unpack` skill was previously a core framework skill; it was moved to the process helpers package as facilitation is a preference, not infrastructure. This install brings it back as a package-provided capability.
