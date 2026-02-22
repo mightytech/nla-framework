@@ -65,79 +65,79 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
-### 2026-02-21 — Post-session reflection as a skill (debrief / retrospective)
+### 2026-02-21 — Conversation structure skill: "slow your roll, let's chunk this"
 
-**Type:** process
+**Type:** core
 **Severity:** major
 **Blast radius:** all projects
 **Status:** pending
 
 **Observation:**
-After running `/update` on penny post, the user asked the AI to reflect on the process:
-"Think about what we just went through. Was there anything that could be improved?" That
-open-ended reflection produced an 11-item feedback letter (Issue #5) — 3 items triaged
-today, all accepted. The reflection wasn't prompted by a skill or a step in the update
-flow. It was an informal question that happened to produce high-quality, actionable
-feedback.
+During the /debrief design session, the AI presented four design questions and worked
+through them one at a time. The user noted this chunked pattern was highly effective —
+"I know exactly what we did without reading the actual markdown" — and asked whether
+it should be formalized. The discussion evolved from "formalize the pattern" to "this
+is a distinct skill."
 
-This suggests a general-purpose "debrief" skill that runs after major work: updates,
-maintenance sessions, app execution (create-app, Duet composition, Copydesk formatting).
-The AI reflects on what just happened while context is fresh.
+**The problem it solves:**
+The AI sometimes produces long responses with multiple embedded questions or discussion
+points. The human faces an awkward choice: answer everything at once (unwieldy —
+answering some parts might inform others) or answer partially and risk losing threads
+to context compaction. The chunked pattern makes the AI responsible for managing
+conversation structure: propose the question set, agree on scope, work through them
+one at a time, track what's open and what's resolved.
 
-**Two dimensions of reflection:**
+**The proposed solution:**
+A skill the user can invoke mid-conversation — not a mode switch, but an intervention:
+"I see where this is going, let's structure it." The AI would:
+1. Identify the distinct questions/points in play
+2. Propose them as a set for the user to confirm or modify
+3. Work through them sequentially, each answer informing the next
+4. Track open vs. resolved questions (survives context compaction)
 
-1. **Process:** Ambiguities in instructions, inefficiencies in the flow, missing steps,
-   places where the AI had to guess or improvise. What worked, what didn't, what could
-   be streamlined.
+This is different from /think (which explores what/why before work) and /debrief
+(which reflects after work). This structures the conversation *during* work — any work,
+maintenance or domain execution.
 
-2. **Human experience:** How did the human seem during the process? Content, confused,
-   frustrated, excited? Did they hesitate before approving something? Did they shorten
-   their responses (possible fatigue or impatience)? Were there too many confirmation
-   steps? These are observations the human might not consciously articulate but the AI
-   can surface from its position as participant-observer.
+**Why not nla-foundations.md (a general principle):**
+Two problems. First, as context grows, principles in foundations get fuzzed out —
+the specific behaviors fade. Skills get re-read when invoked, putting guidance at the
+top of the context pile. This is observed behavior, not theoretical. Second, a principle
+imposes one collaboration style on every NLA user. The chunked pattern is one user's
+preferred way of working. Others might want questions written to a file for inline
+annotation, or might prefer the wall of text. A skill keeps it available without
+imposing it.
 
-**The collaborative refinement step is essential.** The AI surfaces 3-5 prioritized
-observations. The human pushes back on some, develops others, adds their own. Together
-they produce feedback that feeds into the friction log (self-directed) or a penny post
-letter (directed at a package or the framework).
+**Why not part of /think:**
+The /think skill worked this way in the debrief design session, but that was because
+the friction log had already decomposed the problem into clear questions. In more
+open-ended thinking sessions (like the plugin export design), the questions aren't
+obvious at the start — the first phase is figuring out what the questions are.
+Imposing "identify your starter questions" too early could force premature structure.
 
-**Evidence:** Issue #5 on this repo — penny post's post-update reflection produced 3
-accepted items about downstream reference cleanup and validation strengthening in the
-update skill. The process worked; it just isn't formalized.
+**Why not a session log enhancement:**
+Adding "Open Questions" to session logs captures the record but not the process. The
+value isn't in logging questions — it's in the AI managing conversation flow so nothing
+gets lost and each answer can inform the next. The session log is a side effect, not
+the point. (Though open questions in session logs are still worth having for context
+compaction resilience.)
 
-**Discussion notes (from initial conversation):**
+**What needs design work:**
+- Naming — it's a mid-conversation intervention, not a mode. "Slow your roll" captures
+  the spirit but isn't a skill name.
+- Interaction model — how does it work when invoked mid-conversation? The AI is already
+  in some context (/think, /maintain, domain execution). The skill structures the
+  conversation without changing the context.
+- Scope — does it only structure questions, or any multi-part exchange? The debrief
+  session used it for design questions, but it could apply to multi-part proposals,
+  complex feedback, or any situation where dumping everything at once degrades the
+  interaction.
 
-- **The LLM's unique position.** It was present for the entire interaction, read the
-  same instructions, made judgment calls, and observed reactions. This connects to the
-  "LLM self-aware diagnostics" insight from the export session — the AI can trace its
-  own reasoning chain AND reflect on the human's experience.
+**Notes:**
+This is new territory — not a reflection tool, not a design tool, but a conversation
+structure tool. Deserves its own /think session with fresh context.
 
-- **Missing step in the learning loop.** Do work → reflect → capture → act. Steps 3-4
-  exist (friction-log, write-letter, maintain). Step 2 is currently informal.
-
-- **Bookend with "thinking it through."** That friction log entry is about reflection
-  BEFORE implementation (design thinking). This is about reflection AFTER execution.
-  Same meta-concern: the framework supports doing work well but has less support for
-  thinking about work.
-
-- **Timing is critical.** Must happen while context is fresh — before conversation
-  compression loses the details that make reflection valuable.
-
-- **Naming.** "Post-mortem" implies failure. `/debrief` or `/reflect` fits better — this
-  is about learning from the full experience, including what went well.
-
-- **Scope control.** Risk of producing a wall of observations after a long session.
-  Prioritize — 3-5 observations ranked by impact, with the human choosing which to
-  develop.
-
-- **Dual destination.** Output may be letter-ready (aimed at a package or framework) or
-  self-directed (friction-log material about the project's own docs). The skill needs
-  to handle both.
-
-**Affected files:**
-- New skill in `core/skills/` (blast radius: all domain projects)
-- `install/skills-intent.md` — new skill wrapper
-- Potentially `core/skills/maintain.md` — session close could prompt for debrief
+---
 
 ---
 

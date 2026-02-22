@@ -12,6 +12,117 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-21 — "Thoughts? Concerns? Ideas? Questions?" is an AI invitation, not a human prompt
+
+**Type:** core
+**Severity:** major
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-02-21 — Rewrote the "Keep the conversation open" bullet in
+`core/skills/think.md`. Old language ("End substantive responses with an invitation")
+read as "ask the human." New language explicitly says: when the human responds, treat
+it as an invitation to share YOUR thoughts, concerns, ideas, and questions.
+
+**Observation:**
+During the debrief skill design session, the AI used "Thoughts? Concerns? Ideas?
+Questions?" as a conversation closer directed at the human — "your turn to respond."
+The intended pattern (established in /think) is the opposite: it's an invitation for
+the AI to share ITS own thoughts, concerns, ideas, and questions in response to what
+the human just said. The human's response IS the prompt; the AI treats it as if the
+human had asked "do you have thoughts, concerns, ideas, or questions about this?"
+
+**Before:** AI ends with "Thoughts? Concerns? Ideas? Questions?" as a volley back to
+the human — functionally equivalent to "what do you think?"
+
+**After:** AI receives human input and responds with its own perspective — concerns it
+sees, ideas it wants to float, questions it has. The named practice is about the AI's
+posture (bring expertise, engage substantively), not turn-taking.
+
+**Affected files:**
+- `core/skills/think.md` — the "Keep the conversation open" bullet
+
+---
+
+### 2026-02-21 — Post-session reflection as a skill (debrief / retrospective)
+
+**Type:** process
+**Severity:** major
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-02-21 — Created `/debrief` skill (`core/skills/debrief.md`) as a
+lightweight reflection tool. Added to `install/skills-intent.md`, `CLAUDE.md`, and
+`README.md`. Design rationale entry covers transition-sensitive triggers, judgment-based
+handoff, and two-dimension reflection model.
+
+**Observation:**
+After running `/update` on penny post, the user asked the AI to reflect on the process:
+"Think about what we just went through. Was there anything that could be improved?" That
+open-ended reflection produced an 11-item feedback letter (Issue #5) — 3 items triaged
+today, all accepted. The reflection wasn't prompted by a skill or a step in the update
+flow. It was an informal question that happened to produce high-quality, actionable
+feedback.
+
+This suggests a general-purpose "debrief" skill that runs after major work: updates,
+maintenance sessions, app execution (create-app, Duet composition, Copydesk formatting).
+The AI reflects on what just happened while context is fresh.
+
+**Two dimensions of reflection:**
+
+1. **Process:** Ambiguities in instructions, inefficiencies in the flow, missing steps,
+   places where the AI had to guess or improvise. What worked, what didn't, what could
+   be streamlined.
+
+2. **Human experience:** How did the human seem during the process? Content, confused,
+   frustrated, excited? Did they hesitate before approving something? Did they shorten
+   their responses (possible fatigue or impatience)? Were there too many confirmation
+   steps? These are observations the human might not consciously articulate but the AI
+   can surface from its position as participant-observer.
+
+**The collaborative refinement step is essential.** The AI surfaces 3-5 prioritized
+observations. The human pushes back on some, develops others, adds their own. Together
+they produce feedback that feeds into the friction log (self-directed) or a penny post
+letter (directed at a package or the framework).
+
+**Evidence:** Issue #5 on this repo — penny post's post-update reflection produced 3
+accepted items about downstream reference cleanup and validation strengthening in the
+update skill. The process worked; it just isn't formalized.
+
+**Discussion notes (from initial conversation):**
+
+- **The LLM's unique position.** It was present for the entire interaction, read the
+  same instructions, made judgment calls, and observed reactions. This connects to the
+  "LLM self-aware diagnostics" insight from the export session — the AI can trace its
+  own reasoning chain AND reflect on the human's experience.
+
+- **Missing step in the learning loop.** Do work → reflect → capture → act. Steps 3-4
+  exist (friction-log, write-letter, maintain). Step 2 is currently informal.
+
+- **Bookend with "thinking it through."** That friction log entry is about reflection
+  BEFORE implementation (design thinking). This is about reflection AFTER execution.
+  Same meta-concern: the framework supports doing work well but has less support for
+  thinking about work.
+
+- **Timing is critical.** Must happen while context is fresh — before conversation
+  compression loses the details that make reflection valuable.
+
+- **Naming.** "Post-mortem" implies failure. `/debrief` or `/reflect` fits better — this
+  is about learning from the full experience, including what went well.
+
+- **Scope control.** Risk of producing a wall of observations after a long session.
+  Prioritize — 3-5 observations ranked by impact, with the human choosing which to
+  develop.
+
+- **Dual destination.** Output may be letter-ready (aimed at a package or framework) or
+  self-directed (friction-log material about the project's own docs). The skill needs
+  to handle both.
+
+**Affected files:**
+- New skill in `core/skills/` (blast radius: all domain projects)
+- `install/skills-intent.md` — new skill wrapper
+- Potentially `core/skills/maintain.md` — session close could prompt for debrief
+
+---
+
 ### 2026-02-20 — Need a "thinking it through" mode for design exploration
 
 **Type:** process

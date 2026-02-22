@@ -33,6 +33,28 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-21 — New /debrief skill for post-work reflection
+
+**Affects:** install/skills-intent.md
+
+A new `/debrief` skill formalizes the reflection step after substantive work. It's
+the bookend to `/think` — think explores what/why before work, debrief reflects on
+process and experience after work. Together they complete the four-phase flow:
+think → plan → implement → debrief.
+
+**What to do in your project:**
+- Create `.claude/skills/debrief/SKILL.md` — standard thin wrapper (the intent diff
+  shows the reference wrapper)
+- Add `/debrief` to your CLAUDE.md skills table
+
+The skill is additive — no existing behavior changes. It's lightweight by design:
+the AI surfaces 3-5 prioritized observations about process and human experience,
+collaborates with the human to refine them, then suggests where they should land
+(/friction-log for self-directed, /write-letter for upstream feedback). The AI
+suggests debrief at task transitions, not wired into other skills' closing steps.
+
+---
+
 ### 2026-02-21 — New /think skill for collaborative design exploration
 
 **Affects:** install/skills-intent.md, core/skills/maintain.md

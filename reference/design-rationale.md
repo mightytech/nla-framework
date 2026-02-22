@@ -1095,6 +1095,90 @@ became evidence for what the skill should enable.
 
 ---
 
+## Post-Work Reflection (/debrief)
+
+*Added 2026-02-21. Origin: friction log entry "Post-session reflection as a skill"
+(2026-02-21), evidence from penny post's post-update reflection producing 11-item
+feedback letter with 3 accepted items.*
+
+### What was decided
+
+Create a lightweight skill (`/debrief`) for collaborative reflection after substantive
+work. The skill completes the four-phase flow established by `/think`: think (what/why)
+→ plan (how) → implement → debrief (reflect). Like `/think`, it's deliberately short
+(~100 lines) because the AI is already good at reflection when it knows that's its job.
+
+### Why lightweight
+
+The evidence is the penny post session: a single open-ended question ("think about what
+we just went through") produced an 11-item feedback letter. No procedure, no template.
+The AI was present for everything — it has the context. What it needs is permission and
+posture, not instructions.
+
+But debrief is differently shaped than think. Think is open-ended exploration — it can
+go anywhere. Debrief has direction: look back, surface observations, refine
+collaboratively, then suggest where observations should land. More directional, but
+the observations themselves are freeform.
+
+### Three design decisions
+
+**1. Transition-sensitive triggers.** The AI suggests debrief when it senses a context
+shift between tasks or projects — not wired into other skills' closing steps. This
+avoids maintaining "suggest /debrief" in every skill that might warrant reflection, and
+lets the AI judge when reflection would be valuable. A batch of related tasks gets one
+suggestion at the end; three unrelated tasks get three.
+
+The prompt is low-cost: "Sounds like we've wrapped up this task — want to debrief?"
+The user can say no or ignore it.
+
+**2. Judgment-based handoff.** The skill produces refined observations. Those need to
+land somewhere — /friction-log (self-directed) or /write-letter (upstream feedback).
+But the routing is judgment, not mechanism. The AI suggests the natural next step based
+on what emerged: "Three of these are about our own docs — want me to log them? The one
+about the framework's update flow would make a good letter." The skill doesn't own the
+capture step — it makes clear that observations should land somewhere and trusts the AI
+to know the destinations.
+
+**3. Two dimensions of reflection.** Process (ambiguities, inefficiencies, missing
+steps) and human experience (did the session feel right? too many confirmations?
+signs of fatigue?). The second dimension is uniquely available to the AI as
+participant-observer — it can surface things the human might not consciously articulate.
+
+### The "Thoughts? Concerns? Ideas? Questions?" correction
+
+During the design session for this skill, a misunderstanding of the named practice
+from `/think` was identified. "Thoughts? Concerns? Ideas? Questions?" was being used
+as a conversation closer directed at the human ("your turn"). The intended pattern is
+the opposite: it's an invitation for the AI to share ITS thoughts, concerns, ideas,
+and questions in response to what the human just said. The human's response IS the
+prompt; the AI treats it as if the human had asked for its perspective.
+
+This affects `/think`'s "Keep the conversation open" bullet, which currently reads as
+"ask the human" — the misinterpretation. Logged in the friction log for resolution.
+
+### Alternatives considered
+
+1. **Wire into other skills' closing steps.** Add "suggest /debrief" to maintain's
+   session close, update's completion, etc. Rejected because it creates maintenance
+   burden (every skill needs to know about debrief) and presumes which work is
+   "substantive enough." The AI can judge transitions better than a checklist.
+
+2. **Heavier procedural skill.** Required reading, structured output format, routing
+   tables. Rejected for the same reason /think is light — the evidence shows the best
+   reflection comes from informal conversation, not procedure.
+
+3. **Fold into /maintain's session close.** Just add a reflection step to the session
+   lifecycle. Rejected because debrief applies beyond maintenance — after updates,
+   exports, create-app runs, domain task execution. It's a general capability, not a
+   maintenance-specific step.
+
+### Blast radius
+
+- `core/skills/debrief.md`: all domain projects (new skill available via thin wrapper)
+- `install/skills-intent.md`: project generation (new projects get /debrief wrapper)
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

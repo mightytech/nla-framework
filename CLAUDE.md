@@ -64,6 +64,7 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/update` | Update installed packages to latest versions | When checking for or applying package updates |
 | `/think` | Collaborative design exploration — what to build and why | When work involves design judgment before planning |
 | `/export` | Export an NLA project as a plugin | When preparing a project for distribution |
+| `/debrief` | Reflect on completed work — surface observations and learnings | After substantive work, when transitioning between tasks |
 
 ### If the user asks about the framework:
 -> Explain based on `core/nla-foundations.md` and `README.md`
