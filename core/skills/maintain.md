@@ -188,7 +188,7 @@ This is the most important section.]
 ### Session Lifecycle Steps
 
 1. **Create** the session log when substantive work begins
-2. **Update** during work — after completing a change, before starting the next (when natural, not compulsively)
+2. **Update** during work — before each commit, sync the log with what was just completed. This keeps the log accurate at every commit point, not just at session close.
 3. **Close** when done:
    - Finalize the session log (fill in State at Close)
    - Update `reference/system-status.md` with current state

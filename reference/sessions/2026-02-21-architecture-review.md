@@ -79,7 +79,7 @@ CLAUDE.md
 
 ## Resolution
 
-**Resolved:** Findings 1-6 fixed. Findings 7-8 deliberately left as-is.
+**Resolved:** Findings 1-6, 11, 14 fixed. Findings 7-8 deliberately left as-is.
 
 ### Fixed
 - **#1, #2:** Added debrief and unpack to `core/skills/README.md` table and create-app Category 1 table.
@@ -87,6 +87,8 @@ CLAUDE.md
 - **#4:** Rewrote "Adding a New Skill" checklist with correct steps (update this table, update create-app, update CLAUDE.md/README, run validate to verify). Removed incorrect "update validate" step.
 - **#5:** Fixed broken relative link in foundations — `[overview.md](overview.md)` → `` `app/overview.md` ``.
 - **#6:** Added clarifying parenthetical to skills-intent.md explaining why penny post skills appear in the framework's CLAUDE.md.
+- **#11:** Stale "Not yet implemented" annotation on update-notes design rationale section — already removed.
+- **#14:** `/export` missing from Framework-only classification table in export.md — already added.
 
 ### Deliberately not fixed
 - **#7 (update-notes Affects fields):** The "Affects" field tracks *changed* files, not *new* files. The core skill files are new additions, not changed intent files. Adding them would blur the distinction between what `/update` acts on (intent file changes) and what simply exists in the framework (new core files that propagate via `git pull`). The narrative in each entry already mentions the new skill. The pattern is consistent across /think, /debrief, and /unpack entries — changing it would require changing all three, and the current convention is technically correct.
@@ -96,7 +98,7 @@ CLAUDE.md
 
 ## Summary
 
-14 findings total: 3 fix, 5 improve, 6 note. 6 resolved, 2 deliberately left, 6 noted.
+14 findings total: 3 fix, 5 improve, 6 note. 8 resolved, 2 deliberately left, 4 noted.
 
 **The /unpack skill is now consistently registered across all surfaces.**
 

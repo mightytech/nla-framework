@@ -65,6 +65,65 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-22 — Context window awareness for session log nudges
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** deferred
+
+**Observation:**
+When context grows large, the session log should be updated before auto-compaction
+loses detail. A nudge like "your context window is getting large; want to update
+the session log?" would catch this naturally. Claude Code's plan mode appears to
+have context percentage awareness — unclear whether this is available in normal mode.
+
+**Why we can't fix it yet:**
+This depends on Claude Code runtime capabilities, not NLA framework docs. The
+framework can't instrument its own runtime. Commit-point syncing (added today)
+is the practical substitute — commits happen frequently enough to keep logs current
+without needing context awareness.
+
+**Next step:**
+Check whether Claude Code exposes context window info that could be used for this.
+If not, consider filing a Claude Code feature request.
+
+---
+
+### 2026-02-22 — Session logs fall behind commits
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-02-22 — Added commit-point log sync guidance to both the framework
+maintain wrapper (`.claude/skills/maintain/SKILL.md`) and core maintain skill
+(`core/skills/maintain.md`).
+
+**Observation:**
+Architecture review findings #11 and #14 were fixed in code but the session log
+still listed them as unresolved. The fixes were committed — the session log just
+wasn't updated to reflect them. This means the session log's "State at Close"
+becomes unreliable as a record of what was actually resolved.
+
+**The pattern:**
+Fixes happen, a commit goes out, but the session log entry that tracks the work
+doesn't get updated before the commit. The next session reads "State at Close"
+and sees stale information about what's pending.
+
+**Proposed fix:**
+Add guidance to the maintain skill's session lifecycle: update the session log
+before every commit, not just at session close. The session log should reflect
+reality at each commit point, not just at the end. This is lightweight — just
+a sentence in the commit workflow reminding the maintainer to sync the log.
+
+**Notes:**
+The friction is minor per occurrence but compounds — each stale entry costs
+a future session time to investigate whether it's actually pending or already
+done. The fix is proportional: one line of guidance, not a new mechanism.
+
+---
+
 ### 2026-02-21 — Conversation structure skill: "slow your roll, let's chunk this"
 
 **Type:** core

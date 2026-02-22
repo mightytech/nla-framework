@@ -165,6 +165,10 @@ Maintenance sessions generate intent history. Create a session log in `reference
 [What's working, what's pending, what's next]
 ```
 
+### Keeping the Log Current
+
+Update the session log before each commit — Changes Made, resolution status, any tracking that reflects work just completed. The log should reflect reality at every commit point, not just at session close. This prevents stale findings from misleading future sessions.
+
 ### Session Close Steps
 
 1. Finalize the session log (fill in State at Close, set status to Complete)
