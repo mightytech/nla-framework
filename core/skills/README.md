@@ -42,6 +42,8 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `update.md` | `/update` | Update installed packages to latest versions |
 | `think.md` | `/think` | Collaborative design exploration — what/why before how |
 | `export.md` | `/export` | Export NLA project as a plugin for Claude Code or Cowork |
+| `debrief.md` | `/debrief` | Reflect on completed work — surface observations and learnings |
+| `unpack.md` | `/unpack` | Structure complex conversations — lay out threads sequentially |
 
 ### Multi-file skills
 
@@ -68,9 +70,11 @@ Because `/update` communicates intent rather than diffs, ejected skills can stil
 When the framework adds a new skill:
 
 1. Create the logic file here (`core/skills/new-skill.md`)
-2. Add a reference wrapper to `install/skills-intent.md`
-3. Add the skill to `CLAUDE.md`'s skills table
-4. Update the framework's `/validate` to check for the new skill
+2. Update the "What's Here" table above in this file
+3. Add a reference wrapper to `install/skills-intent.md`
+4. Add the skill to `.claude/skills/create-app/SKILL.md` Category 1 table
+5. Add the skill to `CLAUDE.md`'s skills table and `README.md` directory tree
+6. Run `/validate` structural check to verify nothing was missed
 
 Existing domain projects pick up the new logic file on `git pull`, but they need to create a thin wrapper manually (or via `/update`).
 

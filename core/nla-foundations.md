@@ -170,4 +170,4 @@ ability to interpret nuanced instructions IS the extension mechanism.
 
 ---
 
-*For what this specific NLA does and how its pieces connect, see [overview.md](overview.md).*
+*For what this specific NLA does and how its pieces connect, see `app/overview.md`.*

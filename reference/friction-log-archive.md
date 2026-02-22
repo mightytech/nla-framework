@@ -12,6 +12,26 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-21 — Conversation structure skill: "slow your roll, let's chunk this"
+
+**Type:** core
+**Severity:** major
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-02-21 — Created `/unpack` skill (`core/skills/unpack.md`) as a
+lightweight facilitation technique for structuring complex conversations. Added to
+`install/skills-intent.md`, `CLAUDE.md`, and `README.md`. Design rationale entry
+covers the facilitation technique category, composability, and naming. See session
+log `reference/sessions/2026-02-21-unpack-skill.md`.
+
+**Observation:**
+During the /debrief design session, the AI presented four design questions and worked
+through them one at a time. The user noted this chunked pattern was highly effective.
+The discussion evolved from "formalize the pattern" to "this is a distinct skill" — a
+facilitation technique that layers on top of active context rather than replacing it.
+
+---
+
 ### 2026-02-21 — "Thoughts? Concerns? Ideas? Questions?" is an AI invitation, not a human prompt
 
 **Type:** core

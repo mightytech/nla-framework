@@ -172,6 +172,22 @@ disable-model-invocation: true
 Read and follow `../nla-framework/core/skills/debrief.md`.
 ```
 
+### /unpack
+
+**Purpose:** Structure complex conversations — identify bundled threads and work through them sequentially.
+**Wrapper location:** `.claude/skills/unpack/SKILL.md`
+**Delegates to:** `../nla-framework/core/skills/unpack.md`
+
+**Reference wrapper:**
+```yaml
+---
+name: unpack
+description: Structure complex conversations — identify bundled threads and work through them sequentially. Use when a discussion has more threads than it can hold at once.
+disable-model-invocation: true
+---
+Read and follow `../nla-framework/core/skills/unpack.md`.
+```
+
 ---
 
 ## Wrapper Pattern
@@ -254,7 +270,9 @@ not an accident.
 Some skills (like `/check-feedback` and `/write-letter` from the penny post package) are
 managed by their own package's install manifest, not by this file. If those packages are
 installed, they'll appear in `CLAUDE.md`'s skills table alongside framework skills, but
-their wrappers are created by the package's own install process.
+their wrappers are created by the package's own install process. (The framework's own
+`CLAUDE.md` lists these skills because the framework itself has penny post installed —
+domain projects only get them if they install the package separately.)
 
 ---
 

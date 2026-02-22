@@ -65,6 +65,7 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/think` | Collaborative design exploration — what to build and why | When work involves design judgment before planning |
 | `/export` | Export an NLA project as a plugin | When preparing a project for distribution |
 | `/debrief` | Reflect on completed work — surface observations and learnings | After substantive work, when transitioning between tasks |
+| `/unpack` | Structure complex conversations — lay out threads and work through them | When a discussion has multiple bundled threads worth sequential attention |
 
 ### If the user asks about the framework:
 -> Explain based on `core/nla-foundations.md` and `README.md`

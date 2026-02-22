@@ -70,7 +70,12 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 **Type:** core
 **Severity:** major
 **Blast radius:** all projects
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-02-21 — Created `/unpack` skill (`core/skills/unpack.md`) as a
+lightweight facilitation technique for structuring complex conversations. Added to
+`install/skills-intent.md`, `CLAUDE.md`, and `README.md`. Design rationale entry
+covers the facilitation technique category, composability, and naming. See session
+log `reference/sessions/2026-02-21-unpack-skill.md`.
 
 **Observation:**
 During the /debrief design session, the AI presented four design questions and worked

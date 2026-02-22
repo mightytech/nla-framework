@@ -33,6 +33,28 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-21 — New /unpack skill for conversation structure
+
+**Affects:** install/skills-intent.md
+
+A new `/unpack` skill helps structure complex conversations — when multiple threads,
+questions, or decision points are bundled together, it lays them out and works through
+them sequentially. Think of it as a facilitation technique: the AI identifies what's
+on the table, proposes the set for confirmation, works through them one at a time, and
+tracks progress visibly.
+
+**What to do in your project:**
+- Create `.claude/skills/unpack/SKILL.md` — standard thin wrapper (the intent diff
+  shows the reference wrapper)
+- Add `/unpack` to your CLAUDE.md skills table
+
+The skill is additive — no existing behavior changes. Unlike phase skills (/think,
+/debrief), this is a technique that layers on top of whatever's already active. It
+can be invoked mid-conversation during thinking, maintenance, or domain work without
+interrupting the active context.
+
+---
+
 ### 2026-02-21 — New /debrief skill for post-work reflection
 
 **Affects:** install/skills-intent.md

@@ -1048,7 +1048,7 @@ The skill completes a four-phase workflow that emerged from practice:
 1. **Think** (`/think`) — explore what to build and why
 2. **Plan** (Claude Code plan mode) — design how to implement
 3. **Implement** (`/maintain` or direct editing) — make the changes
-4. **Debrief** (future skill) — reflect on the process
+4. **Debrief** (`/debrief`) — reflect on the process
 
 Not every task needs all four phases. Mechanical fixes skip to implementation. Clear
 requirements skip to planning. The phases exist so the AI knows when to suggest each
@@ -1176,6 +1176,95 @@ This affects `/think`'s "Keep the conversation open" bullet, which currently rea
 
 - `core/skills/debrief.md`: all domain projects (new skill available via thin wrapper)
 - `install/skills-intent.md`: project generation (new projects get /debrief wrapper)
+
+---
+
+## Conversation Structure as Facilitation Technique (/unpack)
+
+*Added 2026-02-21. Origin: friction log entry "Conversation structure skill: slow
+your roll" (2026-02-21), observed during the /debrief design session where chunked
+discussion was highly effective.*
+
+### What was decided
+
+Create a lightweight skill (`/unpack`) that structures complex conversations by
+identifying bundled threads and working through them sequentially. The skill layers
+on top of whatever's already active — it's a facilitation technique, not a mode
+switch.
+
+### Why a skill, not a behavior in foundations
+
+Two reasons, both grounded in observed behavior:
+
+1. **Context decay.** As conversation context grows, principles in foundations get
+   fuzzed out — specific behaviors fade. A skill gets re-read when invoked, putting
+   guidance at the top of the context pile. This is the same dynamic that makes
+   `/think` and `/debrief` more effective as skills than as general guidance.
+
+2. **User preference, not universal imposition.** The chunked pattern is one way of
+   working. Others might prefer everything at once, or questions written to a file
+   for annotation. A skill keeps the technique available without imposing it on every
+   NLA user.
+
+### A new category: facilitation techniques
+
+The existing skills fall into two categories: **phase skills** (/think, /debrief,
+/maintain) that define what stage of work you're in, and **action skills** (/validate,
+/export, /friction-log) that perform a specific operation. `/unpack` is neither — it's
+a **technique skill** that structures how a conversation proceeds regardless of what
+phase or action is active.
+
+This is potentially the first of a category. Facilitation techniques (brainstorming,
+card sorting, naming exercises) are process interventions that work regardless of
+subject matter — the same shape as `/unpack`. The framework doesn't need to design
+the category yet; let the pattern emerge from practice. But the precedent is worth
+noting: technique skills layer on active context rather than replacing it.
+
+### Composability: skills can layer
+
+Nothing in the framework prevents two skills from being active simultaneously.
+Skills are markdown files the AI reads and follows. `/think` establishes a posture;
+`/unpack` establishes a conversational structure. These compose naturally — the AI
+follows both. This was already happening informally (the AI follows session log
+conventions while in `/maintain`), but `/unpack` makes it explicit.
+
+### Naming
+
+`/unpack` was chosen over several alternatives explored in the /think session:
+
+- `/chunk` — clear about method, but sounds like breaking content into pieces rather
+  than managing conversation flow
+- `/structure` — too broad; everything in the framework is about structure
+- `/untangle` — implies the conversation is messy, which isn't always the case
+- `/slow-down` — sounds like criticism rather than methodology
+- `/focus` — implies narrowing to one thing; this is about all the things, sequentially
+
+`/unpack` captures the action: take something bundled, lay out the pieces, work
+through them. "Let's unpack this" is natural conversational language.
+
+### Adaptive state tracking
+
+The skill tracks progress visibly but adapts format to scale. A few items get names
+("naming done, scope still to go"). Many items get counts ("5 resolved, 3 to go").
+This follows the framework principle: structured underneath, flexible on top.
+
+### Alternatives considered
+
+1. **General guidance in nla-foundations.md.** Rejected — principles fuzz out as
+   context grows, and this imposes one collaboration style on all users.
+
+2. **Part of /think.** Rejected — /think worked this way in the debrief session
+   because the friction log had pre-decomposed the problem. In open-ended
+   exploration, forcing "identify your starter questions" too early is premature
+   structure.
+
+3. **Session log enhancement.** Rejected — the value is in real-time conversation
+   management, not post-hoc recording. The session log is a side effect.
+
+### Blast radius
+
+- `core/skills/unpack.md`: all domain projects (new skill available via thin wrapper)
+- `install/skills-intent.md`: project generation (new projects get /unpack wrapper)
 
 ---
 
