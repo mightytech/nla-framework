@@ -103,6 +103,7 @@ nla-framework/
 │   ├── CLAUDE-intent.md       # Runtime identity intent
 │   ├── skills-intent.md       # Skill wrapper intent with reference implementations
 │   ├── structure-intent.md    # Directory structure and reference file intent
+│   ├── package-intent.md      # Package structure (diff from domain project conventions)
 │   ├── example-catalog.md     # Example NLA projects catalog
 │   ├── install.md             # Install manifest
 │   ├── update-notes.md        # Changelog for domain projects (read by /update)

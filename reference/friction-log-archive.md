@@ -12,6 +12,61 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-22 — Package creation relies on pattern-matching against existing packages
+
+**Type:** intent
+**Severity:** minor
+**Blast radius:** maintainers / package creators
+**Status:** resolved
+**Resolved:** 2026-02-22 — Created `install/package-intent.md` describing package conventions as a diff from domain project intent files. Lightweight approach: start from structure-intent.md and CLAUDE-intent.md, apply documented differences.
+
+**Observation:**
+When creating the process helpers package (the second NLA extension), every file was
+pattern-matched against penny post's structure — CLAUDE.md, app/overview.md, install
+manifest, reference files, skill wrappers. This worked well (the package was created
+quickly and cleanly), but the conventions live implicitly in penny post's files, not
+explicitly anywhere.
+
+If penny post didn't exist, creating a package would mean guessing at conventions:
+what goes in install/, how the CLAUDE.md differs from a domain project's, how skill
+wrappers work for package skills vs. framework skills, what reference files to include.
+The intent files (CLAUDE-intent.md, skills-intent.md, structure-intent.md) describe
+what a *domain project* needs, but there's no equivalent for what a *package* needs.
+
+**Notes:**
+Resolved with a "diff from baseline" approach — package-intent.md describes only what
+differs from domain project conventions, inheriting the rest from structure-intent.md
+and CLAUDE-intent.md. Verified by creating and inspecting a throwaway test package.
+
+---
+
+### 2026-02-22 — Process helpers package creation went smoothly end-to-end
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-02-22 — Archived as baseline. No action needed; positive observation recording the first complete four-phase flow (think → plan → implement → debrief) for package creation.
+
+**Observation:**
+The full workflow for creating the process helpers package — /think (4 exchanges to
+reach the key insight), plan mode (mechanical after thinking), implementation (28 files
+created in one pass), structural validate (zero issues) — worked cleanly. This is the
+first time the four-phase flow (think → plan → implement → debrief) was used for a
+complete package creation.
+
+Notable positives:
+- /think produced the design insight ("preference, not infrastructure") quickly
+- Penny post conventions transferred cleanly to a second package (see related entry)
+- The structural validate confirmed the /unpack removal was thorough
+- Session pacing was good throughout — no confirmation fatigue
+
+**Notes:**
+Worth preserving as a baseline. If future package creation hits friction, this session
+provides a comparison point for what smooth looks like.
+
+---
+
 ### 2026-02-22 — "Adding a New Skill" checklist missing framework wrapper step
 
 **Type:** documentation
