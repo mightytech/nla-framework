@@ -167,8 +167,8 @@ arguments:
    to debug and validate in the production environment is essential. Removing dev tools
    is like only putting black boxes on test aircraft.
 
-The only skills excluded from plugins are `/install` and `/update` — framework package
-management tools that are meaningless without the framework. `/startup` is absorbed into
+The only skills excluded from plugins are `/install`, `/update`, and `/export` — framework
+tools that are meaningless without the framework. `/startup` is absorbed into
 the foundation skill (its purpose — loading context — happens automatically via
 `user-invocable: false`).
 
@@ -693,7 +693,7 @@ The framework's own `.claude/skills/validate/SKILL.md` was a 140-line monolith t
 
 ## Update Notes: A Changelog for NLA Packages
 
-*Designed 2026-02-19. Not yet implemented.*
+*Designed and implemented 2026-02-19.*
 
 ### The problem
 
@@ -866,7 +866,7 @@ note for `/update` and a letter to a specific project that needs extra attention
 
 ## Output Spec as Optional Shared Context
 
-*Designed 2026-02-19. Not yet implemented.*
+*Designed and implemented 2026-02-19.*
 
 ### The observation
 

@@ -96,7 +96,7 @@ When executing an NLA task:
 
 1. **Read this document first** — understand what NLAs are and how they work
 2. **Read the overview** (`overview.md`) — understand what this specific NLA does
-3. **Read shared context** — voice, patterns, and output specs that all tasks use
+3. **Read shared context** — voice, patterns, and output specs that tasks share
 4. **Read the specific task document** — follow it step by step
 5. **Flag uncertainty** — when you're unsure, say so
 

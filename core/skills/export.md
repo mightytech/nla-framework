@@ -73,7 +73,7 @@ Skills to export:
 
 Not exporting:
   Absorbed into foundation: startup
-  Framework-only: install, update
+  Framework-only: install, update, export
   [any others with reason]
 
 Shared context: [list of files from app/shared/]
