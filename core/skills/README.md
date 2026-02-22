@@ -70,11 +70,12 @@ Because `/update` communicates intent rather than diffs, ejected skills can stil
 When the framework adds a new skill:
 
 1. Create the logic file here (`core/skills/new-skill.md`)
-2. Update the "What's Here" table above in this file
-3. Add a reference wrapper to `install/skills-intent.md`
-4. Add the skill to `.claude/skills/create-app/SKILL.md` Category 1 table
-5. Add the skill to `CLAUDE.md`'s skills table and `README.md` directory tree
-6. Run `/validate` structural check to verify nothing was missed
+2. Create a `.claude/skills/[name]/SKILL.md` wrapper with framework-adapted paths (project-relative, not `../nla-framework/`)
+3. Update the "What's Here" table above in this file
+4. Add a reference wrapper to `install/skills-intent.md`
+5. Add the skill to `.claude/skills/create-app/SKILL.md` Category 1 table
+6. Add the skill to `CLAUDE.md`'s skills table and `README.md` directory tree
+7. Run `/validate` structural check to verify nothing was missed
 
 Existing domain projects pick up the new logic file on `git pull`, but they need to create a thin wrapper manually (or via `/update`).
 

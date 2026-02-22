@@ -70,7 +70,8 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 **Type:** core
 **Severity:** minor
 **Blast radius:** framework maintainers
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-02-22 — Changed `../nla-framework/core/skills/` → `core/skills/` in both wrappers
 
 **Observation:**
 The framework's own `.claude/skills/install/SKILL.md` and `.claude/skills/update/SKILL.md`
@@ -97,7 +98,8 @@ for update. Mechanical fix.
 **Type:** documentation
 **Severity:** minor
 **Blast radius:** framework maintainers
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-02-22 — Added step 2: create `.claude/skills/[name]/SKILL.md` wrapper with project-relative paths
 
 **Observation:**
 The "Adding a New Skill" checklist in `core/skills/README.md` has 6 steps but doesn't
