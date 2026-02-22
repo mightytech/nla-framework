@@ -1,7 +1,7 @@
 # Maintenance Session: Voice/Values Design Exploration
 
 **Date:** 2026-02-22
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 Explore whether and how to split voice-and-values.md into separate concerns, support multiple voices, and treat values-as-transparency as a foundational NLA concept. This is a /think session — exploring what/why before planning how.
@@ -42,4 +42,4 @@ Explore whether and how to split voice-and-values.md into separate concerns, sup
 - `reference/`: framework maintainers only
 
 ## State at Close
-[pending — implementation complete, awaiting commit]
+All changes implemented, validated (structural + architecture review), and committed. Two validation findings fixed pre-commit (CLAUDE-intent startup description, design-rationale principle count). Two new friction log entries added for pre-existing issues found during validation (wrapper path prefix, README missing step). Five resolved friction log entries pending archival.

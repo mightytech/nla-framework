@@ -12,6 +12,75 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-22 — Session logs fall behind commits
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-02-22 — Added commit-point log sync guidance to both the framework
+maintain wrapper (`.claude/skills/maintain/SKILL.md`) and core maintain skill
+(`core/skills/maintain.md`).
+
+**Observation:**
+Architecture review findings #11 and #14 were fixed in code but the session log
+still listed them as unresolved. The fixes were committed — the session log just
+wasn't updated to reflect them. This means the session log's "State at Close"
+becomes unreliable as a record of what was actually resolved.
+
+**The pattern:**
+Fixes happen, a commit goes out, but the session log entry that tracks the work
+doesn't get updated before the commit. The next session reads "State at Close"
+and sees stale information about what's pending.
+
+**Notes:**
+The friction is minor per occurrence but compounds — each stale entry costs
+a future session time to investigate whether it's actually pending or already
+done. The fix is proportional: one line of guidance, not a new mechanism.
+
+---
+
+### 2026-02-22 — Voice and values may need splitting; values as transparent ethics
+
+**Type:** core
+**Severity:** major
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-02-22 — Split `voice-and-values.md` into `values.md` (startup
+infrastructure) and `voice.md` (task-level shared context). Added "Values Are Visible"
+principle (#3) to nla-foundations.md. Updated all core skills, intent files, and
+create-app. See session `reference/sessions/2026-02-22-voice-values-design.md`.
+
+**Observation:**
+Voice (tone, personality, style) and values (ethics, priorities, non-negotiables) are
+conceptually different things bundled into one file. Voice might vary by context — the
+same NLA could use different tones for different platforms or audiences. Values should
+be stable across all contexts. The split makes values infrastructure (loaded at startup)
+and voice task-level shared context. A new "Values Are Visible" principle was added to
+nla-foundations.md. Values range from stylistic preferences to legal requirements.
+
+---
+
+### 2026-02-20 — Need a way to export NLAs for use in Claude Cowork
+
+**Type:** core
+**Severity:** major
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-02-20 — Created `/export` skill (`core/skills/export.md`) that converts
+NLA projects into self-contained plugins for Claude Code and Cowork. Added to
+`install/skills-intent.md`, `CLAUDE.md`, and `README.md`. Updated design rationale with
+plugin export section and wrapper spectrum patterns. See session log
+`reference/sessions/2026-02-20-plugin-export-design.md` for full design discussion.
+
+**Observation:**
+There's no path for taking an NLA built with this framework and exporting it for use
+in Claude Cowork. Users who build NLAs today are locked to Claude Code as the runtime.
+Cowork reaches non-technical users who work with voice, tone, and content daily but
+don't use a terminal.
+
+---
+
 ### 2026-02-21 — Conversation structure skill: "slow your roll, let's chunk this"
 
 **Type:** core
