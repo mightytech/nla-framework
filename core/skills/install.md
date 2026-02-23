@@ -67,7 +67,7 @@ After all changes are made, update `reference/installed-packages.md`. Create the
 ```markdown
 ## [Package Name]
 
-**Source:** [path or URL]
+**Source:** [local path — if cloned from a URL, include both: ../nla-penny-post/ (cloned from https://github.com/org/nla-penny-post)]
 **Installed:** [date]
 **Package state:** [git commit hash if available, otherwise "snapshot on [date]"]
 

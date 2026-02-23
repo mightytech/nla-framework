@@ -73,6 +73,12 @@ For standard level, include only entries where a meaningful decision was made. F
 
 **Defaults:** Tracing off. Default format as specified above.
 
+### Update Checking
+
+- **Check at startup** — Whether to automatically check for available package and remote updates when `/startup` runs. This runs `git fetch` on the NLA and all installed packages, then reports what's available. Useful for projects with active upstream packages or team collaborators.
+
+**Defaults:** Off. Enable via `/preferences` if you want automatic update awareness at session start.
+
 ---
 
 ## Constraints

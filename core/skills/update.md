@@ -1,21 +1,85 @@
 # Update Installed Packages
 
-You are updating packages that have already been installed in this NLA. The install log tells you what's installed; the package's current intent files tell you what should exist now. Your job is to find the delta and apply it.
+You are updating this NLA — pulling remote changes, applying package intents, or both. The install log tells you what's installed; the package's current intent files tell you what should exist now. Your job is to get everything current.
 
-**This is transformative work.** Unlike `/install` (purely additive), updates may modify content that was previously synthesized. Propose carefully — the user needs to understand what's changing and why.
+**This is transformative work.** Updates may modify content that was previously synthesized, and pulls change the state of local repositories. Propose carefully — the user needs to understand what's changing and why.
 
 ---
 
 ## Input
 
-The user may provide a package name or path as `$ARGUMENTS`:
+The user may provide a target as `$ARGUMENTS`:
 
-- **Specific package** (e.g., `nla-penny-post` or `../nla-penny-post/`) — update only that package
-- **No argument** — update all installed packages
+- **Specific package** (e.g., `nla-penny-post` or `../nla-penny-post/`) — update only that package (pull its remote if ahead, then apply intent changes)
+- **The NLA itself** (by name, or "my project," "this project") — pull the NLA's own remote only
+- **No argument** — check everything. If only one thing needs updating, proceed with it (after confirming). If multiple things need updating, ask: "These have updates available: [list]. Which do you want to update? (Or all?)"
+
+When the scope includes a package, the update covers both tiers: pulling the package's remote (if ahead and fast-forward) and applying its intent changes to the NLA. When the scope is the NLA itself, only the remote pull applies.
+
+If nothing needs updating: "Everything is up to date."
 
 ---
 
-## Processing Flow
+## Phase 0: Safety Checks
+
+Before making any changes:
+
+### Check for Uncommitted Changes
+
+Run `git status` on the NLA project. If there are uncommitted changes, warn the user:
+
+"You have uncommitted changes. The rollback branch preserves your committed state, but uncommitted changes won't be included. I recommend committing or stashing first. Continue anyway?"
+
+If the user says yes, proceed but note it in the summary.
+
+### Create Rollback Branch
+
+Create a branch named `pre-update-YYYY-MM-DD` from the NLA's current HEAD. If that name already exists, append `-2`, `-3`, etc. This branch covers the entire update session — one rollback point for all operations.
+
+Tell the user: "Created rollback branch `pre-update-YYYY-MM-DD`. If anything goes wrong, you can return to this state."
+
+**If the NLA has no git repository:** Skip the rollback branch. Warn: "This project isn't in a git repo, so I can't create a rollback branch. Changes will need to be reverted manually if needed. Proceed?"
+
+---
+
+## Phase 1: Pull Remote Changes
+
+Pull the latest from remotes for the NLA and each package in scope. All pulls are independent — order doesn't matter. This phase is entirely mechanical (no judgment, no synthesis).
+
+### For the NLA's Own Remote (if in scope)
+
+1. Check if the NLA has a remote configured. If not: "No remote configured for this NLA — skipping remote check."
+2. Run `git fetch`. If network failure: note it and continue with packages. "Couldn't reach the remote for this NLA. I'll still check local package changes."
+3. Compare local HEAD to the remote:
+   - **Up to date** — note it, move on.
+   - **Fast-forward available** — perform `git merge --ff-only`. Report what was pulled.
+   - **Not fast-forward (diverged)** — refuse. "Your NLA's local branch has diverged from the remote. This needs manual resolution — resolve with `git pull` or `git rebase` in this project, then re-run `/update`." Skip the NLA pull but continue with package updates if they're in scope.
+
+### For Each Package in Scope
+
+1. Locate the package using the source path from the install log.
+2. Check if the package directory has a remote configured. If not: "Package [name] has no remote — I'll check local changes only."
+3. Run `git fetch` in the package directory. If network failure: note it and continue. "Couldn't reach the remote for [name]. I'll check local changes only."
+4. Compare local HEAD to the remote:
+   - **Up to date** — note it.
+   - **Fast-forward available** — perform `git merge --ff-only` in the package directory. Report what was pulled.
+   - **Not fast-forward (diverged)** — refuse. "Package [name] has diverged from its remote. This needs attention in the package's own context — resolve the divergence in `[package path]`, then re-run `/update`." Skip this package's remote pull but still check its local-vs-installed state in Phase 2.
+
+### Why Fast-Forward Only
+
+Mechanical operations can cross context boundaries; judgment operations cannot. A fast-forward merge is pointer movement — no conflicts, no decisions. A non-fast-forward merge requires understanding both sides of the divergence, which means being in that project's development context. This NLA's context doesn't include the package's development reasoning. See `reference/design-rationale.md` ("Context Determines Competence") for the full principle.
+
+### After All Pulls
+
+Summarize: "Pulled latest for [list]. [Package X] was already up to date. [Package Y] had new changes. [Package Z] couldn't be reached / has diverged."
+
+If no packages had local-vs-installed changes after the pulls, and no intent changes are pending: "Everything is current. No changes to apply." Stop here.
+
+---
+
+## Phase 2: Apply Intent Changes
+
+This phase runs on whatever local state exists after Phase 1. If a package's remote pull was skipped (diverged or unreachable), Phase 2 still checks its local-vs-installed state — the local copy may have changes from a previous manual pull.
 
 ### 1. Read the Install Log
 
@@ -104,7 +168,8 @@ Append an update record to the package's section. Don't replace the original ins
 ### 6. Summary and Verification
 
 Report what was updated:
-- Which packages had changes
+- Which packages had remote changes pulled (Phase 1)
+- Which packages had intent changes applied (Phase 2)
 - What capabilities were added or modified
 - Any manual steps remaining
 
@@ -162,6 +227,12 @@ Baseline entry created by `/update` bootstrap. No files were changed — this re
 - **Install log is corrupted or unparseable** — Don't guess. Ask the user: "The install log is hard to parse. Want me to rebuild it from scratch (bootstrap mode)?"
 - **User modified installed content** — The install log says one thing, the NLA says another. Don't overwrite user modifications without explicit approval. Show the diff and ask.
 - **Multiple updates available** — Process each package in the order they appear in the install log. Present each package's changes separately.
+- **Uncommitted changes in the NLA** — Warn before creating the rollback branch. The rollback branch preserves committed state; uncommitted changes need to be committed or stashed.
+- **Network failure during fetch** — Degrade to local-only mode. Report what couldn't be reached, then proceed with local change detection for all packages.
+- **Package or NLA with no remote configured** — Skip the remote check for that entry. Proceed with local-vs-installed checks.
+- **Non-fast-forward on a package or NLA** — Refuse the merge. Direct the user to resolve the divergence in the affected repo's own context, then re-run `/update`.
+- **Everything already up to date** — "Everything is up to date — no remote changes to pull and no intent changes to apply."
+- **Rollback branch name collision** — Append `-2`, `-3`, etc. to the branch name.
 
 ---
 
@@ -172,7 +243,8 @@ Baseline entry created by `/update` bootstrap. No files were changed — this re
 - **Don't undo user work.** If the user has changed something that an update would overwrite, flag it. The user decides.
 - **Bootstrap gracefully.** Existing projects without install logs are the common case right now. Make baseline creation painless.
 - **One package at a time.** Even when updating all, process each package separately so the user can approve or skip individually.
+- **Mechanical operations can cross contexts; judgment cannot.** Fast-forward merges on package repos are safe from the NLA's context — no conflicts, no decisions. Non-fast-forward merges require the package's development context. See `reference/design-rationale.md` ("Context Determines Competence").
 
 ---
 
-*This skill brings existing NLAs current with package changes. For adding new packages, use `/install`.*
+*This skill brings the NLA current — pulling remotes, applying intent changes, or both. For checking what's available without applying changes, use `/check-updates`. For adding new packages, use `/install`.*

@@ -128,7 +128,8 @@ nla-framework/
     ├── friction-log/          # Log observations to the friction log
     ├── preferences/           # Create or edit framework preferences
     ├── install/               # Install NLA packages
-    ├── update/                # Update installed packages
+    ├── update/                # Update the NLA — pull remotes, apply intents
+    ├── check-updates/         # Scan for available updates
     ├── check-feedback/        # Discover and triage external feedback
     ├── write-letter/          # Draft and submit feedback to other projects
     ├── export/                # Export NLA projects as plugins

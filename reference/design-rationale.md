@@ -1417,6 +1417,144 @@ Not implemented yet — with one technique, there's nothing to select.
 
 ---
 
+## Context Determines Competence
+
+*Added 2026-02-22. Origin: /think session designing /check-updates and /update
+enhancement for cross-package update management.*
+
+### The principle
+
+The AI's ability to make good judgment calls is bounded by the project context it
+has loaded. When operating as Duet's maintainer, the AI has Duet's voice, values,
+structure, and conventions. It can synthesize framework intents into Duet because
+it understands Duet. It cannot resolve a merge conflict in penny post's files
+because it doesn't have penny post's development context — it doesn't know what
+changes were intentional, what's in progress, or what the maintainer's reasoning was.
+
+**Mechanical operations can cross context boundaries.** A fast-forward merge, a
+file copy, a git fetch — these don't require judgment. Moving a pointer forward
+is safe regardless of what context is loaded.
+
+**Judgment operations cannot.** Synthesizing intent files into an NLA, resolving
+merge conflicts, proposing documentation changes — these require understanding the
+project being modified. The AI should only attempt them when it has that project's
+context loaded.
+
+### Why this matters
+
+This principle emerged from designing the update pipeline. An NLA can have multiple
+upstream dependencies (framework, penny post, process helpers). Updating them involves
+operations at different levels:
+
+1. Fetching remote changes to a package's local clone (git operation, mechanical)
+2. Applying a package's intent changes to the NLA (synthesis, requires NLA context)
+3. Resolving conflicts in a package's own files (judgment, requires package context)
+
+Operation 1 is safe from any context. Operation 2 requires the NLA's context.
+Operation 3 requires the package's context. The update skill can handle 1 and 2
+(it runs in the NLA's context). It should refuse 3 and direct the user to work
+in the package's context.
+
+### The fast-forward boundary
+
+The specific mechanism that makes this concrete: git fast-forward merges.
+
+A fast-forward means the local branch is strictly behind the remote — no local
+changes, no divergence, no judgment needed. The AI can safely perform this from
+any context because it's pointer movement, not content resolution.
+
+A non-fast-forward means histories have diverged. Someone made local changes that
+need to be reconciled with remote changes. This is a judgment call that requires
+understanding both sides — which means being in that project's context.
+
+The rule: **fast-forward = mechanical = safe across contexts. Non-fast-forward =
+judgment = requires the right context.**
+
+### Broader applicability
+
+This principle isn't limited to git operations. It applies whenever the AI operates
+across project boundaries:
+
+- **Plugin export** reads NLA files from the NLA's context — safe, because it's
+  reading, not modifying the source
+- **Penny post letters** describe observations from one context to another — the
+  receiving project's maintainer applies judgment in their own context
+- **Package installation** clones and reads a package, then synthesizes into the
+  NLA — the judgment happens on the NLA side, where context is loaded
+
+The pattern: gather information across boundaries freely, but apply judgment only
+where you have context.
+
+### Risks
+
+- **False confidence in mechanical operations.** A fast-forward is safe at the git
+  level, but the fetched changes might have implications the AI doesn't understand
+  without context. Mitigation: fast-forward only updates the package's files — the
+  NLA synthesis step (where implications are assessed) still happens in the NLA's
+  context with full judgment.
+
+- **Context boundaries aren't always obvious.** An NLA might have deeply customized
+  a package's files (ejected wrappers, local patches). The AI might not recognize
+  that a "mechanical" operation is actually touching something that needs judgment.
+  Mitigation: the rollback branch makes any operation reversible.
+
+---
+
+## Update Pipeline: /check-updates and /update Enhancement
+
+*Added 2026-02-22. Origin: /think session exploring how users check for updates
+across the NLA and all packages.*
+
+### What was decided
+
+Create `/check-updates` as a read-only scan skill. Enhance `/update` to handle the
+full update lifecycle: pull remotes (fast-forward only), then apply intent changes.
+Add a rollback branch for safety.
+
+### Why /check-updates is separate from /update
+
+The same pattern as `/validate` vs `/maintain`: one skill analyzes (read-only, safe,
+low-cost), another acts (transformative, requires approval, has blast radius).
+`/check-updates` tells you where you stand. `/update` acts on it.
+
+This separation matters because checking is safe to run anytime — at startup, mid-session,
+just to see. Acting requires commitment: rollback branches, proposals, approvals. Bundling
+them would make the check feel heavyweight and discourage casual use.
+
+### Why the rollback branch covers the whole session
+
+One branch, created before any operations, covers everything: remote pulls, intent
+applications, downstream fixes. Alternatives considered:
+
+- **Per-package branches** — more granular rollback. Rejected: too many branches, and
+  the operations are conceptually one update session.
+- **No rollback (rely on git reflog)** — simpler. Rejected: reflog requires git expertise,
+  and the Cardinal Rule says make reversal easy.
+
+### The two-phase flow
+
+Phase 1 (pull remotes) is mechanical — no judgment, no synthesis. Phase 2 (apply intents)
+is judgment — requires the NLA's context. Separating them makes the "Context Determines
+Competence" principle operative: all mechanical work happens first, all judgment work
+happens after, each in the appropriate mode.
+
+### Scope disambiguation
+
+When multiple things need updating and the user doesn't specify, `/update` asks rather
+than assuming "all." This follows the Cardinal Rule — the user decides what gets updated.
+When only one thing needs updating, it proceeds (after confirming). The principle:
+reduce friction for the common case, add a question for the ambiguous case.
+
+### Blast radius
+
+- `core/skills/update.md`: all domain projects (major revision)
+- `core/skills/check-updates.md`: new skill, all projects via thin wrapper
+- `core/skills/startup.md`: all projects (config-gated, off by default)
+- `install/skills-intent.md`: project generation
+- `config-spec.md`: framework config
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

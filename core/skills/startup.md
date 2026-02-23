@@ -18,6 +18,16 @@ by domain.
 
 If it doesn't exist, skip this step. Not every NLA needs app-specific initialization.
 
+## Update Check (Optional)
+
+If `config.md` contains a directive to check for updates at startup, read and follow
+`../nla-framework/core/skills/check-updates.md` before presenting the loading
+confirmation. Include the results in the startup summary so the user knows what's
+available.
+
+If no such directive exists, skip this step. Update checking at startup is off by
+default — it requires network access and adds latency.
+
 ## After Loading
 
 Confirm you've read the foundational documents. If config was loaded, note it

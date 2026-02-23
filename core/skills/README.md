@@ -39,7 +39,8 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `validate-debug.md` | `/validate` | Debug — explain divergence between expected and actual |
 | `preferences.md` | `/preferences` | Create or edit user configuration |
 | `install.md` | `/install` | Install a new NLA package into a project |
-| `update.md` | `/update` | Update installed packages to latest versions |
+| `update.md` | `/update` | Update the NLA — pull remotes, apply package intents, or both |
+| `check-updates.md` | `/check-updates` | Scan for available updates without making changes |
 | `think.md` | `/think` | Collaborative design exploration — what/why before how |
 | `export.md` | `/export` | Export NLA project as a plugin for Claude Code or Cowork |
 | `debrief.md` | `/debrief` | Reflect on completed work — surface observations and learnings |

@@ -33,6 +33,37 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-22 — New /check-updates skill, /update enhanced with remote pull and rollback
+
+**Affects:** install/skills-intent.md, core/skills/update.md, core/skills/startup.md,
+core/skills/check-updates.md (new), config-spec.md
+
+Two related changes to the update pipeline:
+
+**New `/check-updates` skill** — read-only scan across the NLA and all installed
+packages. Reports three tiers: remote-to-local (has the package author pushed changes
+you haven't pulled?), local-to-installed (has the local package changed since your
+last update?), and the NLA's own remote status. Recommends specific actions for each.
+
+**`/update` now handles the full update lifecycle.** Before applying intent changes,
+`/update` can fetch and fast-forward merge on package repos and the NLA's own remote.
+It creates a rollback branch before any operations. Non-fast-forward situations are
+refused — they need resolution in the package's own context (see "Context Determines
+Competence" in `reference/design-rationale.md`).
+
+**What to do in your project:**
+- Create `.claude/skills/check-updates/SKILL.md` — standard thin wrapper (the intent
+  diff shows the reference wrapper)
+- Add `/check-updates` to your CLAUDE.md skills table
+- Update `/update`'s description in your CLAUDE.md skills table to reflect its
+  broader scope
+- Optionally enable startup update checking via `/preferences` ("Check for package
+  updates at session start")
+- No changes needed for the /update enhancement itself — the thin wrapper picks up
+  the new behavior automatically
+
+---
+
 ### 2026-02-22 — /unpack moved to process helpers package
 
 **Affects:** install/skills-intent.md, CLAUDE.md

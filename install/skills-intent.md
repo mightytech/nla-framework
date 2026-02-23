@@ -110,7 +110,7 @@ Read and follow `../nla-framework/core/skills/install.md`.
 
 ### /update
 
-**Purpose:** Update installed NLA packages to their latest versions.
+**Purpose:** Update the NLA — pull remote changes for packages and the NLA itself (fast-forward only), then apply intent changes.
 **Wrapper location:** `.claude/skills/update/SKILL.md`
 **Delegates to:** `../nla-framework/core/skills/update.md`
 
@@ -118,10 +118,26 @@ Read and follow `../nla-framework/core/skills/install.md`.
 ```yaml
 ---
 name: update
-description: Update installed NLA packages to their latest versions. Diffs current intents against the install log and applies changes.
+description: Update the NLA — pull remote changes, apply package intent updates, or both. Creates a rollback branch for safety.
 disable-model-invocation: true
 ---
 Read and follow `../nla-framework/core/skills/update.md`.
+```
+
+### /check-updates
+
+**Purpose:** Scan for available updates across the NLA and all installed packages. Read-only — reports status without making changes.
+**Wrapper location:** `.claude/skills/check-updates/SKILL.md`
+**Delegates to:** `../nla-framework/core/skills/check-updates.md`
+
+**Reference wrapper:**
+```yaml
+---
+name: check-updates
+description: Check for available updates to the NLA and installed packages. Scans remotes and local state without making changes.
+disable-model-invocation: true
+---
+Read and follow `../nla-framework/core/skills/check-updates.md`.
 ```
 
 ### /export
