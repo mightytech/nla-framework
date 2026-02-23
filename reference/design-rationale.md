@@ -1555,6 +1555,58 @@ reduce friction for the common case, add a question for the ambiguous case.
 
 ---
 
+## Package-Framework Dependency Direction
+
+*Added 2026-02-23. Origin: designing the friction log communication path for
+non-maintainer users.*
+
+### The principle
+
+Packages own capabilities. The framework owns awareness and timing. The AI
+bridges them. No coupling needed.
+
+This is the `requests` library pattern: `requests` knows how to make HTTP calls
+but doesn't decide when your app should make one. Similarly, penny post's
+`/write-letter` knows how to compile friction entries into a letter — that's a
+capability. The framework's startup skill knows when to surface "you have pending
+friction entries" — that's awareness. Neither references the other directly. The
+AI sees both and connects them naturally: "you can use `/write-letter` for that."
+
+### What this means in practice
+
+**Framework code never names a package.** Startup says "share with your
+maintainer," not "use `/write-letter`." If the skill is available, the AI
+mentions it. If not, it suggests sharing the file directly. The graceful
+fallback is built into the intent-level language, not coded as an if/else.
+
+**Packages can assume framework infrastructure.** Penny post depends on the
+framework, so it can assume every NLA has a friction log. It doesn't need to
+check — `reference/friction-log.md` is framework infrastructure. The package
+builds capabilities on top of guaranteed foundations.
+
+**The AI is the integration layer.** Traditional packages need explicit
+integration points — hooks, events, adapters. In an NLA, the AI reads the
+skills table, understands what's available, and suggests the right tool for the
+moment. No wiring needed. This is the LLM doing what LLMs do: understanding
+context and making connections.
+
+### Why not package intent files
+
+We considered having penny post's intent files tell domain projects to add
+startup nudges. But domain projects don't customize startup based on which
+packages are installed — they delegate to the framework's startup skill via
+thin wrappers. The framework change propagates automatically. Package intent
+files describe what the package adds to the project (skills, docs), not how
+the framework should behave.
+
+### Blast radius
+
+Reference only — this is a principle, not an operative change. The operative
+changes (startup awareness, friction-log session awareness) are recorded in
+the session log.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:
