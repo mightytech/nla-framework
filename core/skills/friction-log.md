@@ -138,4 +138,16 @@ Your job ends when the entry is written. `/maintain` will process it later.
 
 ---
 
+## Session Awareness
+
+Pending friction entries don't always belong to the person who logged them. At
+session boundaries — when work wraps up, context shifts, or the conversation
+winds down — briefly surface any pending entries. One line is enough: the count
+and a reminder that entries can be processed (`/maintain`) or shared with the
+project's maintainer.
+
+This is awareness, not a workflow step. Think menu bar, not wizard.
+
+---
+
 *When in doubt: log it. A pending entry with a clear observation is always better than an unrecorded insight. The friction log is designed for "document now, act later."*

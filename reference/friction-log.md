@@ -65,6 +65,43 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-23 — Should friction logs be gitignored?
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+The friction log (`reference/friction-log.md`) is committed to git. This works
+when user = maintainer, but breaks down when they're different people. A user
+who logs friction and pushes creates entries in the project's commit history
+that look like development records but are really feedback. Two users logging
+friction creates a shared inbox nobody owns. Tentative observations become
+permanent history.
+
+The friction log may be better modeled as a personal working buffer (like
+`config.md` — gitignored, local). Entries are either processed locally
+(`/maintain`) or sent upstream (`/write-letter` or manual sharing). The
+resolved *changes* go through git; the log itself is ephemeral.
+
+**Open questions:**
+- Working friction logs outside git, archives committed with conflict-safe naming?
+- Loss of observation → resolution traceability if the log isn't committed?
+  Session logs may be sufficient.
+- The framework's own friction log works fine committed (single-maintainer
+  context). Is this a domain-project-only concern?
+
+**Proposed fix:**
+Design session (`/think`) to work through the implications. Not a quick fix.
+
+**Notes:**
+Emerged during design of friction log communication path (startup awareness +
+write-letter integration). The communication path works regardless of git
+storage, so it was implemented separately.
+
+---
+
 ### 2026-02-22 — "Adding a New Skill" checklist not surfaced during skill creation
 
 **Type:** process
@@ -115,8 +152,6 @@ without needing context awareness.
 **Next step:**
 Check whether Claude Code exposes context window info that could be used for this.
 If not, consider filing a Claude Code feature request.
-
----
 
 ---
 

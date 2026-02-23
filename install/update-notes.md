@@ -33,6 +33,29 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-23 — Startup now surfaces pending friction log entries
+
+**Affects:** core/skills/startup.md, core/skills/friction-log.md
+
+Two small changes to help non-maintainer users get friction observations to the
+right person:
+
+**Startup** now checks `reference/friction-log.md` for pending entries and includes
+the count in the startup summary. For non-maintainer users, it notes that entries
+can be shared with the project's maintainer. No specific mechanism is prescribed —
+if `/write-letter` is available the AI mentions it naturally; otherwise it suggests
+sharing the file directly.
+
+**Friction-log skill** now has a "Session Awareness" section: at session boundaries
+(work wrapping up, context shifting), the AI briefly surfaces pending entry count
+with a reminder about processing or sharing options. This is awareness, not a
+workflow step.
+
+No action needed — these propagate automatically via thin wrappers. If you ejected
+either skill, review the changes and consider incorporating them.
+
+---
+
 ### 2026-02-22 — New /check-updates skill, /update enhanced with remote pull and rollback
 
 **Affects:** install/skills-intent.md, core/skills/update.md, core/skills/startup.md,
