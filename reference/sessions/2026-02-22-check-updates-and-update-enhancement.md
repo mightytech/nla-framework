@@ -1,7 +1,7 @@
 # Maintenance Session: /check-updates and /update Enhancement
 
 **Date:** 2026-02-22
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 Give NLA users a way to see what updates are available across their NLA and all installed
@@ -36,4 +36,7 @@ changes, and creating rollback branches for safety.
   unless the user explicitly enables it
 
 ## State at Close
-[Pending — session in progress]
+All changes committed. /check-updates skill is live, /update is enhanced with
+two-phase flow and rollback. Startup integration is config-gated. Validation
+passed after fixing three structural findings (missing wrapper, stale description,
+missing README entries). No pending work.

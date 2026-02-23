@@ -65,6 +65,34 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-02-22 — "Adding a New Skill" checklist not surfaced during skill creation
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+When adding `/check-updates` as a new core skill, three of seven steps in the
+`core/skills/README.md` "Adding a New Skill" checklist were missed: creating the
+framework's own wrapper, updating the What's Here table, and updating the README
+directory tree. `/validate` caught all three post-implementation.
+
+The checklist exists and is correct — it just wasn't consulted during implementation.
+The maintain skill's "Updating Core Skill Logic" section and the plan file both
+focused on the core logic and intent files, not the mechanical registration steps.
+
+**Proposed fix:**
+Reference the checklist in `core/skills/maintain.md` or the maintain skill's
+"Updating Core Skill Logic" section — something like "When adding a new skill,
+follow the checklist in `core/skills/README.md`." This surfaces it at the moment
+it's needed rather than relying on the maintainer to remember it exists.
+
+**Affected files:**
+- `core/skills/maintain.md` (or `.claude/skills/maintain/SKILL.md`)
+
+---
+
 ### 2026-02-22 — Context window awareness for session log nudges
 
 **Type:** process
