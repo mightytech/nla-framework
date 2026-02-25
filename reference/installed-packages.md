@@ -41,3 +41,14 @@ uninstalls.
 ### Notes
 
 - This is the framework itself, not a domain project. The `/unpack` skill was previously a core framework skill; it was moved to the process helpers package as facilitation is a preference, not infrastructure. This install brings it back as a package-provided capability.
+
+### Updated 2026-02-24
+
+**Package state:** commit `e2a4a2f`
+
+| Intent File | What Changed | Changes Made |
+|-------------|-------------|--------------|
+| `CLAUDE-intent.md` | Added awareness of 3 new techniques: brainstorm-cluster, steelman, devils-advocate | Added `/brainstorm-cluster`, `/steelman`, `/devils-advocate` to Available Skills table in `CLAUDE.md` |
+| `skills-intent.md` | Added wrapper definitions for 3 new skills | Created thin wrappers: `.claude/skills/brainstorm-cluster/SKILL.md`, `.claude/skills/steelman/SKILL.md`, `.claude/skills/devils-advocate/SKILL.md` — all delegating to `../nla-process-helpers/app/[name].md` |
+
+**Notes:** Straightforward addition of three new facilitation techniques. No conflicts with existing skills or content.

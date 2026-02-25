@@ -135,7 +135,10 @@ nla-framework/
     ├── export/                # Export NLA projects as plugins
     ├── think/                 # Collaborative design exploration
     ├── debrief/               # Reflect on completed work
-    └── unpack/                # Structure complex conversations (process helpers)
+    ├── unpack/                # Structure complex conversations (process helpers)
+    ├── brainstorm-cluster/    # Structured brainstorming (process helpers)
+    ├── steelman/              # Structured advocacy (process helpers)
+    └── devils-advocate/       # Adversarial testing (process helpers)
 ```
 
 `core/` contains universal NLA building blocks — they work with any domain content. `install/` contains intent files that describe what a well-formed NLA should have — the single source of truth that `/create-app` reads when generating projects.

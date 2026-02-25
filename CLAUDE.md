@@ -67,6 +67,9 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/export` | Export an NLA project as a plugin | When preparing a project for distribution |
 | `/debrief` | Reflect on completed work — surface observations and learnings | After substantive work, when transitioning between tasks |
 | `/unpack` | Structure complex conversations — identify bundled threads and work through them sequentially | When a discussion has more threads than it can hold at once |
+| `/brainstorm-cluster` | Structured brainstorming — frame, generate, cluster, evaluate, refine | When a conversation needs to explore possibilities before committing |
+| `/steelman` | Build the strongest case for alternatives before committing | When a decision is forming and unchosen paths deserve a fair hearing |
+| `/devils-advocate` | Systematically find weaknesses in a plan or proposal | When an approach needs stress-testing |
 
 ### If the user asks about the framework:
 -> Explain based on `core/nla-foundations.md` and `README.md`
