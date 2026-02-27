@@ -19,7 +19,7 @@ For the full conceptual foundation, see [core/nla-foundations.md](core/nla-found
 ### 1. Clone the framework
 
 ```bash
-git clone <framework-repo-url> nla-framework
+git clone https://github.com/mightytech/nla-framework.git nla-framework
 ```
 
 ### 2. Create your project
