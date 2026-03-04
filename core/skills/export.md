@@ -275,6 +275,40 @@ Before reporting success, check:
 
 Report results to the user. If issues are found, fix them before confirming.
 
+### 8. Runtime Validation (Optional)
+
+Structural verification confirms files look right. Runtime validation confirms the
+plugin actually works. Offer this as an optional step after structural checks pass.
+
+**How to run it:**
+
+```bash
+env -u CLAUDECODE claude -p "List all available skills and confirm you can see them." \
+  --plugin-dir ./path-to-plugin --max-turns 2
+```
+
+The `env -u CLAUDECODE` workaround prevents conflicts when launching Claude from within
+an existing Claude Code session. `--max-turns 2` is essential — it prevents runaway
+turns if the prompt triggers unexpected behavior.
+
+**Two-step validation approach:**
+
+1. **Confirm loading.** Use a simple prompt like "List all available skills" to verify
+   the plugin loads and skills are registered. Check that the count matches your
+   inventory from step 1.
+2. **Check skill behavior.** Pick one domain skill and invoke it with a minimal prompt
+   to confirm frontmatter flags (user-invocable, disable-model-invocation) behave
+   correctly.
+
+**What runtime catches that structural checks can't:**
+- Skills that fail to register due to frontmatter issues
+- Foundation skill that loads but doesn't establish identity correctly
+- User-invocable flags that don't behave as expected
+- Plugin-level conflicts between skills
+
+Report runtime results alongside structural results. If runtime validation surfaces
+issues, fix them and re-verify both structurally and at runtime.
+
 ---
 
 ## Edge Cases

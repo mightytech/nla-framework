@@ -113,7 +113,8 @@ distinction, rare operations manual, conversational) are well-reasoned.
 
 **Source:** [Issue #8](https://github.com/mightytech/nla-framework/issues/8), Items 1-3
 **Verdict:** Accept (items 1-3 combined into one enhancement)
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-03-04 — Added optional step 8 (Runtime Validation) to `core/skills/export.md` with env var workaround, two-step validation approach, and guidance on what runtime catches that structural checks can't.
 
 **What to do:**
 Add an optional step 8 to `core/skills/export.md` for runtime validation. After
