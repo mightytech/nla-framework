@@ -1,7 +1,7 @@
 # Maintenance Session: /close Skill and Next-Step Suggestions
 
 **Date:** 2026-03-04
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 Make the implicit session workflow partly visible through use. Two related friction log
@@ -20,6 +20,10 @@ terminus, and `/close` becomes the destination that makes the other suggestions 
 - Added update note in install/update-notes.md for domain projects
 - Post-validation fixes: session log title convention in close.md, /debrief suggestion
   in close.md, added missing template sections to framework maintain wrapper
+- Debrief-driven improvements to /maintain workflow (both core and framework wrapper):
+  - "Discuss your approach" as explicit workflow step after user picks work, with /think escalation
+  - Dependency/connection analysis added to session start summary
+  - Plan mode expectations: conversational-first, AskUserQuestion for discrete selections only, preserve context
 
 ## Blast Radius
 - All core skill changes affect all projects (maintain.md, debrief.md, validate.md,
@@ -41,5 +45,49 @@ terminus, and `/close` becomes the destination that makes the other suggestions 
 - "Skills should suggest next steps" (2026-03-03) — resolved
 
 ## Debrief
+Full `/debrief` with `/unpack` to work through 4 threads:
+
+1. **The /think skip.** The AI jumped to plan mode without the conversational exploration
+   that produced the session's best design insight (/close as guarantor, not just finalizer).
+   The guidance existed in Principle 2 but didn't override execution momentum. Fix: added
+   "discuss your approach" as an explicit workflow step, not a buried principle.
+
+2. **AskUserQuestion as anti-pattern for design decisions.** The structured question UI
+   converts rich design spaces into multiple-choice tests. The user's reframing of /close
+   couldn't have emerged from a menu. Agreed it has a place for genuinely discrete selections,
+   but design decisions belong in conversation. Fix: plan mode expectations added to
+   Principle 2.
+
+3. **Dependency analysis primes better recommendations.** The user's "are these connected?"
+   question shaped the entire session — what to combine, what to defer, where to start.
+   Without that mapping, recommendations would have been less coherent. Fix: light addition
+   to session start summary.
+
+4. **Validation two-mode pattern.** Structural + architecture together caught different
+   things. Resolved without changes — already covered by judgment and existing next-step
+   language.
+
+Also noted: metaphors are genuinely helpful for communicating calibration to the AI.
+"Glancing at the side mirror before switching lanes" encoded the right weight for the
+conversational beat more precisely than specification would have.
 
 ## State at Close
+**Working:** /close skill fully registered and operational. Next-step suggestions in
+debrief, validate, export, maintain. Conversational-first workflow practices in /maintain.
+Validation confirmed structural and architectural coherence.
+
+**Pending friction log (5 items):**
+- Context-aware help/guide skill (needs /think)
+- /create-app bare project path (pre-existing)
+- Should friction logs be gitignored? (needs /think)
+- Framework maintain thin wrapper pattern (deferred)
+- Context window awareness for session log nudges (deferred)
+
+**Pending feedback log (3 items):**
+- Export hybrid approach (needs /think)
+- Permission model (needs /think)
+- Export runtime validation step (implementable, most self-contained)
+
+**Recommended next session:** Export runtime validation is the most self-contained
+implementable item. The /think-dependent items (permission model, export hybrid,
+help/guide skill, friction log gitignore) are the bigger design work waiting.
