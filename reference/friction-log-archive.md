@@ -12,6 +12,40 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-03-03 — Session close skill
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-03-04 — Created `/close` core skill (`core/skills/close.md`). Shape-neutral session closer that creates or finalizes session logs, checks loose ends, summarizes state. Registered across framework (wrapper, intent, create-app, CLAUDE.md, README).
+
+**Observation:**
+There's no `/close` or `/end` skill to wrap up a session. The maintain skill has
+session-close *steps* (finalize log, check README, suggest validation) but they're
+buried in the skill doc rather than being an invocable action. From a UX perspective,
+an explicit session-close skill signals "we're done" and handles the checklist:
+commit, finalize session log (including debrief section), "here's where to pick up
+next time."
+
+---
+
+### 2026-03-03 — Skills should suggest next steps
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-03-04 — Added light next-step suggestions to `debrief.md` (→ /close), `validate.md` (→ /debrief, /close), `export.md` (→ validation, /close), `maintain.md` (session close → /close). `/install` already suggested /validate, left unchanged.
+
+**Observation:**
+Skills have natural successors that aren't surfaced: `/validate` → `/debrief` or fix
+findings, `/debrief` → session close, `/install` → `/validate`, `/maintain` (after
+resolving items) → `/validate`. Users who know the workflow follow it naturally; new
+users don't know what comes next.
+
+---
+
 ### 2026-03-03 — Add debrief section to session log format
 
 **Type:** process
