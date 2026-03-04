@@ -31,8 +31,13 @@ After completing the required reading, surface what's waiting before asking the 
 2. **Check the most recent session log** in `reference/sessions/` — read its State at Close for continuity.
 3. **Present a summary:**
    - "You have X friction log entries and Y feedback items pending."
+   - Note connections between pending items — dependencies, items that should be combined, anything catalytic that unblocks others.
    - If a previous session left open questions or pending work, note it.
    - If nothing is pending: "No pending items. What would you like to work on?"
+
+### Before Starting Work
+
+After the user picks what to work on, **discuss your approach** — present your thinking, engage with the user's reaction, and enter `/think` if the work involves design judgment or unfamiliar territory. This can be as light as "here's what I'm thinking, anything to adjust?" or as deep as a full `/think` session. The point is to have the conversational beat before formalizing a plan or executing.
 
 ---
 
@@ -102,6 +107,8 @@ Current: [what it says now]
 Proposed: [what it would say]
 Rationale: [why this change]
 ```
+
+**When using plan mode:** Design questions should be resolved conversationally *before* entering plan mode — plan mode is for detailed preparation, not exploration. Use `AskUserQuestion` only for genuinely discrete selections (which file, which option), not for design decisions where conversation would produce better outcomes. Avoid clearing context mid-session — session logs, debrief, and continuity depend on retained context.
 
 For design work with multiple moving parts, run a pre-flight review before presenting your proposal — see below.
 
