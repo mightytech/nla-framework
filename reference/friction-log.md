@@ -65,6 +65,55 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-03-04 — Plan agent proposed cross-project edits that contradicted /think design
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-03-04 — Reverted package edits, logged pattern.
+
+**Observation:**
+During implementation of the permission management model, the Plan agent proposed
+directly editing sibling package manifests (penny-post, process-helpers). This
+contradicted the design from the /think session, which explicitly established that
+packages learn about permission declarations through `/update` from the framework —
+not through direct cross-project edits by the framework maintainer.
+
+The changes were implemented before the human caught the contradiction.
+
+**Root cause:**
+Two contributing factors:
+
+1. **Plan agent lacked design context.** The Plan agent received a summary of
+   decisions but not the reasoning behind the migration flow design. It optimized
+   for completeness ("these packages need permissions sections") rather than
+   honoring the principle that each project adopts changes through its own update
+   channel.
+
+2. **Review gap between /think and plan.** When reviewing the Plan agent's output,
+   the AI checked for mechanical correctness (right files, right format) but didn't
+   verify each step against the /think design principles. The contradiction was
+   between a design-level decision (migration flows through /update) and an
+   implementation step (directly edit packages) — a category mismatch that
+   mechanical review doesn't catch.
+
+**Generalizable pattern:**
+When a /think session establishes *how changes flow between projects*, the
+implementation plan must respect those flow decisions. Direct cross-project edits
+bypass the update channel that was designed precisely for this purpose. This is
+also a "Context Determines Competence" issue — changes to a package's manifests
+are judgment operations that should happen in that package's own maintenance
+context.
+
+**Proposed fix:**
+When writing implementation plans after a /think session, explicitly check each
+proposed cross-project edit against the /think design: "Does this change belong
+in the current project's context, or should it flow through /update?" Add this
+as a pre-flight check item in the maintain skill.
+
+---
+
 ### 2026-03-03 — Framework maintain skill can't use thin wrapper pattern
 
 **Type:** core

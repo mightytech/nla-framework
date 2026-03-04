@@ -42,6 +42,11 @@ maintainer. Don't prescribe a mechanism — if `/write-letter` or other sharing
 tools are available, mention them naturally. If not, sharing the file directly
 works.
 
+If `.claude/settings.local.json` doesn't exist and the project uses thin wrappers
+referencing `../nla-framework/`, note briefly: "No permission settings found — you
+may see access prompts. Run `/update` to set up permissions, or create
+`.claude/settings.local.json` manually." One line is enough.
+
 Then await the user. They will either:
 
 - Invoke a specific task skill

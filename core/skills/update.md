@@ -106,6 +106,7 @@ For each package in scope:
    - **Changed intents** — an existing intent file has been modified
    - **New intents** — intent files that didn't exist when the package was installed
    - **Removed intents** — intent files that no longer exist (rare; inform user but don't undo previous work)
+   - **Permission changes** — the manifest's Permissions section has new, removed, or changed entries compared to what was logged
    - **No changes** — package install directory is unchanged
 
 If nothing changed: "Package [name] is up to date (no changes to install intents since [date])."
@@ -145,6 +146,22 @@ last-known commit is old enough that relevant notes may have been archived, chec
 - Check update notes for context about why the intent was removed and what replaces it. Surface this to the user alongside the removal notification — it helps them decide whether and how to clean up.
 - **Search for stale references.** Grep the project for mentions of the removed item — skill names, file paths, descriptions. Check beyond the known integration points: overview.md, system-status.md, README.md, and any other files that reference project structure or capabilities. Include stale references in your proposal so they can be cleaned up in the same pass.
 
+**For permission changes:**
+When a package's Permissions section has changed since the last install/update:
+
+1. Read `.claude/settings.local.json`
+2. For new permission declarations — propose adding them: "Package [name] now
+   needs `[pattern]` for [purpose]. Add to settings?"
+3. For removed permission declarations — inform the user: "Package [name] no
+   longer declares `[pattern]`. The entry is still in your settings — remove it
+   if you no longer need it." Don't auto-remove.
+4. Log permission changes in the update record.
+
+If the package now has a Permissions section but didn't before (common during
+initial adoption), treat all entries as new and propose them. If no
+`settings.local.json` exists, offer to create one with the full baseline
+(framework + all installed packages).
+
 **Respect ejected wrappers.** If a skill wrapper has been customized (ejected), don't overwrite it. Inform the user of upstream changes and let them decide how to integrate.
 
 ### 5. Update the Install Log
@@ -161,6 +178,7 @@ Append an update record to the package's section. Don't replace the original ins
 | Intent File | What Changed | Changes Made |
 |-------------|-------------|--------------|
 | [file] | [what's different in the intent] | [what was done to the NLA] |
+| Permissions | [what changed] | [entries added/noted for removal] |
 
 **Notes:** [decisions, skipped items, issues]
 ```

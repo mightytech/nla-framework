@@ -32,4 +32,13 @@ Check that the system's internal references are consistent. This is a mechanical
 
 7. **Package consistency.** If `reference/feedback-log.md` exists but no `/write-letter` skill is registered in `.claude/skills/`, note it: "Feedback infrastructure exists but penny post isn't installed. Run `/install` to add it, or remove the feedback log files if feedback isn't needed." Similarly, check that other package-created files have their corresponding skills.
 
+8. **Permission consistency.** If `.claude/settings.local.json` exists, read it and check declared required permissions against its entries:
+   - Read the framework's permission declarations from `../nla-framework/install/install.md`
+   - If `reference/installed-packages.md` exists, read each installed package's permission declarations from their `install/install.md` (using paths from the install log)
+   - If no install log exists, skip the package permission check and note: "No install log — can only verify framework permissions. Run `/update` to bootstrap an install log."
+   - Report missing required permissions: "[Package] declares `Read(../nla-penny-post/**)` as required, but it's not in settings"
+   - Don't flag optional permissions as issues — they're informational
+
+   If `.claude/settings.local.json` doesn't exist: note "No settings.local.json found. Permission prompts will appear for framework and package access. Run `/update` to generate one, or create manually." This is a finding, not an error — the project works without it.
+
 If everything passes, say so clearly. If issues are found, suggest fixes but do not make them — that is `/maintain`'s job.

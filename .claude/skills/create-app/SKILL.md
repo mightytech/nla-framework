@@ -139,6 +139,7 @@ the user's domain.
 
 | File | Structural source | What to customize |
 |------|-------------------|-------------------|
+| `.claude/settings.local.json` | `install/install.md` permissions section | Resolved framework path, package paths from conversation |
 | `CLAUDE.md` | `install/CLAUDE-intent.md` reference structure | Project identity, skills table, modes, environment |
 | `reference/design-rationale.md` | `install/structure-intent.md` | Starter rationale with creation decisions for this domain |
 | `reference/system-status.md` | `install/structure-intent.md` | Actual tasks and skills from the conversation |
@@ -206,6 +207,31 @@ When created, it should cover:
 - Flexibility: what varies, what's consistent
 - What stays raw: what the NLA should NOT change
 
+**`.claude/settings.local.json`** — Claude Code permission configuration:
+- Read the framework's `install/install.md` permissions section for base patterns
+- Resolve the framework path to an absolute path for the `Read(...)` entry
+  (use the actual filesystem path, e.g., `Read(/home/user/workspace/nla-framework/**)`)
+- Include broad bash patterns: `Bash(git:*)`, `Bash(ls:*)`, `Bash(test:*)`
+- If packages were discussed during the conversation (e.g., "I want penny post"),
+  read their `install/install.md` permissions sections and include their entries too
+- Format as valid JSON:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Read(/absolute/path/to/nla-framework/**)",
+      "Bash(git:*)",
+      "Bash(ls:*)",
+      "Bash(test:*)"
+    ]
+  }
+}
+```
+
+Package entries use relative paths (`Read(../nla-penny-post/**)`). The framework
+entry uses an absolute path resolved at generation time.
+
 **`app/[task-name].md`** — One doc per task (the actual application logic):
 - Purpose: what this task does in one sentence
 - Input: what it receives
@@ -219,6 +245,8 @@ When created, it should cover:
 Follow this order — later files reference earlier ones:
 
 1. **Directory structure** — Create all directories with `mkdir -p`
+1b. **Settings file** — `.claude/settings.local.json` (before thin wrappers, because it
+    authorizes reading framework files that thin wrappers reference)
 2. **Category 1 files** — Thin wrapper skills, .gitkeep files, archives, .gitignore
 3. **Shared context** — values.md, voice.md, common-patterns.md, output-spec.md (if needed)
 4. **Task docs and skills** — Task-specific files for each task
@@ -266,6 +294,7 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | **Friction log** | Your learning journal. `/friction-log` captures observations, `/maintain` turns them into improvements. |
 | **Config** | Config lets users personalize the NLA without editing the application. Their preferences live in `config.md`, separate from the app. `/preferences` creates and edits it. |
 | **Validation** | `/validate` checks internal consistency, reviews architecture after restructuring, traces scenarios through docs, and debugs when output doesn't match expectations. |
+| **Permissions** | This pre-approves reading from the framework and running common commands like git. Without it, Claude Code would prompt every time a skill reads a framework file. |
 | **Package management** | `/install` adds new capabilities from extension packages. `/update` keeps them current. Your install log tracks what's installed. |
 
 Don't narrate every file. Group the thin wrappers, group the reference files. Focus on what helps the user understand the system.
@@ -285,6 +314,9 @@ Next steps:
 3. Start Claude Code
 4. Run /startup to load foundational context
 5. Try /[task-name] with some sample content
+
+If you work on multiple NLAs, you can move the framework read entry from
+.claude/settings.local.json to ~/.claude/settings.json for user-wide coverage.
 
 The project is ready to use, but it'll get better with use. Run `/maintain` to refine
 your voice doc after seeing real output, add patterns as they emerge, or flesh out
@@ -309,6 +341,7 @@ Before reporting completion, verify:
 7. **config-spec.md** reflects configuration choices from the conversation
 8. **config.md** has sensible defaults matching the config-spec
 9. **.gitignore** excludes config.md and config/
+10. **settings.local.json** contains valid JSON with the resolved framework path
 
 If anything doesn't match, fix it before reporting done.
 

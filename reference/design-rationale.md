@@ -1607,6 +1607,87 @@ the session log.
 
 ---
 
+## Permission Management Model
+
+*Added 2026-03-04.*
+
+### The problem
+
+Claude Code prompts for permission on every external directory access. NLAs
+routinely read from sibling directories — the framework (`../nla-framework/`),
+packages (`../nla-penny-post/`), and domain data directories (`../duet-music/`).
+A project with many thin wrapper skills triggers prompts on nearly every skill
+invocation. The accumulated ad-hoc approvals produce messy settings files —
+garbled entries, duplicates, overly specific patterns (50-80 entries per project).
+
+### What was decided
+
+Permissions are declared in package intent files and generated into project
+settings files by existing skills. No new skill — three existing integration
+points handle the lifecycle:
+
+- **`/create-app`** — generates initial `.claude/settings.local.json` at project
+  creation, with framework reads and broad bash patterns pre-approved
+- **`/install` + `/update`** — proposes permission entries when packages declare
+  needs in their manifests, appends to the settings file
+- **`/validate`** — checks declared needs against actual settings, reports gaps
+
+### Tiered placement
+
+| What | Where | Why |
+|------|-------|-----|
+| Framework reads | Project-level `settings.local.json`, absolute path resolved at generation | Every NLA needs this; user-wide documented as optimization for multi-project users |
+| Package reads | Project-level `settings.local.json`, relative paths | Per-project; varies by NLA |
+| Domain data dirs | Project-level `settings.local.json`, relative paths | Per-project; unique to each NLA. Not yet handled by skills — declared in project config, added manually. Candidate for future `/create-app` integration. |
+| Common bash (`git:*`, `ls:*`, `test:*`) | Project-level `settings.local.json` | Pre-empts the most common prompt noise |
+| Write operations | Manual approval | Safety — writes have consequences |
+
+### Why settings.local.json, not settings.json
+
+`settings.local.json` is gitignored by Claude Code by default. Permissions
+contain absolute paths (for the framework entry) and are machine-specific.
+Checked-in `settings.json` is documented as a team option when all developers
+share the same directory layout — but the default protects against accidentally
+committing machine-specific paths or making permission decisions for others.
+
+### Why not a new skill
+
+Permission management is a property of packages, not a standalone workflow.
+It fits naturally into the existing package lifecycle: packages declare needs,
+install/update processes them, validation catches drift. A `/permissions` skill
+would be invoked rarely and in contexts where one of the three existing skills
+is already active.
+
+### The declaration format
+
+Each package's `install.md` manifest includes a "Permissions" section with a
+table of Claude Code permission patterns, purpose descriptions, and
+required/optional classification. Same format everywhere — framework, packages,
+standalone NLAs. The installing skill reads the table and proposes corresponding
+entries in the NLA's `settings.local.json`.
+
+### Migration path
+
+Existing projects adopt through `/update`: the framework update introduces
+permission declarations in its own manifest, `/update` detects the new section,
+and proposes generating `settings.local.json`. Existing packages add permission
+sections to their manifests — the framework's update notes communicate this to
+package maintainers. Domain projects pull package updates and get permission
+proposals alongside other intent changes. Each layer learns about permissions
+through `/update` from the layer above.
+
+### Blast radius
+
+- `install/` — New sections in `install.md`, `structure-intent.md`, `package-intent.md`
+- `core/skills/` — Changes to install.md, update.md, validate-structural.md,
+  startup.md
+- `.claude/skills/create-app/` — Settings file generation
+- All existing projects — via update notes; migration is optional (projects work
+  without it, they just see more permission prompts)
+- All existing packages — should add permission declarations to their manifests
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

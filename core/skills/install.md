@@ -58,6 +58,45 @@ For each intent file listed in the manifest:
 
 **Respect ejected wrappers.** If a skill wrapper has been customized beyond the thin wrapper pattern (ejected), don't overwrite it. Inform the user: "The `/[skill]` wrapper has been customized. The package wants [intent]. You can integrate this yourself, or I can add it — your call."
 
+### 3b. Process Permission Declarations
+
+After processing intent files, check the package manifest (`install.md`) for a
+"Permissions" section.
+
+If permissions are declared:
+
+1. **Read the declarations** — note each pattern, purpose, and required/optional
+2. **Check the NLA's settings** — read `.claude/settings.local.json` if it exists
+3. **Identify missing entries** — patterns declared but not present in settings
+4. **Propose additions** to the user:
+
+   > [Package name] needs these permissions to work without Claude Code prompts:
+   >
+   > | Pattern | Purpose |
+   > |---------|---------|
+   > | `Read(../nla-penny-post/**)` | Read package skill logic |
+   >
+   > Add these to `.claude/settings.local.json`?
+
+5. If approved, append the entries to the `allow` array in `settings.local.json`.
+   Create the file if it doesn't exist, using this structure:
+
+   ```json
+   {
+     "permissions": {
+       "allow": [
+         "Read(../nla-penny-post/**)"
+       ]
+     }
+   }
+   ```
+6. If no settings file exists and the framework's own permissions aren't present
+   either, offer to generate the full baseline — framework reads, broad bash
+   patterns, plus this package's entries — rather than just the package entries.
+
+If no permissions section exists in the manifest, skip this step silently.
+Many existing packages predate this convention.
+
 ### 4. Update the Install Log
 
 After all changes are made, update `reference/installed-packages.md`. Create the file if it doesn't exist.
@@ -76,6 +115,7 @@ After all changes are made, update `reference/installed-packages.md`. Create the
 | Intent File | Integration Point | Changes Made |
 |-------------|------------------|--------------|
 | [file] | [target] | [what changed, briefly] |
+| Permissions | settings.local.json | [entries added, if any] |
 
 ### Notes
 
@@ -86,6 +126,7 @@ After all changes are made, update `reference/installed-packages.md`. Create the
 
 Summarize what was installed:
 - What capabilities the NLA now has
+- Whether permission entries were added to `settings.local.json`
 - Any manual steps remaining (if prerequisites couldn't be verified)
 - Run structural validation on the affected integration points (`/validate` structural mode). Installation changes multiple files that reference each other — validation catches inconsistencies the intent-driven process may miss.
 

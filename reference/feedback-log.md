@@ -85,7 +85,8 @@ for mechanical transformation.
 
 **Source:** [Issue #7](https://github.com/mightytech/nla-framework/issues/7)
 **Verdict:** Accept principle — implementation needs a `/think` design session
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-03-04 — Added permission management model: declarations in package manifests, `/create-app` generates settings files, `/install`+`/update` propose entries, `/validate` checks consistency, `/startup` notes missing settings. Design rationale, update notes, and package manifest updates included.
 
 **What to do:**
 Design and implement the framework's role in permission management:
@@ -98,6 +99,12 @@ Design and implement the framework's role in permission management:
 Before implementing, run a `/think` session to determine where each piece lives in the
 framework, how it affects existing projects, and the right integration points with
 Claude Code's settings hierarchy.
+
+**Design deviation:** The /think session placed all permissions at project scope
+(`settings.local.json`) rather than user-wide for framework reads. User-wide
+(`~/.claude/settings.json`) is documented as an optional optimization for
+multi-project setups. See design-rationale.md "Permission Management Model" for
+the rationale.
 
 **Why it was accepted:**
 Two sources report the same friction from different angles. Creative Helpers (#6 item 1)

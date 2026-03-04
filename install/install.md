@@ -21,6 +21,23 @@ this framework should have what these intent files describe.
 - **This repo cloned as a sibling** — `../nla-framework/` relative to the NLA. Thin
   wrapper skills reference this path.
 
+## Permissions
+
+What filesystem access this package needs in installing NLAs. The installing skill
+reads these and proposes entries for the NLA's `.claude/settings.local.json`.
+
+| Pattern | Purpose | Required |
+|---------|---------|----------|
+| `Read(../nla-framework/**)` | Framework core docs, skill logic, foundations, intent files | Yes |
+| `Bash(git:*)` | Version control operations | Yes |
+| `Bash(ls:*)` | Directory listing | Yes |
+| `Bash(test:*)` | File and directory existence checks | Yes |
+
+At project creation, `/create-app` resolves the framework path to an absolute path
+for the settings entry. Package entries use relative paths.
+
+No write patterns are declared. Writes to external directories stay manually approved.
+
 ## What's in This Directory
 
 Each file describes the **intent** of what a framework-based NLA should have at a
@@ -32,6 +49,9 @@ into the NLA's existing files in whatever way fits that NLA's structure and voic
 | `CLAUDE-intent.md` | NLA's CLAUDE.md | Runtime identity, grounding principles, modes, execution rules |
 | `skills-intent.md` | NLA's .claude/skills/ | Framework skill wrappers |
 | `structure-intent.md` | NLA's directory layout | Required directories and reference files |
+
+The manifest also declares permissions — filesystem access patterns that installing
+NLAs should allow. See the Permissions section above.
 
 ## How This Relates to `/create-app`
 

@@ -126,6 +126,10 @@ Check for:
 - **Cost/benefit** — does this optimize for rare cases at common-case expense?
 - **Scope** — does this solve more than what was asked?
 - **Maintenance burden** — does this create things that need to stay in sync?
+- **Cross-project edits** — if the plan touches files outside this repo, does
+  each edit belong here or should it flow through `/update`? Direct edits bypass
+  the update channel. When a /think session established how changes propagate
+  between projects, verify the plan honors that flow.
 
 Pre-flight catches problems that are cheaper to fix on paper than in prose. When it
 surfaces issues, revise the design before proposing it — don't present known gaps for

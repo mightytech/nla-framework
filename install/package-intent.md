@@ -33,7 +33,35 @@ install/
 **install.md** describes the package, its prerequisites, and the installation flow:
 read each intent file, examine the target NLA's current state, synthesize the intent
 into existing files (don't paste, integrate), log what was done in the target NLA's
-`reference/installed-packages.md`.
+`reference/installed-packages.md`. It also declares permissions (see below).
+
+## Permissions Section
+
+Package manifests should declare what filesystem access they need from installing
+NLAs. This goes in `install.md` as a "Permissions" section with a table:
+
+```markdown
+## Permissions
+
+| Pattern | Purpose | Required |
+|---------|---------|----------|
+| `Read(../package-name/**)` | Read package skill logic and docs | Yes |
+| `Bash(gh:*)` | GitHub CLI (if the package uses it) | Depends on package |
+```
+
+The patterns use Claude Code's permission syntax. The installing skill reads these
+and proposes entries for the NLA's `settings.local.json`.
+
+**Required vs. optional:** Mark a permission "Yes" if the package won't function
+without it. Mark "Optional" with a note about what's lost if it enhances but isn't
+essential.
+
+**Don't declare write permissions.** Writes to package directories should remain
+manually approved.
+
+Most packages only need their baseline read entry (`Read(../package-name/**)`).
+Additional entries are for packages that use external tools (like GitHub CLI) or
+access directories beyond their own.
 
 **CLAUDE-intent.md** describes what the installing NLA's CLAUDE.md should know about
 the package — typically a skills table section and any execution principles the

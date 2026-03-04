@@ -33,6 +33,61 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-03-04 — Permission management model
+
+**Affects:** install/install.md, install/structure-intent.md, install/package-intent.md,
+core/skills/install.md, core/skills/update.md, core/skills/validate-structural.md,
+core/skills/startup.md, .claude/skills/create-app/SKILL.md
+
+Claude Code prompts for permission every time a skill reads from a sibling directory
+(`../nla-framework/`, `../nla-penny-post/`, etc.). For NLAs with many thin wrapper
+skills, this creates significant friction — prompts on nearly every skill invocation.
+
+The framework now supports a **permission management model**:
+
+- **Package manifests** (`install.md`) declare what filesystem access they need, using
+  a Permissions section with Claude Code permission patterns
+- **`/create-app`** generates an initial `.claude/settings.local.json` with framework
+  reads and common bash patterns pre-approved
+- **`/install` and `/update`** propose permission entries when packages declare needs
+- **`/validate`** checks declared needs against actual settings and reports gaps
+- **`/startup`** notes when no settings file exists (one-line awareness)
+
+**What to do in your project:**
+
+1. Run `/update` — it will detect the new permissions section in the framework manifest
+   and offer to generate `.claude/settings.local.json` for you. This is the easiest path.
+
+2. Alternatively, create `.claude/settings.local.json` manually:
+   ```json
+   {
+     "permissions": {
+       "allow": [
+         "Read(/absolute/path/to/nla-framework/**)",
+         "Bash(git:*)",
+         "Bash(ls:*)",
+         "Bash(test:*)"
+       ]
+     }
+   }
+   ```
+   Add `Read(../package-name/**)` entries for each installed package.
+
+3. **If you maintain a package:** Add a Permissions section to your `install/install.md`.
+   See the framework's own `install/install.md` or `install/package-intent.md` for the
+   format and conventions.
+
+This is entirely optional. Projects work without it — they just see more permission
+prompts. The settings file eliminates prompts for routine read operations.
+
+**What propagates automatically via thin wrappers:**
+- `/startup`'s awareness of missing settings
+- `/validate`'s new permission consistency check
+- `/install`'s permission proposal step
+- `/update`'s permission delta detection
+
+---
+
 ### 2026-03-04 — New /close skill for session wrap-up
 
 **Affects:** install/skills-intent.md, core/skills/close.md (new), core/skills/maintain.md, core/skills/debrief.md, core/skills/validate.md, core/skills/export.md
