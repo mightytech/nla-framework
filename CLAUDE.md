@@ -66,6 +66,7 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/think` | Collaborative design exploration — what to build and why | When work involves design judgment before planning |
 | `/export` | Export an NLA project as a plugin | When preparing a project for distribution |
 | `/debrief` | Reflect on completed work — surface observations and learnings | After substantive work, when transitioning between tasks |
+| `/close` | Wrap up a session — finalize session log, check loose ends, summarize state | When a session is ending |
 | `/unpack` | Structure complex conversations — identify bundled threads and work through them sequentially | When a discussion has more threads than it can hold at once |
 | `/brainstorm-cluster` | Structured brainstorming — frame, generate, cluster, evaluate, refine | When a conversation needs to explore possibilities before committing |
 | `/steelman` | Build the strongest case for alternatives before committing | When a decision is forming and unchosen paths deserve a fair hearing |

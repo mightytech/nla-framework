@@ -81,6 +81,9 @@ This ensures every finding either gets resolved or enters a queue where `/mainta
 will surface it. Findings that live only in session logs drift — they get noted,
 carried forward, and rediscovered without being acted on.
 
+If the session is wrapping up after validation, suggest `/debrief` to reflect on the
+work, then `/close` to finalize the session record.
+
 ---
 
 *Validation is read-only inspection. Find problems, explain them, point to fixes — then hand off to `/maintain` or `/friction-log`.*

@@ -161,6 +161,15 @@ Maintenance sessions generate intent history. Create a session log in `reference
 ## Blast Radius
 - [Which changes affect all projects vs. new projects vs. maintainers only]
 
+## Decisions Made
+- [Decision] — [Rationale]
+
+## What Didn't Work
+- [Approach] — [Why abandoned]
+
+## Friction Log Entries Processed
+- [Entry reference] — [resolved | deferred | wont-fix]
+
 ## Debrief
 [Observations from the session — what worked, what didn't, process notes.
 If an explicit /debrief conversation happened, capture the refined conclusions
@@ -177,10 +186,9 @@ Update the session log before each commit — Changes Made, resolution status, a
 
 ### Session Close Steps
 
-1. Populate the Debrief section: if an explicit `/debrief` conversation happened, capture the refined conclusions (distilled observations, not transcript). If no debrief, add 2-3 brief observations from the AI's participant-observer perspective — what worked, what was unclear, what surprised.
-2. Finalize the session log (fill in State at Close, set status to Complete)
-3. If the session involved structural changes (file moves, renames, splits, new files), suggest running `/validate` architecture review to check that the document chain still tells a consistent story. Note blast radius when suggesting — structural changes to `core/` affect all domain projects.
-4. If you created, moved, or deleted files, check that README.md's directory tree and any other manually-maintained listings are current.
+Run `/close` to finalize the session log (debrief capture, State at Close, status),
+check for loose ends (uncommitted changes, documentation mirrors, validation), and
+summarize state for next time.
 
 ---
 

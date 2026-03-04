@@ -199,16 +199,9 @@ at session close. Include relevant human context where it explains a dynamic.]
 
 1. **Create** the session log when substantive work begins
 2. **Update** during work — before each commit, sync the log with what was just completed. This keeps the log accurate at every commit point, not just at session close.
-3. **Close** when done:
-   - Populate the Debrief section: if an explicit `/debrief` conversation happened, capture the refined conclusions (distilled observations, not transcript). If no debrief, add 2-3 brief observations from the AI's participant-observer perspective — what worked, what was unclear, what surprised.
-   - Finalize the session log (fill in State at Close)
-   - Update `reference/system-status.md` with current state
-   - Set status to Complete
-4. **Suggest validation** — If the session involved structural changes (file moves,
-   renames, splits, new files), suggest running `/validate` architecture review to
-   check that the document chain still tells a consistent story.
-5. **Check documentation mirrors** — If you created, moved, or deleted files, check
-   that README.md's directory tree and any other manually-maintained listings are current.
+3. **Close** when done — run `/close` to finalize the session log (debrief capture,
+   State at Close, status), check for loose ends (uncommitted changes, documentation
+   mirrors, validation), and summarize state for next time.
 
 ### Keep It Flexible
 

@@ -188,6 +188,22 @@ disable-model-invocation: true
 Read and follow `../nla-framework/core/skills/debrief.md`.
 ```
 
+### /close
+
+**Purpose:** Wrap up a session — finalize the session log, check for loose ends, summarize state for next time.
+**Wrapper location:** `.claude/skills/close/SKILL.md`
+**Delegates to:** `../nla-framework/core/skills/close.md`
+
+**Reference wrapper:**
+```yaml
+---
+name: close
+description: Wrap up a session — finalize session log, check loose ends, summarize state for next time.
+disable-model-invocation: true
+---
+Read and follow `../nla-framework/core/skills/close.md`.
+```
+
 ---
 
 ## Wrapper Pattern

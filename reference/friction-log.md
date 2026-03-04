@@ -139,7 +139,8 @@ this a natural fit for an NLA skill rather than a static doc.
 **Type:** core
 **Severity:** minor
 **Blast radius:** all projects
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-03-04 — Created `/close` core skill (`core/skills/close.md`). Shape-neutral session closer that creates or finalizes session logs, checks loose ends, summarizes state. Registered across framework (wrapper, intent, create-app, CLAUDE.md, README).
 
 **Observation:**
 There's no `/close` or `/end` skill to wrap up a session. The maintain skill has
@@ -167,7 +168,8 @@ from /debrief if it did).
 **Type:** core
 **Severity:** minor
 **Blast radius:** all projects
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-03-04 — Added light next-step suggestions to `debrief.md` (→ /close), `validate.md` (→ /debrief, /close), `export.md` (→ validation, /close), `maintain.md` (session close → /close). `/install` already suggested /validate, left unchanged.
 
 **Observation:**
 Skills have natural successors that aren't surfaced: `/validate` → `/debrief` or fix

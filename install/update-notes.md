@@ -33,6 +33,31 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-03-04 — New /close skill for session wrap-up
+
+**Affects:** install/skills-intent.md, core/skills/close.md (new), core/skills/maintain.md, core/skills/debrief.md, core/skills/validate.md, core/skills/export.md
+
+A new `/close` skill wraps up work sessions — finalizing session logs, checking for
+loose ends (uncommitted changes, documentation mirrors, validation), and summarizing
+state for next time. It creates a session log if one doesn't already exist, ensuring
+every substantive session has a record.
+
+`/maintain`'s session close steps now delegate to `/close` instead of inline
+instructions. This propagates automatically via thin wrappers. Several skills now
+suggest natural next steps at their completion points: `/debrief` suggests `/close`,
+`/validate` suggests `/debrief` then `/close`, `/export` suggests validation then
+`/close`.
+
+**What to do in your project:**
+- Create `.claude/skills/close/SKILL.md` — standard thin wrapper (the intent diff
+  shows the reference wrapper)
+- Add `/close` to your CLAUDE.md skills table
+
+The skill is additive — no existing behavior changes beyond the session close
+delegation in `/maintain`, which propagates automatically.
+
+---
+
 ### 2026-02-23 — Startup now surfaces pending friction log entries
 
 **Affects:** core/skills/startup.md, core/skills/friction-log.md

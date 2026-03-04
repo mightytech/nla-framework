@@ -313,5 +313,14 @@ Report results to the user. If issues are found, fix them before confirming.
 
 ---
 
+## After Export
+
+If the export succeeded, suggest verifying the output — load the plugin into a test
+session or run `/validate` structural mode on the generated directory. If the session
+is wrapping up, `/debrief` can surface observations about the export process, and
+`/close` finalizes the session record.
+
+---
+
 *This skill converts an NLA project into a plugin. The NLA project remains the
 development environment. To improve the plugin, improve the NLA and re-export.*

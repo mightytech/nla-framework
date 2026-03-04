@@ -86,8 +86,10 @@ formalize this as routing logic — use judgment:
 - Observations that are just good to know → worth saying, not everything needs logging
 - Refined conclusions from the conversation → the session log's Debrief section, if a session log exists. Capture distilled observations with relevant human context, not the transcript.
 
-Suggest the natural next step based on what emerged. The capture tools (/friction-log,
-/write-letter) exist; you don't need to replicate their work.
+Suggest the natural next step based on what emerged. The capture tools (`/friction-log`,
+`/write-letter`) exist; you don't need to replicate their work. If the session is
+wrapping up, suggest `/close` to finalize the session record — debrief observations
+land in the session log's Debrief section.
 
 ---
 
