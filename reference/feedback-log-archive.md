@@ -12,6 +12,93 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-03-03 — Validation file-existence checks should prefer built-in tools over Bash
+
+**Source:** [Issue #6](https://github.com/mightytech/nla-framework/issues/6), Item 1
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-03-03 — Added "How to check" note to `core/skills/validate-structural.md`: prefer built-in file tools (Glob, Read) over Bash for existence checks on sibling directories to avoid permission prompts.
+
+**What to do:**
+Add a one-line note to the structural validation skill: "Use built-in file tools (Glob,
+Read) rather than Bash for existence checks, especially for files in sibling directories,
+to avoid unnecessary permission prompts."
+
+**Why it was accepted:**
+High confidence, reproduced across multiple validation runs in Creative Helpers. The
+permission prompts are a recurring annoyance for a fundamentally read-only operation.
+
+---
+
+### 2026-03-03 — Strengthen install skill's post-install validation from suggestion to explicit step
+
+**Source:** [Issue #6](https://github.com/mightytech/nla-framework/issues/6), Item 2
+**Verdict:** Accept with adaptation
+**Status:** resolved
+**Resolved:** 2026-03-03 — Changed step 5 of `core/skills/install.md` from "Suggest running `/validate`" to "Run structural validation on the affected integration points" with rationale. Matches the pattern established in `/update` per Issue #5.
+
+**What to do:**
+In `core/skills/install.md`, change post-install validation from a suggestion to an
+explicit step. Don't auto-run, but frame as standard rather than optional.
+
+**Why it was accepted:**
+During Creative Helpers' first package installation, post-install validation caught three
+files out of sync. Framing validation as an explicit step closes the gap without adding
+permission friction.
+
+---
+
+### 2026-03-03 — Note plugin format compatibility with Claude Code and Cowork in /export
+
+**Source:** [Issue #8](https://github.com/mightytech/nla-framework/issues/8), Item 5
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-03-03 — Added compatibility note to the opening section of `core/skills/export.md`: the plugin format works in both Claude Code and Cowork.
+
+**What to do:**
+Add a note to `core/skills/export.md` that the generated plugin format is compatible
+with both Claude Code and Cowork.
+
+**Why it was accepted:**
+Confirmed via documentation during Duet's export. Users should know the plugin works in
+both environments.
+
+---
+
+### 2026-03-03 — /validate should flag feedback infrastructure without penny post skills
+
+**Source:** [Issue #11](https://github.com/mightytech/nla-framework/issues/11), Item 1
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-03-03 — Added check 7 "Package consistency" to `core/skills/validate-structural.md`: flags when `reference/feedback-log.md` exists but no `/write-letter` skill is registered.
+
+**What to do:**
+Add a structural validation check for feedback infrastructure without corresponding
+penny post skills.
+
+**Why it was accepted:**
+During Duet's session, the AI used feedback infrastructure incorrectly because the files
+existed but the skills didn't. A low-cost structural check catches this gap.
+
+---
+
+### 2026-03-03 — Export inventory should surface classification rationale
+
+**Source:** [Issue #11](https://github.com/mightytech/nla-framework/issues/11), Item 2
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-03-03 — Added guidance to `core/skills/export.md` Step 1: "For skills where the classification isn't self-evident, explain your reasoning. The user should be able to evaluate the judgment, not just the result."
+
+**What to do:**
+Add guidance to export.md Step 1: explain reasoning for non-obvious classifications.
+
+**Why it was accepted:**
+During Duet's export, some classifications were arguably correct but the user couldn't
+evaluate the judgment without explanation. The rationale is the last human-readable
+checkpoint before execution.
+
+---
+
 ### 2026-02-21 — Add reference-search step to /update for removals and renames
 
 **Source:** [Issue #5](https://github.com/mightytech/nla-framework/issues/5), Item 1

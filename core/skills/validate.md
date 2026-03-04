@@ -62,7 +62,24 @@ After selecting a mode, read and follow the corresponding file:
 - Edit any files (that is `/maintain`)
 - Run actual tasks (you narrate what would happen)
 - Fix issues you find (report them; the user decides what to act on)
-- Generate friction log entries (the user can invoke `/friction-log` for issues worth tracking)
+
+## After Presenting Findings
+
+When validation surfaces issues, propose a disposition for each one:
+
+- **Fix now** — low effort, context advantage (we just touched this file), or batches
+  naturally with other fixes
+- **Defer** — log to the friction log for a future `/maintain` session
+- **Ignore** — log to the friction log as `wont-fix` so future validation doesn't
+  rediscover it
+
+Recommend based on: how much context advantage exists right now, the effort required,
+dependencies between findings, and batching potential. Present recommendations together
+so the user can approve, adjust, or override.
+
+This ensures every finding either gets resolved or enters a queue where `/maintain`
+will surface it. Findings that live only in session logs drift — they get noted,
+carried forward, and rediscovered without being acted on.
 
 ---
 

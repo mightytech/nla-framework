@@ -87,7 +87,7 @@ After all changes are made, update `reference/installed-packages.md`. Create the
 Summarize what was installed:
 - What capabilities the NLA now has
 - Any manual steps remaining (if prerequisites couldn't be verified)
-- Suggest running `/validate` to check consistency
+- Run structural validation on the affected integration points (`/validate` structural mode). Installation changes multiple files that reference each other — validation catches inconsistencies the intent-driven process may miss.
 
 ---
 

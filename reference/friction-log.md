@@ -65,6 +65,131 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-03-03 — Framework maintain skill can't use thin wrapper pattern
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** deferred
+
+**Observation:**
+The framework's own `.claude/skills/maintain/SKILL.md` is a full custom version
+rather than a thin wrapper to `core/skills/maintain.md`. The core file assumes domain
+project context — hardcoded paths like `app/overview.md`, `app/shared/values.md`,
+`reference/system-status.md`. The framework doesn't have these, so it maintains a
+parallel version with adjusted targets.
+
+This creates a sync burden: structural changes to the session log format, common tasks,
+or session lifecycle steps need to be applied to both files. The framework is an NLA
+itself — it should be able to use its own patterns.
+
+**Root cause:** The core maintain skill is written in "code style" (prescriptive paths)
+rather than "NLA style" (described intent). "Read `app/overview.md`" could be "read
+your project's overview document." The AI resolves the right path in any context.
+
+**Possible approaches:**
+- Broaden language in `core/skills/maintain.md` until the framework can thin-wrap it
+- Rename/move core files to match the `app/` convention the skill assumes
+- Some combination
+
+**Why deferred:**
+Works fine today, sync burden is manageable. Worth remembering for when the maintain
+skill next gets a significant refactor.
+
+---
+
+### 2026-03-03 — Context-aware help/guide skill
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+The framework workflow (startup → maintain → think/plan → validate → debrief → close)
+is implicit. Individual skills know what they do but not where they sit in the larger
+flow. A new user finishes `/create-app` and has no guidance on what to do next.
+
+A context-aware help/guide skill could: understand where the user is in the workflow,
+explain the system as they encounter it, serve as a tour guide for recent framework
+changes after `/update`, and adapt to the user's interest level. This is interactive
+onboarding, not static documentation.
+
+**Open questions:**
+- Does it read session state? Know what skills you've used?
+- Is it a mode or a skill you invoke?
+- How does it relate to `/startup`?
+- Does it replace documentation or complement it?
+- The "tour guide for recent changes" angle connects to `/update` — walk through
+  what changed and why it matters for your project.
+
+**Proposed fix:**
+Design session (`/think`) to work through the concept. This is a new feature, not a
+tweak to existing skills.
+
+**Notes:**
+Surfaced during debrief. The user has internalized the workflow rhythm but recognized
+other users won't. The AI's ability to gauge interest and respond to questions makes
+this a natural fit for an NLA skill rather than a static doc.
+
+---
+
+### 2026-03-03 — Session close skill
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+There's no `/close` or `/end` skill to wrap up a session. The maintain skill has
+session-close *steps* (finalize log, check README, suggest validation) but they're
+buried in the skill doc rather than being an invocable action. From a UX perspective,
+an explicit session-close skill signals "we're done" and handles the checklist:
+commit, finalize session log (including debrief section), "here's where to pick up
+next time."
+
+**Affected files:**
+- New: `core/skills/close.md` (or `session-close.md`)
+- Update: `core/skills/maintain.md` (session lifecycle section would reference the skill)
+- Update: `install/skills-intent.md` (new skill wrapper)
+
+**Proposed fix:**
+Create a session-close skill that wraps the existing checklist into an invocable
+action. Extract from maintain.md's session lifecycle steps. Include the debrief
+section population (brief observations if no explicit /debrief happened, conclusions
+from /debrief if it did).
+
+---
+
+### 2026-03-03 — Skills should suggest next steps
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+Skills have natural successors that aren't surfaced: `/validate` → `/debrief` or fix
+findings, `/debrief` → session close, `/install` → `/validate`, `/maintain` (after
+resolving items) → `/validate`. Users who know the workflow follow it naturally; new
+users don't know what comes next.
+
+**Affected files:**
+- `core/skills/validate.md` and mode files
+- `core/skills/debrief.md`
+- `core/skills/install.md`
+- `core/skills/maintain.md`
+- Possibly others
+
+**Proposed fix:**
+Add brief "next step" guidance to skills at their natural completion points. Light
+touch — a sentence, not a workflow engine. E.g., validate's output section could end
+with "If you're wrapping up, consider `/debrief`. If findings need fixing, `/maintain`
+can address them."
+
+---
+
 ### 2026-02-23 — /create-app bare project path: missing guidance and speculative seeds
 
 **Type:** intent
@@ -104,6 +229,21 @@ Surfaced during debrief after creating `facebook-moderation` as a bare project.
 The generation succeeded — this is about making the path explicit rather than fixing
 a failure.
 
+**Additional observation (2026-02-24, nla-writer creation):**
+The task assumption runs deeper than the edge cases section. Phase B's follow-up
+groupings, Phase C's summary template, and the file generation tables all thread
+tasks through as a core structural element. With zero tasks, the generator adapts
+each section independently — empty task tables, skipping domain skill generation,
+adjusting the summary format. Works, but requires judgment at every step rather
+than following instructions.
+
+Separately: when rich domain context exists (as with nla-writer — extensive
+writings, a model project in duet, values from AMG), the "speculative seeds"
+concern inverts. The shared context files (values, voice, patterns) are
+well-informed, not guesses. The risk shifts from "seeds feel authoritative" to
+"seeds are good enough that the user never revisits them." May warrant different
+guidance for blank-but-context-rich vs. blank-and-context-sparse projects.
+
 ---
 
 ### 2026-02-23 — Should friction logs be gitignored?
@@ -140,34 +280,6 @@ Design session (`/think`) to work through the implications. Not a quick fix.
 Emerged during design of friction log communication path (startup awareness +
 write-letter integration). The communication path works regardless of git
 storage, so it was implemented separately.
-
----
-
-### 2026-02-22 — "Adding a New Skill" checklist not surfaced during skill creation
-
-**Type:** process
-**Severity:** minor
-**Blast radius:** maintainers
-**Status:** pending
-
-**Observation:**
-When adding `/check-updates` as a new core skill, three of seven steps in the
-`core/skills/README.md` "Adding a New Skill" checklist were missed: creating the
-framework's own wrapper, updating the What's Here table, and updating the README
-directory tree. `/validate` caught all three post-implementation.
-
-The checklist exists and is correct — it just wasn't consulted during implementation.
-The maintain skill's "Updating Core Skill Logic" section and the plan file both
-focused on the core logic and intent files, not the mechanical registration steps.
-
-**Proposed fix:**
-Reference the checklist in `core/skills/maintain.md` or the maintain skill's
-"Updating Core Skill Logic" section — something like "When adding a new skill,
-follow the checklist in `core/skills/README.md`." This surfaces it at the moment
-it's needed rather than relying on the maintainer to remember it exists.
-
-**Affected files:**
-- `core/skills/maintain.md` (or `.claude/skills/maintain/SKILL.md`)
 
 ---
 

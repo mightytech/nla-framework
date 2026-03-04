@@ -185,6 +185,12 @@ This is the most important section.]
 ## Friction Log Entries Processed
 - [Entry reference] — [resolved | deferred | wont-fix]
 
+## Debrief
+[Observations from the session — what worked, what didn't, process notes.
+If an explicit /debrief conversation happened, capture the refined conclusions
+here (not the transcript). If no debrief, the AI adds 2-3 brief observations
+at session close. Include relevant human context where it explains a dynamic.]
+
 ## State at Close
 [What's working, what's pending, what's next]
 ```
@@ -194,6 +200,7 @@ This is the most important section.]
 1. **Create** the session log when substantive work begins
 2. **Update** during work — before each commit, sync the log with what was just completed. This keeps the log accurate at every commit point, not just at session close.
 3. **Close** when done:
+   - Populate the Debrief section: if an explicit `/debrief` conversation happened, capture the refined conclusions (distilled observations, not transcript). If no debrief, add 2-3 brief observations from the AI's participant-observer perspective — what worked, what was unclear, what surprised.
    - Finalize the session log (fill in State at Close)
    - Update `reference/system-status.md` with current state
    - Set status to Complete
@@ -235,6 +242,10 @@ External feedback (via `/check-feedback` or other intake mechanisms) produces fe
 6. Mark feedback log entries as resolved
 7. Archive resolved entries: Move them from `feedback-log.md` to `reference/feedback-log-archive.md`, preserving their complete content including the `**Resolved:**` line. Keep only pending and deferred entries in the active log.
 8. Close the loop: If the entry has a source link (GitHub Issue, etc.), post a follow-up comment describing what was implemented. This gives submitters visibility into the full lifecycle: submission → triage → implementation.
+
+### Adding a New Skill
+
+Follow the checklist in `core/skills/README.md` ("Adding a New Skill"). It covers registration steps that are easy to miss — the framework wrapper, README table, directory tree, and intent file updates.
 
 ### Adding a New Task
 

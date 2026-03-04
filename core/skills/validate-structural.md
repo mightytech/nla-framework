@@ -2,6 +2,8 @@
 
 Check that the system's internal references are consistent. This is a mechanical check — verify that things point where they claim to point.
 
+**How to check:** Use built-in file tools (Glob, Read) rather than Bash for existence checks, especially for files in sibling directories (`../nla-framework/`, package directories). Built-in tools don't trigger the same permission prompts as Bash commands accessing files outside the project root.
+
 **What to check:**
 
 1. **File references.** Read CLAUDE.md, app/overview.md, all task docs in `app/`, and all skill files in `.claude/skills/`. For every file path mentioned, verify the file exists. Report any broken references with the source file and the missing target.
@@ -27,5 +29,7 @@ Check that the system's internal references are consistent. This is a mechanical
 ### All Clear
 - [Category]: [What was checked and passed]
 ```
+
+7. **Package consistency.** If `reference/feedback-log.md` exists but no `/write-letter` skill is registered in `.claude/skills/`, note it: "Feedback infrastructure exists but penny post isn't installed. Run `/install` to add it, or remove the feedback log files if feedback isn't needed." Similarly, check that other package-created files have their corresponding skills.
 
 If everything passes, say so clearly. If issues are found, suggest fixes but do not make them — that is `/maintain`'s job.

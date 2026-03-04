@@ -4,7 +4,7 @@ You are converting this NLA project into a self-contained plugin for Claude Code
 Cowork. The NLA project is the development environment; the plugin is the distribution
 artifact. Think of it as compiling source code into a binary.
 
-**The core constraint:** Plugins cannot reference files outside their directory. Every
+**The core constraint:** Plugins cannot reference files outside their directory. The generated plugin format (`.claude-plugin/plugin.json` + `skills/[name]/SKILL.md`) is compatible with both Claude Code and Cowork. Every
 dependency — framework files, shared context, task docs — must be resolved and bundled
 inside the plugin. No `../` paths survive.
 
@@ -58,6 +58,8 @@ Also scan:
 - `app/` — list all task docs
 - `lib/` — check for helper code
 - Any project-specific directories referenced by skills
+
+For skills where the classification isn't self-evident (dev tool vs. utility, extension vs. domain), explain your reasoning. The user should be able to evaluate the judgment, not just the result.
 
 Present the inventory to the user:
 

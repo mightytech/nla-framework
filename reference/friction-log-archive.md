@@ -12,6 +12,62 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-03-03 — Add debrief section to session log format
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-03-03 — Added Debrief section to session log template in `core/skills/maintain.md` and framework's own maintain skill. Added debrief population as first session-close step. Updated `core/skills/debrief.md` to note conclusions land in session log.
+
+**Observation:**
+"What went well and why" has no natural home. The friction log captures what went
+wrong. Session logs capture what happened. But positive observations and process
+reflections disappear when the session ends. The debrief's value is the
+participant-observer perspective — the AI experienced the instructions and the
+interaction. That perspective is worth preserving.
+
+---
+
+### 2026-03-03 — Validation findings should propose dispositions, not just report
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-03-03 — Added "After Presenting Findings" section to `core/skills/validate.md` with disposition flow: fix now, defer (friction log), or ignore (friction log as wont-fix). AI recommends based on context advantage, effort, dependencies, and batching potential.
+
+**Observation:**
+Validation surfaces findings but doesn't prompt action. Findings get noted in session
+logs, carried forward, and rediscovered by the next validation run — sometimes across
+multiple sessions. The `/check-updates` gap was noted three times before being fixed.
+Root cause: findings live in session logs (history) rather than the friction log (queue).
+
+---
+
+### 2026-02-22 — "Adding a New Skill" checklist not surfaced during skill creation
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-03-03 — Added "Adding a New Skill" section to `core/skills/maintain.md` Common Maintenance Tasks, referencing the checklist in `core/skills/README.md`.
+
+**Observation:**
+When adding `/check-updates` as a new core skill, three of seven steps in the
+`core/skills/README.md` "Adding a New Skill" checklist were missed: creating the
+framework's own wrapper, updating the What's Here table, and updating the README
+directory tree. `/validate` caught all three post-implementation.
+
+The checklist exists and is correct — it just wasn't consulted during implementation.
+The maintain skill's "Updating Core Skill Logic" section and the plan file both
+focused on the core logic and intent files, not the mechanical registration steps.
+
+**Affected files:**
+- `core/skills/maintain.md`
+
+---
+
 ### 2026-02-22 — Package creation relies on pattern-matching against existing packages
 
 **Type:** intent
