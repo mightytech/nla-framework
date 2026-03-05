@@ -37,6 +37,8 @@ using framework terminology), orient them to framework internals:
   (intent files, affects project generation), `reference/` (maintenance records, local).
 - **Skill catalog** — the skills table in `CLAUDE.md` and what each skill does.
 - **Working rhythms** — from the Working Rhythms section of `core/nla-foundations.md`.
+- **Design rationale** — `reference/design-rationale.md` for why things are built the
+  way they are. Decision history, tradeoffs, what was tried and rejected.
 - **What's pending** — friction log and feedback log status.
 
 Read and follow `core/skills/guide.md`.
