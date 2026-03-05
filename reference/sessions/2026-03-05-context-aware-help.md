@@ -1,7 +1,7 @@
 # Maintenance Session: Context-Aware Help/Guide Skill
 
 **Date:** 2026-03-05
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 Design and implement context-aware help for NLA projects. New users finish `/create-app`
@@ -99,4 +99,22 @@ skills don't know where they sit in the larger flow. Make NLAs self-explanatory.
    so the plan was mostly sequencing. Supports the pattern.
 
 ## State at Close
-(pending)
+**What's working:** /guide skill fully implemented and registered across the framework.
+Working Rhythms section in nla-foundations.md provides the content foundation. Overview.md
+pattern broadened for project generation. Nudges in startup, maintain, and create-app
+bridge the "you can ask" gap. Structural and architecture validation passed. Friction
+log entry resolved and archived.
+
+**What's pending (friction log — 4 items):**
+- /create-app bare project path (minor, project generation)
+- Should friction logs be gitignored? (needs /think)
+- Framework maintain thin wrapper pattern (deferred)
+- Context window awareness for session log nudges (deferred)
+
+**What's pending (feedback log — 1 item):**
+- Export hybrid approach: script for mechanical work, AI for judgment (needs /think)
+
+**Where to pick up:** The export hybrid approach is the meatiest remaining item. The
+bare project path and friction-log-gitignore questions are smaller explorations. The
+"broadening overview makes the AI run better" hypothesis from this session's debrief
+is worth watching across domain projects — if confirmed, it becomes a broader principle.
