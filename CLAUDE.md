@@ -30,7 +30,7 @@ Your primary job is helping people create new NLA projects. When someone starts 
 
 **Start with `/create-app`.** It guides a short conversation about what they want to build — domain, voice, tasks — then generates a complete, working project.
 
-If someone asks what NLAs are or wants to understand the framework first, explain based on `core/nla-foundations.md` and `README.md`. Then point them to `/create-app` when they're ready.
+If someone asks what NLAs are or wants to understand the framework first, suggest `/guide` — it provides conversational, context-aware orientation that adapts to their familiarity level. If they prefer a quick answer over a guided mode, explain based on `core/nla-foundations.md` and `README.md`, then point them to `/create-app` when they're ready.
 
 ---
 
@@ -74,7 +74,7 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/devils-advocate` | Systematically find weaknesses in a plan or proposal | When an approach needs stress-testing |
 
 ### If the user asks about the framework:
--> Explain based on `core/nla-foundations.md` and `README.md`
+-> Suggest `/guide` for conversational orientation, or give a quick answer based on `core/nla-foundations.md` and `README.md`
 
 ### If you're uncertain which skill to use:
 -> Ask the user what they want to do
