@@ -187,4 +187,41 @@ ability to interpret nuanced instructions IS the extension mechanism.
 
 ---
 
+## Working Rhythms
+
+These are the common patterns of work in an NLA. They aren't mandatory steps — they're
+rhythms that emerge naturally from the system's design. Understanding them helps the AI
+assist proactively and helps humans know what to expect.
+
+### The Improvement Loop
+
+Work → notice friction → log it → maintain → iterate. The friction log captures
+observations while context is fresh; `/maintain` turns them into documentation changes.
+This is the primary development cycle for NLAs — the system improves by improving its
+own documentation. Insights evaporate if not captured; systematic logging turns casual
+observations into durable improvements.
+
+### The Design Flow
+
+Think → plan → implement → debrief. Design judgment happens before implementation
+planning, not during it. `/think` explores what to build and why; planning mode handles
+how; `/debrief` captures process learning while context is fresh. Skipping the thinking
+phase risks building the right thing wrong — or the wrong thing right.
+
+### The Update Cycle
+
+Check for updates → update → validate. NLAs and their packages evolve independently.
+`/check-updates` shows what's changed upstream; `/update` pulls changes and applies
+intent; `/validate` confirms nothing broke. Periodic sync keeps shared foundations
+current without losing local customization.
+
+### Session Structure
+
+Startup → work → close. The LLM starts cold each session — `/startup` loads context
+so it can operate effectively. Work happens (tasks, maintenance, exploration). `/close`
+preserves state so the next session starts warm instead of cold. Without this
+bookending, every session begins with "where were we?"
+
+---
+
 *For what this specific NLA does and how its pieces connect, see `app/overview.md`.*

@@ -34,6 +34,7 @@ After completing the required reading, surface what's waiting before asking the 
    - Note connections between pending items — dependencies, items that should be combined, anything catalytic that unblocks others.
    - If a previous session left open questions or pending work, note it.
    - If nothing is pending: "No pending items. What would you like to work on?"
+   - If the user seems unfamiliar with the maintenance workflow, mention that `/guide` can provide orientation.
 
 This surfaces actionable work and provides session continuity. The maintainer decides what to work on and in what order.
 

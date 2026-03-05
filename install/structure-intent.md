@@ -12,7 +12,7 @@ A framework-based NLA should have this structure:
 ```
 my-nla/
 ├── app/                          # The application (operative channel)
-│   ├── overview.md               # How the pieces connect
+│   ├── overview.md               # How the pieces connect, how users work with the system
 │   ├── config-spec.md            # What's configurable (developer-defined)
 │   ├── shared/                   # Context shared across all tasks
 │   │   ├── values.md             # Commitments, priorities, non-negotiables

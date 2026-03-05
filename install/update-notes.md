@@ -33,6 +33,38 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-03-05 — New /guide skill and Working Rhythms in foundations
+
+**Affects:** install/skills-intent.md, core/skills/guide.md (new),
+core/nla-foundations.md, core/skills/startup.md, core/skills/maintain.md,
+install/structure-intent.md, .claude/skills/create-app/SKILL.md
+
+Two related additions that make NLAs more approachable for new users:
+
+**Working Rhythms** — A new section in `core/nla-foundations.md` documents the four
+common workflow patterns: the improvement loop, the design flow, the update cycle, and
+session structure. Each explains not just what the rhythm is but why it exists. This
+loads automatically via `../nla-framework/`.
+
+**`/guide` skill** — Context-aware help that adapts to the user's familiarity level. It
+reads both Working Rhythms (from foundations) and `app/overview.md` (for project-specific
+context) to explain how the system works, what skills are available, and what to do next.
+
+**`/startup` and `/maintain`** now mention `/guide` as an option when users seem
+unfamiliar. These propagate automatically via thin wrappers.
+
+**`overview.md` pattern** — The generation guidance for `app/overview.md` now includes a
+"How users work with this" section describing typical sessions and workflow expectations.
+Existing projects can add this section to their overview via `/maintain` — it helps both
+users and the AI understand the expected session rhythm.
+
+**What to do in your project:**
+- Create `.claude/skills/guide/SKILL.md` — standard thin wrapper (the intent diff shows
+  the reference wrapper)
+- Add `/guide` to your CLAUDE.md skills table
+- Optionally add a "How users work with this" section to `app/overview.md` — this gives
+  `/guide` richer project-specific content to draw on
+
 ### 2026-03-04 — Permission management model
 
 **Affects:** install/install.md, install/structure-intent.md, install/package-intent.md,

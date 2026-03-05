@@ -204,6 +204,22 @@ disable-model-invocation: true
 Read and follow `../nla-framework/core/skills/close.md`.
 ```
 
+### /guide
+
+**Purpose:** Context-aware help — understand how the NLA works, what to do next, and how the pieces connect. Adapts to the user's familiarity level.
+**Wrapper location:** `.claude/skills/guide/SKILL.md`
+**Delegates to:** `../nla-framework/core/skills/guide.md`
+
+**Reference wrapper:**
+```yaml
+---
+name: guide
+description: Context-aware help — understand how the NLA works, what to do next, and how the pieces connect. Adapts to your familiarity level.
+disable-model-invocation: true
+---
+Read and follow `../nla-framework/core/skills/guide.md`.
+```
+
 ---
 
 ## Wrapper Pattern

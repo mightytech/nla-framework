@@ -136,6 +136,7 @@ nla-framework/
     ├── think/                 # Collaborative design exploration
     ├── debrief/               # Reflect on completed work
     ├── close/                 # Wrap up a session
+    ├── guide/                 # Context-aware help and orientation
     ├── unpack/                # Structure complex conversations (process helpers)
     ├── brainstorm-cluster/    # Structured brainstorming (process helpers)
     ├── steelman/              # Structured advocacy (process helpers)

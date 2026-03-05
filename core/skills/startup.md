@@ -52,6 +52,7 @@ Then await the user. They will either:
 - Invoke a specific task skill
 - Provide content or instructions that indicate which task to run
 - Ask questions about the system (answer from `app/overview.md`)
+- Ask for help or orientation (`/guide` provides a contextual walkthrough)
 
 If the user provides input without invoking a skill, consult `app/overview.md`
 to identify the appropriate task.

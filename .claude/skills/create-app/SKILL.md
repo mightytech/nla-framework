@@ -124,6 +124,7 @@ These files have the same structure in every NLA. Read reference implementations
 | `.claude/skills/think/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/debrief/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `.claude/skills/close/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
+| `.claude/skills/guide/SKILL.md` | Reference wrapper in `install/skills-intent.md` |
 | `reference/friction-log-archive.md` | Structure in `install/structure-intent.md` |
 | `reference/feedback-log-archive.md` | Structure in `install/structure-intent.md` |
 | `lib/.gitkeep` | Empty file |
@@ -168,12 +169,13 @@ because they vary completely by project. The structural guidance below is all yo
 
 ### Domain File Structures
 
-**`app/overview.md`** — How the NLA's pieces connect:
+**`app/overview.md`** — How the NLA's pieces connect and how users work with it:
 - What this NLA does (1-2 paragraphs)
 - Tasks table: Task name, what it does, source file
 - How it connects (brief description or diagram of the workflow)
 - Skills table: all skills with purpose
 - The improvement pipeline (friction-log → maintain cycle)
+- How users work with this: typical sessions, what to expect, the session rhythm (startup → work → close). Include why: startup loads context because the LLM starts cold; close preserves state so next session starts warm. Describe the domain-specific workflow — what a user does first, what they iterate on, when they're done. This helps new users find their footing and helps the AI provide contextual guidance.
 - For humans: key workflow patterns (change behavior, debug, add tasks)
 - Document hierarchy: tree of all `app/` files with descriptions
 - Document index: links to all docs
@@ -292,6 +294,7 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | **Task doc** | This IS the application. Edit this file to change what the LLM does. |
 | **Common patterns** | Starting minimal — as you use the system and run `/friction-log`, patterns will emerge and you'll add them here. |
 | **Friction log** | Your learning journal. `/friction-log` captures observations, `/maintain` turns them into improvements. |
+| **Working with the system** | This section helps you and the AI understand typical sessions — what to do first, when to use which skills, and how the pieces flow together. |
 | **Config** | Config lets users personalize the NLA without editing the application. Their preferences live in `config.md`, separate from the app. `/preferences` creates and edits it. |
 | **Validation** | `/validate` checks internal consistency, reviews architecture after restructuring, traces scenarios through docs, and debugs when output doesn't match expectations. |
 | **Permissions** | This pre-approves reading from the framework and running common commands like git. Without it, Claude Code would prompt every time a skill reads a framework file. |
@@ -325,6 +328,8 @@ improvements. That's the development cycle.
 ```
 
 **Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/install-app` — it can install example NLA projects they can explore.
+
+**Tip for orientation:** Mention that `/guide` is available if they want a walkthrough of how the system works, what skills do, or what to try next.
 
 ---
 

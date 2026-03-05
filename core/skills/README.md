@@ -45,6 +45,7 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `export.md` | `/export` | Export NLA project as a plugin for Claude Code or Cowork |
 | `debrief.md` | `/debrief` | Reflect on completed work — surface observations and learnings |
 | `close.md` | `/close` | Wrap up a session — finalize session log, check loose ends, summarize state |
+| `guide.md` | `/guide` | Context-aware help — orientation, workflow guidance, skill discovery |
 
 ### Multi-file skills
 

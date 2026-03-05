@@ -12,6 +12,43 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-03-03 — Context-aware help/guide skill
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-03-05 — Added Working Rhythms section to nla-foundations.md, created /guide mode-as-skill, broadened overview.md pattern to include user workflows, added nudges to startup/maintain/create-app.
+
+**Observation:**
+The framework workflow (startup → maintain → think/plan → validate → debrief → close)
+is implicit. Individual skills know what they do but not where they sit in the larger
+flow. A new user finishes `/create-app` and has no guidance on what to do next.
+
+A context-aware help/guide skill could: understand where the user is in the workflow,
+explain the system as they encounter it, serve as a tour guide for recent framework
+changes after `/update`, and adapt to the user's interest level. This is interactive
+onboarding, not static documentation.
+
+**Open questions:**
+- Does it read session state? Know what skills you've used?
+- Is it a mode or a skill you invoke?
+- How does it relate to `/startup`?
+- Does it replace documentation or complement it?
+- The "tour guide for recent changes" angle connects to `/update` — walk through
+  what changed and why it matters for your project.
+
+**Proposed fix:**
+Design session (`/think`) to work through the concept. This is a new feature, not a
+tweak to existing skills.
+
+**Notes:**
+Surfaced during debrief. The user has internalized the workflow rhythm but recognized
+other users won't. The AI's ability to gauge interest and respond to questions makes
+this a natural fit for an NLA skill rather than a static doc.
+
+---
+
 ### 2026-03-03 — Session close skill
 
 **Type:** core
