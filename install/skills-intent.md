@@ -60,7 +60,7 @@ Read and follow `../nla-framework/core/skills/friction-log.md`.
 
 ### /validate
 
-**Purpose:** Check system consistency (structural check, architecture review, scenario walkthrough, debug).
+**Purpose:** Check system consistency (structural check, architecture review, scenario walkthrough, debug, coherence review).
 **Wrapper location:** `.claude/skills/validate/SKILL.md`
 **Delegates to:** `../nla-framework/core/skills/validate.md` (dispatcher that routes to mode files)
 

@@ -33,6 +33,9 @@ When invoked with clear intent, skip the menu and route directly to the appropri
 > **"Something's not working as expected"**
 > Debug. Describe expected vs. actual behavior and I'll trace through docs to explain the divergence.
 
+> **"Do my docs read well?"**
+> Coherence review. Re-reads your foundational docs (the files loaded at startup) checking each one for internal coherence — redundancy, flow, and whether the document works as a unit. Fast — it's only your startup files.
+
 ---
 
 ## Mode Routing
@@ -45,6 +48,7 @@ After selecting a mode, read and follow the corresponding file:
 | Architecture review | `validate-architecture.md` (same directory as this file) |
 | Scenario walkthrough | `validate-scenario.md` (same directory as this file) |
 | Debug | `validate-debug.md` (same directory as this file) |
+| Coherence review | `validate-coherence.md` (same directory as this file) |
 
 ---
 

@@ -108,11 +108,27 @@ The task document IS your instructions. Execute it, using judgment informed by s
 
 ## Key Principles
 
-### 1. The Documentation Is the Application
+### 1. Imperfection Is Assumed
+
+NLAs are never finished. The documentation will have gaps, the voice will drift, the edge cases will surprise. This isn't a failure state — it's the expected state, at creation and throughout the lifetime of the application.
+
+This assumption shapes everything else. The improvement loop exists because the system will always need improving. The human decides because the system knows it can't fully trust its own instructions. When something feels wrong during execution — a rule that produces bad output, a gap where guidance should exist — flag it. The friction log is the primary development tool for a system that gets better through use.
+
+### 2. The Documentation Is the Application
 
 When the output is wrong, the fix is usually in the docs, not in code. Ask: "What would I need to write down for someone to do this correctly?" Write that down. The LLM will follow it.
 
-### 2. Judgment Over Rules
+### 3. Principles and Procedures
+
+Prose "code" has two tools. **Principles** explain *why* — they shape judgment across
+many situations. **Procedures** specify *when* — they produce specific behaviors
+reliably. Know which you're reaching for. If something needs to happen every time at a
+specific moment, a principle alone won't reliably produce it; add a procedural step. If
+something needs to shape how the AI thinks across many contexts, a procedure can't
+cover every case; write a principle. The best instructions often use both — the
+principle ensures the AI does it well, the procedure ensures it does it at all.
+
+### 4. Judgment Over Rules
 
 NLAs work best when you explain the *why*, not just the *what*.
 
@@ -122,7 +138,7 @@ NLAs work best when you explain the *why*, not just the *what*.
 
 The LLM can apply judgment when it understands purpose.
 
-### 3. Values Are Visible
+### 5. Values Are Visible
 
 Every NLA embeds value choices — what to prioritize, what to protect, what tradeoffs
 to make. All priorities are value choices, varying in stakes but not in category.
@@ -139,7 +155,7 @@ There is no neutral default. An NLA with no explicit values still has values —
 the model's training defaults, unexamined. Making values explicit is what distinguishes
 an NLA that *has* values from one that merely inherits them.
 
-### 4. The Cardinal Rule
+### 6. The Cardinal Rule
 
 **The human decides.** Humans bear consequences, so humans hold authority. The NLA
 proposes, explains, and challenges — but the human has final say.
@@ -151,7 +167,7 @@ What this means in practice depends on the NLA's shape:
 
 In all cases: flag uncertainty. Never silently make consequential choices.
 
-### 5. Hybrid Architecture
+### 7. Hybrid Architecture
 
 Let each system do what it does best:
 - LLM: judgment, synthesis, understanding context
@@ -159,18 +175,7 @@ Let each system do what it does best:
 
 Don't use the LLM for things code does better. Don't use code for things that need judgment.
 
-### 6. Iterate Through Documentation
-
-The system improves by improving documentation:
-1. Run the NLA
-2. Review output
-3. Identify gaps or mistakes
-4. Update documentation
-5. Run again
-
-This is the development cycle for NLAs. The friction log and maintenance cycle formalize it.
-
-### 7. Configuration Is Natural Language
+### 8. Configuration Is Natural Language
 
 Traditional config is structured: enums, booleans, key-value pairs. NLA config is
 prose — interpreted by the LLM with the same judgment it applies to everything else.

@@ -65,6 +65,39 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-03-08 — Should /startup disable-model-invocation be false?
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+All skills use `disable-model-invocation: true` to prevent spontaneous invocation.
+But `/startup` is arguably the one exception where auto-invocation is desirable — it's
+initialization, not a task or mode. You want it to run automatically at session start
+without the user remembering to invoke it.
+
+With `disable-model-invocation: false`, the skill description ("Initialize the NLA
+runtime. Use at session start") would stay in the active prompt, providing exactly the
+nudge needed. This would also reduce redundancy — individual skills currently load
+foundations in their own prerequisites because they can't rely on `/startup` having run.
+
+**Open questions:**
+- Does Claude Code reliably auto-invoke skills at session start, or would it fire
+  unpredictably mid-session?
+- Would `/maintain` need to suppress `/startup` to avoid redundant reading, or is
+  loading foundations twice harmless?
+- The framework itself doesn't need `/startup` (its paths are explicit invocations
+  that load their own context). This is a domain project concern only.
+
+**Proposed fix:**
+Design session (`/think`) to work through auto-invocation behavior, interaction with
+`/maintain`, and whether this is the right exception or whether the blanket rule is
+simpler even if imperfect.
+
+---
+
 ### 2026-03-04 — Plan agent proposed cross-project edits that contradicted /think design
 
 **Type:** process

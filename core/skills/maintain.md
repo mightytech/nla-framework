@@ -122,6 +122,11 @@ Post-implementation, run `/validate` architecture review for structural changes 
 catch downstream inconsistencies. Pre-flight and post-validate are complementary:
 pre-flight catches design gaps early, post-validate catches integration gaps late.
 
+For structural changes to foundational files (files loaded at startup), re-read the
+full document after editing to check coherence. A locally sound addition can create
+redundancy or weaken flow at the whole-document level — prose has coherence properties
+that diffs don't show.
+
 ### 3. Check for Downstream Effects
 
 Changes to shared docs affect all tasks:

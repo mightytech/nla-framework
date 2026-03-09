@@ -37,6 +37,7 @@ The wrapper gives Claude Code what it needs (YAML frontmatter, discoverability).
 | `validate-architecture.md` | `/validate` | Architecture review — document chain coherence |
 | `validate-scenario.md` | `/validate` | Scenario walkthrough — trace docs for a hypothetical |
 | `validate-debug.md` | `/validate` | Debug — explain divergence between expected and actual |
+| `validate-coherence.md` | `/validate` | Coherence review — internal coherence of foundational docs |
 | `preferences.md` | `/preferences` | Create or edit user configuration |
 | `install.md` | `/install` | Install a new NLA package into a project |
 | `update.md` | `/update` | Update the NLA — pull remotes, apply package intents, or both |

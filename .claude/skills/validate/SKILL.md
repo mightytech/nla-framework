@@ -40,6 +40,9 @@ When invoked with clear intent, skip the menu and route directly to the appropri
 > **"Something's not working as expected"**
 > Debug. Describe expected vs. actual behavior and I'll trace through docs to explain the divergence.
 
+> **"Do the framework's docs read well?"**
+> Coherence review. Re-reads the framework's foundational docs (the files loaded at startup) checking each one for internal coherence — redundancy, flow, and whether the document works as a unit. Fast — it's only the startup files.
+
 ---
 
 ## Mode Routing
@@ -52,6 +55,7 @@ After selecting a mode, read and follow the corresponding core file, then apply 
 | Architecture review | `core/skills/validate-architecture.md` |
 | Scenario walkthrough | `core/skills/validate-scenario.md` |
 | Debug | `core/skills/validate-debug.md` |
+| Coherence review | `core/skills/validate-coherence.md` |
 
 ### Structural Addenda
 
