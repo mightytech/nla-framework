@@ -124,7 +124,7 @@ nla-framework/
     ├── create-app/            # Conversational project creation
     ├── install-app/           # Browse and install example NLAs
     ├── maintain/              # Framework maintenance mode
-    ├── validate/              # System validation (structural, architecture, scenarios, debug)
+    ├── validate/              # System validation (structural, architecture, scenarios, debug, coherence)
     ├── friction-log/          # Log observations to the friction log
     ├── preferences/           # Create or edit framework preferences
     ├── install/               # Install NLA packages
