@@ -32,7 +32,7 @@ handles the intelligence. Neither replaces the other.
 If that sounds unusual, two paths for the curious:
 
 - **Read about it:**
-  [The Documentation Is the Application](https://github.com/mightytech/nla-framework)
+  [The Documentation Is the Application](https://github.com/mightytech/nla-office-hours/blob/main/content/the-documentation-is-the-application.md)
   — a probe report exploring what software becomes when language is the runtime
 - **Talk to one:**
   [NLA Office Hours](https://github.com/mightytech/nla-office-hours) — an NLA
@@ -211,7 +211,7 @@ you're trying to do — the AI has read the documentation and can orient you.
 
 ## Learn More
 
-- [The Documentation Is the Application](https://github.com/mightytech/nla-framework)
+- [The Documentation Is the Application](https://github.com/mightytech/nla-office-hours/blob/main/content/the-documentation-is-the-application.md)
   — a probe report on the NLA paradigm
 - [NLA Office Hours](https://github.com/mightytech/nla-office-hours) —
   interactive introduction

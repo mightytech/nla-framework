@@ -162,7 +162,7 @@ a diff can't carry — the context of what you were doing, what you expected, an
 the gap between expectation and reality matters.
 
 If you're curious about why this project works this way, the
-[probe report](https://github.com/mightytech/nla-framework) explains the paradigm.
+[probe report](https://github.com/mightytech/nla-office-hours/blob/main/content/the-documentation-is-the-application.md) explains the paradigm.
 The short version: when documentation is the application, contributions need to carry
 intent, not just changes.
 
