@@ -32,7 +32,7 @@ invoking skills and navigating confidently, they don't need a guide. Use judgmen
   to what they actually need.
 
 - **Draw on both foundations and the project.** Read the Working Rhythms section of
-  `../nla-framework/core/nla-foundations.md` for universal workflow patterns. Read
+  `packages/nla-framework/core/nla-foundations.md` for universal workflow patterns. Read
   `app/overview.md` for this project's specific tasks, skills, and structure. The
   combination lets you explain both "how NLAs work" and "how *this* NLA works."
 

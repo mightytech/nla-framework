@@ -15,7 +15,7 @@ name: maintain
 description: Edit the NLA system itself.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/maintain.md`.
+Read and follow `packages/nla-framework/core/skills/maintain.md`.
 ```
 
 **This directory** (`core/skills/maintain.md`):
@@ -73,7 +73,7 @@ Because `/update` communicates intent rather than diffs, ejected skills can stil
 When the framework adds a new skill:
 
 1. Create the logic file here (`core/skills/new-skill.md`)
-2. Create a `.claude/skills/[name]/SKILL.md` wrapper with framework-adapted paths (project-relative, not `../nla-framework/`)
+2. Create a `.claude/skills/[name]/SKILL.md` wrapper with framework-adapted paths (project-relative, not `packages/nla-framework/`)
 3. Update the "What's Here" table above in this file
 4. Add a reference wrapper to `install/skills-intent.md`
 5. Add the skill to `.claude/skills/create-app/SKILL.md` Category 1 table
@@ -84,4 +84,4 @@ Existing domain projects pick up the new logic file on `git pull`, but they need
 
 ---
 
-*These files use `../nla-framework/core/` paths designed for domain projects. The framework's own skills in `.claude/skills/` use project-relative paths instead.*
+*These files use `packages/nla-framework/core/` paths designed for domain projects. The framework's own skills in `.claude/skills/` use project-relative paths instead.*

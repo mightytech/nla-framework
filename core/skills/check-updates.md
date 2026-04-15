@@ -36,13 +36,13 @@ For each package in the install log (or the specific package requested):
 
 **Tier 1 — Remote to Local:** Has the package author pushed changes you haven't pulled?
 
-1. Locate the package using the source path from the install log.
-2. Check if the package directory has a git remote. If not: "No remote for [name] — skipping remote check."
-3. Run `git fetch` in the package directory. If network failure: note it, continue.
-4. Compare local HEAD to the remote:
+1. Locate the package at `packages/[name]`.
+2. Check if the submodule has a git remote. If not: "No remote for [name] — skipping remote check."
+3. Run `git -C packages/[name] fetch`. If network failure: note it, continue.
+4. Compare the submodule's HEAD to the remote:
    - **Up to date** — note it.
-   - **Fast-forward available** — "Package [name] is behind its remote by N commits. `/update` can handle this."
-   - **Diverged** — "Package [name] has diverged from its remote. Resolve in `[path]` before updating."
+   - **Fast-forward available** — "Package [name] is behind its remote by N commits. `/update` can handle this." Also check for tagged releases between the current commit and the remote HEAD: `git -C packages/[name] tag --sort=-creatordate --merged origin/main`. If newer tags exist, note the latest: "Latest tagged release: [tag] ([M] commits behind remote HEAD)."
+   - **Diverged** — "Package [name] has diverged from its remote. Resolve in `packages/[name]` before updating."
 
 **Tier 2 — Local to Installed:** Has the local package changed since the NLA last installed or updated?
 
@@ -55,13 +55,15 @@ For each package in the install log (or the specific package requested):
 Present a consolidated view:
 
 ```
-Source             Remote → Local            Local → Installed       Action
-─────────────────  ────────────────────────  ──────────────────────  ──────────────
-NLA (this project) 2 commits behind          —                       /update
-NLA Framework      up to date                3 commits ahead         /update nla-framework
-Penny Post         up to date                up to date              current
-Process Helpers    5 commits behind           up to date              /update nla-process-helpers
+Source             Remote → Local            Local → Installed       Latest Tag    Action
+─────────────────  ────────────────────────  ──────────────────────  ────────────  ──────────────
+NLA (this project) 2 commits behind          —                       —             /update
+NLA Framework      up to date                3 commits ahead         v0.1.0        /update nla-framework
+Penny Post         up to date                up to date              —             current
+Process Helpers    5 commits behind           up to date              v0.2.0        /update nla-process-helpers
 ```
+
+The "Latest Tag" column shows the most recent tagged release between the pinned commit and the remote HEAD, if any. When tags exist, the recommendation should note: "Latest tagged release is [tag]. You can advance to the tag (stable) or to HEAD (includes unreleased work)."
 
 **Recommendation patterns:**
 
@@ -70,7 +72,7 @@ Process Helpers    5 commits behind           up to date              /update nl
 | Fast-forward available | Changes pending | Run `/update [name]` — pulls remote and applies intent changes |
 | Fast-forward available | Up to date | Run `/update [name]` — pulls latest from remote |
 | Up to date | Changes pending | Run `/update [name]` — applies local intent changes |
-| Diverged | Any | Resolve divergence in `[path]` first, then `/update` |
+| Diverged | Any | Resolve divergence in `packages/[name]` first, then `/update` |
 | Up to date | Up to date | Current — nothing to do |
 | Network failure | Any | Couldn't check remote — try again later, or run `/update [name]` for local changes only |
 

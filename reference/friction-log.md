@@ -70,7 +70,8 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 **Type:** process
 **Severity:** major
 **Blast radius:** all projects
-**Status:** pending
+**Status:** resolved
+**Resolved:** 2026-04-15 — Architectural change: the packages/ submodule model eliminates cross-directory reads entirely, making Read permission entries and settings.local.json generation for them unnecessary. The symlink investigation is also closed — symlinks are ruled out (test data from Issues #15, #16 confirmed they add friction rather than removing it).
 
 **Observation:**
 The permission management model (designed 2026-03-04) envisioned clean, systematic
@@ -350,7 +351,7 @@ If not, consider filing a Claude Code feature request.
 
 1. **Two-hop reading** — The LLM reads a wrapper, then a framework file, then domain files. Watch for confusion or context loss in the chain.
 
-2. **Path resolution** — Domain projects use `../nla-framework/` paths. Watch for breakage when projects are in unexpected locations.
+2. **Path resolution** — Domain projects use `packages/nla-framework/` paths via submodules. Watch for confusion in the two-hop reading chain when files reference other files within the framework directory.
 
 3. **Intent file completeness** — As the framework evolves, intent files must stay in sync. Track gaps between what `/create-app` needs and what intent files provide.
 

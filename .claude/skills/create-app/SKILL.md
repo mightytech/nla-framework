@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 You are helping someone build a new Natural Language Application. This is often their first interaction with the NLA framework — make it a good one.
 
-**Your job:** Have a short conversation to understand what they want to build, then generate a complete, working NLA project tailored to their domain. The result should be ready to `git init` and start using immediately.
+**Your job:** Have a short conversation to understand what they want to build, then generate a complete, working NLA project tailored to their domain. The result should be ready to start using immediately.
 
 **Philosophy:** The first experience of an NLA framework should itself be an NLA interaction — flexible interface on top (conversation), structure underneath (generated project). Don't make the user fill out a form. Talk to them.
 
@@ -77,7 +77,7 @@ Present a summary of what will be created:
 
 ```
 Project: [name]
-Location: ../[name]/ (sibling to nla-framework)
+Location: ../[name]/
 
 What it does: [one-sentence description]
 Voice: [tone summary]
@@ -209,20 +209,15 @@ When created, it should cover:
 - Flexibility: what varies, what's consistent
 - What stays raw: what the NLA should NOT change
 
-**`.claude/settings.local.json`** — Claude Code permission configuration:
-- Read the framework's `install/install.md` permissions section for base patterns
-- Resolve the framework path to an absolute path for the `Read(...)` entry
-  (use the actual filesystem path, e.g., `Read(/home/user/workspace/nla-framework/**)`)
+**`.claude/settings.local.json`** — Claude Code shell command approvals:
 - Include broad bash patterns: `Bash(git:*)`, `Bash(ls:*)`, `Bash(test:*)`
-- If packages were discussed during the conversation (e.g., "I want penny post"),
-  read their `install/install.md` permissions sections and include their entries too
+- If packages discussed during the conversation need additional bash patterns, include those too
 - Format as valid JSON:
 
 ```json
 {
   "permissions": {
     "allow": [
-      "Read(/absolute/path/to/nla-framework/**)",
       "Bash(git:*)",
       "Bash(ls:*)",
       "Bash(test:*)"
@@ -230,9 +225,6 @@ When created, it should cover:
   }
 }
 ```
-
-Package entries use relative paths (`Read(../nla-penny-post/**)`). The framework
-entry uses an absolute path resolved at generation time.
 
 **`app/[task-name].md`** — One doc per task (the actual application logic):
 - Purpose: what this task does in one sentence
@@ -246,9 +238,8 @@ entry uses an absolute path resolved at generation time.
 
 Follow this order — later files reference earlier ones:
 
-1. **Directory structure** — Create all directories with `mkdir -p`
-1b. **Settings file** — `.claude/settings.local.json` (before thin wrappers, because it
-    authorizes reading framework files that thin wrappers reference)
+1. **Directory structure and git setup** — Create all directories with `mkdir -p`, then run `git init` in the project directory, then add submodules: `git submodule add --depth 1 https://github.com/mightytech/nla-framework.git packages/nla-framework` (and any discussed packages). This must happen before file generation because thin wrappers reference framework files via `packages/`.
+1b. **Settings file** — `.claude/settings.local.json` (pre-approves common shell commands)
 2. **Category 1 files** — Thin wrapper skills, .gitkeep files, archives, .gitignore
 3. **Shared context** — values.md, voice.md, common-patterns.md, output-spec.md (if needed)
 4. **Task docs and skills** — Task-specific files for each task
@@ -266,7 +257,7 @@ identical across all projects.
 1. Read the reference structure from the relevant intent file
 2. Use it as structural guidance — match the section organization and purpose
 3. Generate content based on the conversation — don't use sample domain content
-4. Keep framework references intact — paths like `../nla-framework/core/` must be preserved exactly
+4. Keep framework references intact — paths like `packages/nla-framework/core/` must be preserved exactly
 
 **Category 3 (conversation only):**
 1. Read the structural guidance in "Domain File Structures" above
@@ -275,9 +266,9 @@ identical across all projects.
 4. Start minimal — especially common-patterns.md. Better to add through `/friction-log` + `/maintain` than to guess
 
 **Critical path details:**
-- Framework references: `../nla-framework/core/nla-foundations.md`, `../nla-framework/core/skills/`
+- Framework references: `packages/nla-framework/core/nla-foundations.md`, `packages/nla-framework/core/skills/`
 - Domain references: `app/`, `reference/`, `.claude/skills/` (project-relative)
-- Thin wrappers point to: `../nla-framework/core/skills/[skill].md`
+- Thin wrappers point to: `packages/nla-framework/core/skills/[skill].md`
 
 ---
 
@@ -290,14 +281,15 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | **Two channels** | `app/` is what the LLM reads and executes. `reference/` is for maintainers. They stay separate on purpose. |
 | **Values file** | Your NLA's commitments — what it prioritizes when tradeoffs arise. Loaded at startup, shapes every decision. |
 | **Voice file** | How your NLA sounds — tone, personality, style. Shapes every piece of content it produces. |
-| **Thin wrappers** | These delegate to the framework. When you `git pull` the framework, they pick up improvements automatically. |
+| **Thin wrappers** | These delegate to the framework. When you run `/update`, they pick up framework improvements. |
 | **Task doc** | This IS the application. Edit this file to change what the LLM does. |
 | **Common patterns** | Starting minimal — as you use the system and run `/friction-log`, patterns will emerge and you'll add them here. |
 | **Friction log** | Your learning journal. `/friction-log` captures observations, `/maintain` turns them into improvements. |
 | **Working with the system** | This section helps you and the AI understand typical sessions — what to do first, when to use which skills, and how the pieces flow together. |
 | **Config** | Config lets users personalize the NLA without editing the application. Their preferences live in `config.md`, separate from the app. `/preferences` creates and edits it. |
 | **Validation** | `/validate` checks internal consistency, reviews architecture after restructuring, traces scenarios through docs, and debugs when output doesn't match expectations. |
-| **Permissions** | This pre-approves reading from the framework and running common commands like git. Without it, Claude Code would prompt every time a skill reads a framework file. |
+| **Permissions** | This pre-approves common shell commands like git. Without it, Claude Code would prompt on routine operations. |
+| **Submodules** | The framework lives inside your project as a git submodule in `packages/`. Your project is self-contained — `git clone` plus `git submodule update --init` gives anyone a working copy. |
 | **Package management** | `/install` adds new capabilities from extension packages. `/update` keeps them current. Your install log tracks what's installed. |
 
 Don't narrate every file. Group the thin wrappers, group the reference files. Focus on what helps the user understand the system.
@@ -313,18 +305,17 @@ Project created at ../[project-name]/
 
 Next steps:
 1. cd ../[project-name]
-2. git init && git add -A && git commit -m "Initial NLA project"
+2. git add -A && git commit -m "Initial NLA project"
 3. Start Claude Code
 4. Run /startup to load foundational context
 5. Try /[task-name] with some sample content
-
-If you work on multiple NLAs, you can move the framework read entry from
-.claude/settings.local.json to ~/.claude/settings.json for user-wide coverage.
 
 The project is ready to use, but it'll get better with use. Run `/maintain` to refine
 your voice doc after seeing real output, add patterns as they emerge, or flesh out
 additional tasks. `/friction-log` captures observations; `/maintain` turns them into
 improvements. That's the development cycle.
+
+To share this project: `git clone [url]` then `git submodule update --init`.
 ```
 
 **Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/install-app` — it can install example NLA projects they can explore.
@@ -341,12 +332,12 @@ Before reporting completion, verify:
 2. **Skills table in overview.md** matches CLAUDE.md
 3. **Document index in overview.md** lists every file that exists
 4. **system-status.md** tasks and skills match what was actually created
-5. **Thin wrappers** all point to `../nla-framework/core/skills/[skill].md` with correct names
+5. **Thin wrappers** all point to `packages/nla-framework/core/skills/[skill].md` with correct names
 6. **README.md** references correct skill names
 7. **config-spec.md** reflects configuration choices from the conversation
 8. **config.md** has sensible defaults matching the config-spec
 9. **.gitignore** excludes config.md and config/
-10. **settings.local.json** contains valid JSON with the resolved framework path
+10. **settings.local.json** contains valid JSON with Bash patterns
 
 If anything doesn't match, fix it before reporting done.
 
@@ -354,7 +345,7 @@ If anything doesn't match, fix it before reporting done.
 
 ## What You Don't Do
 
-- **Don't run `git init`** — The user handles post-creation setup
+- **Don't skip `git init` and submodule setup** — These must happen before file generation so thin wrappers can resolve framework paths
 - **Don't create `.env` or credentials** — Note in CLAUDE.md if the project will need them
 - **Don't over-generate** — Common patterns should start minimal. Better to add through `/friction-log` + `/maintain` than to guess
 - **Don't use sample domain content** — Generate fresh content for the user's domain. Article-formatter language shouldn't leak into a ticket-classification project.

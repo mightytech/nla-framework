@@ -243,8 +243,8 @@ summarize state for next time.
 ### Updating Core Files
 
 1. Make changes in `core/` files
-2. Propose changes (blast radius: all domain projects — loaded via `../nla-framework/`)
-3. Core file changes propagate automatically via `git pull`, but if the change has implications domain projects should know about (e.g., new concepts they might want to reflect in their overview), consider adding an update note to `install/update-notes.md`.
+2. Propose changes (blast radius: all domain projects — loaded via `packages/nla-framework/`)
+3. Core file changes propagate to domain projects when they run `/update` to advance their framework submodule. If the change has implications domain projects should know about (e.g., new concepts they might want to reflect in their overview), consider adding an update note to `install/update-notes.md`.
 
 ---
 

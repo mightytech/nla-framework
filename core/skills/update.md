@@ -10,7 +10,7 @@ You are updating this NLA — pulling remote changes, applying package intents, 
 
 The user may provide a target as `$ARGUMENTS`:
 
-- **Specific package** (e.g., `nla-penny-post` or `../nla-penny-post/`) — update only that package (pull its remote if ahead, then apply intent changes)
+- **Specific package** (e.g., `nla-penny-post`) — update only that package (pull its remote if ahead, then apply intent changes)
 - **The NLA itself** (by name, or "my project," "this project") — pull the NLA's own remote only
 - **No argument** — check everything. If only one thing needs updating, proceed with it (after confirming). If multiple things need updating, ask: "These have updates available: [list]. Which do you want to update? (Or all?)"
 
@@ -57,13 +57,13 @@ Pull the latest from remotes for the NLA and each package in scope. All pulls ar
 
 ### For Each Package in Scope
 
-1. Locate the package using the source path from the install log.
-2. Check if the package directory has a remote configured. If not: "Package [name] has no remote — I'll check local changes only."
-3. Run `git fetch` in the package directory. If network failure: note it and continue. "Couldn't reach the remote for [name]. I'll check local changes only."
-4. Compare local HEAD to the remote:
+1. Locate the package at `packages/[name]`.
+2. Check if the submodule has a remote configured. If not: "Package [name] has no remote — I'll check local changes only."
+3. Run `git -C packages/[name] fetch`. If network failure: note it and continue. "Couldn't reach the remote for [name]. I'll check local changes only."
+4. Compare the submodule's HEAD to the remote:
    - **Up to date** — note it.
-   - **Fast-forward available** — perform `git merge --ff-only` in the package directory. Report what was pulled.
-   - **Not fast-forward (diverged)** — refuse. "Package [name] has diverged from its remote. This needs attention in the package's own context — resolve the divergence in `[package path]`, then re-run `/update`." Skip this package's remote pull but still check its local-vs-installed state in Phase 2.
+   - **Fast-forward available** — check for tagged releases between the current commit and the remote HEAD: `git -C packages/[name] tag --sort=-creatordate --merged origin/main`. If a newer tagged release exists, offer a choice: "Package [name] has N new commits. Latest tagged release: [tag] (M commits behind HEAD). Advance to the tagged release (stable) or to HEAD?" If no tags exist, or the user chooses HEAD, advance to HEAD. To advance: `git -C packages/[name] merge --ff-only [target]` (where target is the tag or `origin/main`). Stage the updated submodule pointer: `git add packages/[name]`. Report what was pulled.
+   - **Not fast-forward (diverged)** — refuse. "Package [name] has diverged from its remote. This needs attention in the package's own context — resolve the divergence there, then re-run `/update`." Skip this package's remote pull but still check its local-vs-installed state in Phase 2.
 
 ### Why Fast-Forward Only
 
@@ -98,7 +98,7 @@ Read `reference/installed-packages.md` to determine what's installed.
 
 For each package in scope:
 
-1. **Locate the package's `install/` directory** using the source path from the install log
+1. **Locate the package's `install/` directory** at `packages/[name]/install/`
 2. **Check for changes** since the logged state:
    - If git is available in the package repo: compare the logged commit hash against the current HEAD for `install/`
    - If no git or no commit hash: re-read all intent files and compare against what the log says was done
@@ -106,7 +106,6 @@ For each package in scope:
    - **Changed intents** — an existing intent file has been modified
    - **New intents** — intent files that didn't exist when the package was installed
    - **Removed intents** — intent files that no longer exist (rare; inform user but don't undo previous work)
-   - **Permission changes** — the manifest's Permissions section has new, removed, or changed entries compared to what was logged
    - **No changes** — package install directory is unchanged
 
 If nothing changed: "Package [name] is up to date (no changes to install intents since [date])."
@@ -146,22 +145,6 @@ last-known commit is old enough that relevant notes may have been archived, chec
 - Check update notes for context about why the intent was removed and what replaces it. Surface this to the user alongside the removal notification — it helps them decide whether and how to clean up.
 - **Search for stale references.** Grep the project for mentions of the removed item — skill names, file paths, descriptions. Check beyond the known integration points: overview.md, system-status.md, README.md, and any other files that reference project structure or capabilities. Include stale references in your proposal so they can be cleaned up in the same pass.
 
-**For permission changes:**
-When a package's Permissions section has changed since the last install/update:
-
-1. Read `.claude/settings.local.json`
-2. For new permission declarations — propose adding them: "Package [name] now
-   needs `[pattern]` for [purpose]. Add to settings?"
-3. For removed permission declarations — inform the user: "Package [name] no
-   longer declares `[pattern]`. The entry is still in your settings — remove it
-   if you no longer need it." Don't auto-remove.
-4. Log permission changes in the update record.
-
-If the package now has a Permissions section but didn't before (common during
-initial adoption), treat all entries as new and propose them. If no
-`settings.local.json` exists, offer to create one with the full baseline
-(framework + all installed packages).
-
 **Respect ejected wrappers.** If a skill wrapper has been customized (ejected), don't overwrite it. Inform the user of upstream changes and let them decide how to integrate.
 
 ### 5. Update the Install Log
@@ -178,7 +161,6 @@ Append an update record to the package's section. Don't replace the original ins
 | Intent File | What Changed | Changes Made |
 |-------------|-------------|--------------|
 | [file] | [what's different in the intent] | [what was done to the NLA] |
-| Permissions | [what changed] | [entries added/noted for removal] |
 
 **Notes:** [decisions, skipped items, issues]
 ```
@@ -204,21 +186,21 @@ Propose fixes for any inconsistencies found.
 
 ## Bootstrap Mode
 
-When there's no install log but the NLA clearly uses the framework (has thin wrappers, references `../nla-framework/`), offer to establish a baseline.
+When there's no install log but the NLA clearly uses the framework (has thin wrappers, has packages in `packages/`), offer to establish a baseline.
 
 **Bootstrap flow:**
 
 1. Tell the user: "No install log found, but this NLA appears to use the NLA Framework. I can scan the framework's install intents against your current project to establish a baseline. This won't change any files — it just creates the install log so `/update` works going forward. Want me to do that?"
 
 2. If approved:
-   - Read `../nla-framework/install/install.md` and each intent file
+   - Read `packages/nla-framework/install/install.md` and each intent file
    - For each intent, examine the NLA's current state and note what's already present
    - Create `reference/installed-packages.md` with a baseline entry:
 
 ```markdown
 ## NLA Framework
 
-**Source:** ../nla-framework/
+**Source:** packages/nla-framework/ (from [URL in .gitmodules])
 **Installed:** [date] (baseline — project predates install log)
 **Package state:** [current commit hash]
 
@@ -241,7 +223,7 @@ Baseline entry created by `/update` bootstrap. No files were changed — this re
 
 ## Edge Cases
 
-- **Package directory moved or missing** — "Can't find [package] at [path]. Has it moved? Provide the new path."
+- **Package directory moved or missing** — "Can't find [package] at `packages/[name]`. Has it moved? Provide the new path."
 - **Install log is corrupted or unparseable** — Don't guess. Ask the user: "The install log is hard to parse. Want me to rebuild it from scratch (bootstrap mode)?"
 - **User modified installed content** — The install log says one thing, the NLA says another. Don't overwrite user modifications without explicit approval. Show the diff and ask.
 - **Multiple updates available** — Process each package in the order they appear in the install log. Present each package's changes separately.

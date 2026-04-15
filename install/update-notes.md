@@ -33,6 +33,30 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-15 — Packages directory replaces sibling directory convention
+
+**Affects:** All intent files, all core skills, CLAUDE-intent, structure-intent, skills-intent, install.md, package-intent.md
+
+All dependencies now live inside the project in `packages/` as git submodules. The sibling directory convention (`../nla-framework/`, `../nla-package/`) is retired.
+
+**What this means for your project:**
+
+Every thin wrapper path changes from `../nla-framework/core/skills/[name].md` to `packages/nla-framework/core/skills/[name].md`. Extension package wrappers change similarly (e.g., `../nla-penny-post/` → `packages/nla-penny-post/`).
+
+**Migration steps:**
+
+1. Add the framework as a submodule: `git submodule add --depth 1 https://github.com/mightytech/nla-framework.git packages/nla-framework`
+2. If you have extension packages installed, add those too: `git submodule add --depth 1 [URL] packages/[name]`
+3. Update all thin wrappers: change `../nla-framework/` to `packages/nla-framework/` in every `.claude/skills/*/SKILL.md`
+4. Update CLAUDE.md references to the framework and packages
+5. Update `reference/installed-packages.md` Source paths
+6. If you have a `.claude/settings.local.json` with `Read(../nla-framework/**)` entries, those can be removed — all reads are now within-project
+7. Run `/validate` structural check to catch any missed references
+
+**Why:** Cross-directory reads triggered persistent Claude Code permission prompts. The sibling convention also meant no version pinning (every project ran whatever was on main) and projects weren't self-contained (sharing required knowing to clone siblings). The packages/ model solves all three.
+
+**Convention:** Use `git submodule update --init` (not `--recursive`) when cloning projects. Dependencies are flat — each project lists only its direct dependencies.
+
 ### 2026-03-05 — New /guide skill and Working Rhythms in foundations
 
 **Affects:** install/skills-intent.md, core/skills/guide.md (new),

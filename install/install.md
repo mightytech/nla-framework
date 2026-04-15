@@ -18,7 +18,7 @@ this framework should have what these intent files describe.
 
 - **Claude Code** — The NLA runs inside Claude Code, which provides skill discovery,
   file access, and the LLM runtime.
-- **This repo cloned as a sibling** — `../nla-framework/` relative to the NLA. Thin
+- **This repo added as a submodule** at `packages/nla-framework/`. Thin
   wrapper skills reference this path.
 
 ## Permissions
@@ -28,13 +28,9 @@ reads these and proposes entries for the NLA's `.claude/settings.local.json`.
 
 | Pattern | Purpose | Required |
 |---------|---------|----------|
-| `Read(../nla-framework/**)` | Framework core docs, skill logic, foundations, intent files | Yes |
 | `Bash(git:*)` | Version control operations | Yes |
 | `Bash(ls:*)` | Directory listing | Yes |
 | `Bash(test:*)` | File and directory existence checks | Yes |
-
-At project creation, `/create-app` resolves the framework path to an absolute path
-for the settings entry. Package entries use relative paths.
 
 No write patterns are declared. Writes to external directories stay manually approved.
 

@@ -63,7 +63,7 @@ When in doubt, put it in `config.md`. Sub-configs are for when the user has enou
 Config files are Markdown — natural language, not YAML. A directive can be structured:
 
 ```markdown
-Framework path: ../nla-framework/
+Framework path: packages/nla-framework/
 Maximum output length: 1500 words
 ```
 

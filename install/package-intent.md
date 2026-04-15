@@ -37,20 +37,20 @@ into existing files (don't paste, integrate), log what was done in the target NL
 
 ## Permissions Section
 
-Package manifests should declare what filesystem access they need from installing
-NLAs. This goes in `install.md` as a "Permissions" section with a table:
+Package manifests should declare what shell command approvals they need from
+installing NLAs. This goes in `install.md` as a "Permissions" section with a table:
 
 ```markdown
 ## Permissions
 
 | Pattern | Purpose | Required |
 |---------|---------|----------|
-| `Read(../package-name/**)` | Read package skill logic and docs | Yes |
 | `Bash(gh:*)` | GitHub CLI (if the package uses it) | Depends on package |
 ```
 
-The patterns use Claude Code's permission syntax. The installing skill reads these
-and proposes entries for the NLA's `settings.local.json`.
+The patterns use Claude Code's permission syntax. Packages recommend Bash patterns
+for shell commands rather than Read permissions — since packages live inside the
+project at `packages/`, Read permissions for them are unnecessary.
 
 **Required vs. optional:** Mark a permission "Yes" if the package won't function
 without it. Mark "Optional" with a note about what's lost if it enhances but isn't
@@ -59,16 +59,15 @@ essential.
 **Don't declare write permissions.** Writes to package directories should remain
 manually approved.
 
-Most packages only need their baseline read entry (`Read(../package-name/**)`).
 Additional entries are for packages that use external tools (like GitHub CLI) or
-access directories beyond their own.
+need specific shell command approvals.
 
 **CLAUDE-intent.md** describes what the installing NLA's CLAUDE.md should know about
 the package — typically a skills table section and any execution principles the
 package needs.
 
 **skills-intent.md** describes what skill wrappers to create in the installing NLA.
-Package skill wrappers point to `../[package-name]/app/[skill].md` — the same thin
+Package skill wrappers point to `packages/[package-name]/app/[skill].md` — the same thin
 wrapper pattern as framework skills, but pointing at the package instead of the
 framework.
 
@@ -102,7 +101,7 @@ Skill logic files in `app/` serve a dual role. They're both:
 
 This means skill logic files need to work without assuming the package's own
 CLAUDE.md is loaded. When another NLA's wrapper says "Read and follow
-`../nla-process-helpers/app/unpack.md`", that file runs in the other NLA's context.
+`packages/nla-process-helpers/app/unpack.md`", that file runs in the other NLA's context.
 
 ---
 

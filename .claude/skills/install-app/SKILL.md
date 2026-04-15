@@ -28,7 +28,7 @@ they can explore, run, and learn from — before building their own with `/creat
    user choose.
 
 4. **Clone the chosen project.** Clone to a sibling directory (`../[repo-name]/`).
-   The framework path (`../nla-framework/`) must resolve from the install location.
+   After cloning, initialize submodules: `cd ../[repo-name] && git submodule update --init`.
 
 5. **Orient the user.** Explain what they got:
 
@@ -42,9 +42,10 @@ What's inside:
 
 Next steps:
 1. cd ../[project-name]
-2. Start Claude Code
-3. Run /startup to load context
-4. Try /[task-name] with some sample input
+2. git submodule update --init
+3. Start Claude Code
+4. Run /startup to load context
+5. Try /[task-name] with some sample input
 
 When you're ready to build your own project, come back here and run /create-app.
 ```

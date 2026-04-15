@@ -22,7 +22,7 @@ Before starting, read these to understand the NLA you're exporting:
 1. **`CLAUDE.md`** — identity, grounding principles, skills table, modes
 2. **`app/overview.md`** — what the NLA does, how pieces connect
 3. **`app/config-spec.md`** — configuration options (if it exists)
-4. **`../nla-framework/core/nla-foundations.md`** — for extracting behavioral principles
+4. **`packages/nla-framework/core/nla-foundations.md`** — for extracting behavioral principles
 
 ---
 
@@ -119,7 +119,7 @@ Synthesize the body from five sources into one coherent document:
 
 **Source 1 — NLA Identity** (from CLAUDE.md): The opening role description, grounding
 principles, and execution rules. Strip framework-specific content (thin wrapper
-references, `../nla-framework/` paths, `/maintain` mode details).
+references, `packages/nla-framework/` paths, `/maintain` mode details).
 
 **Source 2 — Behavioral Principles** (from `nla-foundations.md`): Extract ONLY the
 Key Principles section (sections 1-7). Do NOT include the "What is an NLA?" explainer,
@@ -147,7 +147,7 @@ Also add an `export-metadata.md` supporting file in the foundation directory:
 # Export Metadata
 
 - **Source project:** [absolute path]
-- **Framework version:** [git commit hash of ../nla-framework/]
+- **Framework version:** [git commit hash of packages/nla-framework/]
 - **Export date:** [YYYY-MM-DD]
 - **Project version:** [git commit hash, if available]
 - **Feedback channel:** [repo URL, if available]
@@ -158,7 +158,7 @@ Also add an `export-metadata.md` supporting file in the foundation directory:
 For each skill that ships (domain, dev, utility, extension):
 
 **a. Resolve references.** Read the SKILL.md and find all file references:
-- `Read and follow ../nla-framework/core/skills/[name].md` (thin wrapper pattern)
+- `Read and follow packages/nla-framework/core/skills/[name].md` (thin wrapper pattern)
 - `Read and follow app/[name].md` (domain skill pattern)
 - `app/shared/[name].md`, `shared/[name].md` (shared context)
 - Any other path references in backticks
@@ -172,7 +172,7 @@ as a supporting file. Flatten the directory structure — `app/shared/voice.md`
 becomes just `voice.md` in the skill directory.
 
 **d. Rewrite paths.** In the SKILL.md and all copied files:
-- Replace `../nla-framework/core/nla-foundations.md` references → remove (principles
+- Replace `packages/nla-framework/core/nla-foundations.md` references → remove (principles
   are in the foundation skill, which is always loaded)
 - Replace `app/[name].md` → `[name].md` (now a local supporting file)
 - Replace `app/shared/[name].md` or `shared/[name].md` → `[name].md`
@@ -190,7 +190,7 @@ name: maintain
 description: Edit the NLA system
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/maintain.md`.
+Read and follow `packages/nla-framework/core/skills/maintain.md`.
 ```
 
 After (self-contained in plugin):

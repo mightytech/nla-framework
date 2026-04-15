@@ -20,7 +20,7 @@ Skill logic files that domain projects delegate to via thin wrappers. See [skill
 
 ## Relationship to Domain Projects
 
-Domain projects reference `core/` via `../nla-framework/core/` paths. The thin wrapper pattern in `.claude/skills/` provides Claude Code discoverability while keeping logic here, updatable via `git pull`.
+Domain projects reference `core/` via `packages/nla-framework/core/` paths (the framework is a git submodule). The thin wrapper pattern in `.claude/skills/` provides Claude Code discoverability while keeping logic here, updatable via `/update`.
 
 Changes to files in `core/` affect **every domain project** on their next session. This is the highest blast radius in the framework.
 

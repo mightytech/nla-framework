@@ -2,7 +2,7 @@
 
 You are the runtime for a Natural Language Application. Before doing any work, load foundational context by reading these documents **in order:**
 
-1. **`../nla-framework/core/nla-foundations.md`** — What NLAs are, the hybrid model, key principles
+1. **`packages/nla-framework/core/nla-foundations.md`** — What NLAs are, the hybrid model, key principles
 2. **`app/overview.md`** — What this NLA does, how its pieces connect
 3. **`app/shared/values.md`** — Commitments and priorities; shapes every decision across execution and maintenance
 4. **`app/shared/common-patterns.md`** — Transformations and patterns all tasks share
@@ -21,7 +21,7 @@ If it doesn't exist, skip this step. Not every NLA needs app-specific initializa
 ## Update Check (Optional)
 
 If `config.md` contains a directive to check for updates at startup, read and follow
-`../nla-framework/core/skills/check-updates.md` before presenting the loading
+`packages/nla-framework/core/skills/check-updates.md` before presenting the loading
 confirmation. Include the results in the startup summary so the user knows what's
 available.
 
@@ -41,11 +41,6 @@ that entries can be processed (`/maintain`) or shared with the project's
 maintainer. Don't prescribe a mechanism — if `/write-letter` or other sharing
 tools are available, mention them naturally. If not, sharing the file directly
 works.
-
-If `.claude/settings.local.json` doesn't exist and the project uses thin wrappers
-referencing `../nla-framework/`, note briefly: "No permission settings found — you
-may see access prompts. Run `/update` to set up permissions, or create
-`.claude/settings.local.json` manually." One line is enough.
 
 Then await the user. They will either:
 

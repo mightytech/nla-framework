@@ -78,6 +78,8 @@ For the full conceptual foundation, see
 
 ```bash
 git clone https://github.com/mightytech/nla-framework.git
+cd nla-framework
+git submodule update --init
 ```
 
 ### 2. Create your project
@@ -95,7 +97,7 @@ claude
 
 ```bash
 cd ../my-project
-git init && git add -A && git commit -m "Initial NLA project"
+git add -A && git commit -m "Initial NLA project"
 claude
 # Then: /startup
 ```
@@ -122,7 +124,7 @@ framework:
 name: startup
 description: Initialize the NLA runtime.
 ---
-Read and follow `../nla-framework/core/skills/startup.md`.
+Read and follow `packages/nla-framework/core/skills/startup.md`.
 ```
 
 **Framework** (`core/skills/startup.md`):
@@ -136,9 +138,9 @@ domain-specific logic.
 
 The LLM operates from your project's working directory:
 - **Your files:** `app/overview.md`, `reference/friction-log.md`
-- **Framework files:** `../nla-framework/core/nla-foundations.md`
+- **Framework files:** `packages/nla-framework/core/nla-foundations.md`
 
-The framework must be a sibling directory to your project.
+The framework is a submodule inside your project's `packages/` directory.
 
 ---
 
@@ -150,6 +152,9 @@ nla-framework/
 │   ├── nla-foundations.md     # Universal NLA concepts and principles
 │   └── skills/               # Skill logic (delegated to by project wrappers)
 ├── install/                   # Intent files — source of truth for project generation
+├── packages/
+│   ├── nla-penny-post/        # Feedback conventions (submodule)
+│   └── nla-process-helpers/   # Facilitation techniques (submodule)
 ├── reference/                 # Framework maintenance records
 └── .claude/skills/            # Framework-level skill entry points
 ```
@@ -167,6 +172,8 @@ my-project/
 │   ├── overview.md            # What this NLA does
 │   ├── shared/                # Values, voice, patterns, output spec
 │   └── [task docs]            # Domain-specific tasks
+├── packages/
+│   └── nla-framework/         # Framework (submodule)
 ├── reference/                 # Maintenance records
 ├── .claude/skills/            # Skill entry points (wrappers + domain skills)
 └── lib/                       # Traditional code (if needed)
@@ -176,15 +183,17 @@ my-project/
 
 ## Upgrading
 
+Run `/update` in your project to pull the latest framework and apply
+changes. Or manually:
+
 ```bash
-cd nla-framework
-git pull
+git -C packages/nla-framework fetch && git -C packages/nla-framework merge --ff-only origin/main && git add packages/nla-framework && git commit -m "Update framework"
 ```
 
 Thin wrappers point to framework files, so updated logic takes effect
 immediately. For structural changes (new skills, changed expectations),
-run `/update` in your project — it compares current intent against what
-was installed and proposes changes.
+`/update` compares current intent against what was installed and proposes
+changes.
 
 ---
 

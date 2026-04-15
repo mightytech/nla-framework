@@ -11,7 +11,7 @@ The content transformation guardrails in CLAUDE.md ("don't write code," "don't s
 Before making any changes, read these in order:
 
 1. **`reference/design-rationale.md`** — Understand what exists, why it exists, what was tried and rejected. This prevents re-introducing approaches that already failed.
-2. **`../nla-framework/core/nla-foundations.md`** — NLA concepts and principles.
+2. **`packages/nla-framework/core/nla-foundations.md`** — NLA concepts and principles.
 3. **`app/overview.md`** — How the pieces connect: shared context, tasks, hybrid model.
 4. **`reference/friction-log.md`** — Recent learnings, unresolved issues, patterns to watch.
 5. **`reference/feedback-log.md`** — Accepted items from external feedback, waiting for implementation.

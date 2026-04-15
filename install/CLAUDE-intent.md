@@ -77,9 +77,9 @@ The NLA should establish:
 
 The NLA should declare:
 
-- That it uses the NLA Framework at `../nla-framework/`
+- That it uses the NLA Framework at `packages/nla-framework/`
 - A key files table mapping directories to purposes
-- That thin wrappers delegate to `../nla-framework/core/skills/`
+- That thin wrappers delegate to `packages/nla-framework/core/skills/`
 
 ## What NOT to Change
 
@@ -125,7 +125,7 @@ what each section contains, not what it should literally say.
 8. **What NOT to Do** — Guardrails for the default mode. What mistakes to avoid. These
    are mode-specific — maintenance mode has its own rules provided by the skill.
 
-9. **Environment** — Framework location (`../nla-framework/`), key files table mapping
+9. **Environment** — Framework location (`packages/nla-framework/`), key files table mapping
    directories to purposes, note about thin wrapper delegation.
 
 10. **Remember** — Brief closing that reinforces the NLA's core identity and the principle

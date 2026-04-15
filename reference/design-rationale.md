@@ -18,6 +18,8 @@ Domain projects reference the framework as a sibling directory (`../nla-framewor
 
 **Why not git submodules:** Submodules add tooling friction (init, update, sync). A sibling directory with thin wrappers is simpler and matches how LLMs already work — reading files from paths.
 
+> **Superseded 2026-04-15.** The sibling directory convention and the "why not submodules" reasoning were overturned. See "Packages Directory with Git Submodules" below.
+
 ### `core/` for Framework Executable Docs
 
 The framework's operative files live in `core/`, not `app/`. Domain projects use `app/` for their application. The different name signals the different role: `core/` is infrastructure read by all projects, `app/` is domain-specific content.
@@ -557,6 +559,8 @@ However, the implementation revealed a tension: `core/skills/*.md` files are sha
 All three degraded the common case (sibling projects work perfectly today) to support a rare case (non-sibling layouts). This is a case where traditional code is genuinely easier than an NLA — path substitution is mechanical and deterministic, exactly the kind of thing code handles well and LLMs add unnecessary flexibility to.
 
 **Decision:** Keep the sibling convention for the MVP. The getting-started experience is zero-friction (clone and go), there's no NLA ecosystem requiring a vendor/packages pattern, and the alternatives all involve tradeoffs that aren't justified by current demand.
+
+> **Superseded 2026-04-15.** Cross-directory permission friction, lack of version pinning, and project non-self-containment made the sibling convention impractical. See "Packages Directory with Git Submodules" below.
 
 ---
 
@@ -1685,6 +1689,72 @@ through `/update` from the layer above.
 - All existing projects — via update notes; migration is optional (projects work
   without it, they just see more permission prompts)
 - All existing packages — should add permission declarations to their manifests
+
+> **Superseded 2026-04-15.** The packages/submodules model eliminates cross-directory reads entirely, making Read permission management unnecessary. Bash patterns (`git:*`, `ls:*`, `test:*`) remain relevant. See "Packages Directory with Git Submodules" below.
+
+---
+
+## Packages Directory with Git Submodules
+
+*Added 2026-04-15. Supersedes Sibling Directory Convention, the "why not submodules" reasoning in Dual-Source Architecture, and the cross-directory Read portion of the Permission Management Model.*
+
+### What was decided
+
+Replace the sibling directory convention (`../nla-framework/`, `../nla-package/`) with a `packages/` directory using git submodules inside each NLA project. Every NLA — including the framework itself — keeps its dependencies in `packages/` as shallow-cloned submodules with HTTPS URLs. Dependencies are flat (not nested): `git submodule update --init` (without `--recursive`) clones only direct dependencies.
+
+### Why the original reasoning was overturned
+
+The sibling directory convention was chosen because "submodules add tooling friction (init, update, sync)." Three things changed:
+
+1. **Cross-directory permission friction proved persistent.** Claude Code prompts on every read outside the project directory. The Permission Management Model (2026-03-04) attempted to solve this with settings.local.json entries. Testing across 5 projects (Issues #15, #16) showed that pattern matching was unreliable (absolute paths didn't match relative reads) and the settings files accumulated junk rather than systematic entries. The packages/ model eliminates the problem entirely — all reads are within-project.
+
+2. **Ambient updates were a hidden danger.** `git pull` on a shared sibling directory changed behavior in every project simultaneously. One project's update could silently break another. Submodule version pinning means each project runs exactly the version it was tested with.
+
+3. **Tooling friction is manageable.** `/update` abstracts submodule commands — users never run `git submodule` directly. `/create-app` sets up submodules during project creation. The friction that remained was less than the friction it replaced.
+
+### Flat dependencies, not nested
+
+Each NLA lists its direct dependencies as submodules. There is no transitive dependency resolution. If package A needs package B, the consuming NLA adds both as direct dependencies — they're siblings in `packages/`.
+
+`git submodule update --init` (not `--recursive`) is the convention. `--recursive` would descend into dependencies' own `packages/` directories, creating wasteful nesting. Each project's `packages/` is relevant only when that project is the active working directory.
+
+### Circular dependencies work
+
+The framework depends on penny post (for `/check-feedback`, `/write-letter`). Penny post depends on the framework (thin wrappers delegate to framework core skills). In traditional software, this circular dependency creates build-order and version-resolution problems. In NLAs, it's harmless — there's no build step, no dependency resolver. Each project pins a specific version of the other. The LLM reads files from paths; the files exist at those paths. No compilation order, no resolution algorithm needed.
+
+This is a consequence of the NLA model: when "code" is prose and the "runtime" is an LLM reading files, the constraints that make circular dependencies dangerous in traditional software don't apply.
+
+### Update model: ambient to explicit
+
+Previously, `git pull` on the framework updated all projects sharing that sibling. Now updates are per-project and explicit:
+
+1. `/check-updates` compares the submodule's pinned commit against the remote HEAD
+2. `/update` fetches, advances the submodule pointer (fast-forward only), stages it, then applies intent changes
+3. The pointer advance + intent changes commit together atomically in the NLA's git history
+
+Rollback is trivial — revert the commit that advanced the pointer. No collateral damage to other projects.
+
+This aligns with the Cardinal Rule: the human decides when each project updates, and each update is independently reversible.
+
+### Permission model retirement
+
+With all dependencies inside `packages/`, cross-directory Read permissions are unnecessary. The Permission Management Model's Read-related machinery is retired:
+
+- Removed: `Read(../nla-framework/**)` declarations in package manifests
+- Removed: `/create-app` generating Read entries in settings.local.json
+- Removed: `/install` and `/update` proposing Read permission entries
+- Removed: `/validate` checking Read permission consistency
+- Removed: `/startup` warning about missing settings.local.json
+
+Retained: Bash patterns (`Bash(git:*)`, `Bash(ls:*)`, `Bash(test:*)`) for shell command approvals. These aren't about directory access — they're convenience patterns for routine CLI operations.
+
+### Blast radius
+
+- `install/` intent files: all path references, permission declarations
+- `core/skills/`: all path references, permission-related sections in install, update, validate, startup
+- `.claude/skills/create-app/`: generation flow (git init, submodule add), settings simplification
+- `CLAUDE.md`: Key Files table
+- All domain projects: migration via `/update` (required, no transition period)
 
 ---
 

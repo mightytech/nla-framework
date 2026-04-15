@@ -7,14 +7,14 @@ What framework skill wrappers the NLA should have after installing the NLA Frame
 ## Skills to Create
 
 All framework skills use the **thin wrapper pattern**: a minimal skill file in the
-NLA's `.claude/skills/` that delegates to logic in `../nla-framework/core/skills/`.
+NLA's `.claude/skills/` that delegates to logic in `packages/nla-framework/core/skills/`.
 This means pulling the framework repo updates skill logic without touching the NLA.
 
 ### /startup
 
 **Purpose:** Load foundational context at session start, then run app-specific initialization if `app/startup.md` exists.
 **Wrapper location:** `.claude/skills/startup/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/startup.md`
+**Delegates to:** `packages/nla-framework/core/skills/startup.md`
 
 **Reference wrapper:**
 ```yaml
@@ -23,14 +23,14 @@ name: startup
 description: Initialize the NLA runtime. Use at session start or when context feels stale after long work.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/startup.md`.
+Read and follow `packages/nla-framework/core/skills/startup.md`.
 ```
 
 ### /maintain
 
 **Purpose:** Edit the NLA system itself — docs, skills, and library code.
 **Wrapper location:** `.claude/skills/maintain/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/maintain.md`
+**Delegates to:** `packages/nla-framework/core/skills/maintain.md`
 
 **Reference wrapper:**
 ```yaml
@@ -39,14 +39,14 @@ name: maintain
 description: Edit the NLA system itself — docs, skills, lib code, and configuration. Use when the user wants to improve or modify the system.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/maintain.md`.
+Read and follow `packages/nla-framework/core/skills/maintain.md`.
 ```
 
 ### /friction-log
 
 **Purpose:** Log observations to the friction log from any context.
 **Wrapper location:** `.claude/skills/friction-log/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/friction-log.md`
+**Delegates to:** `packages/nla-framework/core/skills/friction-log.md`
 
 **Reference wrapper:**
 ```yaml
@@ -55,14 +55,14 @@ name: friction-log
 description: Log observations, issues, or positive findings to the friction log from any context
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/friction-log.md`.
+Read and follow `packages/nla-framework/core/skills/friction-log.md`.
 ```
 
 ### /validate
 
 **Purpose:** Check system consistency (structural check, architecture review, scenario walkthrough, debug, coherence review).
 **Wrapper location:** `.claude/skills/validate/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/validate.md` (dispatcher that routes to mode files)
+**Delegates to:** `packages/nla-framework/core/skills/validate.md` (dispatcher that routes to mode files)
 
 **Reference wrapper:**
 ```yaml
@@ -72,14 +72,14 @@ description: Validate the NLA system — structural checks, architecture review,
 disable-model-invocation: true
 ---
 
-Read and follow `../nla-framework/core/skills/validate.md`.
+Read and follow `packages/nla-framework/core/skills/validate.md`.
 ```
 
 ### /preferences
 
 **Purpose:** Create or edit user configuration.
 **Wrapper location:** `.claude/skills/preferences/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/preferences.md`
+**Delegates to:** `packages/nla-framework/core/skills/preferences.md`
 
 **Reference wrapper:**
 ```yaml
@@ -89,14 +89,14 @@ description: Create or edit user preferences for this NLA. Personalizes behavior
 disable-model-invocation: true
 ---
 
-Read and follow `../nla-framework/core/skills/preferences.md`.
+Read and follow `packages/nla-framework/core/skills/preferences.md`.
 ```
 
 ### /install
 
 **Purpose:** Install a new NLA package into this project.
 **Wrapper location:** `.claude/skills/install/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/install.md`
+**Delegates to:** `packages/nla-framework/core/skills/install.md`
 
 **Reference wrapper:**
 ```yaml
@@ -105,14 +105,14 @@ name: install
 description: Install a new NLA package into this project. Reads the package's install manifest and synthesizes its intents into the NLA.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/install.md`.
+Read and follow `packages/nla-framework/core/skills/install.md`.
 ```
 
 ### /update
 
 **Purpose:** Update the NLA — pull remote changes for packages and the NLA itself (fast-forward only), then apply intent changes.
 **Wrapper location:** `.claude/skills/update/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/update.md`
+**Delegates to:** `packages/nla-framework/core/skills/update.md`
 
 **Reference wrapper:**
 ```yaml
@@ -121,14 +121,14 @@ name: update
 description: Update the NLA — pull remote changes, apply package intent updates, or both. Creates a rollback branch for safety.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/update.md`.
+Read and follow `packages/nla-framework/core/skills/update.md`.
 ```
 
 ### /check-updates
 
 **Purpose:** Scan for available updates across the NLA and all installed packages. Read-only — reports status without making changes.
 **Wrapper location:** `.claude/skills/check-updates/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/check-updates.md`
+**Delegates to:** `packages/nla-framework/core/skills/check-updates.md`
 
 **Reference wrapper:**
 ```yaml
@@ -137,14 +137,14 @@ name: check-updates
 description: Check for available updates to the NLA and installed packages. Scans remotes and local state without making changes.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/check-updates.md`.
+Read and follow `packages/nla-framework/core/skills/check-updates.md`.
 ```
 
 ### /export
 
 **Purpose:** Export this NLA project as a plugin for Claude Code or Cowork.
 **Wrapper location:** `.claude/skills/export/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/export.md`
+**Delegates to:** `packages/nla-framework/core/skills/export.md`
 
 **Reference wrapper:**
 ```yaml
@@ -153,14 +153,14 @@ name: export
 description: Export this NLA project as a plugin for Claude Code or Cowork. Converts the project into a self-contained plugin directory with all dependencies resolved.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/export.md`.
+Read and follow `packages/nla-framework/core/skills/export.md`.
 ```
 
 ### /think
 
 **Purpose:** Collaborative design exploration — think through what to build and why before planning how.
 **Wrapper location:** `.claude/skills/think/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/think.md`
+**Delegates to:** `packages/nla-framework/core/skills/think.md`
 
 **Reference wrapper:**
 ```yaml
@@ -169,14 +169,14 @@ name: think
 description: Collaborative design exploration — think through what to build and why before planning how. Use when work involves design judgment, unfamiliar territory, or multiple valid approaches.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/think.md`.
+Read and follow `packages/nla-framework/core/skills/think.md`.
 ```
 
 ### /debrief
 
 **Purpose:** Reflect on completed work — surface observations about process, instructions, and experience while context is fresh.
 **Wrapper location:** `.claude/skills/debrief/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/debrief.md`
+**Delegates to:** `packages/nla-framework/core/skills/debrief.md`
 
 **Reference wrapper:**
 ```yaml
@@ -185,14 +185,14 @@ name: debrief
 description: Reflect on completed work — surface observations about process, instructions, and experience while context is fresh. Use at task transitions.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/debrief.md`.
+Read and follow `packages/nla-framework/core/skills/debrief.md`.
 ```
 
 ### /close
 
 **Purpose:** Wrap up a session — finalize the session log, check for loose ends, summarize state for next time.
 **Wrapper location:** `.claude/skills/close/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/close.md`
+**Delegates to:** `packages/nla-framework/core/skills/close.md`
 
 **Reference wrapper:**
 ```yaml
@@ -201,14 +201,14 @@ name: close
 description: Wrap up a session — finalize session log, check loose ends, summarize state for next time.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/close.md`.
+Read and follow `packages/nla-framework/core/skills/close.md`.
 ```
 
 ### /guide
 
 **Purpose:** Context-aware help — understand how the NLA works, what to do next, and how the pieces connect. Adapts to the user's familiarity level.
 **Wrapper location:** `.claude/skills/guide/SKILL.md`
-**Delegates to:** `../nla-framework/core/skills/guide.md`
+**Delegates to:** `packages/nla-framework/core/skills/guide.md`
 
 **Reference wrapper:**
 ```yaml
@@ -217,7 +217,7 @@ name: guide
 description: Context-aware help — understand how the NLA works, what to do next, and how the pieces connect. Adapts to your familiarity level.
 disable-model-invocation: true
 ---
-Read and follow `../nla-framework/core/skills/guide.md`.
+Read and follow `packages/nla-framework/core/skills/guide.md`.
 ```
 
 ---
