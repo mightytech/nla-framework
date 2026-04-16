@@ -12,6 +12,35 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-03-03 — Export hybrid approach: script for mechanical work, AI for judgment
+
+**Source:** [Issue #9](https://github.com/mightytech/nla-framework/issues/9)
+**Verdict:** Accept principle — implementation needs a `/think` design session
+**Status:** resolved
+**Resolved:** 2026-04-16 — Implemented jointly with the /export view-source redesign. `lib/export.py` handles mechanical transforms (git archive, submodule resolution, path rewrites, frontmatter surgery, plugin.json generation, verification); AI handles inventory, classification, foundation synthesis, README, and final verification. Manifest JSON is the handoff format. Python 3, stdlib only. Self-test and integration test cover the script. See session log `2026-04-16-export-simplification.md` and design-rationale "Plugin Export: View-Source Model".
+
+**What to do:**
+Design and implement a `lib/export-plugin.sh` (or Python script) that handles the
+mechanical phase of export (directory creation, thin wrapper resolution, path rewriting,
+supporting file copying, frontmatter adjustment, plugin.json generation). The AI retains
+inventory/classification (phase 1), foundation synthesis, edge case decisions, README
+generation, and verification. Input to the script is a classification manifest (JSON)
+produced by the AI through the phase 1 conversation.
+
+Before implementing, run a `/think` session to work through: manifest format design,
+edge case handling (ejected wrappers, extension naming, non-standard directories),
+generalization across NLAs, and the contract between AI judgment and script execution.
+
+**Why it was accepted:**
+Duet's first export (18 skills, 54 files, three parallel agents) demonstrated that most
+of the file generation work is deterministic — read file, apply path rewrites, copy
+supporting files. A script applies these rules identically every time; parallel AI agents
+independently interpreting the same instructions introduces consistency risk. The
+phase 1/phase 2 distinction is sharp: judgment for classification and synthesis, script
+for mechanical transformation.
+
+---
+
 ### 2026-03-03 — Permission model: NLAs need a way to whitelist external directory access
 
 **Source:** [Issue #7](https://github.com/mightytech/nla-framework/issues/7)

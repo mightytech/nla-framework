@@ -68,56 +68,150 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
-### 2026-04-16 — /export may not need to flatten thin wrappers anymore
+### 2026-04-16 — No implementation standards for Python scripts in the framework
 
 **Type:** core
 **Severity:** minor
-**Blast radius:** project generation
+**Blast radius:** all projects
 **Status:** pending
 
 **Observation:**
-The export skill flattens the two-hop thin wrapper pattern (wrapper → framework file)
-into self-contained skills because "plugins cannot reference files outside their
-directory." This was correct under the sibling-directory model: thin wrappers pointed
-to `../nla-framework/`, which wouldn't exist in the plugin's installed location.
+The framework now has `lib/export.py` as its first traditional-code artifact (all
+prior framework content is prose/markdown). It was written without implementation
+standards — hand-rolled error handling, ad hoc exit codes, reactive regex tuning.
+The code works but lacks the recognizable character standards produce.
 
-With the packages/submodules model (2026-04-15), dependencies are inside the project.
-A plugin bundled with its own `packages/` directory could plausibly contain internal
-thin wrappers that resolve within the plugin:
+Facebook-moderation's implementation-standards experiments (see
+`../facebook-moderation/reference/experiments/implementation-standards/experiment-report.md`)
+demonstrated empirically that standards are a bigger lever for code quality than
+model capability — Haiku with standards outperformed Opus without standards. The
+framework's `lib/export.py` is currently "Opus without standards."
 
-```
-my-plugin/
-├── skills/
-│   └── startup/SKILL.md   ← "Read packages/nla-framework/core/skills/startup.md"
-└── packages/
-    └── nla-framework/      ← bundled as part of the plugin
-```
-
-If Claude Code's plugin loader treats the plugin directory as the working context for
-skills, internal thin wrappers work and no flattening is needed.
-
-**Open questions:**
-- Does Claude Code's plugin loader support internal thin wrappers? (Unknown — the
-  assumption in design rationale predates the packages/ model)
-- If yes, is the simpler export (bundle packages/ as-is, keep wrappers) worth the
-  larger plugin size?
-- Does this change the "plugins are compiled artifacts" framing in the plugin export
-  design rationale entry?
-
-**Affected files:**
-- `core/skills/export.md` — may simplify significantly
-- `reference/design-rationale.md` — "Plugin Export: NLA as Source, Plugin as Artifact"
-  section's "main transformation" description
+If future `lib/` scripts get added (plugin generators, permission managers, domain
+tooling), they'll each be hand-rolled similarly unless a standards document
+accumulates. The inconsistency compounds.
 
 **Proposed fix:**
-Test whether internal thin wrappers work in plugins. If yes, run a /think session on
-the design implications. The packages/ migration may have fundamentally changed what
-export needs to do.
+Start with a lightweight Python implementation standards document (~150 lines):
+error handling classification, logging conventions, CLI structure, testing
+approach. Can grow via the learning-loop pattern facebook-moderation validated.
+Best timing: after the NLA writing standards work lands (already in friction log
+as short-term task), since the pattern for bringing standards into the framework
+will be established.
 
-**Notes:**
-Raised during debrief of 2026-04-15 session. Surfaced by the question "why can't
-plugins use the thin wrapper pattern?" — the assumption was correct in the sibling
-era, may not be correct now.
+**Links:** Related to the "Fallingwater preamble" and "re-compile export.py"
+entries below. Likely coincides timing-wise with the nla-compiler package install.
+
+---
+
+### 2026-04-16 — /maintain doesn't distinguish prose-code authoring from traditional-code authoring
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+The current `/maintain` mode handles editing SKILL.md files, design rationale, and
+Python scripts with the same posture — read required docs, propose changes, edit.
+But prose-code (the documentation that IS the application) and traditional-code
+(Python scripts, shell utilities) have different craft disciplines.
+
+Facebook-moderation's `/compile` skill distinguishes sharply: compilation agents
+get a specific preamble (Fallingwater), specific required reading (standards,
+spec, reference), and specific verification discipline (mandatory execution of
+build/typecheck/test). Their model for traditional-code authoring is different
+from prose-editing, and deliberately so.
+
+The NLA framework's `/maintain` could develop a parallel distinction: when
+authoring traditional code (editing `lib/*.py`, adding new scripts), a different
+context should load — implementation standards, a code-authoring preamble,
+mandatory verification steps.
+
+**Proposed fix:**
+Potentially a sub-mode within /maintain, or a new /compile-like skill once the
+nla-compiler package is installable. Not urgent until more traditional code lands
+in the framework. Worth revisiting when (a) Python standards exist, (b) the
+nla-compiler package is installable, or (c) a second traditional-code file gets
+added (pressure from accumulation).
+
+**Links:** Related to "Python implementation standards" above. Best addressed
+together once the compiler package is available.
+
+---
+
+### 2026-04-16 — Natural experiment: re-compile lib/export.py through nla-compiler when available
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** framework
+**Status:** deferred
+
+**Observation:**
+When facebook-moderation's compiler becomes an installable package (per the
+long-term roadmap), `lib/export.py` is a strong candidate for the framework's
+first compilation pass.
+
+The artifact exists. The spec exists (`reference/specs/export-service.md`,
+drafted 2026-04-16). The author's experience is captured in this session's log —
+the script was written as "Opus without standards," and the resulting code is
+functional but lacks the character standards produce.
+
+A clean-context compilation through the nla-compiler with Python standards +
+Fallingwater preamble + the drafted spec would produce a second artifact.
+Diffing the two would be empirical evidence for whether facebook-moderation's
+cross-model portability claims extend to Python, and whether the framework
+benefits from using its own compilation infrastructure. This is analogous to the
+experiment reports' cross-model comparisons, but with the NLA framework as the
+consumer rather than a standalone test case.
+
+**Proposed fix:**
+Run this experiment when the nla-compiler package lands in the framework.
+Doesn't need a specific decision now — it's a noted opportunity.
+
+**Links:** Depends on nla-compiler package availability. Pairs with the Python
+implementation standards entry above.
+
+---
+
+### 2026-04-16 — Fallingwater-style preamble for framework's own prose authoring
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+Facebook-moderation's compile preamble (the "Fallingwater" passage at
+`../facebook-moderation/app/compile.md` lines 115-148) is the most operationally
+specific description of code craft as prose I've encountered. It translates
+"vibes about code quality" into instructions an LLM can follow, turning
+aspiration into behavioral gradient.
+
+The NLA framework has aspirational language in `core/nla-foundations.md` (e.g.,
+"human flourishing" in principle #1) but nothing equivalently strong for *how
+the AI should be while authoring framework prose*. When maintaining the
+framework, the AI's posture is set by `/maintain`'s procedural instructions, not
+by a preamble that shapes craft.
+
+Three options worth thinking through:
+1. **Reference:** once the nla-compiler package is installed, have framework
+   prose-authoring work load the compile preamble (adapted for prose rather than
+   code).
+2. **Adapt:** write a framework-specific preamble that adapts the Fallingwater
+   framing to prose authoring — "the documentation you write is the application;
+   treat it with the care the architect gave Fallingwater."
+3. **Originate:** decide that framework's prose authoring has different
+   aspirational language than what code compilation needs, and write new
+   material from scratch.
+
+**Proposed fix:**
+/think session on what aspirational language the framework's maintenance posture
+should carry. Probably pairs with the NLA writing standards work (already in
+friction log as short-term task) — that work may already touch this territory.
+
+**Links:** Related to NLA writing standards (pending, short-term). Potentially
+references or adapts facebook-moderation's compile preamble.
 
 ---
 

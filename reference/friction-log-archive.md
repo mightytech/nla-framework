@@ -12,6 +12,49 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-04-16 — /export may not need to flatten thin wrappers anymore
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** project generation
+**Status:** resolved
+**Resolved:** 2026-04-16 — Rewrote /export as a view-source plugin generator with a hybrid AI + Python script architecture. Plugins now mirror the NLA's structure (no flattening); paths get ${CLAUDE_PLUGIN_ROOT}/ prefixes so intra-plugin references resolve reliably. See session log `2026-04-16-export-simplification.md` and design-rationale "Plugin Export: View-Source Model". Resolved jointly with feedback #9.
+
+**Observation:**
+The export skill flattens the two-hop thin wrapper pattern (wrapper → framework file)
+into self-contained skills because "plugins cannot reference files outside their
+directory." This was correct under the sibling-directory model: thin wrappers pointed
+to `../nla-framework/`, which wouldn't exist in the plugin's installed location.
+
+With the packages/submodules model (2026-04-15), dependencies are inside the project.
+A plugin bundled with its own `packages/` directory could plausibly contain internal
+thin wrappers that resolve within the plugin:
+
+```
+my-plugin/
+├── skills/
+│   └── startup/SKILL.md   ← "Read packages/nla-framework/core/skills/startup.md"
+└── packages/
+    └── nla-framework/      ← bundled as part of the plugin
+```
+
+If Claude Code's plugin loader treats the plugin directory as the working context for
+skills, internal thin wrappers work and no flattening is needed.
+
+**Resolution notes:** The hypothesis was mostly right. Plain relative paths in SKILL.md don't resolve reliably (Claude Code issues #17741, #11011), but `${CLAUDE_PLUGIN_ROOT}`-prefixed paths do. The redesign uses the prefix and preserves structure. The reframing that settled it: "view source" replaced "compile" as the guiding metaphor — the plugin is the NLA in an inspectable form, not a compiled artifact.
+
+**Affected files:**
+- `core/skills/export.md` — rewritten
+- `lib/export.py` — new script
+- `reference/design-rationale.md` — new "Plugin Export: View-Source Model" section; prior entry marked superseded
+
+**Notes:**
+Raised during debrief of 2026-04-15 session. Surfaced by the question "why can't
+plugins use the thin wrapper pattern?" — the assumption was correct in the sibling
+era, may not be correct now.
+
+---
+
 ### 2026-03-03 — Context-aware help/guide skill
 
 **Type:** core
