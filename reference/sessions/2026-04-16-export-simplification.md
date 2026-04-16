@@ -130,6 +130,54 @@ what's configurable).
 - Status JSON emitted on stdout; progress to stderr.
 - Total: 984 lines (core ~500, self-test ~150, integration test ~235, comments/docstrings the rest).
 
+### Phase D — First real export: framework-as-plugin test (complete)
+
+Exported the framework itself as a view-source plugin to stress-test the pipeline
+before any domain NLA has migrated. The framework has no `app/` (uses `core/`),
+no `overview.md`, no domain skills, and a mix of framework-only and extension
+skills — each an edge case.
+
+The test surfaced three bugs and produced three follow-up commits:
+
+1. **`framework_submodule_path` was required** in manifest validation, but the
+   framework has no framework submodule (it IS the framework). Made the field
+   optional; both domain NLAs (with a framework submodule) and the framework
+   itself (with only extension submodules) work cleanly.
+2. **Path rewrites ran before synthesized file placement**, so foundation
+   SKILL.md and README.md had unprefixed `core/` paths that tripped verification.
+   Moved the rewrite pass to the final step (after placement), so synthesized
+   content benefits from the same auto-detection. Idempotent via lookbehinds.
+3. **CLAUDE.md and `.gitmodules` shipped at plugin root.** CLAUDE.md was supposed
+   to be replaced by foundation, not coexist. `.gitmodules` has no meaning once
+   submodules are inlined. Added explicit removal; integration test asserts
+   their absence.
+4. **`reference/` was in REWRITE_SKIP_DIRS**, so skill refs like
+   `reference/design-rationale.md` stayed unprefixed (unreliable at runtime per
+   Claude Code path bugs). Removed from skip; those refs now prefix correctly.
+
+Final result: framework plugin produced at `../nla-framework-plugin/` — 190
+files, 1.4MB, 1107 path substitutions, zero verification warnings. All 16
+keep_as_is skills plus foundation present; 5 framework-only skills correctly
+excluded. Path rewrites verified via grep (no unprefixed refs in skill files
+at plugin root).
+
+Observations:
+
+- `CONTRIBUTING.md`, `config.md`, `config-spec.md`, `config/`, `VERSION`,
+  `LICENSE` all shipped because they're committed at framework root. Under
+  the view-source framing, this is correct, not a gap: someone inspecting the
+  plugin sees the full set of committed files, which is exactly what
+  "view-source" means. `CONTRIBUTING.md` is teaching material; `VERSION` is
+  diagnostic; `config-spec.md` is design documentation. For domain NLAs,
+  `config.md`/`config/` are gitignored per convention so they won't ship at
+  all; no action needed. The escape hatches (`.gitignore`, `.gitattributes
+  export-ignore`) remain available for cases where a project has specific
+  files they want withheld — but that's opt-in, not default.
+- Nested `packages/nla-penny-post/.claude/skills/*/SKILL.md` files ship as
+  submodule content and retain their original (submodule-relative) paths.
+  Correct under view-source framing — they're informational files, not active
+  plugin skills (Claude Code scans `skills/` at plugin root).
+
 ### Phase C — core/skills/export.md + archival + install/skills-intent.md (complete)
 
 - Archived pre-revision skill to `reference/designs/export-skill-2026-02-20.md`
