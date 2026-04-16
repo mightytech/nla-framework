@@ -57,7 +57,7 @@ accepted, Status.
 
 **Source:** [Issue #14](https://github.com/mightytech/nla-framework/issues/14), [Issue #17](https://github.com/mightytech/nla-framework/issues/17) item 1
 **Verdict:** Accept (#14) + Adapt (#17.1 folded in)
-**Status:** pending
+**Status:** resolved
 
 **What to do:**
 Rewrite nla-foundations.md principle #4 (Judgment Over Rules). Lead with intent over rules
@@ -73,6 +73,8 @@ standards, quality evaluation). The strongest finding from the facebook-moderati
 With public release approaching, this is the single most important thing newcomers need
 to understand about writing NLA documents — the instinct to write precise rules produces
 worse results than writing intent with rationale.
+
+**Resolved:** 2026-04-15 — Rewrote principle #4 in nla-foundations.md as "Intent Over Rules" with identity-description pattern, examples, and rules-for-consistency boundary.
 
 ---
 
@@ -99,7 +101,7 @@ and demonstrably improved quality of reasoning by refreshing key context.
 
 **Source:** [Issue #17](https://github.com/mightytech/nla-framework/issues/17) item 3
 **Verdict:** Accept — as /think skill enrichment, not general guidance
-**Status:** pending
+**Status:** resolved
 
 **What to do:**
 Add two posture bullets to `core/skills/think.md`: (1) "Question the frame" — before
@@ -114,13 +116,15 @@ idea (this session) came from the human, not the AI — the AI was optimizing wi
 permission model rather than questioning whether the model was the right approach.
 Aspirational goals produce better side effects even when not fully achieved.
 
+**Resolved:** 2026-04-15 — Added "Question the frame" and "Bring unexpected connections" posture bullets to core/skills/think.md.
+
 ---
 
 ### 2026-04-15 — Diagnostic step in the improvement loop
 
 **Source:** [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 1
 **Verdict:** Accept
-**Status:** pending
+**Status:** resolved
 
 **What to do:**
 Two changes. (1) Add a diagnostic beat to the improvement loop in nla-foundations.md
@@ -135,13 +139,15 @@ findings reclassified by diagnostic agent vs. orchestrator analysis. The AI's ac
 what it did is a hypothesis, not evidence. The diagnostic step is low-cost (~80 seconds
 per batch) and catches root causes that fixing alone misses.
 
+**Resolved:** 2026-04-15 — Added diagnostic paragraph to principle #2 in nla-foundations.md and diagnostic beat to the improvement loop in Working Rhythms.
+
 ---
 
 ### 2026-04-15 — Strengthen friction log guidance: diagnosis as important as the fix
 
 **Source:** [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 2
 **Verdict:** Adapt — from "no-whisper extends to fixes" to friction log entry format guidance
-**Status:** pending
+**Status:** resolved
 
 **What to do:**
 Strengthen the friction log entry format guidance (in `reference/friction-log.md` and
@@ -155,13 +161,15 @@ The no-whisper principle (answers go in docs, not conversation) extends naturall
 diagnosis. A whispered fix (edit directly, tell the AI "you missed this") produces a
 working artifact but doesn't improve the inputs. The same gap will reappear.
 
+**Resolved:** 2026-04-15 — Strengthened "Confirmed reason" field guidance in reference/friction-log.md entry format to emphasize diagnosis from artifacts and recording root cause.
+
 ---
 
 ### 2026-04-15 — Enrich the Cardinal Rule: consequences, perspective, capability
 
 **Source:** [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 3
 **Verdict:** Accept — as enrichment of principle #6, not a new principle
-**Status:** pending
+**Status:** resolved
 
 **What to do:**
 Rewrite nla-foundations.md principle #6 (The Cardinal Rule) with a three-beat structure:
@@ -180,13 +188,15 @@ constraint rather than a design advantage. The enrichment names what the framewo
 already produces: humans who stay engaged develop judgment, and their non-standard
 perspectives make the work substantively better.
 
+**Resolved:** 2026-04-15 — Rewrote principle #6 in nla-foundations.md with three-beat structure: consequences, perspective (limitations as asset), capability (engagement builds judgment).
+
 ---
 
 ### 2026-04-15 — /close convention: separate context from actionable decisions
 
 **Source:** [Issue #19](https://github.com/mightytech/nla-framework/issues/19), [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 5
 **Verdict:** Accept
-**Status:** pending
+**Status:** resolved
 
 **What to do:**
 Add guidance to the /close skill (and the maintain skill's session lifecycle section):
@@ -201,6 +211,8 @@ recorded in the session log, then forgotten for two compilations. The human caug
 the AI didn't. Session logs record decisions in prose but nothing distinguishes "context"
 from "things that need doing." The fix is making the existing structure carry this
 distinction.
+
+**Resolved:** 2026-04-15 — Added guidance to State at Close section in core/skills/close.md: explicitly separate context from decisions awaiting implementation.
 
 ---
 
