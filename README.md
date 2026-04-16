@@ -152,6 +152,7 @@ nla-framework/
 │   ├── nla-foundations.md     # Universal NLA concepts and principles
 │   └── skills/               # Skill logic (delegated to by project wrappers)
 ├── install/                   # Intent files — source of truth for project generation
+├── lib/                       # Helper scripts (e.g., export.py)
 ├── packages/
 │   ├── nla-penny-post/        # Feedback conventions (submodule)
 │   └── nla-process-helpers/   # Facilitation techniques (submodule)

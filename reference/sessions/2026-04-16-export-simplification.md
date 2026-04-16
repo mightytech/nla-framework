@@ -1,7 +1,7 @@
 # Maintenance Session: Export Simplification — View Source, Not Compile
 
 **Date:** 2026-04-16
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 
@@ -130,6 +130,24 @@ what's configurable).
 - Status JSON emitted on stdout; progress to stderr.
 - Total: 984 lines (core ~500, self-test ~150, integration test ~235, comments/docstrings the rest).
 
+### Phase E — Capture and close (complete)
+
+- Archived resolved entries: friction log 2026-04-16 (/export flattening question)
+  and feedback log #9 (export hybrid approach) moved to their respective archives
+  with resolution notes and cross-references to this session.
+- Drafted `reference/specs/export-service.md` — retrospective spec capturing the
+  design intent behind the current /export implementation. First file under a new
+  `reference/specs/` directory, establishing the convention the future nla-compiler
+  package will expect.
+- Added four new friction log entries capturing cross-project observations from
+  reflection on facebook-moderation's implementation-standards work:
+  1. No Python implementation standards for framework scripts
+  2. /maintain doesn't distinguish prose-code from traditional-code authoring
+  3. Natural experiment: re-compile export.py through nla-compiler when available
+  4. Fallingwater-style preamble for framework prose authoring
+- Committed capture work: one focused commit bundling archival moves + spec draft
+  + friction entries.
+
 ### Phase D — First real export: framework-as-plugin test (complete)
 
 Exported the framework itself as a view-source plugin to stress-test the pipeline
@@ -227,8 +245,97 @@ Observations:
 
 ## Debrief
 
-*(Pending — to be completed at session close.)*
+Refined observations from the explicit /debrief conversation (not the transcript):
+
+- **The "view source" reframing was the session's most productive move.** When the
+  user gave permission to drop the "compile" framing ("we don't have to make grand
+  claims about it being a compiler"), everything downstream got easier. Design
+  sessions that commit to a narrow frame produce narrow designs; questioning the
+  frame produced a fundamentally better one. This is direct evidence for the
+  "Question the frame" posture enriched into /think on 2026-04-15.
+
+- **The framework-as-plugin test was disproportionately valuable.** The integration
+  test passed cleanly on the first try. Four bugs got past it and were caught only
+  by running the real export against the real framework — `framework_submodule_path`
+  requiredness, path rewrites happening before synthesized placement, CLAUDE.md +
+  .gitmodules shipping, `reference/` in skip list. Each traces to the fixture being
+  synthetic in ways the framework isn't. The lesson isn't "write better fixtures" —
+  fixtures can't enumerate real shapes. "First real export catches what fixtures
+  can't" is worth preserving as pattern.
+
+- **Small iterative commits during bug fixing worked well.** One bug per commit with
+  a message explaining what surfaced it. Future maintainers reading git log see
+  "four bugs the framework test caught" as a coherent sub-narrative, not an opaque
+  single commit.
+
+- **The user's pushback on over-filtering was a real correction.** When the AI
+  proposed `.gitattributes export-ignore` for CONTRIBUTING.md and config files, the
+  user pointed out most are harmless or valuable under view-source. The AI had just
+  written the design rationale section saying "view-source rules out
+  artifact-cleaning" and still reached for it 20 minutes later. Self-diagnostic:
+  framings require active maintenance even for the author. Not fixable in
+  instructions — something to notice in the moment.
+
+- **Session pacing checkpoints produced scope-shifting decisions.** After each
+  phase, the AI paused and summarized; the user used those moments
+  substantively. The framework-as-plugin test, the config.md gitignore finding,
+  and the cross-project reflection all came from checkpoint-driven conversation,
+  not from plowing through the plan.
+
+- **The cross-project reflection with facebook-moderation produced compounding
+  insights.** The user's implementation-standards experiments + our view-source
+  design produced a mutual validation: their "standards matter more than model
+  choice" finding explained why the AI's hand-rolled export.py felt "baseline";
+  our session's "aspirational engineering" pattern matched their Fallingwater
+  preamble's observed effectiveness. Four friction log entries capture the
+  medium/long-term actionable takeaways; a spec file captures the current design
+  for future compilation.
 
 ## State at Close
 
-*(Pending — session in progress.)*
+### Context for next time
+
+- **Framework is at v0.0.2 + six new commits** (the export revision + follow-up
+  fixes + .gitignore cleanup + capture work). Not yet tagged as v0.0.3.
+- **The view-source plugin export works.** `/home/container-user/workspace/nla-framework-plugin/`
+  contains a clean output from the final test run (1.4MB, 17 skills, 1071 path
+  substitutions, zero verification warnings). Can be deleted or kept for reference.
+- **Four bugs were caught by the framework-as-plugin test.** If another domain NLA
+  is tested before the nla-compiler package arrives, expect the test to catch
+  *different* bugs — fixture diversity matters.
+- **`reference/specs/` directory now exists** (new convention), seeded with the
+  export service spec. Future specs for framework-native services land here.
+- **Cross-project reflection produced four friction log entries** that pair with
+  the pending "NLA writing standards" task. Best addressed together when that
+  work begins.
+
+### Decisions awaiting implementation
+
+- **Propagate packages migration** — penny-post and process-helpers first, then
+  domain projects. Still pending from the 2026-04-15 session. Nothing in this
+  session changed the order.
+- **Bring NLA writing standards into framework** — top pending feedback item
+  (Issue #21), now with additional context from this session. Likely the next
+  framework-side work session.
+- **Export hybrid approach** — resolved jointly with this session's view-source
+  redesign. Archived.
+- **Close unanswered permission test issues** (process-helpers#1, claude-code#1,
+  duet#2) — still pending from 2026-04-15, unaffected by this session.
+- **Python implementation standards, /maintain traditional-code mode,
+  re-compile export.py experiment, Fallingwater-style prose preamble** — four new
+  entries from this session's cross-project reflection, pending. Best addressed
+  when the nla-compiler package becomes installable (long-term) or when NLA
+  writing standards work lands (short-term), whichever comes first.
+
+### Where to pick up
+
+**Immediate:** NLA writing standards (feedback log #21) is the natural next
+session's subject. It directly complements the four new friction entries from
+this session's reflection.
+
+**Medium:** Propagate packages migration to penny-post and process-helpers (each
+in their own session, per the 2026-04-15 roadmap).
+
+**Long:** The nla-compiler as an installable package is the larger vision — when
+it lands, the four new friction entries + the export-service spec become live
+work rather than captured intent.
