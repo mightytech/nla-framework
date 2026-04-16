@@ -69,11 +69,13 @@ REQUIRED_MANIFEST_FIELDS = [
     "plugin_version",
     "source_project_path",
     "output_dir",
-    "framework_submodule_path",
     "skills",
     "synthesized",
     "export_metadata",
 ]
+
+# framework_submodule_path is optional — domain NLAs have one, but the framework
+# itself (when exported as a view-source artifact) doesn't. Both cases are valid.
 
 REQUIRED_SKILLS_FIELDS = ["exclude", "domain", "keep_as_is"]
 REQUIRED_SYNTHESIZED_FIELDS = ["foundation_skill_md", "foundation_export_metadata", "readme"]
@@ -521,8 +523,10 @@ def do_export(manifest: dict, args: argparse.Namespace) -> dict:
         log(f"Archiving HEAD from {source}...")
         archive_tree_into(source, "HEAD", temp_root)
 
-        framework_sub = manifest["framework_submodule_path"]
-        submodules = [framework_sub] + list(manifest.get("additional_submodule_paths", []))
+        submodules: list[str] = []
+        if "framework_submodule_path" in manifest:
+            submodules.append(manifest["framework_submodule_path"])
+        submodules.extend(manifest.get("additional_submodule_paths", []))
         log(f"Archiving {len(submodules)} submodule(s)...")
         for sub in submodules:
             try:
