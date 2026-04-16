@@ -1,7 +1,7 @@
 # Maintenance Session: Packages Directory with Git Submodules
 
 **Date:** 2026-04-15
-**Status:** Complete (framework migrated; domain project propagation pending)
+**Status:** Complete
 
 ## Intent
 Replace the sibling directory convention (`../nla-framework/`, `../nla-package/`) with a
@@ -78,6 +78,13 @@ what it was tested with. The apparent convenience was actually a liability.
 - **Installed-packages.md** — all package paths updated
 - **Tag-aware updates** — check-updates reports tagged releases; update offers tag vs. HEAD choice
 - **Tagged v0.0.1** and pushed to remote
+- **Feedback triage** — all 10 open issues triaged, commented, closed. 8 accepted (including 2 adapted), 4 deferred, 1 declined. Feedback log entries created for all accepted items.
+- **Foundations enriched** — principle #4 rewritten as "Intent Over Rules" with identity-description pattern; principle #2 enriched with diagnostic insight; principle #6 (Cardinal Rule) rewritten with three-beat structure (consequences, perspective, capability); improvement loop gains diagnostic beat
+- **/think posture strengthened** — "question the frame" and "bring unexpected connections" added
+- **/close convention** — State at Close now distinguishes context from actionable decisions
+- **Friction log guidance** — "Confirmed reason" field strengthened with diagnostic emphasis
+- **Session-checkpoint promoted** — new core skill from facebook-moderation, with timing insight
+- **Tagged v0.0.2** — feedback triage and foundations enrichment
 
 ## Blast Radius
 - `install/` intent files: project generation convention changes
@@ -95,38 +102,27 @@ what it was tested with. The apparent convenience was actually a liability.
   cross-directory reads), not by fixing the generation pipeline
 
 ## Debrief
-- The /think → /unpack combination worked well for this — 8 threads, resolved sequentially, clear go/no-go gating on premise checks before investing in downstream threads.
+- The /think → /unpack combination worked well for the architecture change — 8 threads, resolved sequentially, clear go/no-go gating on premise checks before investing in downstream threads.
 - The "lateral idea during triage" pattern: checking feedback surfaced data (permission test results) that prompted a design question bigger than the feedback itself. The framework correctly paused triage to explore the design question.
 - The circular dependency insight is worth capturing beyond the design rationale — it's an "absurd thing that works" that demonstrates the NLA paradigm.
-- Plan agent was effective for this scope — the implementation was largely mechanical once the design was settled. No cross-project edit issues this time (lesson learned from 2026-03-04).
+- Plan agent was effective for the migration scope — the implementation was largely mechanical once the design was settled. No cross-project edit issues this time (lesson learned from 2026-03-04).
+- /unpack for the feedback triage was the right call — 16 items across 6 issues, each getting individual attention, with the human pushing back on verdicts that were too conservative (principle #4 strength, human flourishing, session-checkpoint as alternative to session splitting). Item-by-item triage produced better verdicts than batch assessment would have.
+- The session-checkpoint skill was tested live during the triage and worked — re-reading foundations before reasoning about where accepted items would land was genuinely useful. The timing insight from the compiler (checkpoint before reasoning, not after finishing) was validated firsthand.
+- The human flourishing discussion produced the richest design work of the triage. The three-beat Cardinal Rule (consequences, perspective, capability) and the "limitations are an asset" framing emerged from collaborative exploration, not from the feedback item alone. The item proposed a concept; the conversation produced a design.
+- The "aspirational gradient" insight applies broadly: the AI won't achieve true lateral thinking, but aspiring to it produces better frame-questioning as a side effect. Same pattern as "artistry produces understanding."
 
 ## State at Close
-**What's done:** Framework fully migrated. Committed, tagged v0.0.1, pushed.
 
-**What's pending:**
-- Migrate penny-post and process-helpers (in their own sessions, then push)
-- Migrate domain projects (office-hours, claude-code, duet, facebook-moderation, nla-writer) after packages are pushed
-- Finish /check-feedback triage — 10 open issues, only permission test results (#15, #16) were triaged before the /think session. Mechanical fixes (#12, #13) and facebook-moderation batch (#14, #17-21) still pending.
-- Close permission test issues (#15, #16, plus 3 unanswered: process-helpers#1, claude-code#1, duet#2) with note about architectural resolution
+### Context for next time
+- v0.0.2 tagged and pushed. Framework is current.
+- The facebook-moderation project has been an exceptionally productive feedback source — 6 letters, 16 items, empirically grounded. The compilation workflow is producing transferable insights.
+- The packages/submodules model is live in the framework but not yet propagated to any other projects.
 
-**Where to pick up:** Finishing /check-feedback triage (mid-stream, unpacking item by item). Then propagate migrations to packages and domain projects in separate sessions.
+### Decisions awaiting implementation
+- **Propagate packages migration** — penny-post and process-helpers first (they're packages others consume), then domain projects. Each in their own session.
+- **Close unanswered permission test issues** (process-helpers#1, claude-code#1, duet#2) — during each project's migration session.
+- **Bring NLA writing standards into framework** — copy from facebook-moderation, review framework docs against them, integrate with /validate and /maintain. Detailed steps in feedback log.
+- **Export hybrid approach** — pre-existing pending item, needs /think session.
 
-## Checkpoint: Mid-Triage (feedback queue)
-
-**Completed triage:**
-- #12 (git -C) — Accept, already implemented. Closed.
-- #13 (validate wrapper) — Accept, fixed. Closed.
-- #14 (Describe the Space) — Accept, extend principle #4
-- #15, #16 (permission tests) — Accept as data, resolved by architecture. Closed.
-- #17.1 (intent > rules) — Adapt, fold into #14 as stronger rewrite of principle #4
-- #17.2 (session splitting) — Accept, replaced with session-checkpoint promotion from facebook-moderation
-- skills-intent.md also has a pending fix (coherence review in validate wrapper description)
-
-**Currently discussing:** #17.3 (AI posture beyond /think) — proposed defer
-
-**Still to triage:** #17.3, #17.4, #18 (6 items), #19, #20, #21
-
-**Key decisions so far:**
-- Principle #4 gets a significant rewrite: lead with intent over rules, incorporate identity-description pattern, add "rules are for consistency-only" boundary
-- Session-checkpoint promoted from facebook-moderation to framework core skill
-- Accepted items will be deposited in feedback log after all triage is complete
+### Where to pick up
+Migrate penny-post and process-helpers to packages/submodules model (in their own sessions). Then domain projects. Writing standards is the next framework-side work after migrations are done.
