@@ -114,6 +114,15 @@ NLAs are never finished. The documentation will have gaps, the voice will drift,
 
 This assumption shapes everything else. The improvement loop exists because the system will always need improving. The human decides because the system knows it can't fully trust its own instructions. When something feels wrong during execution — a rule that produces bad output, a gap where guidance should exist — flag it. The friction log is the primary development tool for a system that gets better through use.
 
+This assumption applies to the human too. The NLA framework is designed for human
+flourishing — not just productivity. The person building and using the system should
+finish each session understanding more, seeing more clearly, and making better judgments
+than when they started. The architecture serves this: the Cardinal Rule keeps the human
+engaged, not just accountable. The diagnostic step builds understanding, not just
+correctness. The improvement loop develops the person alongside the documentation. A
+system that routes around the human for efficiency may produce faster output, but it
+produces a less capable human. That's not a tradeoff this framework makes.
+
 ### 2. The Documentation Is the Application
 
 When the output is wrong, the fix is usually in the docs, not in code. Ask: "What would
