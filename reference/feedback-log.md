@@ -53,6 +53,181 @@ accepted, Status.
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-15 — Rewrite principle #4: intent over rules, with identity-description pattern
+
+**Source:** [Issue #14](https://github.com/mightytech/nla-framework/issues/14), [Issue #17](https://github.com/mightytech/nla-framework/issues/17) item 1
+**Verdict:** Accept (#14) + Adapt (#17.1 folded in)
+**Status:** pending
+
+**What to do:**
+Rewrite nla-foundations.md principle #4 (Judgment Over Rules). Lead with intent over rules
+as the primary guidance: for judgment tasks, describe intent with rationale rather than
+enumerating rules. Incorporate the identity-description pattern for classification/moderation
+tasks ("describe the space, not the boundaries"). Add the boundary: rules are appropriate
+only for pure preferences where consistency is the sole goal. Current "explain the why"
+content stays as supporting material within the stronger framing.
+
+**Why it was accepted:**
+Empirically validated across three domains (moderation policy: 97% vs 93%, implementation
+standards, quality evaluation). The strongest finding from the facebook-moderation project.
+With public release approaching, this is the single most important thing newcomers need
+to understand about writing NLA documents — the instinct to write precise rules produces
+worse results than writing intent with rationale.
+
+---
+
+### 2026-04-15 — Promote session-checkpoint to core skill
+
+**Source:** [Issue #17](https://github.com/mightytech/nla-framework/issues/17) item 2, plus facebook-moderation's `app/session-checkpoint.md`
+**Verdict:** Accept — replaces the narrower "session splitting" proposal
+**Status:** pending
+
+**What to do:**
+Add `core/skills/session-checkpoint.md` adapted from facebook-moderation's version.
+Add reference wrapper in `install/skills-intent.md`. Fold in the timing insight from
+the compiler: "checkpoint before reasoning from files read long ago, not before producing
+output from recent conversation." Drop the "experimental" status.
+
+**Why it was accepted:**
+Validated in practice. Addresses context thinning in long sessions — a universal problem
+for persistent NLAs. The checkpoint skill was tested live during this triage session
+and demonstrably improved quality of reasoning by refreshing key context.
+
+---
+
+### 2026-04-15 — Strengthen /think posture: frame-questioning and unexpected connections
+
+**Source:** [Issue #17](https://github.com/mightytech/nla-framework/issues/17) item 3
+**Verdict:** Accept — as /think skill enrichment, not general guidance
+**Status:** pending
+
+**What to do:**
+Add two posture bullets to `core/skills/think.md`: (1) "Question the frame" — before
+converging, consider whether the problem as stated is the right problem; (2) "Bring
+unexpected connections" — ideas from outside the immediate problem space, analogies,
+other domains. These are aspirational — the AI may not achieve true lateral thinking,
+but the aspiration produces better exploratory posture as a side effect.
+
+**Why it was accepted:**
+The AI's default is incremental thinking within the current frame. The packages/submodules
+idea (this session) came from the human, not the AI — the AI was optimizing within the
+permission model rather than questioning whether the model was the right approach.
+Aspirational goals produce better side effects even when not fully achieved.
+
+---
+
+### 2026-04-15 — Diagnostic step in the improvement loop
+
+**Source:** [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 1
+**Verdict:** Accept
+**Status:** pending
+
+**What to do:**
+Two changes. (1) Add a diagnostic beat to the improvement loop in nla-foundations.md
+Working Rhythms: between "capture" and "fix," ask "why did this happen?" from the
+artifacts, not from the AI's narrative. (2) Add to principle #2 (The Documentation Is
+the Application): the AI's self-report and the actual artifacts can disagree — diagnose
+from the artifacts, not the explanation.
+
+**Why it was accepted:**
+Empirical data: 6 of 19 diagnostic items traced to spec gaps, not actual bugs. 2 of 6
+findings reclassified by diagnostic agent vs. orchestrator analysis. The AI's account of
+what it did is a hypothesis, not evidence. The diagnostic step is low-cost (~80 seconds
+per batch) and catches root causes that fixing alone misses.
+
+---
+
+### 2026-04-15 — Strengthen friction log guidance: diagnosis as important as the fix
+
+**Source:** [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 2
+**Verdict:** Adapt — from "no-whisper extends to fixes" to friction log entry format guidance
+**Status:** pending
+
+**What to do:**
+Strengthen the friction log entry format guidance (in `reference/friction-log.md` and
+`install/structure-intent.md`) to emphasize that recording *why* something went wrong
+is as important as recording the fix. The "Confirmed reason" field exists but the
+guidance should make clear that reasoning about root cause belongs in a persistent
+document, not in ephemeral conversation.
+
+**Why it was accepted:**
+The no-whisper principle (answers go in docs, not conversation) extends naturally to
+diagnosis. A whispered fix (edit directly, tell the AI "you missed this") produces a
+working artifact but doesn't improve the inputs. The same gap will reappear.
+
+---
+
+### 2026-04-15 — Enrich the Cardinal Rule: consequences, perspective, capability
+
+**Source:** [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 3
+**Verdict:** Accept — as enrichment of principle #6, not a new principle
+**Status:** pending
+
+**What to do:**
+Rewrite nla-foundations.md principle #6 (The Cardinal Rule) with a three-beat structure:
+(1) **Consequences** — humans bear them, authority follows accountability (existing, stays
+the floor). (2) **Perspective** — the human brings context, experience, and frames the
+AI doesn't have, including their gaps and limitations. Limitations are an asset — a
+non-standard background produces lenses the AI's training can't. The AI should draw out
+the human's perspective, not normalize it. (3) **Capability** — staying engaged builds
+the human's judgment. Checkpoints on easy decisions build understanding for hard ones.
+The goal isn't just good output — it's a human who's better at their work.
+
+**Why it was accepted:**
+The Cardinal Rule currently frames human involvement as accountability ("humans bear
+consequences"). This is true but incomplete — it makes human involvement sound like a
+constraint rather than a design advantage. The enrichment names what the framework
+already produces: humans who stay engaged develop judgment, and their non-standard
+perspectives make the work substantively better.
+
+---
+
+### 2026-04-15 — /close convention: separate context from actionable decisions
+
+**Source:** [Issue #19](https://github.com/mightytech/nla-framework/issues/19), [Issue #18](https://github.com/mightytech/nla-framework/issues/18) item 5
+**Verdict:** Accept
+**Status:** pending
+
+**What to do:**
+Add guidance to the /close skill (and the maintain skill's session lifecycle section):
+in State at Close, explicitly separate *context for next time* (background) from
+*decisions awaiting implementation* (actionable). The next session's `/maintain` reads
+State at Close — decided-but-unimplemented items should be as visible as pending friction
+log entries. Convention, not machinery — no new files or scanning.
+
+**Why it was accepted:**
+Observed in facebook-moderation: a style guide mechanism was decided during /think,
+recorded in the session log, then forgotten for two compilations. The human caught it;
+the AI didn't. Session logs record decisions in prose but nothing distinguishes "context"
+from "things that need doing." The fix is making the existing structure carry this
+distinction.
+
+---
+
+### 2026-04-15 — Bring NLA writing standards into the framework
+
+**Source:** [Issue #21](https://github.com/mightytech/nla-framework/issues/21)
+**Verdict:** Accept
+**Status:** pending
+
+**What to do:**
+Bring the NLA writing standards from facebook-moderation
+(`reference/specs/implementation-standards/nla-writing.md`) into the framework as a
+reference document. Run a review of the framework's own operative documents against the
+standards — which ones surface real findings? Standards that find real gaps earn active
+status. Integrate with `/validate` (review mode) and `/maintain` (writing guidance).
+The review determines which standards are active, not editorial judgment.
+
+**Why it was accepted:**
+33 empirically-grounded standards for writing NLA documents — the prose artifacts an LLM
+reads as its runtime. Key findings: "the document produces what it contains" (the AI
+won't fill gaps from general knowledge), "emphasis shapes character" (what you emphasize
+is what you get), and the core reframe that NLA documents are source code, not
+documentation. Validated through 28+ compilations, confirmed to apply to prose artifacts
+(not just code), and used as a diagnostic tool that found gaps in 2 of 12 operative docs.
+
+---
+
 ### 2026-03-03 — Export hybrid approach: script for mechanical work, AI for judgment
 
 **Source:** [Issue #9](https://github.com/mightytech/nla-framework/issues/9)

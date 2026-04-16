@@ -68,7 +68,7 @@ Read and follow `packages/nla-framework/core/skills/friction-log.md`.
 ```yaml
 ---
 name: validate
-description: Validate the NLA system — structural checks, architecture review, scenario walkthroughs, or debug unexpected behavior.
+description: Validate the NLA system — structural checks, architecture review, scenario walkthroughs, debug unexpected behavior, or coherence review.
 disable-model-invocation: true
 ---
 
