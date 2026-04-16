@@ -1,0 +1,9 @@
+# User preferences — personal, not shared.
+# config-spec.md IS tracked (it's the design of what's configurable); config.md
+# and config/ are gitignored per the framework's own convention.
+config.md
+config/
+
+# Python artifacts — lib/export.py is tracked, but bytecode is not.
+__pycache__/
+*.pyc
