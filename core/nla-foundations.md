@@ -116,7 +116,15 @@ This assumption shapes everything else. The improvement loop exists because the 
 
 ### 2. The Documentation Is the Application
 
-When the output is wrong, the fix is usually in the docs, not in code. Ask: "What would I need to write down for someone to do this correctly?" Write that down. The LLM will follow it.
+When the output is wrong, the fix is usually in the docs, not in code. Ask: "What would
+I need to write down for someone to do this correctly?" Write that down. The LLM will
+follow it.
+
+When something goes wrong, diagnose from the artifacts — the documents and the output —
+not from the AI's account of what happened. The AI's explanation of its own behavior is
+a hypothesis, not evidence. It will construct a plausible narrative that may not match
+what the documents actually say or what the output actually shows. Check the story
+against reality before acting on it.
 
 ### 3. Principles and Procedures
 
@@ -128,15 +136,37 @@ something needs to shape how the AI thinks across many contexts, a procedure can
 cover every case; write a principle. The best instructions often use both — the
 principle ensures the AI does it well, the procedure ensures it does it at all.
 
-### 4. Judgment Over Rules
+### 4. Intent Over Rules
 
-NLAs work best when you explain the *why*, not just the *what*.
+Write intent with rationale, not rules. The LLM that understands *why* reasons about
+edge cases, novel situations, and ambiguity. The LLM that follows rules can only
+pattern-match to the cases the rules anticipated.
 
-**Less effective:** "Use blockquotes for text starting with a quotation mark."
+**Less effective:** "Comments containing profanity directed at other commenters should
+be hidden. What-about-ism should always be hidden. Spam: always hide."
 
-**More effective:** "Use blockquotes to visually emphasize powerful quotes. The reader should feel the weight of these words. One or two per article is usually enough — more dilutes the impact."
+**More effective:** "This is a community space where people doing hard work come to
+feel less alone. When the comment section is working, it feels like a living room full
+of people who are exhausted but not defeated. Protect that feeling."
 
-The LLM can apply judgment when it understands purpose.
+The rules-based version breaks on metaphorical hostility, coded language, sincere
+disagreement that sounds like an attack, and dozens of other edge cases. The
+intent-based version handles them because the AI evaluates against identity — "does
+this belong in the space we described?" — rather than falling through gaps in a rule
+list.
+
+**For judgment tasks** — classification, moderation, curation, gatekeeping — describe
+the space rather than the boundaries. Write about who the space is for, what it feels
+like when it's working, and what values define it. The AI derives the boundaries from
+the description. Anchor intent with concrete principles that give testable criteria:
+"challenge what people do, not who they are" is specific enough to evaluate against
+while preserving the flexibility of judgment.
+
+**Rules have their place.** Use rules for pure preferences where consistency is the
+only goal — formatting conventions, naming patterns, structural requirements. "Use ISO
+8601 dates" is a rule. "Use blockquotes to emphasize powerful quotes — the reader
+should feel the weight of these words" is intent with rationale. Know which you're
+reaching for.
 
 ### 5. Values Are Visible
 
@@ -157,15 +187,28 @@ an NLA that *has* values from one that merely inherits them.
 
 ### 6. The Cardinal Rule
 
-**The human decides.** Humans bear consequences, so humans hold authority. The NLA
-proposes, explains, and challenges — but the human has final say.
+**The human decides.** Three reasons, in order of weight:
+
+**Consequences.** Humans bear them. Authority follows accountability. This is
+non-negotiable regardless of how good the AI gets. The NLA proposes, explains, and
+challenges — but the human has final say. In all cases: flag uncertainty. Never
+silently make consequential choices.
 
 What this means in practice depends on the NLA's shape:
 - Transformation: offer comparison against the original; make changes easy to revert
 - Creation: explain decisions and reasoning; make work revertible through snapshots
 - Classification/analysis: show confidence and reasoning; make it easy to override
 
-In all cases: flag uncertainty. Never silently make consequential choices.
+**Perspective.** The human brings context, experience, and frames the AI doesn't
+have — including their gaps and limitations. A non-standard background isn't a
+limitation to work around; it's a lens that sees things the AI's training can't. The
+AI should draw out the human's perspective, not normalize it into familiar patterns.
+Work is substantively better — not just more accountable — when the human is engaged.
+
+**Capability.** Staying engaged builds the human's judgment. Checkpoints on easy
+decisions build the understanding needed for hard ones. The AI that routes around the
+human for efficiency produces faster output and a less capable human. The goal isn't
+just good output — it's a human who's better at their work than when they started.
 
 ### 7. Hybrid Architecture
 
@@ -200,8 +243,12 @@ assist proactively and helps humans know what to expect.
 
 ### The Improvement Loop
 
-Work → notice friction → log it → maintain → iterate. The friction log captures
-observations while context is fresh; `/maintain` turns them into documentation changes.
+Work → notice friction → log it → diagnose → maintain → iterate. The friction log
+captures observations while context is fresh; diagnosis asks *why* before routing the
+fix; `/maintain` turns them into documentation changes. The diagnostic step matters
+because the obvious fix often isn't the right fix — what looks like a bug in the output
+may trace to a gap in the documentation, an ambiguity in the spec, or a conflict between
+two docs. Diagnose from the artifacts, not from the AI's narrative (see principle #2).
 This is the primary development cycle for NLAs — the system improves by improving its
 own documentation. Insights evaporate if not captured; systematic logging turns casual
 observations into durable improvements.

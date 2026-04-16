@@ -39,7 +39,10 @@ Running log of learnings from framework development, domain project feedback, an
 **After:** [What was expected or desired]
 
 **Confirmed reason:**
-[The human's explanation — their words, not a summary]
+[The human's explanation — their words, not a summary. This field matters as much as the
+fix itself. Diagnose from the artifacts (docs and output), not from the AI's narrative.
+Record the root cause — was it a doc gap, an ambiguity, a conflict between docs, or an
+actual processing error? The diagnosis determines the right fix and prevents recurrence.]
 
 **Affected files:**
 [Which core/ or install/ files would need to change]

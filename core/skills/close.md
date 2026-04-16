@@ -45,7 +45,11 @@ Review it against what actually happened in the session:
   (distilled observations, not transcript). If no `/debrief` happened, add 2-3 brief
   observations from your participant-observer perspective — what worked, what was
   unclear, what surprised.
-- **State at Close** — Fill in what's working, what's pending, what's next.
+- **State at Close** — Fill in what's working, what's pending, what's next. Explicitly
+  separate *context for next time* (background the next session should know) from
+  *decisions awaiting implementation* (actionable items that need doing). Decided-but-
+  unimplemented items should be as visible as pending friction log entries — they're
+  the things most likely to fall through between sessions.
 - **Status** — Set to Complete.
 
 Don't rewrite sections that are already accurate. Update what's stale, fill what's empty.
