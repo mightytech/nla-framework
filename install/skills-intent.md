@@ -188,6 +188,22 @@ disable-model-invocation: true
 Read and follow `packages/nla-framework/core/skills/debrief.md`.
 ```
 
+### /session-checkpoint
+
+**Purpose:** Mid-session save point — preserve state and refresh context at transition points in long sessions. Use between work phases or before reasoning from files read long ago.
+**Wrapper location:** `.claude/skills/session-checkpoint/SKILL.md`
+**Delegates to:** `packages/nla-framework/core/skills/session-checkpoint.md`
+
+**Reference wrapper:**
+```yaml
+---
+name: session-checkpoint
+description: Mid-session save point — preserve state and refresh context at transition points in long sessions. Use between work phases or before reasoning from files read long ago.
+disable-model-invocation: true
+---
+Read and follow `packages/nla-framework/core/skills/session-checkpoint.md`.
+```
+
 ### /close
 
 **Purpose:** Wrap up a session — finalize the session log, check for loose ends, summarize state for next time.

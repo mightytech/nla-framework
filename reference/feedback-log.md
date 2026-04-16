@@ -82,7 +82,7 @@ worse results than writing intent with rationale.
 
 **Source:** [Issue #17](https://github.com/mightytech/nla-framework/issues/17) item 2, plus facebook-moderation's `app/session-checkpoint.md`
 **Verdict:** Accept — replaces the narrower "session splitting" proposal
-**Status:** pending
+**Status:** resolved
 
 **What to do:**
 Add `core/skills/session-checkpoint.md` adapted from facebook-moderation's version.
@@ -94,6 +94,8 @@ output from recent conversation." Drop the "experimental" status.
 Validated in practice. Addresses context thinning in long sessions — a universal problem
 for persistent NLAs. The checkpoint skill was tested live during this triage session
 and demonstrably improved quality of reasoning by refreshing key context.
+
+**Resolved:** 2026-04-15 — Created `core/skills/session-checkpoint.md` adapted from facebook-moderation, with timing insight folded in. Added reference wrapper to `install/skills-intent.md`, framework wrapper to `.claude/skills/session-checkpoint/SKILL.md`, and entry to CLAUDE.md skills table.
 
 ---
 
