@@ -33,6 +33,24 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-16 — Export skill revised: view-source plugins + Python script
+
+**Affects:** core/skills/export.md, install/skills-intent.md, new lib/export.py (framework-level)
+
+The `/export` skill's mechanics changed substantially. Plugins now preserve NLA structure (view-source) instead of flattening thin wrappers, and mechanical work moved from AI-driven file operations to a Python script at `packages/nla-framework/lib/export.py`.
+
+**What this means for your project:**
+
+- Your `/export` wrapper at `.claude/skills/export/SKILL.md` needs no changes — it remains a thin wrapper pointing at the core skill, which propagates automatically via `/update`.
+- The skill now checks Python 3 availability at invocation and offers install guidance if missing. Point-of-use requirement, not a framework-wide prereq.
+- The output plugin shape has changed. Old design: shared context bundled per-skill directory, thin wrappers flattened. New design: structure mirrors the NLA, with paths prefixed `${CLAUDE_PLUGIN_ROOT}/`. To get the new shape, re-export.
+- Export now requires a clean working tree (commits only). If you have uncommitted changes, the skill will ask you to commit or explicitly confirm.
+- If you have committed-but-not-shippable files (e.g., a `reference/` directory), consider adding a `.gitattributes` entry with `export-ignore` — `git archive` honors it automatically.
+
+**Why:** The packages/submodules migration (2026-04-15) made the old flattening design unnecessary — intra-plugin paths now resolve reliably via `${CLAUDE_PLUGIN_ROOT}`. The new design eliminates per-skill duplication, makes plugins inspectable ("view source"), and splits work between AI judgment and a deterministic Python script. See `reference/design-rationale.md` — "Plugin Export: View-Source Model" for full reasoning.
+
+**Blast radius:** Only projects that run `/export` are affected. Re-export to pick up the new shape.
+
 ### 2026-04-15 — Packages directory replaces sibling directory convention
 
 **Affects:** All intent files, all core skills, CLAUDE-intent, structure-intent, skills-intent, install.md, package-intent.md

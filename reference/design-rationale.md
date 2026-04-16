@@ -88,6 +88,14 @@ The framework's CLAUDE.md defaults to project creation (welcoming, directs to `/
 
 *Added 2026-02-20. Supersedes the earlier "Cowork as a Target Environment" draft (which imagined routing tables and startup banners before the plugin system shipped).*
 
+> **Substantially revised 2026-04-16.** The flattening model described below was
+> necessary under the sibling-directory convention. The packages/submodules migration
+> (2026-04-15) dissolved that constraint, and `${CLAUDE_PLUGIN_ROOT}` makes intra-plugin
+> paths reliable. See "Plugin Export: View-Source Model" below for the current design.
+> The *framing* in this section — NLA as source, plugin as artifact; dev tools always
+> ship; foundation skill synthesis — still applies. The *mechanics* (flattening,
+> per-skill bundling, transitive dependency resolution) have been superseded.
+
 ### The compile analogy
 
 The NLA project is source code. The plugin is the compiled artifact. You develop with
@@ -136,6 +144,12 @@ pattern (wrapper → framework file) into self-contained skills. Plugins cannot 
 files outside their directory (`../` paths fail after installation), so every dependency
 must be bundled.
 
+> **Superseded 2026-04-16.** The table and the "main transformation" description above
+> are accurate only for the pre-view-source design. The current mapping preserves
+> structure 1:1 (see "Plugin Export: View-Source Model" below for the current table).
+> Dependency flattening is no longer needed because `packages/` ships inside the plugin
+> and `${CLAUDE_PLUGIN_ROOT}` makes intra-plugin paths resolvable.
+
 ### The foundation skill
 
 CLAUDE.md can't be auto-loaded in plugins. A `skills/foundation/SKILL.md` with
@@ -155,7 +169,10 @@ coherent identity document in the NLA's own voice.
 
 Every dev tool (maintain, friction-log, validate) ships in the plugin with
 `disable-model-invocation: true`. This was a deliberate design choice driven by three
-arguments:
+arguments (and the view-source model added in 2026-04-16 gives a fourth — when the
+plugin's structure mirrors the NLA's structure, the dev tools aren't a bonus attached
+to the plugin, they're part of what "view source" shows. Shipping them is no longer a
+trade-off against plugin cleanliness; the plugin IS the source):
 
 1. **Paradigm evangelism.** The NLA framework demonstrates a new paradigm. Showing the
    maintenance cycle, feedback loop, and validation system is part of the demonstration.
@@ -240,6 +257,126 @@ tool. It's a quality characteristic of NLA feedback, not a feature to build.
 
 ---
 
+## Plugin Export: View-Source Model
+
+*Added 2026-04-16. Supersedes the mechanics (not the framing) of "Plugin Export: NLA
+as Source, Plugin as Artifact" above. Origin: friction log entry 2026-04-16 ("/export
+may not need to flatten thin wrappers anymore") and feedback item #9 ("Export hybrid
+approach: script for mechanical work, AI for judgment"), resolved jointly.*
+
+### What changed
+
+The earlier design flattened thin wrappers and bundled shared context into per-skill
+directories. This was necessary when the framework was a sibling directory —
+`../nla-framework/` paths couldn't survive in a plugin, so every dependency had to be
+inlined. The 2026-04-15 packages/submodules migration changed that: dependencies now
+live inside the project at `packages/`, and `${CLAUDE_PLUGIN_ROOT}` makes those paths
+resolvable from any installed location (Claude Code and Cowork both substitute the
+variable before the LLM reads the skill).
+
+### The new model
+
+Export now produces a **view-source plugin**: the plugin mirrors the NLA's structure
+almost 1:1. `.claude/skills/` becomes `skills/`. `app/`, `lib/`, and `packages/` are
+preserved. Thin wrappers stay thin — their `packages/nla-framework/...` references
+get prefixed with `${CLAUDE_PLUGIN_ROOT}/`, and the wrapped file ships alongside.
+
+Only three things change structurally:
+1. `.claude/skills/` is renamed to `skills/` (plugin convention)
+2. `CLAUDE.md` becomes `skills/foundation/SKILL.md` (plugins don't auto-load CLAUDE.md)
+3. Framework-only skills (`/install`, `/update`, `/export`, `/create-app`) are removed
+   and `/startup` is absorbed into foundation — meaningless or redundant in a plugin
+
+Everything else is a path rewrite (adding `${CLAUDE_PLUGIN_ROOT}/` prefixes) and a
+frontmatter tweak (removing `disable-model-invocation: true` from domain skills so
+non-technical users can auto-invoke them).
+
+### The structural mapping (current)
+
+| NLA Project | Plugin | Notes |
+|------------|--------|-------|
+| `.claude/skills/*/SKILL.md` | `skills/*/SKILL.md` | Renamed; no flattening; `packages/...` and `app/...` paths prefixed with `${CLAUDE_PLUGIN_ROOT}/` |
+| `app/` | `app/` | Preserved at original paths; referenced via `${CLAUDE_PLUGIN_ROOT}/app/...` |
+| `packages/` (submodules) | `packages/` (inlined) | Submodule contents archived and embedded; no runtime cloning needed |
+| `CLAUDE.md` | `skills/foundation/SKILL.md` | Synthesized identity with `user-invocable: false` |
+| `lib/` | `lib/` | Preserved; referenced via `${CLAUDE_PLUGIN_ROOT}/lib/` |
+| Non-standard dirs (`voices/`, `platforms/`, etc.) | Preserved | Path rewrites auto-detect top-level dirs and prefix references |
+| `reference/` | Not shipped | Development records. Either gitignored in the NLA or marked `export-ignore` in `.gitattributes`. |
+| `config.md`, `config/` | Not shipped | Gitignored; plugin user's preferences aren't the developer's |
+
+### Why this is better
+
+- **Inspectable.** A technical user browsing the plugin sees the real NLA structure,
+  not a dependency-resolved artifact. Thin wrappers are visible; the files they delegate
+  to are visible. Tracing a skill through its wrapper to the framework implementation
+  works the same way it does in the NLA itself.
+- **Faithful.** Duplication is eliminated. No per-skill copies of `voice.md` or
+  `common-patterns.md`. The plugin is closer to what you'd get by cloning the NLA repo.
+- **Simpler mechanics.** No transitive dependency resolution. The script rewrites paths
+  and does frontmatter surgery; it doesn't need to walk wrapper chains.
+- **Local tweaks work.** A plugin user who wants to adjust a shared file (voice, values)
+  can edit it once. Under flattening, they would have had to hunt down copies across
+  skill directories. This isn't a designed workflow — heavy customization happens by
+  editing the NLA and re-exporting — but it's a friendly side-effect.
+
+### Non-technical users are still the primary audience
+
+The shift doesn't change who the plugin is for. Non-technical Cowork users install and
+use; they don't open files. What changed is how the plugin treats technical users who
+DO look: it shows them the source, not a compiled binary.
+
+### Mechanism: hybrid AI + Python script
+
+Mechanical transforms (`git archive`, submodule resolution via per-submodule archives
+piped through tarfile, path rewrites, frontmatter surgery, directory rename,
+`plugin.json` generation) are handled by a Python 3 script at `lib/export.py`. Judgment
+work (skill classification, foundation synthesis, README writing, verification) stays
+with the AI.
+
+The flow: the AI inventories and classifies, writes a manifest JSON, synthesizes the
+foundation skill and README and export-metadata, invokes the script, and parses the
+status report. The script is stdlib-only (no pip, no venv) and exits non-zero with
+structured diagnostics on failure.
+
+Python 3 is a point-of-use requirement — `/export` checks availability at invocation
+and offers install guidance if missing. Not a framework-wide prereq.
+
+### What gets lost (unchanged from prior design)
+
+- **Framework update propagation.** The plugin is a snapshot, frozen at export time.
+  Changes to the framework or to the NLA don't reach an installed plugin. To update,
+  re-export.
+- **Reference documentation.** Design rationale, session archives, friction log
+  archives are development context and don't ship.
+
+### What gets gained (new)
+
+- **Plugin as inspection medium.** A second "view-source-like" role the prior design
+  couldn't support. Someone installing your plugin can learn from its structure as
+  well as use its capabilities.
+- **Per-skill duplication eliminated.** Shared context lives once.
+- **Ejected skills and annotated wrappers need zero special handling.** They ship
+  intact. Path rewriting treats them the same as any other skill file.
+- **Gitignore drives exclusions for free.** `git archive` honors `.gitignore` and
+  `.gitattributes export-ignore` natively. The NLA's own declarations about what's
+  private become the export filter — no parallel "don't ship these" list.
+
+### Open questions
+
+- **Plugin size.** Still worth monitoring. View-source inherently ships more than
+  strictly necessary (dev tools, framework logic, possibly multiple submodules), but
+  duplication of shared context is gone and the net effect is likely smaller plugins
+  than the flattening design produced.
+- **Permissions in Cowork.** A plugin that reads from its own `packages/` subdirectory
+  shouldn't hit cross-directory prompts. Worth confirming on first real export.
+- **Foundation skill's "five sources" under view source.** The synthesis may be able to
+  be lighter now that `packages/` is visible in the plugin — the foundation doesn't
+  need to fully replace `nla-foundations.md`, since that file is shipped. Deferred
+  until we see real exports; current design keeps the full five-source synthesis for
+  continuity.
+
+---
+
 ## The Wrapper Spectrum
 
 *Added 2026-02-20. Emerged from the plugin export design discussion.*
@@ -290,6 +427,13 @@ custom implementation, and here's why."
 
 This is the judgment layer doing something deterministic systems cannot: understanding
 both sides of a customization boundary and proposing a merge that respects both.
+
+Under the view-source export model (added 2026-04-16), all four wrapper states — thin,
+annotated, ejected, redirected — survive export without special handling. Each wrapper
+ships intact; the framework file it delegates to ships alongside at
+`${CLAUDE_PLUGIN_ROOT}/packages/nla-framework/core/skills/...`. This reinforces the
+wrapper pattern's value: the same file that enables `git pull` updates in development
+also enables view-source transparency in the plugin.
 
 ### Risks of intent-based updates to ejected skills
 

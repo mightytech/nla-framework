@@ -1,17 +1,25 @@
 # Export to Plugin
 
-You are converting this NLA project into a self-contained plugin for Claude Code and
-Cowork. The NLA project is the development environment; the plugin is the distribution
-artifact. Think of it as compiling source code into a binary.
-
-**The core constraint:** Plugins cannot reference files outside their directory. The generated plugin format (`.claude-plugin/plugin.json` + `skills/[name]/SKILL.md`) is compatible with both Claude Code and Cowork. Every
-dependency — framework files, shared context, task docs — must be resolved and bundled
-inside the plugin. No `../` paths survive.
+You are converting this NLA project into a plugin for Claude Code and Cowork. The
+plugin mirrors your NLA's structure — a **view-source artifact**, not a compiled
+binary. To improve the plugin, improve the NLA and re-export.
 
 **Note on context:** This skill is designed for domain NLA projects. It reads the
 project's `.claude/skills/` directory as the complete manifest of what becomes the
-plugin. The framework's own skills are infrastructure — they provide content when thin
-wrappers reference them, but they don't independently contribute to the plugin.
+plugin. The framework's own skills are shipped through the bundled `packages/`
+submodule, not as independent contributors.
+
+## How this skill works
+
+Your role is judgment. You classify the skills, synthesize the foundation identity
+and the README, and choose plugin metadata. A Python script at
+`packages/nla-framework/lib/export.py` handles the mechanical work: `git archive`,
+submodule resolution, path rewrites, frontmatter adjustments, and post-export
+verification.
+
+The flow: you write a manifest JSON and three synthesized content files; the script
+reads them and produces the plugin directory. You then parse the script's JSON
+status report and present results.
 
 ---
 
@@ -19,10 +27,11 @@ wrappers reference them, but they don't independently contribute to the plugin.
 
 Before starting, read these to understand the NLA you're exporting:
 
-1. **`CLAUDE.md`** — identity, grounding principles, skills table, modes
-2. **`app/overview.md`** — what the NLA does, how pieces connect
+1. **`CLAUDE.md`** — identity, grounding principles, skills table
+2. **`app/overview.md`** — what the NLA does, how pieces connect (if present)
 3. **`app/config-spec.md`** — configuration options (if it exists)
-4. **`packages/nla-framework/core/nla-foundations.md`** — for extracting behavioral principles
+4. **`packages/nla-framework/core/nla-foundations.md`** — for extracting the Key
+   Principles section into the foundation skill
 
 ---
 
@@ -31,81 +40,113 @@ Before starting, read these to understand the NLA you're exporting:
 `$ARGUMENTS` optionally provides a plugin name. If not provided, derive from the
 project's directory name.
 
-**Output location:** `../[plugin-name]-plugin/`
-
-If the directory exists, warn the user and confirm before overwriting. The export is
-idempotent — re-running replaces everything.
+**Output location:** `../[plugin-name]-plugin/` by default, or a user-specified path.
+If the directory exists, warn the user and confirm before overwriting.
 
 ---
 
 ## Processing Flow
 
-### 1. Inventory the Project
+### Phase 1 — Gather
 
-Scan `.claude/skills/` and read every SKILL.md. For each skill, classify it:
+**1a. Check Python 3 availability.** The script requires it. This is a point-of-use
+requirement — Python 3 is not a framework-wide prereq.
 
-| Category | How to identify | Ships? | Frontmatter adjustment |
-|----------|----------------|--------|----------------------|
-| **Domain** | Self-contained skill that performs the NLA's primary tasks. References `app/` docs. | Yes | Remove `disable-model-invocation` |
-| **Dev tool** | Thin wrapper → framework dev skill (maintain, friction-log, validate) | Yes | Keep `disable-model-invocation: true` |
-| **Utility** | preferences, setup, onboard — user-facing but operational | Yes | Keep `disable-model-invocation: true` |
-| **Extension** | Installed by a package (penny post, etc.) — not a thin wrapper to framework, not a domain skill | If present | Preserve existing frontmatter |
-| **Absorbed** | startup — its purpose is replaced by the foundation skill | No | N/A |
-| **Framework-only** | install, update, export — framework development tools | No | N/A |
+```
+python3 --version
+```
 
-Also scan:
-- `app/shared/` — list all shared context files
-- `app/` — list all task docs
-- `lib/` — check for helper code
-- Any project-specific directories referenced by skills
+If Python 3 is missing, stop and help the user install it:
 
-For skills where the classification isn't self-evident (dev tool vs. utility, extension vs. domain), explain your reasoning. The user should be able to evaluate the judgment, not just the result.
+- **macOS:** `brew install python3` or download from python.org
+- **Ubuntu/Debian:** `sudo apt install python3`
+- **Other Linux:** use the distribution's package manager
+- **Windows:** download from python.org
 
-Present the inventory to the user:
+Once installed, re-run `/export`.
+
+**1b. Check the working tree.** The plugin ships committed state (`HEAD`), not
+working state.
+
+```
+git status --porcelain
+```
+
+If there are uncommitted changes, tell the user: *"The plugin will ship your last
+commit, not your working state. Changes to `[files]` won't be included. Commit them,
+or proceed anyway?"* Proceed only with explicit confirmation.
+
+**1c. Inventory the project:**
+
+- Subdirectories under `.claude/skills/`
+- Files in `app/` (overview, shared/, task docs)
+- `lib/` contents, if any
+- Top-level directories beyond the usual (`voices/`, `platforms/`, `templates/`,
+  etc.) — these are preserved automatically
+- Submodules listed in `.gitmodules`
+
+### Phase 2 — Classify
+
+Every skill in `.claude/skills/` goes into one of three buckets:
+
+| Bucket | Description | Script behavior |
+|--------|-------------|-----------------|
+| `exclude` | Skills that are meaningless in a plugin | Directory removed |
+| `domain` | Skills a plugin user invokes to do primary NLA tasks | `disable-model-invocation: true` stripped so plugin users can auto-invoke |
+| `keep_as_is` | Dev tools (maintain, friction-log, validate), utility skills (preferences, setup), extension skills (penny post) | Frontmatter untouched |
+
+**Default classifications:**
+
+- `exclude`: `install`, `update`, `export`, `create-app`, `startup`
+  (startup is absorbed into the foundation skill — its purpose is loading context,
+  which happens automatically via `user-invocable: false`)
+- `domain`: any skill whose SKILL.md delegates to `app/[task].md` (the primary-task
+  pattern) — these are the skills end users invoke
+- `keep_as_is`: everything else — dev tools, utilities, extensions
+
+For non-obvious classifications, explain your reasoning so the user can evaluate the
+judgment.
+
+**Derive plugin metadata:**
+
+- `plugin_name` — from user input or project directory name
+- `plugin_description` — one line from CLAUDE.md's opening identity, under 100 chars
+- `plugin_version` — default `1.0.0` (or ask)
+- `framework_commit` — `git -C packages/nla-framework rev-parse --short HEAD`
+- `project_commit` — `git rev-parse --short HEAD`
+- `export_date` — today's date (YYYY-MM-DD)
+- `feedback_channel` — the NLA's upstream repo URL, if known
+
+**Present the plan to the user:**
 
 ```
 Plugin: [name]
-Output: ../[name]-plugin/
+Version: [version]
+Output: [absolute path]
 
-Skills to export:
-  Domain: [list] (auto-invocable by users)
-  Dev tools: [list] (hidden, invocable on request)
-  Utility: [list] (hidden, invocable on request)
-  Extension: [list] (preserving current behavior)
+Submodules to include:
+  [framework + any extension packages]
 
-Not exporting:
-  Absorbed into foundation: startup
-  Framework-only: install, update, export
-  [any others with reason]
+Skills:
+  Exclude: [list]
+  Domain (auto-invocable in plugin): [list]
+  Keep as-is (dev/utility/extension): [list]
 
-Shared context: [list of files from app/shared/]
-Task docs: [list]
-Helper code: [yes/no]
+Warnings:
+  [working tree status, non-standard dirs, submodule drift, etc.]
 
 Proceed?
 ```
 
-Get confirmation before continuing. The user may adjust classifications.
+Get explicit approval before continuing.
 
-### 2. Generate plugin.json
+### Phase 3 — Synthesize
 
-Create `.claude-plugin/plugin.json`:
+Create a staging directory (e.g., `/tmp/nla-export-[plugin-name]-staging/`) and
+write three files there.
 
-```json
-{
-  "name": "[plugin-name]",
-  "description": "[one-line from CLAUDE.md's opening identity]",
-  "version": "1.0.0"
-}
-```
-
-Keep the description under 100 characters. Derive it from CLAUDE.md's first sentence
-about what the NLA does.
-
-### 3. Generate the Foundation Skill
-
-Create `skills/foundation/SKILL.md`. This is the hardest step — it replaces CLAUDE.md
-as the plugin's identity.
+**3a. Foundation SKILL.md** — the plugin's identity, auto-loaded at runtime because
+CLAUDE.md isn't auto-loaded in plugins.
 
 ```yaml
 ---
@@ -117,244 +158,184 @@ user-invocable: false
 
 Synthesize the body from five sources into one coherent document:
 
-**Source 1 — NLA Identity** (from CLAUDE.md): The opening role description, grounding
-principles, and execution rules. Strip framework-specific content (thin wrapper
-references, `packages/nla-framework/` paths, `/maintain` mode details).
+- **NLA Identity** (from CLAUDE.md): opening role description, grounding principles,
+  execution rules. Strip framework-specific content (thin wrapper references,
+  maintenance mode, framework paths, `/install`/`/update` instructions).
+- **Behavioral Principles** (from `nla-foundations.md`): the Key Principles section
+  only. Do NOT include the "What is an NLA?" explainer, "NLA Shapes," "How to Read
+  This System," or the "Hybrid Model" sections — those are developer education, not
+  runtime guidance.
+- **System Overview** (from `app/overview.md`): what the NLA does, how pieces
+  connect, the task list. Strip developer-oriented sections (improvement pipeline,
+  getting-started, document hierarchy).
+- **Configuration** (from `app/config-spec.md`, if present): what's configurable,
+  defaults, constraints. Reframe for plugin context.
+- **Available Skills**: a table of skills shipping in the plugin (domain +
+  `keep_as_is`), with descriptions.
 
-**Source 2 — Behavioral Principles** (from `nla-foundations.md`): Extract ONLY the
-Key Principles section (sections 1-7). Do NOT include the "What is an NLA?" explainer,
-"NLA Shapes," "How to Read This System," or the "Hybrid Model" explanation. Those are
-developer education, not runtime guidance.
+**Critical:** This is a synthesis, not a concatenation. Write it as one coherent
+identity document in the NLA's voice. Target 150–300 lines.
 
-**Source 3 — System Overview** (from `app/overview.md`): What the NLA does, how the
-pieces connect, the task table. Strip developer-oriented sections (improvement pipeline,
-getting-started, document hierarchy).
-
-**Source 4 — Configuration** (from `app/config-spec.md`, if it exists): What's
-configurable, defaults, constraints. Reframe for plugin context.
-
-**Source 5 — Available Skills**: A table of skills shipping in the plugin, with
-descriptions. Gives the AI awareness of its capabilities.
-
-**Critical:** This must be a synthesis, not a concatenation. Write it as one coherent
-identity document in the NLA's own voice. The AI loading this skill should understand
-who it is, what it does, how it approaches its work, and what capabilities it has.
-Target 150-300 lines.
-
-Also add an `export-metadata.md` supporting file in the foundation directory:
+**3b. export-metadata.md** — traceability:
 
 ```markdown
 # Export Metadata
 
 - **Source project:** [absolute path]
-- **Framework version:** [git commit hash of packages/nla-framework/]
+- **Framework version:** [git short hash]
+- **Project version:** [git short hash]
 - **Export date:** [YYYY-MM-DD]
-- **Project version:** [git commit hash, if available]
-- **Feedback channel:** [repo URL, if available]
+- **Feedback channel:** [repo URL, if known]
 ```
 
-### 4. Process Each Shipping Skill
-
-For each skill that ships (domain, dev, utility, extension):
-
-**a. Resolve references.** Read the SKILL.md and find all file references:
-- `Read and follow packages/nla-framework/core/skills/[name].md` (thin wrapper pattern)
-- `Read and follow app/[name].md` (domain skill pattern)
-- `app/shared/[name].md`, `shared/[name].md` (shared context)
-- Any other path references in backticks
-
-**b. Follow the prerequisite chain.** Read each referenced file. If it references
-other files (e.g., a task doc that lists shared context as prerequisites), follow
-those too. Resolve transitively until all dependencies are found.
-
-**c. Bundle supporting files.** Copy each resolved file into the skill's directory
-as a supporting file. Flatten the directory structure — `app/shared/voice.md`
-becomes just `voice.md` in the skill directory.
-
-**d. Rewrite paths.** In the SKILL.md and all copied files:
-- Replace `packages/nla-framework/core/nla-foundations.md` references → remove (principles
-  are in the foundation skill, which is always loaded)
-- Replace `app/[name].md` → `[name].md` (now a local supporting file)
-- Replace `app/shared/[name].md` or `shared/[name].md` → `[name].md`
-- Replace `lib/` paths → `${CLAUDE_PLUGIN_ROOT}/lib/` if lib ships
-- Remove any remaining `../` references
-
-**e. Adjust frontmatter** per the classification table in step 1.
-
-**Example transformation:**
-
-Before (thin wrapper in NLA):
-```yaml
----
-name: maintain
-description: Edit the NLA system
-disable-model-invocation: true
----
-Read and follow `packages/nla-framework/core/skills/maintain.md`.
-```
-
-After (self-contained in plugin):
-```yaml
----
-name: maintain
-description: Edit the NLA system
-disable-model-invocation: true
----
-[Full content of core/skills/maintain.md, with all paths rewritten
-to reference local supporting files]
-```
-
-Before (domain skill in NLA):
-```yaml
----
-name: compose
-description: Start a new composition
-disable-model-invocation: true
----
-# Compose
-...
-Read and follow `app/compose.md`.
-```
-
-After (domain skill in plugin):
-```yaml
----
-name: compose
-description: Start a new composition
----
-# Compose
-...
-Read and follow `compose.md` (in this skill's directory).
-```
-
-With supporting files:
-```
-skills/compose/
-├── SKILL.md
-├── compose.md              (from app/compose.md)
-├── values.md               (from app/shared/)
-├── voice.md                (from app/shared/)
-├── common-patterns.md      (from app/shared/)
-└── [other prerequisites]
-```
-
-### 5. Copy Supporting Assets
-
-- **`lib/`** — copy contents to `lib/` at plugin root if non-empty
-- **Project-specific directories** — if skills reference files outside `app/` and
-  `lib/` (e.g., `voices/`, `platforms/`, `templates/`), bundle the referenced files
-  as supporting files in the skill that references them
-- For config-dependent references (e.g., `voices/{active-voice}/`), resolve using
-  the currently configured value. Note this in export metadata: "Exported with
-  voice: [name]"
-
-### 6. Generate README.md
-
-Write a user-facing README at the plugin root. Synthesize from the NLA's identity
-and overview:
+**3c. README.md** — user-facing introduction to the plugin:
 
 - What this plugin does (one paragraph)
-- Available skills (table with name and description — domain skills first, then
-  utility, then dev tools labeled as such)
+- Available skills (table with name and description — domain first, then
+  dev/utility labeled as such)
 - Setup requirements (e.g., "Requires SuperCollider installed")
-- Configuration ("Use `/[plugin-name]:preferences` to customize behavior")
-- Where to send feedback (if feedback channel is in export metadata)
+- Configuration (`"Use /[plugin-name]:preferences to customize"`)
+- Feedback channel (from metadata)
 
 Write for someone discovering the plugin, not for a developer maintaining the NLA.
 
-### 7. Final Verification
+### Phase 4 — Execute
 
-Before reporting success, check:
+**4a. Write the manifest** to the staging directory:
 
-1. **No escaped paths.** Search all generated files for `../` — should find zero.
-2. **No broken references.** Every file referenced in a SKILL.md exists in that
-   skill's directory.
-3. **Valid manifest.** `plugin.json` is valid JSON with at least a `name` field.
-4. **Foundation size.** Foundation SKILL.md is under 500 lines (plugin best practice).
-5. **Completeness.** Every skill from the approved inventory is present.
-
-Report results to the user. If issues are found, fix them before confirming.
-
-### 8. Runtime Validation (Optional)
-
-Structural verification confirms files look right. Runtime validation confirms the
-plugin actually works. Offer this as an optional step after structural checks pass.
-
-**How to run it:**
-
-```bash
-env -u CLAUDECODE claude -p "List all available skills and confirm you can see them." \
-  --plugin-dir ./path-to-plugin --max-turns 2
+```json
+{
+  "plugin_name": "[name]",
+  "plugin_description": "[description]",
+  "plugin_version": "[version]",
+  "source_project_path": "[absolute path to this project]",
+  "output_dir": "[absolute path to plugin output]",
+  "framework_submodule_path": "packages/nla-framework",
+  "additional_submodule_paths": ["[other submodules, if any]"],
+  "skills": {
+    "exclude": [...],
+    "domain": [...],
+    "keep_as_is": [...]
+  },
+  "synthesized": {
+    "foundation_skill_md": "[staging path]/foundation-SKILL.md",
+    "foundation_export_metadata": "[staging path]/export-metadata.md",
+    "readme": "[staging path]/README.md"
+  },
+  "export_metadata": {
+    "framework_commit": "[hash]",
+    "project_commit": "[hash]",
+    "export_date": "[date]",
+    "feedback_channel": "[url]"
+  }
+}
 ```
 
-The `env -u CLAUDECODE` workaround prevents conflicts when launching Claude from within
-an existing Claude Code session. `--max-turns 2` is essential — it prevents runaway
-turns if the prompt triggers unexpected behavior.
+**4b. Invoke the script:**
 
-**Two-step validation approach:**
+```
+python3 packages/nla-framework/lib/export.py --manifest [staging]/manifest.json
+```
 
-1. **Confirm loading.** Use a simple prompt like "List all available skills" to verify
-   the plugin loads and skills are registered. Check that the count matches your
-   inventory from step 1.
-2. **Check skill behavior.** Pick one domain skill and invoke it with a minimal prompt
-   to confirm frontmatter flags (user-invocable, disable-model-invocation) behave
-   correctly.
+Optional flags: `--verbose` (log every path rewrite), `--dry-run` (do everything
+except the final move), `--force` (allow dirty tree or overwrite existing output).
 
-**What runtime catches that structural checks can't:**
-- Skills that fail to register due to frontmatter issues
-- Foundation skill that loads but doesn't establish identity correctly
-- User-invocable flags that don't behave as expected
-- Plugin-level conflicts between skills
+**4c. Parse the JSON status on stdout.** The script emits:
 
-Report runtime results alongside structural results. If runtime validation surfaces
-issues, fix them and re-verify both structurally and at runtime.
+```json
+{
+  "status": "ok",
+  "plugin_name": "[name]",
+  "output": "[absolute path]",
+  "excluded_skills": [...],
+  "domain_skills_touched": [...],
+  "path_substitutions": <number>,
+  "warnings": [...]
+}
+```
+
+On non-zero exit, read stderr and relay the error. Common failures:
+
+- **Exit 2** — dirty working tree (commit first, or re-invoke with `--force`)
+- **Exit 3** — output directory exists (confirm with user, re-invoke with `--force`)
+- **Exit 5** — submodule not initialized (run `git submodule update --init`, re-try)
+- **Exit 6** — synthesized file missing (check the staging paths in the manifest)
+- **Exit 7** — verification found a leaked path (a bug — surface the affected file)
+
+For the full list of transforms the script performs, see the docstring at the top
+of `packages/nla-framework/lib/export.py`.
+
+### Phase 5 — Verify and Clean Up
+
+Report structural success:
+
+- Skills shipped (count, names)
+- Path substitutions made (from the status report)
+- Any warnings
+- Output path
+
+**Optional runtime validation.** Offer to verify the plugin loads:
+
+```
+env -u CLAUDECODE claude -p "List all available skills." \
+  --plugin-dir [output-path] --max-turns 2
+```
+
+The `env -u CLAUDECODE` prevents conflicts when launching Claude from inside an
+existing session. `--max-turns 2` prevents runaway turns.
+
+**Clean up** the staging directory once the user confirms the output looks right.
 
 ---
 
 ## Edge Cases
 
-- **Ejected skills** — If a thin wrapper was replaced with a full custom skill,
-  treat it as self-contained. Read it, resolve its references, bundle everything.
-- **Annotated wrappers** — If a wrapper delegates to the framework but adds
-  project-specific notes, resolve the framework reference AND keep the annotations.
-  The result should be a self-contained skill with the annotations preserved.
-- **Non-standard directories** — Projects may have custom directories (voices/,
-  platforms/, templates/). Read skill references to discover what's needed. Bundle
-  referenced files per skill.
-- **Cross-skill duplication** — Multiple skills referencing the same shared file
-  each get their own copy. Duplication is acceptable for small markdown files.
-- **Missing references** — If a referenced file doesn't exist, warn the user and
-  note it in the output. Don't silently skip.
-- **Large skills** — If a resolved skill exceeds 500 lines, note it as a warning
-  but proceed. The limit is guidance, not a hard constraint.
-- **No overview.md** — Generate the foundation skill from CLAUDE.md and config-spec
-  alone. Note the gap.
+The view-source export model handles most edge cases automatically — the script
+preserves structure rather than transforming it:
+
+- **Ejected skills** ship as-is. Internal references get path-rewritten by the
+  script like any other file.
+- **Annotated wrappers** ship intact. Annotations persist alongside the delegated
+  framework file.
+- **Non-standard directories** (`voices/`, `platforms/`, `templates/`) are
+  preserved by `git archive`. The script auto-detects top-level dirs and rewrites
+  references to them.
+- **Missing `app/config-spec.md`** — skip the Configuration section of foundation
+  synthesis.
+- **No `app/overview.md`** — synthesize foundation from CLAUDE.md and the skills
+  table alone. Note the gap in export-metadata.
+- **Extension skills** (penny post, process helpers) — classify as `keep_as_is`.
+  Their submodule must be listed in `additional_submodule_paths`.
+- **Submodule HEAD differs from the superproject pointer** — script warns. User
+  decides whether to `git submodule update` and re-export.
+- **`reference/` directory** — exclude from the plugin via `.gitattributes
+  export-ignore` in the NLA. `git archive` honors it for free.
 
 ---
 
 ## Principles
 
-- **Propose before generating.** The inventory step gets approval before any files
-  are created. The user controls what ships.
-- **Self-containment over everything.** Every skill must work without any external
-  references. When in doubt, bundle more, not less.
-- **Synthesize, don't concatenate.** The foundation skill is a coherent document,
-  not four pasted sections. Match the NLA's voice.
-- **Preserve intent.** Domain skills should behave the same in the plugin as in
-  the NLA project. The conversion changes structure, not behavior.
-- **Transparency.** Export metadata records exactly what was exported, from where,
-  and when. The plugin should be traceable to its source.
+- **Propose before generating.** Classification and manifest get approval before the
+  script runs. The user controls what ships.
+- **Structure-preserving.** The plugin mirrors the NLA. Same layout, same file
+  names; paths get a `${CLAUDE_PLUGIN_ROOT}/` prefix so they resolve from any
+  installed location.
+- **Synthesize, don't concatenate.** The foundation skill is a coherent document in
+  the NLA's voice — not four pasted sections.
+- **Commits only.** The plugin ships `HEAD`. If there are uncommitted changes, the
+  user commits or explicitly confirms proceed-with-warning.
+- **Judgment and mechanics are separate.** The AI classifies and synthesizes; the
+  script transforms and verifies. Each does what it does best.
 
 ---
 
 ## After Export
 
-If the export succeeded, suggest verifying the output — load the plugin into a test
-session or run `/validate` structural mode on the generated directory. If the session
-is wrapping up, `/debrief` can surface observations about the export process, and
-`/close` finalizes the session record.
+Suggest verifying the plugin loads (runtime validation above) if you haven't already.
+If the session is wrapping up, `/debrief` can surface observations about the export
+process, and `/close` finalizes the session record.
 
 ---
 
-*This skill converts an NLA project into a plugin. The NLA project remains the
-development environment. To improve the plugin, improve the NLA and re-export.*
+*This skill orchestrates plugin export. The script does the mechanical work; the AI
+does the judgment work. To improve the plugin, improve the NLA and re-export.*
