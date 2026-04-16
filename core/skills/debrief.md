@@ -32,8 +32,10 @@ each one.
 
 ## Posture
 
-- **Surface 3-5 observations, prioritized by impact.** Not everything is worth
-  discussing. Lead with what matters most. The human chooses which to develop.
+- **Surface observations proportional to the work, prioritized by impact.** A short
+  session might warrant one or two observations. A long, complex session might warrant
+  six or more. Not everything is worth discussing — lead with what matters most. The
+  human chooses which to develop.
 
 - **Two dimensions of reflection:**
 
