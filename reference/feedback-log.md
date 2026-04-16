@@ -225,12 +225,21 @@ distinction.
 **Status:** pending
 
 **What to do:**
-Bring the NLA writing standards from facebook-moderation
-(`reference/specs/implementation-standards/nla-writing.md`) into the framework as a
-reference document. Run a review of the framework's own operative documents against the
-standards — which ones surface real findings? Standards that find real gaps earn active
-status. Integrate with `/validate` (review mode) and `/maintain` (writing guidance).
-The review determines which standards are active, not editorial judgment.
+1. **Bring the standards in.** Copy the NLA writing standards from facebook-moderation
+   (`reference/specs/implementation-standards/nla-writing.md`) into the framework,
+   likely at `reference/nla-writing-standards.md`. The file is 479 lines, 33 standards
+   across 9 sections.
+2. **Review framework docs against them.** Use the two-pass structure from #21:
+   Pass 1 (behavioral gaps) focuses on standards 2.3 (produces what it contains),
+   2.4 (emphasis shapes character), 8.3 (operative docs). Pass 2 (craft refinements)
+   focuses on 4.2 (naming consistency), 4.4 (cross-references), 3.5 (positive
+   instruction). The review surfaces which standards find real gaps.
+3. **Standards that find gaps earn active status.** Don't curate by editorial
+   judgment — curate by what produces findings. Standards with no findings can be
+   noted as "validated, no current gaps."
+4. **Integrate.** The active standards inform `/validate` (as a review mode or check)
+   and `/maintain` (as writing guidance when editing operative docs). The standards
+   are quality criteria the AI applies when writing and reviewing NLA documents.
 
 **Why it was accepted:**
 33 empirically-grounded standards for writing NLA documents — the prose artifacts an LLM
