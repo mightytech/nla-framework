@@ -550,20 +550,21 @@ def do_export(manifest: dict, args: argparse.Namespace) -> dict:
         log(f"Path rewrite targets: {rewrite_dirs}")
         rules = build_rewrite_rules(rewrite_dirs)
 
-        # 8. Rewrite paths in every .md under the tree.
-        log("Rewriting paths...")
-        total = rewrite_paths_in_tree(temp_root, rules, verbose=args.verbose)
-        log(f"Total path substitutions: {total}")
-
-        # 9. Strip disable-model-invocation from domain skill frontmatter.
+        # 8. Strip disable-model-invocation from domain skill frontmatter.
         touched = strip_domain_skill_frontmatter(temp_root, manifest["skills"]["domain"])
         log(f"Domain skills (flag stripped): {touched}")
 
-        # 10. Write plugin.json.
+        # 9. Write plugin.json.
         write_plugin_json(temp_root, manifest)
 
-        # 11. Place synthesized files.
+        # 10. Place synthesized files.
         place_synthesized_files(temp_root, manifest["synthesized"])
+
+        # 11. Rewrite paths across everything (including synthesized content, which
+        #     is why this runs AFTER placement). Idempotent via the lookbehind guards.
+        log("Rewriting paths...")
+        total = rewrite_paths_in_tree(temp_root, rules, verbose=args.verbose)
+        log(f"Total path substitutions: {total}")
 
         # 12. Verify.
         v_warnings, v_errors = verify_output(temp_root, rewrite_dirs)
