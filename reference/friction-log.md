@@ -68,6 +68,59 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-16 — /export may not need to flatten thin wrappers anymore
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** project generation
+**Status:** pending
+
+**Observation:**
+The export skill flattens the two-hop thin wrapper pattern (wrapper → framework file)
+into self-contained skills because "plugins cannot reference files outside their
+directory." This was correct under the sibling-directory model: thin wrappers pointed
+to `../nla-framework/`, which wouldn't exist in the plugin's installed location.
+
+With the packages/submodules model (2026-04-15), dependencies are inside the project.
+A plugin bundled with its own `packages/` directory could plausibly contain internal
+thin wrappers that resolve within the plugin:
+
+```
+my-plugin/
+├── skills/
+│   └── startup/SKILL.md   ← "Read packages/nla-framework/core/skills/startup.md"
+└── packages/
+    └── nla-framework/      ← bundled as part of the plugin
+```
+
+If Claude Code's plugin loader treats the plugin directory as the working context for
+skills, internal thin wrappers work and no flattening is needed.
+
+**Open questions:**
+- Does Claude Code's plugin loader support internal thin wrappers? (Unknown — the
+  assumption in design rationale predates the packages/ model)
+- If yes, is the simpler export (bundle packages/ as-is, keep wrappers) worth the
+  larger plugin size?
+- Does this change the "plugins are compiled artifacts" framing in the plugin export
+  design rationale entry?
+
+**Affected files:**
+- `core/skills/export.md` — may simplify significantly
+- `reference/design-rationale.md` — "Plugin Export: NLA as Source, Plugin as Artifact"
+  section's "main transformation" description
+
+**Proposed fix:**
+Test whether internal thin wrappers work in plugins. If yes, run a /think session on
+the design implications. The packages/ migration may have fundamentally changed what
+export needs to do.
+
+**Notes:**
+Raised during debrief of 2026-04-15 session. Surfaced by the question "why can't
+plugins use the thin wrapper pattern?" — the assumption was correct in the sibling
+era, may not be correct now.
+
+---
+
 ### 2026-03-25 — settings.local.json accumulates junk instead of systematic permission entries
 
 **Type:** process
