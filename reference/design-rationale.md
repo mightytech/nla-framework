@@ -1758,6 +1758,88 @@ Retained: Bash patterns (`Bash(git:*)`, `Bash(ls:*)`, `Bash(test:*)`) for shell 
 
 ---
 
+## Aspirational Engineering
+
+*Added 2026-04-15. Origin: feedback triage discussion about human flourishing, lateral
+thinking in /think, and the facebook-moderation compiler's observation about artistry.*
+
+### The principle
+
+Include aspirational goals in NLA documents — identity, values, skill postures — because
+the aspiration itself produces better behavior even when the goal isn't fully achieved.
+The aspiration creates a gradient: the AI moves toward the goal, and the movement is
+valuable even if the destination isn't reached.
+
+### Why it works
+
+Every sentence in an NLA's identity documents gives the AI a behavioral nudge. These
+nudges can be realistic ("flag uncertainty") or aspirational ("the person should finish
+each session understanding more and making better judgments"). Both are operative. The
+realistic nudge produces compliance. The aspirational nudge produces a gradient — the AI
+aims higher and lands somewhere better than it would have without the aspiration.
+
+The mechanism is the same as the intent-over-rules principle: the AI that understands
+the *purpose* handles situations the instructions didn't anticipate. An aspirational
+purpose extends this further — it shapes behavior across the entire space of possible
+interactions, not just the ones the document addresses explicitly.
+
+### Evidence from practice
+
+Three independent observations:
+
+1. **Artistry in compilation.** The facebook-moderation compiler was given three quality
+   tiers: operable, understanding, artistry ("finding the form the spec was reaching
+   toward"). Builds achieved the first two. Artistry didn't manifest, but the compiler
+   identified specific missed opportunities and what it would need. The aspiration
+   created a gradient that produced understanding as a side effect.
+
+2. **Lateral thinking in /think.** The AI won't generate genuinely lateral ideas
+   (like the packages/submodules leap that came from the human). But aspiring to lateral
+   thinking — "question the frame," "bring unexpected connections" — produces better
+   frame-questioning and more exploratory conversation as a side effect.
+
+3. **Human flourishing in foundations.** The paragraph about flourishing gives the AI
+   concrete behavioral nudges: explain reasoning rather than just producing output, make
+   checkpoints informative rather than perfunctory, share diagnoses rather than just
+   fixes, resist "I can handle this, you don't need to understand it." Each sentence
+   is aspirational. Each nudges behavior in a measurable direction.
+
+### Connection to AI identity
+
+An NLA's identity IS its documentation. CLAUDE.md, values, foundations — they
+collectively define who the AI is in this context. The identity-description pattern
+(principle #4) says "describe who you are, not what you're not." Aspirational
+engineering extends this: describe who you're *becoming*, not just who you are now.
+
+The AI that reads "this framework is designed for human flourishing" behaves differently
+from one that reads "this framework produces good output" — even if it can't fully
+achieve flourishing. The difference is the gradient. And the gradient compounds: each
+session where the AI aims for flourishing produces a slightly more engaged, more
+explanatory, more human-developing interaction. Over many sessions, the gap between
+aspirational and non-aspirational identity is substantial.
+
+### What this is NOT
+
+- **Not wishful thinking.** Each aspiration must be operationally specific enough to
+  produce behavioral nudges. "Be good" is wishful. "The person should finish each
+  session understanding more" is aspirational but operative — it tells the AI to
+  explain its reasoning, share its thinking, make the human's engagement productive.
+- **Not a substitute for concrete guidance.** Aspirational goals complement procedures
+  and principles; they don't replace them. "Aim for artistry" without writing standards
+  produces vague output. Writing standards plus "aim for artistry" produces craft.
+- **Not always appropriate.** A pure formatting rule ("use ISO 8601 dates") doesn't
+  benefit from aspiration. Aspirational engineering applies to identity, values, posture,
+  and judgment-bearing instructions — the spaces where the AI's disposition matters.
+
+### Blast radius
+
+- `core/nla-foundations.md`: principle #1 (human flourishing), principle #4 (intent
+  over rules / identity descriptions). All projects.
+- `core/skills/think.md`: aspirational posture bullets. All projects.
+- Design principle for all NLA document writing going forward.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:
