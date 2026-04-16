@@ -81,13 +81,15 @@ REQUIRED_SKILLS_FIELDS = ["exclude", "domain", "keep_as_is"]
 REQUIRED_SYNTHESIZED_FIELDS = ["foundation_skill_md", "foundation_export_metadata", "readme"]
 
 # Directories at the extracted tree's root that should NOT get a ${CLAUDE_PLUGIN_ROOT}/
-# prefix rule generated for them.
-REWRITE_SKIP_DIRS = {".git", "skills", ".claude-plugin", "reference"}
+# prefix rule generated for them. `reference/` is deliberately NOT in this set:
+# skills reference `reference/design-rationale.md` etc., and those refs need
+# prefixing to resolve reliably at runtime.
+REWRITE_SKIP_DIRS = {".git", "skills", ".claude-plugin"}
 
-# Directories inside the extracted tree that should be removed entirely (they represent
-# the source NLA's `.claude/` machinery, which doesn't belong in a plugin other than
-# via the renamed `.claude/skills/` -> `skills/`).
-REMOVE_AFTER_RENAME = {"settings.json", "settings.local.json"}
+# Files at the plugin root that should be removed after archive extraction.
+# CLAUDE.md is replaced by the synthesized foundation skill.
+# .gitmodules has no meaning once submodules are inlined.
+PLUGIN_ROOT_FILES_TO_REMOVE = ["CLAUDE.md", ".gitmodules"]
 
 
 # ---------------------------------------------------------------------------
@@ -540,6 +542,17 @@ def do_export(manifest: dict, args: argparse.Namespace) -> dict:
         log("Renaming .claude/skills/ -> skills/...")
         rename_skills_dir(temp_root)
 
+        # 5a. Remove plugin-redundant files at root (CLAUDE.md replaced by foundation,
+        #     .gitmodules meaningless once submodules are inlined).
+        root_removed: list[str] = []
+        for rel in PLUGIN_ROOT_FILES_TO_REMOVE:
+            target = temp_root / rel
+            if target.exists():
+                target.unlink()
+                root_removed.append(rel)
+        if root_removed:
+            log(f"Removed plugin-redundant root files: {root_removed}")
+
         # 6. Remove excluded skills.
         excluded = manifest["skills"]["exclude"]
         removed = remove_excluded_skills(temp_root, excluded)
@@ -672,7 +685,9 @@ def run_self_test() -> int:
         for d in ("app", "packages", "lib", ".claude-plugin", "reference", "skills", ".git"):
             (tmp / d).mkdir()
         detected = detect_rewrite_dirs(tmp)
-        expected = ["app", "lib", "packages"]
+        # reference/ IS a rewrite target — skills reference it and the refs need
+        # prefixing. Only .git, skills, .claude-plugin are skipped.
+        expected = ["app", "lib", "packages", "reference"]
         if detected != expected:
             failures.append(f"detect_rewrite_dirs:\n  expected: {expected}\n  actual:   {detected}")
 
@@ -882,6 +897,10 @@ def run_integration_test() -> int:
             failures.append(".claude/ still present in output")
         if (output / "skills" / "export").exists():
             failures.append("excluded skill `export` still present")
+        if (output / "CLAUDE.md").exists():
+            failures.append("CLAUDE.md still at plugin root (should be replaced by foundation)")
+        if (output / ".gitmodules").exists():
+            failures.append(".gitmodules still at plugin root (submodules are inlined)")
 
         # plugin.json correctness.
         pj_path = output / ".claude-plugin" / "plugin.json"
