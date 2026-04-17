@@ -33,6 +33,38 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-17 — Initial submodule install checks for tagged releases
+
+**Affects:** core/skills/install.md, core/skills/update.md, .claude/skills/create-app/SKILL.md
+
+`/install` (and `/update` when applying an intent that adds a submodule) now
+check for tagged releases after `git submodule add` and offer the user a
+choice between the tagged release (stable) and HEAD. This mirrors the
+behavior `/update`'s advance path has always had for existing submodules —
+the principle (tagged release = stable default) now applies to initial-add
+paths too.
+
+`/create-app` does the same for the framework submodule (and any extension
+packages added during creation), so new projects pin at the framework's
+tagged release by default.
+
+**What this means for your project:** No project-side change required. The
+next time you run `/install` to add a new package, you'll see the stable/HEAD
+prompt if a tagged release exists.
+
+**Why:** Without the check, initial-adds silently pin at whatever the
+remote's default branch points to — fine when HEAD matches the latest tag,
+misleading when they diverge. Caught during the packages/ migration: a
+package whose HEAD was one commit past its latest tag (a non-behavioral
+session-log update) ended up pinned at `main` rather than at the tagged
+release. Catching this at install time is easier than noticing drift months
+later.
+
+**Propagates automatically.** The install and update skill changes reach
+domain projects via thin wrappers.
+
+---
+
 ### 2026-04-17 — Shippability convention for commits: consumer-facing vs. internal
 
 **Affects:** core/skills/maintain.md, install/package-intent.md

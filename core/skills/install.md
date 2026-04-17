@@ -16,6 +16,23 @@ The user provides a package reference as `$ARGUMENTS`:
 
 Confirm with the user before adding a submodule: "I'll add this as a submodule at `packages/[name]`. OK?"
 
+### Pin to a Tagged Release
+
+After `git submodule add` completes, check for tagged releases:
+`git -C packages/[name] tag --sort=-creatordate | head -1`
+
+If a tag exists and points at a different commit than the submodule's current HEAD,
+offer a choice: "Package [name]'s HEAD is at [short-hash]. Latest tagged release:
+[tag] (at [short-hash]). Pin to the tagged release (stable) or to HEAD?"
+
+If the user picks the tag, check it out inside the submodule and re-stage the pointer:
+`git -C packages/[name] checkout [tag]` then `git add packages/[name]`.
+
+If no tags exist, or the user picks HEAD, proceed with the default pin.
+
+This matches `/update`'s behavior when advancing an existing submodule. Tagged
+releases are the stable default; HEAD is opt-in.
+
 ---
 
 ## Processing Flow

@@ -239,6 +239,7 @@ When created, it should cover:
 Follow this order — later files reference earlier ones:
 
 1. **Directory structure and git setup** — Create all directories with `mkdir -p`, then run `git init` in the project directory, then add submodules: `git submodule add --depth 1 https://github.com/mightytech/nla-framework.git packages/nla-framework` (and any discussed packages). This must happen before file generation because thin wrappers reference framework files via `packages/`.
+1a. **Pin framework submodule to its tagged release** — after `git submodule add`, run `git -C packages/nla-framework tag --sort=-creatordate | head -1`. If the tag points at a different commit than HEAD, ask the user: "Framework HEAD is at [short-hash]; latest tagged release is [tag] (at [short-hash]). Pin to the tagged release (stable) or HEAD?" If tag chosen: `git -C packages/nla-framework checkout [tag]` then `git add packages/nla-framework`. Apply the same check for any other submodules added in the discussed-packages set. Tagged releases are the stable default for new projects.
 1b. **Settings file** — `.claude/settings.local.json` (pre-approves common shell commands)
 2. **Category 1 files** — Thin wrapper skills, .gitkeep files, archives, .gitignore
 3. **Shared context** — values.md, voice.md, common-patterns.md, output-spec.md (if needed)

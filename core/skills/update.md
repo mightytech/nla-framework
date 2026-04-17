@@ -140,6 +140,11 @@ last-known commit is old enough that relevant notes may have been archived, chec
 **For new intents:**
 - Treat as a fresh install — same process as `/install` step 3
 
+**For new intents that add a submodule** (e.g., a migration that introduces a new
+dependency): after `git submodule add`, apply the same tag-check pattern described in
+`core/skills/install.md` ("Pin to a Tagged Release"). Initial-add shouldn't silently
+pin at HEAD when a tagged release is available.
+
 **For removed intents:**
 - Don't undo previous work. Inform the user: "The package no longer includes [intent file]. The changes it previously made are still in your NLA. Remove them manually if you want."
 - Check update notes for context about why the intent was removed and what replaces it. Surface this to the user alongside the removal notification — it helps them decide whether and how to clean up.

@@ -53,38 +53,6 @@ accepted, Status.
 
 *Entries are added chronologically, newest first.*
 
-### 2026-04-17 — /install and /update initial-add path should check for tagged releases
-
-**Source:** [Issue #23](https://github.com/mightytech/nla-framework/issues/23) item 1
-**Verdict:** Accept
-**Status:** pending
-
-**What to do:**
-The advance path in `core/skills/update.md` already checks for tagged releases between
-current and HEAD and offers the user a choice between the tagged release (stable) and
-HEAD (bleeding edge). Extend that same check to the initial-add path:
-
-1. In `core/skills/install.md`, after `git submodule add`, run
-   `git -C packages/[name] tag --sort=-creatordate | head -1`. If a tag exists and
-   points at a commit other than current HEAD, offer the same stable/HEAD choice the
-   advance path offers. Mirror `update.md:65`'s prompt wording for consistency.
-2. In `core/skills/update.md`, apply the same check when a migration introduces new
-   submodules (the initial-add flow inside `/update`, not only the advance flow).
-3. Check `.claude/skills/create-app/` — if it runs `git submodule add` for framework
-   during project creation, the same check should apply there too, so new projects
-   pin at the framework's tagged release rather than HEAD.
-
-**Why it was accepted:**
-The principle (tagged release = stable default) is already in the framework; only the
-initial-add path didn't inherit it. High confidence: this was caught during the
-process-helpers maintainer's actual packages/ migration. Penny-post's HEAD was one
-commit past v0.0.1 (a session-log update, not behavioral), so the project ended up
-silently pinned at `main` rather than at the tagged release. Caught during pre-push
-review — otherwise the mismatch would have drifted undetected. Small, well-scoped
-change; same UX pattern applied to more entry points.
-
----
-
 ### 2026-04-17 — Document settings.local.json drift pattern in structure-intent
 
 **Source:** [Issue #23](https://github.com/mightytech/nla-framework/issues/23) item 2

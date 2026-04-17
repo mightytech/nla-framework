@@ -21,11 +21,21 @@ mismatch during their own migration plus a narrower permission-drift residual.
   projects via thin wrappers), package-specific pointer in
   `install/package-intent.md`, and an update-notes entry announcing the
   convention. Entry moved from feedback-log.md to feedback-log-archive.md.
+- **#23 Item 1 (initial-add tag check) — implemented.** Added "Pin to a
+  Tagged Release" subsection to `core/skills/install.md` with prompt wording
+  mirrored from update.md's advance path. Added "For new intents that add a
+  submodule" bullet to `core/skills/update.md` Phase 2 Apply Changes,
+  cross-referencing install.md. Added step 1a to `.claude/skills/create-app/SKILL.md`
+  for the framework-submodule tag check during project creation. Update-notes
+  entry announces the change. Entry moved to archive.
 
 ## Blast Radius
 
 - #22 changes: `core/skills/maintain.md` (all domain projects), `install/package-intent.md`
   (packages), `reference/design-rationale.md` (maintainers).
+- #23 Item 1 changes: `core/skills/install.md` and `core/skills/update.md` (all domain
+  projects via thin wrappers); `.claude/skills/create-app/SKILL.md` (framework's own
+  skill, affects new-project creation going forward).
 - Additional changes: TBD as each lands.
 
 ## Decisions Made
