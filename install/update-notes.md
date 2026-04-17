@@ -33,6 +33,42 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-17 — Shippability convention for commits: consumer-facing vs. internal
+
+**Affects:** core/skills/maintain.md, install/package-intent.md
+
+The maintain skill now codifies a distinction at commit time: whether a commit
+touches **consumer-facing** content (what another NLA's runtime reads) or only
+**internal** content (the project's own reference/, session logs, etc.).
+
+**What this means for your project:**
+
+- At commit time, the maintain skill now asks: does this touch consumer-facing
+  content? If yes → tag (if you use tagged releases) and add an
+  `install/update-notes.md` entry (if you ship update notes). If no → skip both.
+- For domain projects, "consumer-facing" means `app/`, `.claude/skills/`, or
+  `CLAUDE.md` — the parts that ship in a plugin export. Changes to `reference/`
+  are internal.
+- For packages, it also includes `install/*.md` (the intent files consumers
+  read via `/install` and `/update`).
+
+**Why:** Without the convention, routine internal commits (session log updates,
+design-rationale entries) surface to every downstream `/update` run as "there
+are new commits to review" — even though nothing has changed that would affect
+those projects. Scales poorly as the ecosystem grows. The convention lets
+maintainers tag meaningful releases without noise from internal bookkeeping.
+
+See `reference/design-rationale.md` ("Shippability: Consumer-Facing vs. Internal
+Content") for the full principle and `core/skills/maintain.md` ("Shippability
+at Commit Time") for the commit-time procedure.
+
+**Propagates automatically.** The maintain skill change reaches domain projects
+via thin wrappers. No per-project action required — the next time you run
+`/maintain`, the commit-time check is part of the session lifecycle. Package
+authors should review `install/package-intent.md` for package-specific guidance.
+
+---
+
 ### 2026-04-16 — Export skill revised: view-source plugins + Python script
 
 **Affects:** core/skills/export.md, install/skills-intent.md, new lib/export.py (framework-level)

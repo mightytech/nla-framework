@@ -1902,6 +1902,86 @@ Retained: Bash patterns (`Bash(git:*)`, `Bash(ls:*)`, `Bash(test:*)`) for shell 
 
 ---
 
+## Shippability: Consumer-Facing vs. Internal Content
+
+*Added 2026-04-17. Origin: Issue #22 from the penny-post maintainer, during
+the packages/ migration roll-out.*
+
+### The distinction
+
+Every NLA's files divide into two buckets:
+
+- **Consumer-facing** — content a downstream consumer's runtime reads. For the
+  framework, that's `core/` (what thin wrappers delegate to) and
+  consumer-facing `install/*.md` (what `/install` and `/update` read). For
+  packages, it's the `app/` content consumers synthesize via `/install` plus
+  `install/*.md`. For domain projects exported as plugins, it's `app/`,
+  `.claude/skills/`, and `CLAUDE.md` (which becomes the foundation skill).
+- **Internal** — content only maintainers read. Across project types: the
+  project's own `reference/` (design rationale, friction log, session logs,
+  install log) and, for framework and packages, their own `CLAUDE.md` (the
+  runtime identity for self-maintenance, not read by consumers).
+
+The rule for telling them apart: *who reads this file?* If it's something a
+consumer's runtime reads during installation, update, or execution, it's
+consumer-facing. If only maintainers ever open it, it's internal.
+
+### Why the distinction matters
+
+Without it, routine internal work surfaces to consumers as noise. A commit
+that updates a framework session log, or fixes a typo in a package's design
+rationale, causes every downstream NLA running `/update` to see "there are
+new commits to review" — even though nothing has changed that would affect
+those NLAs. As the ecosystem grows (more packages, more domain projects), the
+signal-to-noise ratio in update prompts degrades. Consumers learn to skim or
+ignore updates, which defeats the point of the update channel.
+
+The analogous problem for domain projects is plugin re-exports. If tags
+signal "there's a new version worth re-exporting," then tagging for every
+reference-file change dilutes the signal.
+
+### The rule
+
+- **Commits touching consumer-facing content** → tag (if the project uses
+  tagged releases) and add an update-notes entry (if the project ships update
+  notes).
+- **Commits touching only internal content** → skip both. Consumers see the
+  submodule pointer advance but have nothing to review.
+
+This scales naturally. Nothing new is required — tags are already the stable
+choice, untagged HEAD is already the bleeding edge, and absence of an
+update-notes entry already means nothing to surface. The convention is which
+of those existing affordances to use when.
+
+### The edge case: cross-references in consumer-facing files
+
+Sometimes an internal change necessitates edits to consumer-facing content —
+for example, if `install/skills-intent.md` recommends penny-post as an
+optional extension and the recommendation text needs updating. Those edits
+count as consumer-facing because they change what consumers read, regardless
+of why the change was needed. Shippability is about who reads the file, not
+the nature of the motivating change.
+
+### The commit-time decision
+
+In practice this is a quick judgment at commit time:
+
+> Does this commit touch `core/`, consumer-facing `install/*.md` (framework/package),
+> or `app/` / `.claude/skills/` / `CLAUDE.md` (domain project)?
+> Yes → tag + update-notes (if the project uses them). No → skip both.
+
+When a commit touches both buckets, the presence of consumer-facing content
+drives the decision: tag and write the note, covering the consumer-facing
+change.
+
+### Blast radius
+
+- `core/skills/maintain.md` — commit-time guidance (all domain projects).
+- `install/package-intent.md` — package-specific pointer (packages).
+- Design principle for all NLA maintenance going forward.
+
+---
+
 ## Aspirational Engineering
 
 *Added 2026-04-15. Origin: feedback triage discussion about human flourishing, lateral

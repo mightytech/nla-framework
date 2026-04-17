@@ -105,6 +105,26 @@ CLAUDE.md is loaded. When another NLA's wrapper says "Read and follow
 
 ---
 
+## Shippability
+
+Package maintainers should follow the shippability convention at commit time:
+tag and add an `install/update-notes.md` entry only for commits that touch
+consumer-facing content — the package's `app/` (the content consumers synthesize
+via `/install`) or its consumer-facing `install/*.md`. Commits that touch only
+internal content — the package's own `reference/` (design rationale, friction
+log, session logs, install log) or own `CLAUDE.md` — skip both.
+
+This matters especially for packages because each installing NLA runs `/update`
+against them. Without the convention, routine internal commits surface as
+"there are new commits to review" in every downstream project, diluting the
+update signal.
+
+See the framework's `reference/design-rationale.md` ("Shippability:
+Consumer-Facing vs. Internal Content") and `core/skills/maintain.md`
+("Shippability at Commit Time") for the full principle and procedure.
+
+---
+
 ## What Stays the Same
 
 Everything not mentioned above follows the domain project conventions in

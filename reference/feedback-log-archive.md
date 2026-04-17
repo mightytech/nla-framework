@@ -12,6 +12,46 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-04-17 — Shippability distinction for framework changes: consumer-facing vs. framework-internal
+
+**Source:** [Issue #22](https://github.com/mightytech/nla-framework/issues/22)
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-04-17 — Added "Shippability: Consumer-Facing vs. Internal Content" section to reference/design-rationale.md (principle, universally framed). Added "Shippability at Commit Time" section to core/skills/maintain.md (commit-time procedure, all domain projects). Added "Shippability" section to install/package-intent.md (package-specific pointer). Wrote update-notes entry announcing the convention.
+
+**What to do:**
+Codify the shippability convention. Commits touching consumer-facing content (`core/`,
+consumer-facing `install/*.md`) get a tag and an `install/update-notes.md` entry.
+Commits touching only framework-internal content (framework's own `CLAUDE.md`, its
+own `reference/`, its own `reference/installed-packages.md`) skip both — consumers
+never read those files. Landing points:
+
+1. Add a "Shippability" section to `reference/design-rationale.md` that defines the
+   distinction and explains the reasoning (consumer sees what `/update` reads: `core/`
+   and consumer-facing `install/`; everything else is invisible).
+2. Add a short note in the framework's own `/maintain` guidance (`.claude/skills/maintain/SKILL.md`
+   and/or `core/skills/maintain.md`'s tagging/update-notes coverage) referencing the
+   convention so future maintainers apply it.
+3. Propagate to packages via `install/package-intent.md` so package authors (penny-post,
+   process-helpers, future packages) inherit the same rule.
+
+Start with prose convention (lightest touch); add more structure (severity field, etc.)
+only if prose alone proves insufficient.
+
+**Why it was accepted:**
+The distinction isn't invented — it mirrors what `/update` already does. Without
+codifying it, routine cross-reference maintenance (updating descriptions of where
+packages live, internal session logs, framework's own CLAUDE.md) surfaces as "there's
+an update to review" prompts in every downstream NLA. The signal-to-noise ratio in
+`/update` degrades as the ecosystem grows. The framework's own next natural commit —
+updating its own references from `../nla-penny-post/` to `packages/nla-penny-post/` —
+is the first immediate test case: under this convention, it lands un-tagged with no
+update-note, which is correct.
+
+**Scope adjustment during implementation:** Initial proposal framed the convention as framework/package-specific. During the implementation discussion, the user pointed out the principle applies universally — domain projects have the same split (reference/ internal; app/, skills/, CLAUDE.md consumer-facing via plugin export). Final landing: design-rationale framed universally, maintain.md procedure affecting all domain projects, package-intent.md as a package-specific application of the general rule.
+
+---
+
 ### 2026-03-03 — Export hybrid approach: script for mechanical work, AI for judgment
 
 **Source:** [Issue #9](https://github.com/mightytech/nla-framework/issues/9)

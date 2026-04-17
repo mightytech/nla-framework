@@ -224,6 +224,32 @@ This is a practice, not a protocol. Short sessions might not need a log. Long se
 
 ---
 
+## Shippability at Commit Time
+
+Before committing, ask: *does this commit touch consumer-facing content?*
+
+- **For the framework:** `core/` or consumer-facing `install/*.md`.
+- **For packages:** `app/` content consumers synthesize via `/install`, or
+  consumer-facing `install/*.md`.
+- **For domain projects:** `app/`, `.claude/skills/`, or `CLAUDE.md` (the parts
+  that ship in a plugin export).
+
+If yes → tag the commit (if the project uses tagged releases) and add an entry
+to `install/update-notes.md` (if the project ships update notes).
+
+If it only touches internal content — the project's own `reference/` (design
+rationale, friction log, session logs, install log) or, for framework and
+packages, their own `CLAUDE.md` — skip both. Consumers see the submodule
+pointer advance but have nothing to review.
+
+When a commit touches both buckets, treat it as consumer-facing: tag and write
+the note.
+
+See `reference/design-rationale.md` ("Shippability: Consumer-Facing vs. Internal
+Content") for the full reasoning.
+
+---
+
 ## Common Maintenance Tasks
 
 ### Processing Friction Log Entries
