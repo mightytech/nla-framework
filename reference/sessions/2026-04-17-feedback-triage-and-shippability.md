@@ -1,7 +1,7 @@
 # Maintenance Session: Triage new feedback and implement shippability + tagged-release changes
 
 **Date:** 2026-04-17
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 
@@ -121,8 +121,100 @@ mismatch during their own migration plus a narrower permission-drift residual.
 
 ## Debrief
 
-[To be captured at session close.]
+Three observations from this session (no explicit `/debrief` conversation; AI-selected):
+
+- **Recursive application of the shippability convention on its own
+  implementation worked cleanly.** I codified the rule, then applied it to
+  every subsequent commit of the session. The "touches both buckets → treat
+  as consumer-facing" clause kept coming up in practice — the writing
+  standards commit mixed internal (`reference/standards/` new directory)
+  and consumer-facing (`core/skills/maintain.md` pointer, `install/update-notes.md`
+  entry) changes, and the rule produced the right classification without
+  needing to re-reason. Shipping a convention that applies to its own
+  implementation turns out to be a good stress test.
+
+- **User pushback on framing twice produced broader-and-better outcomes.**
+  My initial framings were too narrow in both cases: shippability as
+  framework/package-specific (→ corrected to universal across project types),
+  standards as a flat file in reference/ (→ corrected to a subfolder
+  anticipating future standards types). Pattern worth noting: when the
+  user's instinct is "this seems too narrow," they're usually right. The
+  friction log had signals I hadn't weighted properly (four 2026-04-16
+  entries anticipating multiple standards types) — the subfolder decision
+  was there in the data; I just didn't connect it until pushback forced
+  the re-read. Worth being more suspicious of my own "start small" reflex.
+
+- **Phased delivery for #21 preserved multi-session coherence.** The
+  in-place feedback-log entry update (Phase 1 complete / Phases 2–3
+  pending, with explicit scope for each) is more informative than either
+  "archive it, open a new entry for Phase 2" or "leave the whole thing
+  pending without status." Future sessions picking up Phase 2 will read
+  the entry and know exactly what's done, what's left, and where to start.
+  The convention in the close skill about "context vs. decisions awaiting
+  implementation" applied at the feedback-log level too.
 
 ## State at Close
 
-[To be captured at session close.]
+### Context for next time
+
+- **Framework at v0.0.4** after this session's push + tag. Four commits
+  since v0.0.3, all consumer-facing. Tag applied to the writing-standards
+  commit (cd27c25) per strict shippability (session-log finalization commit
+  rides above without a tag).
+- **Writing standards available at `reference/standards/nla-writing.md`** —
+  420+ lines, 33 standards, 9 sections, adapted from facebook-moderation.
+  `reference/standards/` subfolder ready for future standards types.
+- **`/maintain` (both core skill and framework's own wrapper) now includes a
+  Writing Standards section** pointing at the file. Lightweight pointer, not
+  full integration — that's Phase 3.
+- **Shippability convention live.** Every commit decision since it landed has
+  applied it. Framework's next natural cross-reference cleanup commits
+  (updating `../nla-penny-post/` → `packages/nla-penny-post/` in
+  framework-internal files) are now cleanly classifiable.
+- **Three friction entries confirmed still-pending:** the four 2026-04-16
+  entries (Python standards, Fallingwater-style prose preamble, /maintain
+  prose-vs-code mode distinction, long-term re-compile-export.py experiment)
+  all pair thematically with #21 Phase 2. Best addressed together or in
+  sequence.
+
+### Decisions awaiting implementation
+
+- **#21 Phase 2: two-pass review of framework docs against writing standards.**
+  Scope planned this session. Pass 1 (behavioral gaps, standards 2.3 / 2.4 /
+  8.3) on ~10-12 high-risk operative docs: `core/nla-foundations.md`,
+  `CLAUDE.md`, `core/skills/{maintain,startup,validate,validate-*,export,update,install,close}.md`,
+  one sample posture-focused skill (probably `think.md`), possibly
+  `.claude/skills/create-app/SKILL.md`. Pass 2 (craft refinements, 4.2 / 4.4 /
+  3.5) broader — all core skills + intent files. User prefers a single-session
+  sweep so learnings carry forward; checklist structure drafted but not
+  materialized.
+- **#21 Phase 3: deeper integration.** `/validate` mode using standards
+  diagnostically; richer `/maintain` writing guidance beyond the pointer.
+  Best done after Phase 2 so the review tells us which standards pull the
+  most weight.
+- **Potential `nla-foundations.md` principle #2 reframe.** The writing
+  standards' "NLA documents are source code, not documentation" framing is
+  stronger than foundations' current "The Documentation Is the Application."
+  Flagged in the #21 feedback entry as a Phase 2 consideration. Small,
+  focused edit; could land in the same session as the Pass 1 review or
+  separately.
+- **2026-04-16 friction entries** (Python standards, Fallingwater-style
+  prose preamble, /maintain prose-vs-code mode, re-compile-export.py
+  experiment) — pair with Phase 2 work thematically. Best addressed after
+  Phase 2 has produced concrete findings.
+- **Propagate packages migration** (penny-post, process-helpers, then domain
+  projects) — still pending from the 2026-04-15 session; unchanged.
+- **Close permission-test issues** (process-helpers#1, claude-code#1, duet#2)
+  — still pending from 2026-04-15; unaffected by this session.
+
+### Where to pick up
+
+**Immediate:** Phase 2 of #21. The user's preference is a single-session
+sweep for context coherence. Fresh context will help — the review is
+judgment-bearing work that benefits from standards-file fluency.
+
+**Medium:** Phase 3 of #21 once Phase 2 findings clarify which integration
+surfaces to prioritize.
+
+**Long:** The four 2026-04-16 friction entries, in whatever sequence makes
+sense after Phase 2 produces findings.
