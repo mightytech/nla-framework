@@ -221,10 +221,38 @@ distinction.
 ### 2026-04-15 — Bring NLA writing standards into the framework
 
 **Source:** [Issue #21](https://github.com/mightytech/nla-framework/issues/21)
-**Verdict:** Accept
-**Status:** pending
+**Verdict:** Accept — phased implementation
+**Status:** in-progress (Phase 1 complete; Phases 2–3 pending)
 
-**What to do:**
+**Phase 1 — complete (2026-04-17):** Standards landed at
+`reference/standards/nla-writing.md` (adapted and generalized from
+facebook-moderation's version — preamble broadened, examples generalized,
+empirical citations softened to qualitative, three facebook-moderation-specific
+meta-sections dropped: Translation Observations, Process Notes, Consistency
+Check). Parent directory `reference/standards/` created to anticipate future
+standards types (Python, prose preamble, spec-writing). Minimal `/maintain`
+pointer added (new "Writing Standards" section in both `core/skills/maintain.md`
+and the framework's own `.claude/skills/maintain/SKILL.md`). Update-notes entry
+written. Standards file is framework-internal content (not consumer-facing per
+shippability convention), but referenced by the consumer-facing maintain skill
+via `packages/nla-framework/reference/standards/nla-writing.md`.
+
+**Phase 2 — pending:** Two-pass review of framework docs against the standards.
+Pass 1 (behavioral gaps) focuses on standards 2.3 (produces what it contains),
+2.4 (emphasis shapes character), 8.3 (operative docs). Pass 2 (craft
+refinements) focuses on 4.2 (naming consistency), 4.4 (cross-references), 3.5
+(positive instruction). Standards that find gaps earn active status; standards
+with no findings can be noted as "validated, no current gaps." Potentially
+revisits the nla-foundations.md principle #2 phrasing ("The Documentation Is
+the Application") against the standards' stronger reframe ("NLA documents are
+source code, not documentation") — flagged during Phase 1 planning.
+
+**Phase 3 — pending:** Deeper integration into `/validate` (as a review mode or
+check that uses standards diagnostically) and `/maintain` (richer writing
+guidance beyond the pointer added in Phase 1). Best done after Phase 2, because
+the review tells us which standards pull the most weight.
+
+**What to do (original):**
 1. **Bring the standards in.** Copy the NLA writing standards from facebook-moderation
    (`reference/specs/implementation-standards/nla-writing.md`) into the framework,
    likely at `reference/nla-writing-standards.md`. The file is 479 lines, 33 standards

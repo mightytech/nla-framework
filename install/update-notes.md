@@ -33,6 +33,31 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-17 — NLA writing standards available; /maintain consults them
+
+**Affects:** core/skills/maintain.md, reference/standards/nla-writing.md (new)
+
+The framework now ships NLA writing standards — 33 conventions for writing
+prose artifacts (skills, operative docs, session logs, design docs, values
+docs, specs). Originally compiled from empirical findings in NLA compilation
+work on the facebook-moderation project, adapted and generalized for the
+framework.
+
+`/maintain` now includes a "Writing Standards" section pointing at
+`packages/nla-framework/reference/standards/nla-writing.md`. Consult the
+standards when editing or creating operative documents, especially as a
+diagnostic for gaps between doc intent and runtime behavior: *the document
+produces what it contains*.
+
+**What this means for your project:** Nothing to do. The maintain skill
+change propagates via thin wrappers; the standards file ships with the
+framework submodule, accessible at
+`packages/nla-framework/reference/standards/nla-writing.md`. Read them when
+editing operative docs, or when an operative doc seems to be producing the
+wrong runtime behavior.
+
+---
+
 ### 2026-04-17 — Documented settings.local.json drift pattern
 
 **Affects:** install/structure-intent.md

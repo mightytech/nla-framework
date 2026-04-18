@@ -208,6 +208,24 @@ summarize state for next time.
 
 ---
 
+## Writing Standards
+
+When editing or creating operative documents — core skill logic, intent files,
+CLAUDE.md, skill wrappers — consult the NLA writing standards at
+`reference/standards/nla-writing.md`.
+
+The standards cover intent vs. operative language, precision, structure, audience,
+and document-type-specific guidance. They're particularly useful as a diagnostic
+when a doc produces behavior that doesn't match its intent — *the document produces
+what it contains* (standard 2.3). What the doc doesn't specify, the LLM won't fill
+from general knowledge.
+
+Not every edit needs a full pass. Use them when writing new operative docs, when
+diagnosing gaps between doc intent and runtime behavior, or when a friction log
+entry suggests a doc is the root cause.
+
+---
+
 ## Common Tasks
 
 ### Processing Friction Log Entries
