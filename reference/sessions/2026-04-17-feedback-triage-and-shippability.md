@@ -121,7 +121,8 @@ mismatch during their own migration plus a narrower permission-drift residual.
 
 ## Debrief
 
-Three observations from this session (no explicit `/debrief` conversation; AI-selected):
+Three observations surfaced at close, refined through an explicit `/debrief`
+conversation after the session log was first committed:
 
 - **Recursive application of the shippability convention on its own
   implementation worked cleanly.** I codified the rule, then applied it to
@@ -153,6 +154,33 @@ Three observations from this session (no explicit `/debrief` conversation; AI-se
   The convention in the close skill about "context vs. decisions awaiting
   implementation" applied at the feedback-log level too.
 
+### Refinements from /debrief conversation
+
+- **Frequent session-log commits validated as positive practice.** Keeping
+  the log current at each commit point — even when we weren't ready to tag
+  or push — produced a cleaner record than end-of-session-only updates
+  would have. User affirmed this as the right pattern; the "let's wait" on
+  tagging was a normal and useful interaction, not friction. Worth
+  preserving: propose tagging at each consumer-facing commit; user can
+  defer if more work is planned before a release.
+- **My "start narrow" reflex is a calibration issue, not just a style
+  choice.** Both broadenings this session (shippability universality,
+  standards subfolder) had data already present in the friction log that
+  I didn't weight properly upfront. The friction log isn't just a todo
+  queue — it's also evidence for design-judgment calls. Reading it as
+  signal (not just backlog) should be a regular part of scope-setting.
+- **Dual-maintain sync burden re-prioritized.** The 2026-03-03 friction
+  entry bumped from deferred → pending during this debrief. User estimated
+  the broadening fix at 5–10 minutes and wants to address it before the
+  sync burden grows further. Likely next-session work; pairs well with
+  #21 Phase 2.
+- **Tagging choice (cd27c25 vs. HEAD) is a minor preference, not a
+  convention amendment.** User would have tagged HEAD (including the
+  session-log finalization commit). Anyone reading the tag for substantive
+  state uses HEAD for that anyway — the "in-progress log at the tagged
+  commit" artifact is a cosmetic blip, not a real problem. No rule change;
+  reassess after a few more sessions if the pattern recurs.
+
 ## State at Close
 
 ### Context for next time
@@ -179,6 +207,11 @@ Three observations from this session (no explicit `/debrief` conversation; AI-se
 
 ### Decisions awaiting implementation
 
+- **Dual-maintain sync burden fix (priority bumped this session).** Friction
+  entry 2026-03-03 moved from deferred to pending. Broaden `core/skills/maintain.md`
+  language so the framework can thin-wrap it, eliminating the parallel-file
+  sync cost. Estimated 5–10 minutes. Can land independently or alongside
+  #21 Phase 2.
 - **#21 Phase 2: two-pass review of framework docs against writing standards.**
   Scope planned this session. Pass 1 (behavioral gaps, standards 2.3 / 2.4 /
   8.3) on ~10-12 high-risk operative docs: `core/nla-foundations.md`,

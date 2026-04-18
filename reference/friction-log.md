@@ -349,7 +349,7 @@ as a pre-flight check item in the maintain skill.
 **Type:** core
 **Severity:** minor
 **Blast radius:** all projects
-**Status:** deferred
+**Status:** pending
 
 **Observation:**
 The framework's own `.claude/skills/maintain/SKILL.md` is a full custom version
@@ -371,9 +371,12 @@ your project's overview document." The AI resolves the right path in any context
 - Rename/move core files to match the `app/` convention the skill assumes
 - Some combination
 
-**Why deferred:**
-Works fine today, sync burden is manageable. Worth remembering for when the maintain
-skill next gets a significant refactor.
+**Re-prioritized 2026-04-17:** Status bumped from deferred to pending after the
+2026-04-17 session added to the dual-maintenance surface (Writing Standards
+section dual-applied to both files). The user flagged that the sync burden is
+getting more annoying and estimated the broadening fix at 5–10 minutes. Next
+session candidate — pairs naturally with #21 Phase 2 work or can be done
+independently.
 
 ---
 
