@@ -53,38 +53,6 @@ accepted, Status.
 
 *Entries are added chronologically, newest first.*
 
-### 2026-04-17 — Document settings.local.json drift pattern in structure-intent
-
-**Source:** [Issue #23](https://github.com/mightytech/nla-framework/issues/23) item 2
-**Verdict:** Adapt — take only the lightweight doc note; defer the heavier options
-**Status:** pending
-
-**What to do:**
-Add a short note in `install/structure-intent.md` (alongside or near the
-`.claude/settings.local.json` guidance) describing the drift pattern: Claude Code
-auto-approves-and-records new Bash patterns when a maintainer runs a tool the project
-hasn't pre-declared (e.g., `python3 -m json.tool`). These entries accumulate silently
-over time even in a fully-migrated packages/ project. This isn't framework behavior
-and isn't a bug — but maintainers should know to recognize it and periodically prune
-if the file grows, rather than mistake it for a framework-introduced problem.
-
-Deferred from this item (not implementing now): a `/close` or `/maintain` drift nudge
-comparing actual settings against a declared baseline, and a `/validate` mode doing
-the same check. Both require more design work (what's the authoritative baseline?
-what's the diff strategy?) and solve a problem that's now narrow after the packages/
-migration closed out the big accumulation vectors (#6, #7, #12). Revisit if drift
-actually accumulates meaningfully across a few projects, or if a third data point
-comes in.
-
-**Why it was accepted:**
-The submitter explicitly flagged no strong recommendation and moderate confidence on
-best mitigation. The positive signal — packages/ migration closed out the primary
-permission-drift concerns — means this residual is genuinely narrow. A doc note meets
-the submitter's primary ask (help maintainers recognize and not misattribute the
-pattern) with minimal surface area. Heavier interventions can wait for more evidence.
-
----
-
 ### 2026-04-15 — Rewrite principle #4: intent over rules, with identity-description pattern
 
 **Source:** [Issue #14](https://github.com/mightytech/nla-framework/issues/14), [Issue #17](https://github.com/mightytech/nla-framework/issues/17) item 1

@@ -28,6 +28,12 @@ mismatch during their own migration plus a narrower permission-drift residual.
   cross-referencing install.md. Added step 1a to `.claude/skills/create-app/SKILL.md`
   for the framework-submodule tag check during project creation. Update-notes
   entry announces the change. Entry moved to archive.
+- **#23 Item 2 (settings drift doc note) — implemented.** Added "Drift over
+  time" paragraph to the `.claude/settings.local.json` description in
+  `install/structure-intent.md` explaining Claude Code's auto-approve-and-record
+  loop so maintainers recognize and don't misattribute the pattern. Heavier
+  options (/close drift nudge, /validate baseline-diff mode) remain deferred.
+  Update-notes entry written. Entry moved to archive.
 
 ## Blast Radius
 
@@ -36,7 +42,8 @@ mismatch during their own migration plus a narrower permission-drift residual.
 - #23 Item 1 changes: `core/skills/install.md` and `core/skills/update.md` (all domain
   projects via thin wrappers); `.claude/skills/create-app/SKILL.md` (framework's own
   skill, affects new-project creation going forward).
-- Additional changes: TBD as each lands.
+- #23 Item 2 changes: `install/structure-intent.md` (read by /install and /update in
+  all domain projects).
 
 ## Decisions Made
 

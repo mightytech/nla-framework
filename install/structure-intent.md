@@ -234,6 +234,14 @@ Gitignored by Claude Code automatically — permissions are machine-specific. No
 entry needs to be in this file; Claude Code prompts for permission when access isn't
 pre-approved. The settings file eliminates prompts for routine operations.
 
+**Drift over time:** Claude Code auto-approves and records new Bash patterns
+when a maintainer runs a tool that wasn't pre-declared (for example,
+`python3 -m json.tool` if it hasn't been added to the approval set). These
+entries accumulate silently over time — not framework behavior, not a bug,
+just how Claude Code's approve-and-record loop works. Maintainers should
+recognize the pattern and periodically prune the file if it grows large,
+rather than treat the extra entries as framework-introduced problems.
+
 ---
 
 *This describes intent, not literal text. The installing AI should create missing

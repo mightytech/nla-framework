@@ -33,6 +33,23 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-17 — Documented settings.local.json drift pattern
+
+**Affects:** install/structure-intent.md
+
+Added a note to the `.claude/settings.local.json` description explaining that
+Claude Code auto-approves and records new Bash patterns over time when
+maintainers run tools that weren't pre-declared. These entries accumulate
+silently — not framework behavior, not a bug, just how Claude Code's
+approve-and-record loop works.
+
+**What this means for your project:** Nothing to do. When you notice
+unexpected entries in your settings file, you now know it's Claude Code's
+loop rather than something the framework introduced. Periodic pruning is
+fine if the file grows large.
+
+---
+
 ### 2026-04-17 — Initial submodule install checks for tagged releases
 
 **Affects:** core/skills/install.md, core/skills/update.md, .claude/skills/create-app/SKILL.md
