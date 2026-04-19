@@ -33,6 +33,39 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-04-18 — /maintain broadened to work in both domain and framework contexts
+
+**Affects:** core/skills/maintain.md
+
+The core `/maintain` skill was written assuming a domain-project context —
+hardcoded `app/overview.md` in required reading, `app/`-focused editable
+targets, a "Check for Downstream Effects" principle tied to `app/shared/*`.
+The framework and packages maintained a parallel full-custom wrapper to
+compensate, which drifted from core over time.
+
+Now core is project-type-agnostic:
+- Required reading uses conditional phrasing for paths that vary by context
+  (foundations, overview).
+- "What You Can Edit" lists editable-target types generally; the skill
+  wrapper that delegates here supplies the specific list for each project
+  type.
+- Principle #3 is renamed **Name the Blast Radius** — a universal principle
+  that stating scope makes proposals reviewable. The `app/shared/*` quick
+  reference and values awareness are preserved as domain-project specifics
+  within the section.
+
+**What this means for your project:** The `/maintain` behavior is unchanged
+for domain projects — you still read the same files, apply the same
+principles, and get the same downstream-effects guidance. The naming shift
+on principle #3 ("Check for Downstream Effects" → "Name the Blast Radius")
+is cosmetic for domain projects; if any of your own docs reference the old
+name, update them at your convenience. Values awareness and the shared-context
+downstream table are now explicitly conditional — if your project doesn't
+have a values doc or shared context, the corresponding checks are skipped
+rather than pointing at missing files.
+
+---
+
 ### 2026-04-17 — NLA writing standards available; /maintain consults them
 
 **Affects:** core/skills/maintain.md, reference/standards/nla-writing.md (new)

@@ -1,8 +1,10 @@
 # System Maintenance Mode
 
-You are now the **system maintainer** for this NLA. You are not transforming content — you are editing the application itself. The documentation IS the source code, and you are modifying it.
+You are now the **system maintainer** for this NLA. You are not executing the NLA's primary task — you are editing the application itself. The documentation IS the source code, and you are modifying it.
 
-The content transformation guardrails in CLAUDE.md ("don't write code," "don't skip docs") do not apply in this mode. You may edit any part of the system as needed.
+If the NLA's `CLAUDE.md` has mode-switching guardrails for its primary task (e.g., "don't write code," "don't skip docs"), they don't apply in this mode. You may edit any part of the system as needed.
+
+This skill works in both domain-project context and framework/package context. Where project-specific addenda apply (e.g., specific editable targets, a blast radius taxonomy), the skill wrapper that delegates here supplies them.
 
 ---
 
@@ -11,14 +13,12 @@ The content transformation guardrails in CLAUDE.md ("don't write code," "don't s
 Before making any changes, read these in order:
 
 1. **`reference/design-rationale.md`** — Understand what exists, why it exists, what was tried and rejected. This prevents re-introducing approaches that already failed.
-2. **`packages/nla-framework/core/nla-foundations.md`** — NLA concepts and principles.
-3. **`app/overview.md`** — How the pieces connect: shared context, tasks, hybrid model.
+2. **NLA foundations** — concepts and principles. At `packages/nla-framework/core/nla-foundations.md` in a domain project; at `core/nla-foundations.md` when maintaining the framework itself.
+3. **Your project's overview** (`app/overview.md`, if present) — How the pieces connect: shared context, tasks, hybrid model. Skip if your project doesn't have one (e.g., the framework itself).
 4. **`reference/friction-log.md`** — Recent learnings, unresolved issues, patterns to watch.
 5. **`reference/feedback-log.md`** — Accepted items from external feedback, waiting for implementation.
 
 Then read the specific files relevant to your task.
-
-*Note: These instructions assume a domain project context. When maintaining the framework itself, the framework's maintain wrapper provides adjusted reading targets and editing scope.*
 
 ---
 
@@ -46,14 +46,20 @@ After the user picks what to work on, **discuss your approach** — present your
 
 ## What You Can Edit
 
+Editable targets vary by project type. The typical surface:
+
 | Target | Examples |
 |--------|----------|
-| `app/` hierarchy | Task docs, shared docs |
-| `reference/` | Design rationale, friction log, system status |
+| Operative docs | Task and methodology content — `app/` in domain projects, `core/` in the framework, `app/` in packages |
+| Skill files | `.claude/skills/*` including this one; in the framework, also `core/skills/*` |
+| `reference/` | Design rationale, friction log, session logs, install log |
 | `CLAUDE.md` | Runtime configuration |
-| `.claude/skills/` | Skill files, including this one |
-| `lib/` | Traditional code helpers |
-| `README.md` | User-facing documentation |
+| Intent files | `install/*` in the framework and packages |
+| Helpers | `lib/*` (if present) |
+| Public docs | `README.md`, `CONTRIBUTING.md` (if present) |
+
+If the skill wrapper that delegates here specifies a narrower or expanded
+list, follow the wrapper.
 
 ## What You Should Not Touch (Without Explicit Instruction)
 
@@ -61,6 +67,7 @@ After the user picks what to work on, **discuss your approach** — present your
 |--------|--------|
 | `.env` | Credentials — operational, not architectural |
 | `.claude/settings.local.json` | Permission config — operational |
+| Submodules under `packages/` | Part of another project — edit in that project's own maintenance context |
 
 ---
 
@@ -127,21 +134,26 @@ full document after editing to check coherence. A locally sound addition can cre
 redundancy or weaken flow at the whole-document level — prose has coherence properties
 that diffs don't show.
 
-### 3. Check for Downstream Effects
+### 3. Name the Blast Radius
 
-Changes to shared docs affect all tasks:
+When proposing changes, name what the change affects and who sees it. Stating the scope makes a proposal reviewable — "this change affects X" is easier to approve or challenge than a change with no stated reach.
+
+What ripples where depends on project type:
+
+- In a **domain project**, shared context (values, voice, patterns, output spec) ripples to every task that uses it; `CLAUDE.md` affects all modes and skills. When you touch shared context or `CLAUDE.md`, name the downstream components.
+- In a **framework** or **package**, consumer-facing content (operative docs consumers read, intent files `/install` and `/update` consume) reaches every downstream NLA. Internal content (your own `reference/`, your own `CLAUDE.md`) reaches only maintainers. The wrapper that delegates here typically specifies the full taxonomy.
+
+A quick reference for domain projects:
 
 | If you edit... | It affects... |
 |----------------|---------------|
 | `app/shared/common-patterns.md` | All tasks that use shared patterns |
-| `app/shared/values.md` | All decisions across the system — execution and maintenance |
-| `app/shared/voice.md` | Content tone and personality across all tasks |
-| `app/shared/output-spec.md` (if it exists) | All output generation |
+| `app/shared/values.md` | All decisions — execution and maintenance |
+| `app/shared/voice.md` | Content tone and personality across tasks |
+| `app/shared/output-spec.md` (if present) | All output generation |
 | `CLAUDE.md` | All modes and skills |
 
-Name the affected downstream components when proposing changes.
-
-**Values awareness:** When proposing any change, check whether it aligns with the NLA's stated values (`app/shared/values.md`, loaded at startup). If a proposal creates tension with a stated value, surface it explicitly: "This would prioritize X over Y — your values doc says Y comes first. Are you sure?" This is soft contradiction flagging, not a veto. The human decides.
+**Values awareness.** If your project has a values doc loaded at startup (typically `app/shared/values.md`), check whether any proposal creates tension with stated values. If it does, surface it explicitly: "This would prioritize X over Y — your values doc says Y comes first. Are you sure?" Soft contradiction flagging, not a veto. The human decides.
 
 ### 4. One Change at a Time
 
@@ -227,8 +239,9 @@ This is a practice, not a protocol. Short sessions might not need a log. Long se
 ## Writing Standards
 
 When editing or creating operative documents — skills, task docs, shared
-context, CLAUDE.md — consult the NLA writing standards at
-`packages/nla-framework/reference/standards/nla-writing.md`.
+context, CLAUDE.md — consult the NLA writing standards. In a domain project
+they're at `packages/nla-framework/reference/standards/nla-writing.md`; in
+the framework itself, at `reference/standards/nla-writing.md`.
 
 The standards cover intent vs. operative language, precision, structure,
 audience, and document-type-specific guidance (skills, session logs,

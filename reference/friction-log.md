@@ -344,42 +344,6 @@ as a pre-flight check item in the maintain skill.
 
 ---
 
-### 2026-03-03 — Framework maintain skill can't use thin wrapper pattern
-
-**Type:** core
-**Severity:** minor
-**Blast radius:** all projects
-**Status:** pending
-
-**Observation:**
-The framework's own `.claude/skills/maintain/SKILL.md` is a full custom version
-rather than a thin wrapper to `core/skills/maintain.md`. The core file assumes domain
-project context — hardcoded paths like `app/overview.md`, `app/shared/values.md`,
-`reference/system-status.md`. The framework doesn't have these, so it maintains a
-parallel version with adjusted targets.
-
-This creates a sync burden: structural changes to the session log format, common tasks,
-or session lifecycle steps need to be applied to both files. The framework is an NLA
-itself — it should be able to use its own patterns.
-
-**Root cause:** The core maintain skill is written in "code style" (prescriptive paths)
-rather than "NLA style" (described intent). "Read `app/overview.md`" could be "read
-your project's overview document." The AI resolves the right path in any context.
-
-**Possible approaches:**
-- Broaden language in `core/skills/maintain.md` until the framework can thin-wrap it
-- Rename/move core files to match the `app/` convention the skill assumes
-- Some combination
-
-**Re-prioritized 2026-04-17:** Status bumped from deferred to pending after the
-2026-04-17 session added to the dual-maintenance surface (Writing Standards
-section dual-applied to both files). The user flagged that the sync burden is
-getting more annoying and estimated the broadening fix at 5–10 minutes. Next
-session candidate — pairs naturally with #21 Phase 2 work or can be done
-independently.
-
----
-
 ### 2026-02-23 — /create-app bare project path: missing guidance and speculative seeds
 
 **Type:** intent
