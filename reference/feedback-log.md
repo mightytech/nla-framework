@@ -222,7 +222,7 @@ distinction.
 
 **Source:** [Issue #21](https://github.com/mightytech/nla-framework/issues/21)
 **Verdict:** Accept — phased implementation
-**Status:** in-progress (Phase 1 + Phase 2 Pass 1 complete; Phase 2 Pass 2 and Phase 3 pending)
+**Status:** in-progress (Phase 1 + Phase 2 complete; Phase 3 pending)
 
 **Phase 1 — complete (2026-04-17):** Standards landed at
 `reference/standards/nla-writing.md` (adapted and generalized from
@@ -254,16 +254,35 @@ standards assessment: 2.3 did most of the real work; 2.4 had one finding
 self-contained with good rationale distillation. Session log:
 `reference/sessions/2026-04-18-writing-standards-phase-2.md`.
 
-**Phase 2 Pass 2 — pending:** Craft refinements across core skills +
-intent files against standards 4.2 (naming consistency), 4.4
-(cross-references with context), 3.5 (positive instruction). Broader scope
-than Pass 1 (more docs, more per-doc findings likely). Best done in a
-session where context budget allows the breadth.
+**Phase 2 Pass 2 — complete (2026-04-18):** Craft-refinements review
+against standards 4.2 (naming consistency), 4.4 (cross-references with
+context), 3.5 (positive instruction). Broader scope than Pass 1 — added
+five previously-unread core skills (debrief, check-updates, friction-log,
+session-checkpoint, guide) and all intent files (CLAUDE-intent,
+skills-intent, structure-intent, package-intent, install.md) to Pass 1's
+scope. Framework is consistently well-written against these standards;
+only one finding warranted change — `install/CLAUDE-intent.md` grounding
+principle was renamed "Documentation is the application" → "NLA documents
+are source code" to match the updated foundations principle #2 (Pass 1)
+and the file's own Execution Principles bullet. One subjective finding
+(prohibition-led domain-skill template in `skills-intent.md`) was skipped
+as stylistic-only. Pass 2 assessment: 4.4 found no gaps — the framework
+has a well-developed habit of contextualizing cross-references with
+section names; 3.5 validated broadly — prohibitions in core skills are
+used appropriately for scope boundaries and defensive intent-file
+protections; 4.2 had one real finding with localized scope.
 
-**Phase 3 — pending:** Deeper integration into `/validate` (as a review mode or
-check that uses standards diagnostically) and `/maintain` (richer writing
-guidance beyond the pointer added in Phase 1). Best done after Phase 2 Pass 2,
-because the review tells us which standards pull the most weight.
+**Phase 3 — pending:** Deeper integration into `/validate` (as a review mode
+or check that uses standards diagnostically) and `/maintain` (richer writing
+guidance beyond the pointer added in Phase 1). Phase 2's findings suggest
+2.3 and 4.4 are the standards most useful as diagnostic hooks — 2.3 because
+it surfaced the most real behavioral gaps, and 4.4 because it's a
+discrete, gremmable pattern the AI can check consistently. 2.4, 4.2, and
+3.5 are more holistic and harder to automate as a diagnostic. Standards
+8.3 (operative docs) is validated across both passes — the framework's
+operative docs are uniformly self-contained. 5.1 (document lifecycle type)
+wasn't reviewed against, but is relevant to document-type-specific guidance
+in `/validate`.
 
 **What to do (original):**
 1. **Bring the standards in.** Copy the NLA writing standards from facebook-moderation

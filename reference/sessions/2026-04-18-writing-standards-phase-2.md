@@ -71,6 +71,27 @@ Two pieces of work, sequenced so the first unblocks the second:
      the case where no session log exists (surface to friction log, note to
      user, or prompt to start a session log).
 
+- **Pass 2 writing-standards review implemented (1 fix).** Pass 2 reviewed
+  against craft standards 4.2 (naming consistency), 4.4 (cross-references
+  with context), 3.5 (positive instruction) across all Pass 1 scope plus
+  five previously-unread core skills and all intent files. The framework is
+  consistently well-written against these standards — only one finding
+  warranted change:
+  1. **`install/CLAUDE-intent.md` grounding principle** — updated the
+     "Grounding Principles" bullet from "Documentation is the application"
+     to "NLA documents are source code," matching the updated foundations
+     principle #2 and the file's own Execution Principles bullet.
+     Consolidated both bullets to use the canonical phrase. Existing
+     update-notes entry extended to mention the intent-file change
+     (previously named only `nla-foundations.md`) and the corresponding
+     `/update` implication for domain projects (the proposal to reword
+     their own CLAUDE.md grounding principles).
+
+  The 3.5 finding (skills-intent.md domain-skill template leads with
+  prohibitions) was considered and skipped as stylistic-only — the current
+  form is legible and changing it propagates churn to new domain skills
+  without behavioral change.
+
 ## Blast Radius
 
 - `core/skills/maintain.md` — all domain projects (consumer-facing).
@@ -82,6 +103,10 @@ Two pieces of work, sequenced so the first unblocks the second:
 - `CLAUDE.md` — framework maintenance only (framework-internal).
 - `core/skills/{startup,validate,validate-architecture,export,think}.md` —
   all domain projects (consumer-facing). Minor refinements per Pass 1.
+- `install/CLAUDE-intent.md` — all domain projects via `/create-app` and
+  `/update` propagation (consumer-facing). Grounding principle rename to
+  match the reframe; `/update` will propose the wording change to
+  downstream CLAUDE.md files.
 - `install/update-notes.md` — announces the changes to domain-project
   maintainers (consumer-facing).
 - `reference/friction-log.md` / `reference/friction-log-archive.md` —
@@ -227,7 +252,78 @@ behavioral-risk item.
 
 ## Pass 2 Findings (scratch)
 
-*(Populated in Pass 2 if we proceed there.)*
+Docs reviewed: all of Pass 1's scope plus the five previously-unread core
+skills (`debrief`, `check-updates`, `friction-log`, `session-checkpoint`,
+`guide`) and all intent files (`CLAUDE-intent.md`, `skills-intent.md`,
+`structure-intent.md`, `package-intent.md`, `install.md`, plus
+`example-catalog.md`, `README.md`). Plus targeted greps for bare
+cross-references and prohibition-led phrasing.
+
+**Overall craft quality is high.** The framework is consistently written
+against 4.2, 4.4, and 3.5. Findings are modest:
+
+### Medium priority
+
+1. **`install/CLAUDE-intent.md` "Grounding Principles" bullet inconsistent
+   with updated foundations.** Line 18 says "Documentation is the
+   application" — but the same file's "Execution Principles" (line 71) says
+   "Documentation is source code," and `nla-foundations.md` principle #2
+   (updated in Pass 1) is now "NLA Documents Are Source Code." The intent
+   file drives `/create-app` and `/install` generation of downstream NLAs'
+   CLAUDE.md files; an inconsistency here propagates. Standard: 4.2 (name
+   things once, use that name consistently). **Proposed fix:** Update the
+   Grounding Principles bullet to match the reframe — "NLA documents are
+   source code. The prose in `app/` is operative — not documentation about
+   an application. When behavior needs to change, the fix is better writing,
+   not better code."
+
+### Low priority / subjective
+
+2. **`install/skills-intent.md` domain-skill-pattern "What NOT to Do"
+   template leads with prohibitions.** The template (lines 298–303) shows
+   bullets in the form "Don't X — do Y instead." Standard 3.5 prefers
+   leading with the desired behavior: "Read the documentation every time —
+   it may have been updated" rather than "Don't skip the documentation —
+   read it every time." The current form is legible and widely used;
+   flipping it propagates to every new domain skill's pattern via
+   `/create-app`. **Proposed fix:** Rewrite to lead positive, with the
+   failure mode implied by the "why." Subjective — the current form is
+   acceptable and the flip is stylistic.
+
+### Validated across the breadth (the real work this pass)
+
+- **4.2 (naming consistency):** Across the codebase, canonical names hold:
+  "framework" / "NLA Framework" / "packages/nla-framework/" are used
+  consistently by context; "thin wrapper" / "thin wrapper pattern"; "NLA"
+  vs. "domain project" are distinguished correctly (NLA is broader; domain
+  project is specifically non-framework/non-package). Skill names match
+  between CLAUDE.md skills tables, skill files, and intent files. One
+  exception (finding #1). Validated, localized gap.
+- **4.4 (cross-references with context):** Every significant
+  cross-reference in core skills includes a topic or section name in
+  context. Exemplars: `update.md`'s references to "Context Determines
+  Competence" (line 70, 251) and `maintain.md`'s reference to
+  "Shippability: Consumer-Facing vs. Internal Content" (line 281). Intent
+  files consistently include "Purpose" / "Relationship" prose with file
+  pointers. Validated, no current gaps.
+- **3.5 (positive instruction):** Prohibitions in core skills fall into
+  three categories, all acceptable: (a) scope boundaries in "You don't"
+  sections (defining what the skill doesn't do — these are reference
+  constraints, not operative instructions); (b) prohibition + positive
+  alternative (e.g., update.md "Don't undo user work. If the user has
+  changed something…flag it"); (c) defensive "What NOT to Change" sections
+  in intent files (protecting existing content from well-intentioned
+  overwrites — prohibition is the point here). One subjective finding
+  (finding #2). Validated broadly.
+
+### Standards assessment (Pass 2)
+
+- **4.2 (naming):** One real finding. Validated otherwise. Active scope-narrow.
+- **4.4 (cross-references):** No findings. Validated. Framework has a
+  well-developed habit of providing section-name context with file pointers.
+- **3.5 (positive instruction):** One subjective finding. Validated
+  otherwise. The framework's prohibition use is measured and appropriate to
+  the contexts it appears in.
 
 ## Debrief
 

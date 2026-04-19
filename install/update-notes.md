@@ -35,7 +35,7 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 ### 2026-04-18 — Foundations principle #2 reframed as "NLA Documents Are Source Code"
 
-**Affects:** core/nla-foundations.md
+**Affects:** core/nla-foundations.md, install/CLAUDE-intent.md
 
 Principle #2 in `nla-foundations.md` was renamed from "The Documentation Is
 the Application" to "NLA Documents Are Source Code," with an opening paragraph
@@ -44,22 +44,30 @@ missing section is a missing feature, an inconsistent term is a naming
 collision. The existing fix-is-in-docs and diagnose-from-artifacts material
 is preserved as supporting points.
 
+`install/CLAUDE-intent.md` was updated to match. The Grounding Principles
+bullet "Documentation is the application" and the Execution Principles bullet
+"Documentation is source code" were both consolidated to "NLA documents are
+source code" so that `/create-app` and `/install` generate downstream NLA
+CLAUDE.md files with consistent wording.
+
 The reframe was adopted from the NLA writing standards (Phase 2 of the #21
 work), which use the same framing as their load-bearing preamble. The earlier
 "Documentation Is the Application" wording is accurate but softer; the
 source-code framing invites stronger compliance by naming the specific
 failure modes that matter.
 
-**What this means for your project:** Nothing to do. The reframe is loaded
-into your project automatically via `packages/nla-framework/core/nla-foundations.md`
-the next time you run `/update` to advance the submodule. The operative
-behavior is unchanged — the LLM still treats docs as authoritative, the fix
-is still usually in the docs, and diagnosis still starts from artifacts.
-What changes is the mental model the AI and maintainers hold: these are
-source code, so treat them with the gravity that implies.
+**What this means for your project:** `/update` may propose a small wording
+update to your CLAUDE.md's grounding principles to match the new phrasing.
+The operative behavior is unchanged — the LLM still treats docs as
+authoritative, the fix is still usually in the docs, and diagnosis still
+starts from artifacts. What changes is the mental model the AI and maintainers
+hold: these are source code, so treat them with the gravity that implies.
 
-If your own CLAUDE.md or other project docs reference principle #2 by its old
-title, consider updating them — but this is stylistic, not operative.
+The foundations change is loaded automatically via
+`packages/nla-framework/core/nla-foundations.md` the next time you advance the
+framework submodule. The intent-file change only propagates if you apply the
+`/update` proposal — you can accept or skip it based on your project's voice
+and how closely your CLAUDE.md mirrors the framework's language.
 
 ---
 

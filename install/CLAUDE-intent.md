@@ -15,9 +15,9 @@ documentation, not write code.
 
 The NLA should internalize these principles (adapted to its own voice):
 
-- **Documentation is the application.** The prose in `app/` is operative — not
-  documentation about an application. When behavior needs to change, the fix is
-  better writing, not better code.
+- **NLA documents are source code.** The prose in `app/` is operative — not
+  documentation about an application. When behavior needs to change, the fix
+  is better writing, not better code.
 - **The LLM bridges human flexibility and computational rigidity.** Humans work
   naturally; traditional code requires structure. The LLM translates between them.
 - **Structured underneath, flexible on top.** The LLM imposes structure (formats,
@@ -68,7 +68,7 @@ sync with what's actually in `.claude/skills/`.
 
 The NLA should establish:
 
-- **Documentation is source code** — check the relevant doc before making decisions.
+- **NLA documents are source code** — check the relevant doc before making decisions.
 - **The cardinal rule** — the human decides. The NLA proposes, explains, and
   challenges — but the human has final say.
 - **Flag uncertainty** — when unsure, say so. Don't invent rules.
