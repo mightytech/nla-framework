@@ -222,7 +222,7 @@ distinction.
 
 **Source:** [Issue #21](https://github.com/mightytech/nla-framework/issues/21)
 **Verdict:** Accept — phased implementation
-**Status:** in-progress (Phase 1 complete; Phases 2–3 pending)
+**Status:** in-progress (Phase 1 + Phase 2 Pass 1 complete; Phase 2 Pass 2 and Phase 3 pending)
 
 **Phase 1 — complete (2026-04-17):** Standards landed at
 `reference/standards/nla-writing.md` (adapted and generalized from
@@ -237,20 +237,33 @@ written. Standards file is framework-internal content (not consumer-facing per
 shippability convention), but referenced by the consumer-facing maintain skill
 via `packages/nla-framework/reference/standards/nla-writing.md`.
 
-**Phase 2 — pending:** Two-pass review of framework docs against the standards.
-Pass 1 (behavioral gaps) focuses on standards 2.3 (produces what it contains),
-2.4 (emphasis shapes character), 8.3 (operative docs). Pass 2 (craft
-refinements) focuses on 4.2 (naming consistency), 4.4 (cross-references), 3.5
-(positive instruction). Standards that find gaps earn active status; standards
-with no findings can be noted as "validated, no current gaps." Potentially
-revisits the nla-foundations.md principle #2 phrasing ("The Documentation Is
-the Application") against the standards' stronger reframe ("NLA documents are
-source code, not documentation") — flagged during Phase 1 planning.
+**Phase 2 Pass 1 — complete (2026-04-18):** Behavioral-gaps review of 14
+operative docs against standards 2.3 (produces what it contains), 2.4
+(emphasis shapes character), 8.3 (operative docs). Overall quality was high;
+seven findings implemented: (1) principle #2 in `nla-foundations.md`
+renamed "The Documentation Is the Application" → "NLA Documents Are Source
+Code" (adopting the standards' stronger reframe); (2) framework `CLAUDE.md`
+Maintenance Mode section enriched with explicit suggestion trigger; (3)
+redundant domain-project assumption note removed from `core/skills/validate.md`;
+(4) `startup.md` "After Loading" clarified as a user-facing summary; (5)
+`validate-architecture.md` append-cadence spelled out; (6) `export.md`
+foundation-skill synthesis gained a calibration check; (7) `think.md`
+"Capturing Insights" broadened for sessions without a session log. Pass 1
+standards assessment: 2.3 did most of the real work; 2.4 had one finding
+(the principle #2 reframe); 8.3 found no gaps — docs are uniformly
+self-contained with good rationale distillation. Session log:
+`reference/sessions/2026-04-18-writing-standards-phase-2.md`.
+
+**Phase 2 Pass 2 — pending:** Craft refinements across core skills +
+intent files against standards 4.2 (naming consistency), 4.4
+(cross-references with context), 3.5 (positive instruction). Broader scope
+than Pass 1 (more docs, more per-doc findings likely). Best done in a
+session where context budget allows the breadth.
 
 **Phase 3 — pending:** Deeper integration into `/validate` (as a review mode or
 check that uses standards diagnostically) and `/maintain` (richer writing
-guidance beyond the pointer added in Phase 1). Best done after Phase 2, because
-the review tells us which standards pull the most weight.
+guidance beyond the pointer added in Phase 1). Best done after Phase 2 Pass 2,
+because the review tells us which standards pull the most weight.
 
 **What to do (original):**
 1. **Bring the standards in.** Copy the NLA writing standards from facebook-moderation

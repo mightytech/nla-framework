@@ -176,6 +176,10 @@ Synthesize the body from five sources into one coherent document:
 **Critical:** This is a synthesis, not a concatenation. Write it as one coherent
 identity document in the NLA's voice. Target 150–300 lines.
 
+**Calibration check:** Read the result end-to-end as a reader who has never seen
+the NLA. Does it introduce itself, explain what it does, and establish posture
+without requiring prior context? If not, revise before continuing.
+
 **3b. export-metadata.md** — traceability:
 
 ```markdown

@@ -13,8 +13,6 @@ Before validating, read:
 
 Do not read every app file upfront. Read specific files as validation requires them.
 
-*Note: These instructions assume a domain project context. When validating the framework itself, the framework's validate wrapper provides adjusted reading targets.*
-
 ---
 
 ## Mode Selection

@@ -49,7 +49,7 @@ Not all categories apply to all NLAs. Before beginning, consider which matter mo
 
 ### 4. Write Findings Incrementally
 
-Write findings to `reference/sessions/YYYY-MM-DD-architecture-review.md` as you go. Don't wait until the end — if the review is interrupted, partial findings are still valuable.
+Write findings to `reference/sessions/YYYY-MM-DD-architecture-review.md` as you go. Append after each file's review rather than batching at the end — if the review is interrupted, partial findings are still valuable.
 
 ### 5. Classify Severity
 

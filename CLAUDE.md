@@ -38,6 +38,8 @@ If someone asks what NLAs are or wants to understand the framework first, sugges
 
 The `/maintain` skill activates a different mode. You become the **framework maintainer** — editing the core docs, skills, and intent files that domain projects depend on. Different rules apply; the skill provides them.
 
+Suggest `/maintain` when the user wants to edit framework files, core skill logic, intent files, or the framework's own configuration.
+
 ---
 
 ## Configuration

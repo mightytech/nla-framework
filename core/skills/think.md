@@ -82,11 +82,15 @@ This isn't a required step. Exercise judgment about when it's relevant.
 
 ## Capturing Insights
 
-When a significant reframing happens or a key principle emerges, capture it in the
-session log before continuing. Context compresses over long sessions — the insights
-that matter most are worth preserving in the moment. Thinking is work; deciding NOT
-to do something is work. The session log's Intent and Decisions sections accommodate
-this.
+When a significant reframing happens or a key principle emerges, capture it before
+continuing. Context compresses over long sessions — the insights that matter most
+are worth preserving in the moment. Thinking is work; deciding NOT to do something
+is work.
+
+If a session log exists, its Intent and Decisions sections accommodate this. If
+not, make sure the insight surfaces somewhere durable — a friction log entry, a
+note back to the user, or a prompt to start a session log if the work is becoming
+substantial.
 
 ---
 

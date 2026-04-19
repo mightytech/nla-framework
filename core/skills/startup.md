@@ -30,9 +30,9 @@ default — it requires network access and adds latency.
 
 ## After Loading
 
-Confirm you've read the foundational documents. If config was loaded, note it
-("Loaded user configuration"). If no config.md exists, that's fine — just note
-"No user configuration found."
+Present a brief startup summary to the user confirming what was loaded. If
+config was loaded, note it ("Loaded user configuration"). If no config.md
+exists, that's fine — just note "No user configuration found."
 
 Check `reference/friction-log.md` for pending entries (status: pending). If any
 exist, include the count in your startup summary alongside other status

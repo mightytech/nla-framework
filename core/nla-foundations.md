@@ -123,7 +123,12 @@ correctness. The improvement loop develops the person alongside the documentatio
 system that routes around the human for efficiency may produce faster output, but it
 produces a less capable human. That's not a tradeoff this framework makes.
 
-### 2. The Documentation Is the Application
+### 2. NLA Documents Are Source Code
+
+NLA documents are source code, not documentation. An ambiguous instruction is a bug.
+A missing section is a missing feature. An inconsistent term is a naming collision.
+When you edit these documents, you're editing the application itself — not
+describing it.
 
 When the output is wrong, the fix is usually in the docs, not in code. Ask: "What would
 I need to write down for someone to do this correctly?" Write that down. The LLM will
