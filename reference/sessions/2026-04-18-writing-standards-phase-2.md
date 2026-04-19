@@ -1,7 +1,7 @@
 # Maintenance Session: Writing Standards Phase 2 (+ dual-maintain fix)
 
 **Date:** 2026-04-18
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 
@@ -327,8 +327,169 @@ against 4.2, 4.4, and 3.5. Findings are modest:
 
 ## Debrief
 
-*(Added at session close.)*
+Observations surfaced through an explicit `/debrief` conversation, refined
+with user input.
+
+### Process
+
+- **Pre-flight review caught a real miscalibration.** The friction entry
+  estimated the dual-maintain fix at 5–10 minutes (framed as "broaden
+  paths"). When I actually read both files, the shape was a refactor to
+  the `/validate` wrapper pattern, not path-broadening. Surfacing that
+  before starting saved rework. Worth preserving: when estimates rest on
+  a framing, re-check the framing before starting, not mid-stream.
+
+- **Batched findings worked well for Pass 1, even better than planned.**
+  Walking all 14 docs and presenting a batched findings list let cross-doc
+  patterns emerge (e.g., "standard 2.3 did most of the real work"). Fix-
+  as-you-go would have missed that. Pattern now twice-validated (last
+  session's feedback triage used the same approach).
+
+- **"Start narrow" reflex showed up differently this session — and it's
+  the same bug the framework already names.** User's insight:
+  `start-narrow = rules-reading-instead-of-intent-engagement`. When I
+  read the shippability convention as a rule ("touches consumer-facing
+  content → tag"), I pattern-matched to "does this commit match?" and
+  missed "what cadence does this rule implicitly assume?" Engaging with
+  intent would have surfaced the cadence question. The fix isn't a new
+  principle (foundations #4 and writing standard 1.4 already cover it);
+  it's a concrete self-check habit when reading rules: *"what's
+  implicit here — cadence? threshold? audience?"* Analogous to writing
+  standard 8.3's "what doesn't the doc specify?"
+
+- **The load-bearing Pass 1 finding (principle #2 reframe) was already in
+  last session's State at Close.** Explicitly flagged as a Phase 2
+  consideration. Reading it at session start, carrying it through, and
+  implementing it as the session's biggest finding is evidence the
+  close → startup → close loop works as designed when specific
+  decisions-awaiting-implementation items are named precisely.
+
+### Human experience
+
+- **User caught two calibrations I missed, consistent with a pattern.**
+  Tagging cadence + (indirectly) scope. Last session's debrief predicted
+  the recurrence; the friction log is accumulating real evidence for the
+  calibration issue. Proactive practice forward: before committing to a
+  narrow interpretation, explicitly check the broader one.
+
+- **Session pacing felt right.** Explicit check-ins at Pass 1 → Pass 2
+  boundary and at wrap-up created decision points where the user could
+  have pulled back. Redundant in outcome (they said "continue"); valuable
+  in form. Worth preserving — explicit decision points prevent runaway
+  momentum.
+
+### Drift worth noting
+
+- **Pass 2 finding #6 (export calibration) drifted from plan to
+  implementation.** Findings said "defer until an artifact exists"; I
+  then implemented a lightweight inline calibration check. Right call,
+  but the change from presented plan to landed implementation wasn't
+  surfaced for review. Next time: if the plan changes during
+  implementation, name it.
+
+- **Didn't `/session-checkpoint` between Pass 1 and Pass 2.** Standards
+  fluency went stale in working memory; Pass 2 reasoned from memory +
+  recent greps rather than a fresh standards read. Outcome was fine; the
+  practice could be tighter. The checkpoint-timing insight applies here:
+  before reasoning from files read long ago, not after producing output
+  from recent conversation.
+
+### Self-assessment on effort
+
+Honest read: load-bearing changes worth it, polish marginal, aggregate
+modestly worth the time.
+
+- **Real value:** dual-maintain fix (compounding ergonomic win),
+  principle #2 reframe (gradient effect), export calibration check and
+  think broadening (close real gaps), CLAUDE-intent harmonization
+  (keeps downstream generation consistent).
+- **Marginal value:** CLAUDE.md maintenance-mode sentence, validate.md
+  note cleanup, startup.md "After Loading", validate-architecture.md
+  cadence. Each a small sharpening; collectively maybe 5% behavioral
+  improvement, optimistically.
+- **Unexpected value:** (1) validation that the framework IS
+  well-written against its own standards — Phase 3 can proceed with
+  confidence that standards integration into `/validate` won't reveal
+  widespread gaps. (2) The tagging friction entry — emerged mid-session,
+  not from the review work; probably the session's highest per-minute
+  ROI.
+
+**If I'd make the call again:** dual-maintain + principle #2 reframe +
+CLAUDE-intent harmonization + think broadening + export calibration. Defer
+the five minor sharpenings to friction log entries for a future natural
+`/maintain` session. That would cut ~45 min for ~80% of the value. Scope
+more tightly next time a standards review session runs.
 
 ## State at Close
 
-*(Added at session close.)*
+### Context for next time
+
+- **Framework at v0.0.5** after this session's tag + push. Four commits
+  above v0.0.4, all from this session: dual-maintain fix, shippability
+  tagging friction entry, Pass 1 refinements (7 fixes), Pass 2
+  refinement (1 harmonization). Tag at HEAD per the session-end tagging
+  cadence established mid-session (no intermediate tags).
+- **Writing Standards Phase 2 complete.** Both passes done. Framework
+  is consistently well-written against its own standards — Pass 1 found
+  seven fixes (one high-priority, six small); Pass 2 found one real
+  finding and one subjective one (skipped). No widespread gaps.
+- **`/maintain` dual-maintenance burden cleared.** Core skill broadened
+  to work in both domain-project and framework contexts; framework
+  wrapper shrank to a thin delegate with framework-specific addenda.
+  Future universal edits land once.
+- **Principle #2 reframe propagated.** `nla-foundations.md` and
+  `install/CLAUDE-intent.md` both carry "NLA documents are source code"
+  as the canonical phrase. Downstream NLAs may see a small wording
+  proposal when they next run `/update` to re-synthesize their
+  CLAUDE.md.
+- **Shippability tagging cadence pattern captured as pending friction.**
+  Rule-vs-intent reading issue (see Debrief). The entry proposes
+  separating what-to-tag (consumer-facing content) from when-to-tag
+  (session-end / meaningful release moments). Future `/maintain` to
+  refine the shippability convention text in `core/skills/maintain.md`
+  and `install/package-intent.md`.
+
+### Decisions awaiting implementation
+
+- **Phase 3 of #21: deeper standards integration.** `/validate` mode or
+  diagnostic check that applies the standards; richer `/maintain`
+  writing guidance. Phase 2's findings suggest 2.3 (produces what it
+  contains) and 4.4 (cross-references with context) are the most
+  automate-able as diagnostic hooks — 2.3 for behavioral gaps,
+  4.4 for discrete pattern-matching. 2.4, 4.2, 3.5 are more holistic and
+  harder to automate. 8.3 (operative docs) is already validated across
+  both passes. 5.1 (document lifecycle type) wasn't reviewed against and
+  is relevant to document-type-specific guidance.
+- **Shippability convention refinement (2026-04-18 friction entry).**
+  Separate what-to-include (consumer-facing content) from when-to-tag
+  (meaningful release moments). Short edit to
+  `core/skills/maintain.md` Shippability section + mirror in
+  `install/package-intent.md`. Probably pairs naturally with Phase 3
+  (both touch `/maintain` territory).
+- **2026-04-16 friction entries** (Python implementation standards,
+  Fallingwater-style prose preamble, `/maintain` prose-vs-code mode,
+  re-compile `export.py` through nla-compiler) — all still pending. Pair
+  thematically with Phase 3. Best addressed after Phase 3 produces
+  concrete findings, in whatever sequence makes sense then.
+- **Other older friction entries** (2026-03-08 /startup flag,
+  2026-02-23 /create-app bare project path, 2026-02-23 friction-logs
+  gitignored, 2026-02-22 context window awareness) — all still pending
+  from before this session. Unchanged.
+- **Packages migration propagation** (penny-post, process-helpers, then
+  domain projects) — still pending from 2026-04-15. Unchanged.
+
+### Where to pick up
+
+**Immediate candidates:**
+- **Shippability convention refinement.** Quick, high-clarity win. Fits
+  any future session; doesn't require fresh standards context.
+- **Phase 3 planning.** Judgment work — /think session-worth. Best with
+  fresh context; this session's Phase 2 findings inform scope.
+
+**Medium-term:**
+- The 2026-04-16 entries as a cluster after Phase 3.
+
+**Watch:**
+- Whether the start-narrow reflex shows up again in a third session. If
+  it does, the pattern earns operative treatment (not just a note in
+  debriefs).
