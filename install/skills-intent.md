@@ -60,7 +60,7 @@ Read and follow `packages/nla-framework/core/skills/friction-log.md`.
 
 ### /validate
 
-**Purpose:** Check system consistency (structural check, architecture review, scenario walkthrough, debug, coherence review).
+**Purpose:** Check system consistency (structural check, architecture review, scenario walkthrough, debug, coherence review, standards review).
 **Wrapper location:** `.claude/skills/validate/SKILL.md`
 **Delegates to:** `packages/nla-framework/core/skills/validate.md` (dispatcher that routes to mode files)
 
@@ -68,7 +68,7 @@ Read and follow `packages/nla-framework/core/skills/friction-log.md`.
 ```yaml
 ---
 name: validate
-description: Validate the NLA system — structural checks, architecture review, scenario walkthroughs, debug unexpected behavior, or coherence review.
+description: Validate the NLA system — structural checks, architecture review, scenario walkthroughs, debug unexpected behavior, coherence review, or standards review.
 disable-model-invocation: true
 ---
 

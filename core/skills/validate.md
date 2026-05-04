@@ -34,6 +34,9 @@ When invoked with clear intent, skip the menu and route directly to the appropri
 > **"Do my docs read well?"**
 > Coherence review. Re-reads your foundational docs (the files loaded at startup) checking each one for internal coherence — redundancy, flow, and whether the document works as a unit. Fast — it's only your startup files.
 
+> **"Do my docs meet the writing standards?"**
+> Standards review. Reads in-scope docs against the NLA writing standards, citing specific standards when something falls short. Use after standards evolve, when sweeping pre-standards docs, or when a doc feels off but passes other checks. Scope-configurable.
+
 ---
 
 ## Mode Routing
@@ -47,6 +50,7 @@ After selecting a mode, read and follow the corresponding file:
 | Scenario walkthrough | `validate-scenario.md` (same directory as this file) |
 | Debug | `validate-debug.md` (same directory as this file) |
 | Coherence review | `validate-coherence.md` (same directory as this file) |
+| Standards review | `validate-standards.md` (same directory as this file) |
 
 ---
 

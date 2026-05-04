@@ -1,6 +1,6 @@
 ---
 name: validate
-description: Validate the NLA Framework's internal consistency, trace scenarios through docs, or debug unexpected behavior.
+description: Validate the NLA Framework's internal consistency, trace scenarios through docs, debug unexpected behavior, or review docs against the writing standards.
 disable-model-invocation: true
 ---
 
@@ -43,6 +43,9 @@ When invoked with clear intent, skip the menu and route directly to the appropri
 > **"Do the framework's docs read well?"**
 > Coherence review. Re-reads the framework's foundational docs (the files loaded at startup) checking each one for internal coherence — redundancy, flow, and whether the document works as a unit. Fast — it's only the startup files.
 
+> **"Do the framework's docs meet the writing standards?"**
+> Standards review. Reads in-scope docs against the NLA writing standards at `reference/standards/nla-writing.md`, citing specific standards when something falls short. Use after standards evolve, when sweeping pre-standards docs, or when a doc feels off but passes other checks. Scope-configurable.
+
 ---
 
 ## Mode Routing
@@ -56,6 +59,7 @@ After selecting a mode, read and follow the corresponding core file, then apply 
 | Scenario walkthrough | `core/skills/validate-scenario.md` |
 | Debug | `core/skills/validate-debug.md` |
 | Coherence review | `core/skills/validate-coherence.md` |
+| Standards review | `core/skills/validate-standards.md` |
 
 ### Structural Addenda
 

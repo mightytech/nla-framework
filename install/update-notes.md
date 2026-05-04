@@ -33,6 +33,40 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-04 — New `/validate standards` mode
+
+**Affects:** core/skills/validate.md, core/skills/validate-standards.md (new), core/skills/README.md, install/skills-intent.md
+
+A new sub-mode of `/validate` reads in-scope docs against the NLA writing
+standards (`reference/standards/nla-writing.md` in the framework, or
+`packages/nla-framework/reference/standards/nla-writing.md` in a domain
+project), citing specific standards when something falls short.
+
+Use it when the standards file evolves (re-check existing docs against
+the new bar), when a doc feels off but passes structural and coherence
+checks, or as a periodic quality sweep — especially over docs written
+before the standards landed.
+
+The mode is scope-configurable. Default scope is operative content
+(`core/` in the framework, `app/` and `.claude/skills/` in domain
+projects), reviewed against standards 2.3 (produces what it contains)
+and 4.4 (cross-references with context) — the standards Phase 2 of the
+#21 work found most diagnostically productive. Both scope and standards
+subset can be narrowed or broadened per invocation.
+
+Findings land in `reference/sessions/YYYY-MM-DD-standards-review.md`,
+matching the architecture-review pattern, and route through `/validate`'s
+existing fix-now / defer / wont-fix disposition step.
+
+**What this means for your project:** New affordance, not a behavioral
+change to existing modes. Available the next time you advance the
+framework submodule. If your domain project's `.claude/skills/validate/`
+wrapper has its own mode menu, `/update` will propose adding an entry
+for the standards mode; if it's a thin wrapper that delegates to
+`core/skills/validate.md`, no change needed.
+
+---
+
 ### 2026-04-18 — Foundations principle #2 reframed as "NLA Documents Are Source Code"
 
 **Affects:** core/nla-foundations.md, install/CLAUDE-intent.md
