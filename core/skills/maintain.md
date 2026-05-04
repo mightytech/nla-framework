@@ -238,22 +238,52 @@ This is a practice, not a protocol. Short sessions might not need a log. Long se
 
 ## Writing Standards
 
-When editing or creating operative documents — skills, task docs, shared
-context, CLAUDE.md — consult the NLA writing standards. In a domain project
-they're at `packages/nla-framework/reference/standards/nla-writing.md`; in
-the framework itself, at `reference/standards/nla-writing.md`.
+NLA documents are source code in prose form. The writing standards govern
+their craft. In the framework: `reference/standards/nla-writing.md`. In a
+domain project: `packages/nla-framework/reference/standards/nla-writing.md`.
 
-The standards cover intent vs. operative language, precision, structure,
-audience, and document-type-specific guidance (skills, session logs,
-operative docs, design docs, values docs, specs). They're particularly
-useful as a diagnostic when a doc produces behavior that doesn't match its
-intent — *the document produces what it contains* (standard 2.3). What the
-doc doesn't specify, the LLM won't fill from general knowledge.
+### Author-time use
 
-Not every edit needs a full pass through the standards. Use them when
-writing new operative docs, when diagnosing gaps between doc intent and
-runtime behavior, or when a friction log entry suggests a doc is the root
-cause of a problem.
+When editing or creating operative documents, load the relevant standards
+*before* drafting. Read **Section 2 (Document Fundamentals)** plus the
+doc-type-specific subsection from **Section 8**:
+
+| Editing... | Load |
+|------------|------|
+| Skills (`.claude/skills/*`, `core/skills/*`, `app/[task].md`) | Section 2 + 8.1 |
+| Session logs (`reference/sessions/*`) | Section 2 + 8.2 |
+| Operative docs (`core/*`, `app/*` operative content) | Section 2 + 8.3 |
+| Design docs (`reference/design-rationale.md`) | Section 2 + 8.4 |
+| Friction log entries | Section 8.5 |
+| Values docs | Section 2 + 8.6 |
+| Specs | Section 2 + 8.7 |
+
+This keeps the standards in the room as constraints applied during
+writing — not just consulted afterward. Section 2 is short and
+foundational (the source-code reframe lives there). The 8.x subsections
+carry doc-type-specific guidance: posture-before-procedure for skills,
+intent-as-most-important-section for session logs, self-containment for
+operative docs, and so on.
+
+Skip the load for mechanical edits — typos, broken paths, dead
+references, table updates that mirror filesystem state. The standards
+apply when you're producing prose that shapes runtime behavior, not when
+you're fixing a path string.
+
+### Diagnostic use
+
+The standards are also a diagnostic when a doc produces behavior that
+doesn't match its intent. The most diagnostically productive standards in
+framework experience are 2.3 (*the document produces what it contains* —
+what the doc doesn't specify, the LLM won't fill from general knowledge)
+and 4.4 (*cross-references need context, not just pointers*). When a
+friction log entry points at a doc as the root cause, run those two
+standards against the doc first.
+
+For broader retrospective review — sweeping multiple docs, especially
+after the standards file evolves — use `/validate standards`. It's
+scope-configurable and routes findings through the same disposition step
+as other validation modes.
 
 ---
 

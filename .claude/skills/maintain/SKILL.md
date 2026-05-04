@@ -27,7 +27,7 @@ Then read the specific files relevant to your task.
 
 ## Core Methodology
 
-Read and follow `core/skills/maintain.md` for the full maintenance methodology — Session Start, Before Starting Work, Maintenance Principles (Understand, Confirm, Name the Blast Radius, One Change at a Time, Record Decisions, Update Friction Log), Pre-flight Review, Session Lifecycle, Writing Standards pointer, Shippability at Commit Time, and the universal Common Tasks (Processing Friction/Feedback Log Entries, Adding a New Skill).
+Read and follow `core/skills/maintain.md` for the full maintenance methodology — Session Start, Before Starting Work, Maintenance Principles (Understand, Confirm, Name the Blast Radius, One Change at a Time, Record Decisions, Update Friction Log), Pre-flight Review, Session Lifecycle, Writing Standards (author-time and diagnostic use), Shippability at Commit Time, and the universal Common Tasks (Processing Friction/Feedback Log Entries, Adding a New Skill).
 
 Then apply the framework-specific addenda below. The addenda override or supplement the core where explicitly noted.
 

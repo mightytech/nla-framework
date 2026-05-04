@@ -33,6 +33,39 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-04 — `/maintain` now loads writing standards before drafting operative docs
+
+**Affects:** core/skills/maintain.md, .claude/skills/maintain/SKILL.md (mirror)
+
+The Writing Standards section in `/maintain` was upgraded from a pointer
+(consult the standards when needed) to an author-time procedure: when
+editing an operative doc, identify the doc type, read section 2 of
+`reference/standards/nla-writing.md` plus the matching 8.x subsection,
+then draft. The targeted load keeps the standards in the room as
+constraints applied during writing, not just consulted afterward — and
+keeps the load light by reading only what's relevant to the doc type
+being edited.
+
+The doc-type → standards mapping covers skills (Section 2 + 8.1),
+session logs (2 + 8.2), operative docs (2 + 8.3), design docs (2 + 8.4),
+friction log entries (8.5), values docs (2 + 8.6), and specs (2 + 8.7).
+Mechanical edits (typos, broken paths, dead references) skip the load —
+the standards apply when you're producing prose that shapes runtime
+behavior.
+
+The diagnostic-use guidance is preserved and slightly expanded: standards
+2.3 (produces what it contains) and 4.4 (cross-references with context)
+are named as the most diagnostically productive standards, with a pointer
+to `/validate standards` for broader retrospective review.
+
+**What this means for your project:** Behavioral shift in how `/maintain`
+approaches operative-doc edits — your AI will read a focused subset of
+the standards before drafting, rather than relying on memory or general
+knowledge. Available the next time you advance the framework submodule;
+no domain-side wrapper changes needed.
+
+---
+
 ### 2026-05-04 — New `/validate standards` mode
 
 **Affects:** core/skills/validate.md, core/skills/validate-standards.md (new), core/skills/README.md, install/skills-intent.md
