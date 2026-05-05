@@ -126,9 +126,17 @@ weight unnecessarily.
 
 ## Friction Log Entries Processed
 
-None directly. This session resolved the Phase 3 portion of feedback log
-entry "2026-04-15 — Bring NLA writing standards into the framework"
+This session resolved the Phase 3 portion of feedback log entry
+"2026-04-15 — Bring NLA writing standards into the framework"
 (now archived).
+
+Two new friction log entries were created during the debrief:
+- 2026-05-04 — Multi-file maintenance: cross-references demand the
+  referenced file ship first
+- 2026-05-04 — Resolved-but-unarchived log entries drift across sessions
+
+Both pending; both have proposed fixes; neither was implemented this
+session.
 
 ## Debrief
 
@@ -178,8 +186,9 @@ entry "2026-04-15 — Bring NLA writing standards into the framework"
 
 - Phase 3 of feedback entry #21 is complete. The writing standards now
   have author-time use in /maintain (targeted-load) and retrospective
-  use in `/validate standards`. The feedback log is empty (active);
-  all eight previously-pending entries are archived.
+  use in `/validate standards`. The active feedback log is empty;
+  all eight previously-pending entries are archived. GitHub Issue #21
+  is closed with a Phase 3 summary comment.
 
 - The `/validate standards` mode hasn't yet been exercised in anger.
   Next time the framework's docs are reviewed against the standards
@@ -187,26 +196,20 @@ entry "2026-04-15 — Bring NLA writing standards into the framework"
   it'll get its first real test.
 
 - Per the 2026-04-18 friction-log entry on tagging cadence, this
-  session ends with one tag for the whole arc of work — not three
-  per-commit tags. The session produced three commits: new mode
-  landing, /maintain author-time, archive cleanup. The first two are
-  consumer-facing; the third is internal.
+  session ended with one tag (`v0.0.6`) for the whole arc of work —
+  not per-commit tags. Five commits landed: new mode, /maintain
+  author-time, archive cleanup, session log finalization, debrief
+  friction entries. All pushed to origin/main.
 
 ### Decisions awaiting implementation
 
-- **Tag this session at session end.** Pending — the tag command runs
-  after this state-at-close section is finalized. Version: bump from
-  v0.0.5 (last session-end tag) to v0.0.6.
-
-- **GitHub Issue #21 closure.** Issue is fully implemented now.
-  Per `/maintain`'s Common Tasks ("close the loop: post a follow-up
-  comment describing what was implemented"), a comment on
-  https://github.com/mightytech/nla-framework/issues/21 summarizing
-  Phase 3 would close the loop. Pending the user's go-ahead — posting
-  to GitHub is a side-effect.
-
-- **Pending friction log entries** — eight remain, unchanged from
-  2026-04-18 State at Close. Most natural pairings:
+- **Pending friction log entries** — ten remain (eight unchanged from
+  2026-04-18, plus two new from this session's debrief). Most natural
+  pairings:
+  - 2026-05-04 cross-reference ordering + 2026-05-04 archival drift
+    (this session's debrief entries): both quick edits to
+    `core/skills/maintain.md` Pre-flight and `core/skills/close.md`
+    Loose Ends respectively. Could pair into a single short session.
   - 2026-04-18 shippability convention refinement: quick edit to
     `core/skills/maintain.md` Shippability section + mirror in
     `install/package-intent.md`.
