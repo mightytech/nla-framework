@@ -33,6 +33,26 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-04 — `--recurse-submodules` documented as one-step clone option
+
+**Affects:** README.md, .claude/skills/create-app/SKILL.md (generated README template)
+**Commit:** aa29548
+
+Both READMEs now suggest `git clone --recurse-submodules` as the primary
+clone form, with the two-step `git submodule update --init` shown as the
+fallback for already-cloned repos. Cosmetic improvement — the two-step
+form continues to work identically.
+
+**What this means for your project:** Optional. Your existing README's
+clone instructions are not broken — `git submodule update --init` is the
+correct two-step form. If you want to mirror the framework's updated
+guidance, add `git clone --recurse-submodules [url]` as the primary
+instruction in your README, keeping the two-step as the already-cloned
+fallback. No code or behavioral changes; new contributors to your project
+get a slightly shorter onboarding path.
+
+---
+
 ### 2026-05-04 — `/maintain` now loads writing standards before drafting operative docs
 
 **Affects:** core/skills/maintain.md, .claude/skills/maintain/SKILL.md (mirror)

@@ -52,15 +52,28 @@ Only gap (2) was real, and the fix was small.
   what's pinned (which, for tagged-release pins, is the
   tagged-release commit).
 
-- **Skip tag and update-note (treat as internal commit)** — Per the
-  framework maintain.md taxonomy, `.claude/skills/` is "framework
-  maintenance behavior only" and `README.md` is "framework
-  documentation only" — neither is in the consumer-facing bucket
-  (`core/` or `install/*.md`). Existing domain projects running
-  `/update` see nothing new from this commit. Only future
-  `/create-app` runs produce a different generated README, which is
-  a forward-looking change rather than a change to content existing
-  projects depend on.
+- **First commit (aa29548): internal-only.** Per the framework
+  maintain.md taxonomy, `.claude/skills/` is "framework maintenance
+  behavior only" and `README.md` is "framework documentation only" —
+  neither is in the consumer-facing bucket (`core/` or
+  `install/*.md`). Existing domain projects running `/update` see
+  nothing new from that commit alone.
+
+- **Follow-up: add an update-notes.md entry anyway.** Reasoning: the
+  intent diff would show domain projects literally nothing about
+  this change (the modified files don't propagate via the framework
+  submodule). An update note is the only channel by which domain
+  project maintainers would even learn the framework's clone
+  guidance changed. Framed explicitly as optional/cosmetic to avoid
+  training maintainers to expect every note to require action.
+  Alternatives considered: skip the note (too easy to miss), or
+  piggyback on a future substantive note (delay loses freshness).
+  Committed separately so the second commit captures the
+  consumer-facing handoff cleanly. The second commit ships
+  `install/update-notes.md`, making it consumer-facing under the
+  shippability rules — tagged v0.0.7 as the session-end release
+  per the 2026-04-18 friction-log convention (tag at session end,
+  not per-commit).
 
 ## What Didn't Work
 
@@ -100,10 +113,12 @@ Two observations worth carrying forward:
 
 ### Context for next time
 
-- Both edits committed in one commit. No tag, no update-note —
-  internal-only per framework shippability rules. Existing domain
-  projects unaffected; future `/create-app` runs produce slightly
-  different generated READMEs.
+- Two commits landed. First (aa29548) was the README edits +
+  session log: internal-only. Second adds the update-notes.md entry,
+  which makes the arc consumer-facing — tagged v0.0.7 per the
+  session-end tagging convention. Existing domain projects can
+  optionally mirror the README change in their own repos when they
+  next run `/update` and see the note.
 
 - The friction log carries 9 pending + 2 deferred + 2
   resolved-but-unarchived entries. Unchanged by this session.
