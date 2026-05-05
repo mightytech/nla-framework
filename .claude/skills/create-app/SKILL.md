@@ -316,7 +316,7 @@ your voice doc after seeing real output, add patterns as they emerge, or flesh o
 additional tasks. `/friction-log` captures observations; `/maintain` turns them into
 improvements. That's the development cycle.
 
-To share this project: `git clone [url]` then `git submodule update --init`.
+To share this project: `git clone --recurse-submodules [url]` (or `git clone [url]` then `git submodule update --init` if cloned without recurse).
 ```
 
 **Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/install-app` — it can install example NLA projects they can explore.

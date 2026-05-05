@@ -77,10 +77,13 @@ For the full conceptual foundation, see
 ### 1. Clone the framework
 
 ```bash
-git clone https://github.com/mightytech/nla-framework.git
+git clone --recurse-submodules https://github.com/mightytech/nla-framework.git
 cd nla-framework
-git submodule update --init
 ```
+
+If you've already cloned without `--recurse-submodules`, the two-step
+equivalent is `git submodule update --init` from inside the project
+directory.
 
 ### 2. Create your project
 
