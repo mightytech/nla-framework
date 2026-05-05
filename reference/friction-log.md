@@ -68,6 +68,113 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-04 — Multi-file maintenance: cross-references demand the referenced file ship first
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+During the Phase 3 writing-standards session, the original implementation
+plan put `core/skills/maintain.md` first and `core/skills/validate-standards.md`
+second. Catching the dependency happened just before executing — `maintain.md`
+ends with "use `/validate standards`" as its diagnostic-use pointer, so a
+commit that landed `maintain.md` first would have shipped a reference to a
+file that didn't yet exist. The order was reversed mid-execution; nothing
+broke.
+
+But the plan had no surfacing step for it. The /maintain proposal flow
+asks for blast radius, scope, and approval — it doesn't ask "do these
+files reference each other, and if so, what order do they need to land
+in?" When multi-file work cross-references, write the referenced file
+*before* the file that refers to it; otherwise an interim commit ships
+a broken reference.
+
+**Confirmed reason:**
+The implementation order was driven by perceived size ("smaller,
+foundational change first"), not by dependency direction. Size and
+dependency aren't the same axis. The relevant question is which file
+references which, not which file is shorter — but the planning step
+didn't ask the right question.
+
+**Affected files:**
+- `core/skills/maintain.md` (Confirm Before Implementing or Pre-flight Review section)
+- Possibly the planning-mode guidance in the same file
+
+**Proposed fix:**
+Add a quick check to the Pre-flight Review (or Confirm Before
+Implementing) section: "For multi-file work, identify cross-references
+and write referenced files first. Each commit should be internally
+consistent — interim commits with broken references are friction even
+if the final state is fine." One sentence in a checklist.
+
+**Notes:**
+The session caught it organically because the AI was reading both
+files' content while drafting. In sessions where one file is "settled"
+and another is being authored, this is easier to miss. Worth flagging
+because the cost of catching it post-commit (interim broken reference,
+order-of-events confusion in git history) is annoying enough that the
+sentence-level prevention earns its place.
+
+---
+
+### 2026-05-04 — Resolved-but-unarchived log entries drift across sessions
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+At the start of the 2026-05-04 session, the active feedback log carried
+seven 2026-04-15 entries that had been marked resolved during that
+2026-04-15 session but were never archived. They sat in the active log
+for ~3 weeks across multiple intervening sessions. None of those
+sessions had a reason to archive them — each focused on its own work —
+and the drift was silent.
+
+The /maintain Common Tasks section covers archival ("Archive resolved
+entries") *as part of processing an entry*. Entries resolved during a
+session that doesn't immediately archive them fall through. There's no
+session-end prompt that catches the gap.
+
+**Before:** Active feedback log accumulating resolved-but-unarchived
+entries silently across sessions; new session start has to notice the
+drift to address it.
+
+**After:** Session close (or session start) catches the drift cheaply
+without requiring the maintainer to remember.
+
+**Confirmed reason:**
+The procedural rule lives at the wrong moment. "Archive when you
+resolve" only fires if the resolver is also archiving. A different
+person in a future session — or the same person picking up after
+hours — has no procedural prompt to do it. The natural moment to catch
+this is /close (or the session-start summary in /maintain), where the
+maintainer is already looking at log state.
+
+**Affected files:**
+- `core/skills/close.md` (Loose Ends section)
+- Possibly `core/skills/maintain.md` Session Start (already counts
+  resolved-unarchived friction entries — could extend to feedback log)
+
+**Proposed fix:**
+Add a Loose Ends item to /close: "Check for resolved-but-unarchived
+entries in `reference/friction-log.md` and `reference/feedback-log.md`.
+If any exist, offer to archive them now — the procedure step in
+`/maintain` only fires during the session that resolves an entry, so
+entries resolved without immediate archival drift across sessions."
+
+**Notes:**
+Different from the 2026-04-17 `settings.local.json` drift entry but in
+the same family — small drift that accumulates silently because no
+procedural prompt fires at the right moment. The /maintain Session Start
+already mentions resolved-but-unarchived friction entries; extending
+that or mirroring it in /close would cover both logs.
+
+---
+
 ### 2026-04-18 — Shippability convention reads as per-commit tagging; session-end is better
 
 **Type:** process
