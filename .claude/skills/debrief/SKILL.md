@@ -1,7 +1,6 @@
 ---
 name: debrief
-description: Reflect on completed work — surface observations about process, instructions, and experience while context is fresh. Use at task transitions.
-disable-model-invocation: true
+description: Reflect on completed work — surface observations about process, instructions, and experience while context is fresh. Relevant at task transitions or after substantive work. Captures learnings before they evaporate. AI: Suggest as an option at transitions; invoke only on user assent or `/debrief`.
 ---
 
 # Framework Context

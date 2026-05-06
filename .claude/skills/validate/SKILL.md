@@ -1,7 +1,6 @@
 ---
 name: validate
-description: Validate the NLA Framework's internal consistency, trace scenarios through docs, debug unexpected behavior, or review docs against the writing standards.
-disable-model-invocation: true
+description: Check the framework's internal consistency, review architecture, trace scenarios, debug behavior, or review docs against writing standards. Relevant when the user wants to verify the framework works as documented. AI: Suggest as an option; invoke only on user assent or `/validate`.
 ---
 
 # Framework Validation

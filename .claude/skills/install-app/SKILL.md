@@ -1,7 +1,6 @@
 ---
 name: install-app
-description: Browse and install example NLA projects to explore how working NLAs look before building your own.
-disable-model-invocation: true
+description: Browse and install example NLA projects to explore how working NLAs look. Relevant when the user wants to see an example before building. AI: Suggest as an option; invoke only on user assent or `/install-app`.
 ---
 
 # Install Example App

@@ -1,7 +1,6 @@
 ---
 name: maintain
-description: Edit the NLA Framework itself — core docs, skills, intent files, and configuration. Use when making changes to the framework.
-disable-model-invocation: true
+description: Edit the NLA Framework itself — core docs, skills, intent files, and configuration. Relevant when the user wants to make changes to the framework. AI: Suggest as an option; invoke only on user assent or `/maintain`.
 ---
 
 # Framework Maintenance Mode

@@ -76,6 +76,10 @@ Config directives are governed by `config-spec.md`, which defines what's configu
 | `/steelman` | Build the strongest case for alternatives before committing | When a decision is forming and unchosen paths deserve a fair hearing |
 | `/devils-advocate` | Systematically find weaknesses in a plan or proposal | When an approach needs stress-testing |
 
+### Skill invocation discipline
+
+When you see a project-level skill in your tool listing, prefer suggesting it conversationally over invoking it directly. Only invoke when the user has explicitly typed `/skill-name` or said yes to a suggestion. When uncertain whether the user wants a skill invoked, ask before invoking.
+
 ### If the user asks about the framework:
 -> Suggest `/guide` for conversational orientation, or give a quick answer based on `core/nla-foundations.md` and `README.md`
 

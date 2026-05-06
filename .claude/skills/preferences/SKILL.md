@@ -1,7 +1,6 @@
 ---
 name: preferences
-description: Create or edit your preferences for how the NLA Framework tools behave — /create-app defaults, maintenance mode, verbosity, and more.
-disable-model-invocation: true
+description: Create or edit your preferences for how the NLA Framework tools behave. Relevant when the user wants to personalize tool behavior. AI: Suggest as an option; invoke only on user assent or `/preferences`.
 ---
 
 # Framework Preferences

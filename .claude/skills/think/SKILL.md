@@ -1,7 +1,6 @@
 ---
 name: think
-description: Collaborative design exploration — think through what to build and why before planning how. Use when work involves design judgment, unfamiliar territory, or multiple valid approaches.
-disable-model-invocation: true
+description: Collaborative design exploration — think through what to build and why before planning how. Relevant when work involves design judgment, unfamiliar territory, or multiple valid approaches. AI: Suggest as an option at decision points; invoke only on user assent or `/think`.
 ---
 
 # Framework Context

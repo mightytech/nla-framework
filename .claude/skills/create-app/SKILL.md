@@ -1,7 +1,6 @@
 ---
 name: create-app
-description: Create a new NLA project through guided conversation. Asks about your domain, voice, and tasks, then generates a tailored project.
-disable-model-invocation: true
+description: Create a new NLA project through guided conversation. Relevant when the user wants to build a new project. AI: Suggest as an option; invoke only on user assent or `/create-app`.
 ---
 
 # Create NLA Application

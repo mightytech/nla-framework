@@ -1,7 +1,6 @@
 ---
 name: guide
-description: Context-aware help — understand how the NLA works, what to do next, and how the pieces connect. Adapts to your familiarity level.
-disable-model-invocation: true
+description: Context-aware help — understand how the NLA works and what to do next. Adapts to the user's familiarity level. Relevant when the user seems unfamiliar or wants orientation. AI: Suggest as an option; invoke only on user assent or `/guide`.
 ---
 
 # Framework Context
