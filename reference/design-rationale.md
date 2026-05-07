@@ -2184,6 +2184,92 @@ maintainers vs. domain-project maintainers).
 
 ---
 
+## Principles as Design Tools
+
+*Added 2026-05-07. Origin: Structure Decisions Protocol session debrief
+(2026-05-07).*
+
+### What was decided
+
+Treat the framework's principles as operational design tools, not just
+descriptive statements about the system. When designing new framework
+discipline — rules, protocols, conventions, patterns — the principles
+themselves should be load-bearing inputs to the design, explicitly
+applied, not just generally aspirational.
+
+### Where this surfaced
+
+The Structure Decisions Protocol's threshold question — when should the
+discipline fire? — was answered by applying foundations principle #4
+(intent over rules). The protocol describes the tension between
+over-gating and under-gating, names attribution as the safety net, and
+lets AI judge. This is principle #4 designing the threshold for
+*applying* principle #4 to structural change.
+
+The self-referential pattern is what made the design clean. A
+rules-shaped threshold ("fire on directories, not files inside
+well-defined areas") would have been brittle and wrong at the margins.
+The intent-shaped threshold turned out to work cleanly in experiments —
+exactly as principle #4 predicts.
+
+The same self-application shows up in other framework design choices
+when looked at with this lens: principle #6 (the human decides) directly
+designed the propose-review-record cadence; principle #5 (values are
+visible) shapes the attribution discipline (decisions are *visible*
+through citations and Decision Sources tables); principle #3 (NLA
+documents are source code) explains why "fix the doc, not the code" is
+the framework's standard maintenance move.
+
+### Generalizable
+
+When designing future framework discipline, ask: which principles are
+load-bearing here? Apply them as design tools, not just background
+philosophy:
+
+- Principle #2 (NLA documents are source code) → design for prose-readability
+  and edit-friendliness, not just executability.
+- Principle #4 (intent over rules) → describe spaces, not boundaries; let
+  judgment fill the gap that rules can't enumerate.
+- Principle #5 (values are visible) → make tradeoffs and attributions
+  explicit in prose.
+- Principle #6 (the human decides) → propose-and-confirm workflows for
+  consequential decisions.
+- Principle #1 (imperfection is assumed) → design improvement loops, not
+  perfection paths.
+
+This makes the principles operational. They're not just "what we
+believe"; they're "how we design new things."
+
+### Caveats
+
+Principles aren't always the right design tool. Pure consistency
+conventions (date formats, file naming, commit message shape) benefit
+from rules, not intent. Principle #4 itself notes this explicitly:
+*"Rules have their place. Use rules for pure preferences where
+consistency is the only goal."*
+
+The design-tool judgment is "is this a judgment question or a
+consistency question?" Judgment questions reach for intent-shaped
+principles; consistency questions reach for rules. Conflating them
+produces brittle rules where principles would generalize, or vague
+principles where rules would suffice.
+
+### Blast radius
+
+Maintainers — this informs how new framework discipline gets designed.
+Domain projects don't need to know about this directly; they receive
+the products of well-designed discipline. The pattern is most useful at
+the *design* moment, before convergence to a specific shape.
+
+### Related
+
+- Structure Decisions Protocol entry above (2026-05-07) — the case
+  study where this pattern was first surfaced.
+- `core/nla-foundations.md` "Key Principles" — the list of principles
+  that serve as design tools.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

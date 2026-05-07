@@ -259,7 +259,7 @@ changes get a moment of shared visibility."* That's not language from
 `CLAUDE.md` verbatim — it's the agent paraphrasing the *why*. The agent
 generalized correctly.
 
-### 4.2 Citation behavior validates the load path
+### 4.2 Citation behavior validates the load path — and serves as a visible safety net
 
 H2's response cited `core/structure.md:230` — a specific line number.
 This wasn't asked for. The agent volunteered the source as part of its
@@ -270,6 +270,17 @@ and the agent shows its work.
 Without the explicit "read `core/structure.md` at session start"
 instruction in `CLAUDE.md`, this citation behavior wouldn't be possible
 — `core/structure.md` is not in any default Claude Code load chain.
+
+**Beyond load-path validation, this points at a generalizable design
+pattern: citation behavior as a visible safety net.** When the
+discipline asks the AI to attribute its decisions, the AI's wrong
+judgments become *visible*. Silent failure (AI consults nothing, picks
+arbitrarily, no audit trail) becomes surfaceable failure (AI shows what
+it consulted; human can spot mismatched attribution). For any protocol
+where AI judgment is fallible and consultation is the safeguard, design
+for unprompted citation. The artifact's existence + a "consult and
+attribute" framing produces the citation behavior naturally — no
+additional coercion needed.
 
 ### 4.3 The intent-shaped threshold worked without explicit calibration
 
@@ -297,6 +308,29 @@ Real multi-turn testing in `claude -p` would require `--continue` or
 session resume, which we did not exercise here. The proxy is sufficient
 to clear Step 7's abort criterion for H5; long-horizon stability remains
 a known limitation (Section 7).
+
+### 4.5 Pressure-resistance probes as a transferable experiment shape
+
+Distinct from the multi-turn proxy aspect of H5: the *probe shape itself*
+is a generalizable pattern worth naming. H5's design — request + explicit
+pressure framing ("move briskly — these are routine setup steps") — tests
+something different from neutral-framing tests. Anywhere a discipline
+could be eroded by urgency, momentum, or social pressure, a
+pressure-resistance probe stress-tests it directly.
+
+The signal isn't just "did the discipline hold?" but "did the AI
+*recognize* the pressure cue?" In our case, the agent named the framing
+directly: *"The 'routine setup, move briskly' framing doesn't override
+that; the protocol exists precisely so structural changes get a moment
+of shared visibility."* That recognition is a distinct positive result
+from "discipline mechanically held" — it suggests the AI is reasoning
+about the framing, not just resisting it.
+
+The probe's value compounds when discipline *doesn't* hold: the AI's
+response often surfaces *what kind of pressure breaks it*, which informs
+design refinements. Generalizable beyond this protocol: any prose-as-code
+rule with a "judgment under pressure" failure mode benefits from a probe
+that includes the pressure framing explicitly.
 
 ---
 

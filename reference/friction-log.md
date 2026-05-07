@@ -68,6 +68,109 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-07 — Borrowing patterns from sibling NLAs requires reading the actual artifact
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+The Structure Decisions Protocol borrowed shape from
+facebook-moderation's compile-time `build-guide.md` (attribution per
+entry, Judgment notes, Decision Sources table). The borrowing was
+high-leverage — but only after the actual artifact was read. Earlier
+in the session, hearing "facebook-moderation has a build-guide" wasn't
+the same as reading it. The texture (the specific table shape, the
+wording of Judgment notes, the integration with the compile workflow)
+only became real after I read the file directly.
+
+This connects to the now-archived 2026-05-06 entry "Reading accumulated
+artifacts before /think" but extends it to a different scale. That
+entry was about prior thinking *within* the project (feedback log,
+friction log, design rationale, related GitHub issues). This is about
+*sibling-project artifacts* when borrowing patterns. Same lesson at
+a different scope.
+
+**Generalizable:** Yes. When considering pattern-borrowing from another
+NLA, read the actual artifact (not just descriptions of it) before
+designing the borrow. Cost: minutes. Value: the texture of the
+borrowed shape, which descriptions don't carry.
+
+**Affected files:**
+- `core/skills/think.md` (Prior Art section) — could extend the existing
+  "check design rationale, session archives, friction log" guidance to
+  include "and read sibling-project artifacts when borrowing patterns."
+
+**Proposed fix:**
+Small extension to /think's Prior Art section. One sentence about
+reading sibling-project artifacts, not just descriptions.
+
+**Notes:**
+- In this session, the maintainer pointed at the file ("read this
+  build-guide before /think"). Without that prompt, the pattern-
+  borrowing might have proceeded with description alone — losing
+  the texture.
+- Connects to maintainer-as-session-manager pattern (Issue #24 item 8).
+- Could also be captured as a memory entry; the friction log captures
+  the observation, processing decides where it lives durably.
+
+---
+
+### 2026-05-07 — Plan agent conservatism is a calibratable input, not a verdict
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+During this session's plan-mode review, the Plan agent recommended
+cutting Steps 5–7 to a follow-up session. The rationale was
+fresh-eyes risk-aversion (calibration risk if experiments surface
+wording issues; cross-reference ordering complexity; ceremony). The
+maintainer pushed back, asked for concrete pros/cons, and we landed
+on full scope with conditional Step 7 (abort criteria explicit). The
+full scope worked — all four hypotheses validated cleanly and Step 7
+shipped.
+
+The Plan agent's advice was useful for surfacing concerns and gaps
+but conservatively calibrated on scope. It reflected the agent's own
+uncertainty under cold context, not an expert read on whether the
+plan could succeed in one session. The right move was to treat the
+Plan agent's recommendations as *one input* — to be weighed against
+explicit pros/cons and possible mitigations — rather than as a verdict
+to follow.
+
+**Generalizable:** Yes. Plan agent reviews are valuable for surfacing
+concerns and gaps. They're less reliable for scope-cut recommendations
+because they default to risk-aversion under uncertainty. When a Plan
+agent recommends cutting scope, the maintainer should: (a) extract the
+specific concern (e.g., "calibration risk if experiments fail"),
+(b) design an explicit mitigation (e.g., abort criterion), (c) decide
+based on the mitigation, not the original cut recommendation.
+
+**Affected files:**
+- `core/skills/maintain.md` (Pre-flight Review section, where Plan
+  agent reviews are discussed)
+- Or a memory entry about plan-mode interaction patterns.
+
+**Proposed fix:**
+Light-weight: one sentence in maintain.md's Pre-flight Review section
+or planning-mode guidance: "Plan agent scope-cut recommendations
+default to risk-aversion under cold context; treat them as input,
+design explicit mitigations for the underlying concerns, and decide
+based on the mitigations."
+
+**Notes:**
+- This session's full-scope choice with Step 7 abort criterion validated
+  the calibration insight. Real outcome data, not just hypothesis.
+- The Plan agent was *right* about the underlying concerns (calibration
+  risk, cross-reference ordering). It was wrong about the recommendation
+  to cut. The concerns deserved mitigations, not avoidance.
+
+---
+
 ### 2026-05-06 — Bulk Edit calls don't parallelize when system reminders fire between each
 
 **Type:** process
@@ -271,6 +374,20 @@ and another is being authored, this is easier to miss. Worth flagging
 because the cost of catching it post-commit (interim broken reference,
 order-of-events confusion in git history) is annoying enough that the
 sentence-level prevention earns its place.
+
+**Update 2026-05-07 (alternative resolution pattern surfaced):** The
+2026-05-07 Structure Decisions Protocol session sidestepped this issue
+by landing all cross-referenced files in a *single coherent commit*
+(commit 68c145a — `core/structure.md`, the design-rationale entry it
+cites, the CLAUDE.md section that references it, and the foundations.md
+mention all in one). Single-commit atomicity is often easier than
+ordering discipline for cross-references — if all referenced and
+referrer files can land together, the interim-broken-reference problem
+doesn't arise. Worth incorporating into the eventual fix: the proposed
+checklist could offer "land cross-referenced files in one commit" as
+the simpler path, with "if they must split, write referenced files
+first" as the fallback. Status remains pending — the proposed checklist
+itself hasn't been added; this note captures a complementary pattern.
 
 ---
 
