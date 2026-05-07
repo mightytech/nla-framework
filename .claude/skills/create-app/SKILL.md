@@ -178,6 +178,7 @@ because they vary completely by project. The structural guidance below is all yo
 - For humans: key workflow patterns (change behavior, debug, add tasks)
 - Document hierarchy: tree of all `app/` files with descriptions
 - Document index: links to all docs
+- **Where Things Live** — the project's structure record per the structural change discipline (see `packages/nla-framework/core/nla-foundations.md`). Lists each top-level directory and top-level file with purpose and attribution. At creation, attribution is mostly `[framework default]` (inherited from `install/structure-intent.md`) with `[domain decision]` for choices specific to this project (e.g., multi-voice file structure, additional `app/shared/` files, custom `lib/` helpers). Include a brief Decision Sources table at the bottom for scan affordance. This section becomes the consultation target for future placement decisions; it's updated as part of any structural change per the discipline (recording is part of the change, not separate hygiene).
 - Getting started: first-time setup
 
 **`app/shared/values.md`** — Commitments, priorities, and non-negotiables:

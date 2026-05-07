@@ -125,6 +125,7 @@ Summarize what was installed:
 - **Be additive.** Don't remove or replace existing NLA content. Framework and extension capabilities sit alongside domain content.
 - **Log everything.** The install log is how `/update` knows what happened. Be thorough.
 - **One intent at a time.** Process and get approval for each intent file individually. Don't batch all changes into one proposal.
+- **Structural changes follow the structure decisions protocol.** When an installed package introduces new directories or top-level files, propose the structural addition (with proposed structure-record entry — path, purpose, attribution) and update the project's structure record (`app/overview.md`'s "Where Things Live" for domain projects, `core/structure.md` in the framework) as part of the install. See `core/nla-foundations.md` "Structural Change Discipline."
 
 ---
 

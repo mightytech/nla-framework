@@ -102,6 +102,15 @@ Rationale: [why this change]
 
 Get approval before editing. This mirrors the cardinal rule: the human decides.
 
+**When the change is structural** — new directory, reorganization, new
+top-level file — follow the framework-wide structural change discipline
+(`core/nla-foundations.md`, "Structural Change Discipline" rhythm).
+Include the proposed structure-record entry — path, purpose, attribution
+— in the proposal block. Update the record (`core/structure.md` in the
+framework, `app/overview.md`'s "Where Things Live" section in domain
+projects) in the *same operation* as the structural change. Recording is
+part of the change, not separate hygiene.
+
 **When using plan mode:** Design questions should be resolved conversationally *before* entering plan mode — plan mode is for detailed preparation, not exploration. Use `AskUserQuestion` only for genuinely discrete selections (which file, which option), not for design decisions where conversation would produce better outcomes. Avoid clearing context mid-session — session logs, debrief, and continuity depend on retained context.
 
 For design work with multiple moving parts, run a pre-flight review before presenting your proposal — see below.
