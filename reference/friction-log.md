@@ -68,6 +68,147 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-06 — Controlled prose experiments validated the skill-invocation doctrine refinement
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** maintainers (immediate); all projects (methodology generalizes)
+**Status:** resolved
+**Resolved:** 2026-05-06 — Experiments ran (Layers A-D + T1-T5 + calibration); framework wrappers migrated to new convention; full writeup at `reference/experiments/skill-invocation-discipline/experiment-report.md`. Plan for downstream publication at `reference/plans/skills-doctrine-publication.md`.
+
+**Observation:**
+A controlled prose-experiment methodology produced empirical findings
+that reasoning alone wouldn't have surfaced. The experiments tested
+whether constraint-bearing skill description language disciplines AI
+invocation behavior — a question where the framework had a documented
+prior decision (`disable-model-invocation: true` on all skills) and
+proposed reversing required evidence proportional to the original
+concern.
+
+The shape that worked: hypothesize → isolate variable → cold-context
+agent → binary signal (filesystem state) → iterate or commit. Each
+test cycle was ~30 seconds + analysis. Total experimental cost across
+all layers and calibrations: ~30-45 minutes. One finding (Layer C)
+disconfirmed an assumption we'd otherwise have shipped.
+
+The methodology pattern is the more durable contribution. Future
+prose-as-code work in the framework — doctrine changes, convention
+shifts, skill template revisions — could benefit from the same shape.
+See report Section 4 ("Cross-Cutting Findings") for the methodology
+findings beyond the immediate doctrine question.
+
+**Generalizable:** Yes. The pattern is "controlled experiments on
+prose-as-code." Applies whenever a prose change has downstream impact
+and reasoning alone leaves uncertainty. The experiments worked in this
+domain (skill descriptions); they should generalize to others (CLAUDE.md
+prescriptive language, intent file conventions, skill template shapes,
+etc.).
+
+**Notes:**
+- The cold-context review methodology (two-pass: simulation + frame
+  question) is a related but distinct contribution surfaced by this
+  work. Issue #24 introduced it; our experiments validated its value
+  in a different domain. Worth surfacing in the same writeup but
+  conceptually separate from the prose-experiment methodology.
+- See companion friction-log entry: "Framework lacks documented
+  experimentation methodology" (the meta-question of whether to
+  elevate this pattern to framework-level guidance).
+- The experiment report itself (~600 lines) is the durable artifact;
+  this friction log entry is the pointer.
+- Mistakes worth flagging (full list in report Section 6): the initial
+  test design conflated visibility and constraint; we almost shipped
+  pilot-skill testing instead of production-form testing; a
+  rules-vs-intent slip on audit design needed correction. The user-as-
+  session-manager pattern (Issue #24 item 8) was load-bearing
+  throughout.
+
+---
+
+### 2026-05-06 — Framework lacks documented experimentation methodology
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+The NLA Framework documents four working rhythms in
+`core/nla-foundations.md`: the improvement loop, the design flow, the
+update cycle, and session structure. None of these cover empirical
+validation of prose-as-code claims between hypothesis and commit.
+
+This session's prose experiments
+(`reference/experiments/skill-invocation-discipline/experiment-report.md`)
+ran ad-hoc. They worked. But the methodology isn't documented and
+isn't discoverable for future work. The next time someone considers
+a doctrine change, convention shift, or any prose-as-code change with
+downstream impact, they'd have to either (a) reinvent the methodology,
+(b) find this experiment report and copy the pattern, or (c) skip the
+empirical step and rely on reasoning alone.
+
+**Before:** Prose-as-code changes go directly from /think to plan to
+commit. Empirical validation between hypothesis and commit is ad-hoc
+when it happens at all. Cold-context review (the related but distinct
+practice of reviewing artifacts before commit) is similarly undocumented.
+
+**After:** A documented "validation flow" — possibly as a fifth working
+rhythm — describes when and how to test prose-as-code claims
+empirically. Cold-context review (two-pass: simulation + frame question)
+is similarly documented. Both compose with existing rhythms (improvement
+loop, design flow) without replacing them.
+
+**Confirmed reason:**
+The framework's current rhythms reflect what was true when they were
+documented. The prose-experiment pattern is newer (this session is
+where it surfaced as a generalizable pattern, though Issue #24 from
+facebook-moderation introduced related methodology). The framework
+hasn't yet absorbed it.
+
+**Affected files (proposed):**
+- `core/nla-foundations.md` Working Rhythms section
+- Potentially a new core skill (e.g., `core/skills/run-experiment.md`)
+  or fold guidance into existing skills (`/think`, `/maintain`)
+- `reference/design-rationale.md` for the rationale entry
+
+**Proposed fix:**
+Sized appropriately, probably a /think session followed by maintain
+work in a separate session. Specific shape to explore:
+
+1. **Validation flow** as a fifth working rhythm in foundations.
+   Tentative wording: "Hypothesize → design experiment → test in cold
+   context → measure → iterate or commit. Used when prose changes
+   have downstream impact and reasoning alone is uncertain."
+
+2. **Cold-context review pattern** documented separately. Two-pass
+   distinction (simulation + frame question) is load-bearing per
+   Section 4.2 of the experiment report.
+
+3. **Skill or sub-skill** for facilitating experiments? Could be
+   `/run-experiment`, or could be folded into `/think` as a phase. The
+   shape depends on how often the pattern fires; this is the design
+   judgment to settle in /think.
+
+Don't decide all three at once. The minimum viable change is documenting
+the patterns (in foundations + design rationale) so future maintainers
+can find them. Skill-level affordances are optional add-ons.
+
+**Notes:**
+- This is the meta-version of the previous entry. The previous entry
+  documents that the experiments paid off; this entry asks whether to
+  elevate the methodology to framework-level guidance.
+- Related to Issue #24 (recommendations B and F about handoff template
+  and session-bracketing rhythm); consider triaging together.
+- Worth checking facebook-moderation's `reference/experiments/` pattern
+  for prior art on directory structure and report format. Our first
+  experiment report (`reference/experiments/skill-invocation-discipline/`)
+  borrows that pattern.
+- Tag for cross-reference: the rules-vs-intent slip flagged in the
+  experiment report's Section 6 is itself a meta-pattern about
+  defaulting to rules where intent is appropriate. Worth watching
+  during framework methodology work specifically.
+
+---
+
 ### 2026-05-04 — Multi-file maintenance: cross-references demand the referenced file ship first
 
 **Type:** process
