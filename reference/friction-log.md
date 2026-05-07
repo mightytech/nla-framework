@@ -68,6 +68,142 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-06 — Reading accumulated artifacts before /think saves rediscovery
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** maintainers (immediate); all projects (the pattern generalizes to any NLA)
+**Status:** resolved
+**Resolved:** 2026-05-06 — Pattern surfaced and applied during this session; documented for future use.
+
+**Observation:**
+This session ran /think on the skill-invocation doctrine question and
+converged on several findings independently — only to discover that
+GitHub Issue #24 (a feedback letter from facebook-moderation) had
+captured most of those findings and several more. Reading the issue
+*after* /think meant the plan needed substantive rework to incorporate
+findings that were already documented.
+
+The maintainer was the one who pointed at the issue (knowing it
+existed), so the cost was bounded. But the pattern generalizes: when
+considering substantive work on a topic where prior thinking might
+exist, *read accumulated artifacts first*. /think extends and stress-
+tests existing thinking; it shouldn't reinvent it.
+
+**Generalizable:** Yes. Applies to any maintenance work where prior
+artifacts (feedback log, friction log, design rationale, related
+GitHub issues) might capture relevant thinking. Cost: a few minutes
+of reading. Value: variable but can be large (the letter saved us
+from a plan missing three sections).
+
+**Operational gap noticed:** The /maintain session-start prompt reads
+the *post-triage* feedback log. Open GitHub Issues that haven't been
+triaged yet are invisible at session start. Issue #24 was filed
+2026-05-05 (one day before this session) and hadn't been triaged —
+so it was on GitHub but not in the feedback log. Two possible fixes:
+(a) maintainer remembers to run `/check-feedback` discovery
+(no triage) at session start when substantive work is on deck; or
+(b) /maintain's session-start adds a quick `gh issue list` check
+alongside the feedback log read. The second feels procedurally
+right but lives outside this entry's scope.
+
+**Affected files:**
+- `core/skills/maintain.md` (potentially — Session Start)
+- Possibly the Working Rhythms section in `core/nla-foundations.md`
+
+**Proposed fix:**
+Two adjacent fixes:
+1. Update /maintain's Session Start to scan open GitHub issues, not
+   just the feedback log. Lightweight check (`gh issue list --state
+   open --limit 20`); maintainer decides whether to triage now or
+   defer.
+2. Document the broader principle in foundations: before /think on
+   substantive work, scan accumulated artifacts for prior thinking.
+   Potentially fold into the "improvement loop" working rhythm or
+   a new "validation flow" rhythm (see related entry on
+   experimentation methodology).
+
+**Notes:**
+- Related to "Framework lacks documented experimentation methodology"
+  entry below (the meta-question about formalizing methodology).
+- Maintainer's framing: "I sent the feedback letter myself, and I
+  knew we were missing key parts of the plan, which is why I wanted
+  you to read the full letter." So the maintainer was operating as
+  an informed session-manager (Issue #24 item 8); the cost would be
+  higher in sessions without that human-in-the-loop awareness.
+
+---
+
+### 2026-05-06 — Bulk Edit calls don't parallelize when system reminders fire between each
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+This session migrated 21 framework wrappers as part of the skill-
+invocation convention adoption. The intent was to send batches of
+Edit calls in parallel — a single assistant message with multiple
+Edit tool uses — to amortize cost across edits. In practice, each
+Edit triggered a system reminder showing the updated skill listing,
+which ended my turn. Net result: 21 sequential edits, not parallel
+batches.
+
+This isn't a framework problem — it's a Claude Code harness behavior.
+But it's worth flagging because:
+- The framework's `/maintain` discusses parallel tool use generally
+  in its principles ("call multiple tools in a single response"); a
+  reader might assume bulk edits parallelize when they don't always.
+- For bulk edits specifically, a different shape might work better —
+  e.g., Write-based file rewrites for files where changes are
+  substantial enough that the entire file is being replaced anyway,
+  or a single Bash sed/awk pipeline for mechanical pattern
+  substitutions.
+
+**Before:** Bulk wrapper edits via Edit tool ran sequentially despite
+parallel intent. Took longer than expected for a mechanical change.
+**After:** Bulk-edit work uses the right shape per case — Write for
+substantial rewrites, Bash for mechanical substitutions, Edit for
+surgical changes — and doesn't assume parallelism for cases where
+the harness will interrupt.
+
+**Confirmed reason:**
+System reminders that fire after tool use end the current assistant
+turn. For tools that update state visible to the AI (e.g., the
+SKILL.md edits update the Skill listing in the active prompt), the
+reminder fires every time. For other tools (e.g., Read, Bash) the
+reminder may not fire on every call. The "parallel tool use"
+principle is true for non-state-updating tools; it has limits for
+state-updating ones.
+
+**Affected files:**
+None directly. This is harness behavior. Worth a possible feature
+request to Claude Code (consolidate state-update reminders across
+batched edits in a single turn).
+
+**Proposed fix:**
+1. Note in `core/skills/maintain.md` (or wherever bulk-edit work is
+   discussed) that bulk wrapper migrations should use Write or Bash
+   shaping rather than expecting parallel Edit calls.
+2. File a Claude Code feature request (separate from framework
+   maintenance work) about reminder consolidation for batched
+   state-updating tools.
+
+**Notes:**
+- Surfaced during this session's wrapper migration. The 21 wrappers
+  took longer to update than they should have because each Edit
+  ended a turn rather than batching.
+- Severity is minor because the work completed correctly; only the
+  pacing was off. But for larger bulk migrations (e.g., a domain
+  project with 30+ wrappers), the pattern would scale poorly.
+- Related to but distinct from the experimentation methodology entry
+  — that's about empirical validation; this is about mechanical bulk
+  edits. Both are about doing maintenance work efficiently but at
+  different stages.
+
+---
+
 ### 2026-05-06 — Controlled prose experiments validated the skill-invocation doctrine refinement
 
 **Type:** process
