@@ -33,6 +33,65 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-07 — Structure decisions protocol (framework-first adoption)
+
+**Affects:** core/nla-foundations.md, core/structure.md (new),
+core/skills/maintain.md, core/skills/install.md
+**Commit:** 68c145a, ea09b4a
+
+The framework adopts a propose-review-record protocol for structural
+change — new directories, reorganizations, new top-level files. The
+discipline pauses before structural changes, proposes the change with
+its structure-record entry, gets human approval, then acts (with the
+record updated as part of the change, not separate hygiene). Borrowed
+shape from facebook-moderation's compile-time `build-guide.md`
+(attribution per entry, Judgment notes, Decision Sources table).
+
+**What changed in `core/`:**
+- `nla-foundations.md`: a fifth working rhythm, "Structural Change
+  Discipline." Phrased location-agnostically — refers to "your project's
+  structure record" rather than a specific path. Includes an explicit
+  guard: don't create `core/structure.md` in a domain project (that's
+  the framework's analog; domain projects extend `app/overview.md`'s
+  "Where Things Live" section).
+- `core/structure.md` (new): the framework's own as-built structure
+  record. Domain projects do not consume this file — it's the
+  framework's instance of the protocol, not a propagation target.
+- `core/skills/maintain.md`: a "When the change is structural" callout
+  in Confirm Before Implementing. Names the discipline and the recording
+  requirement.
+- `core/skills/install.md`: a new principle bullet for structural
+  changes introduced by installed packages.
+
+**What this means for your project:** The discipline is now in your
+session context (via `nla-foundations.md` being loaded at startup). When
+you're maintaining your project and a structural change comes up, the AI
+will follow the protocol — it'll propose, ask for approval, and want to
+record the change. Until your project has a structure record (a "Where
+Things Live" section in `app/overview.md`), the protocol still works:
+the AI proposes creating the record alongside the first structural
+change.
+
+**Optional adoption:** You can add a "Where Things Live" section to
+your `app/overview.md` proactively — list each top-level directory and
+top-level file with purpose and attribution (mostly `[framework
+default]` for inherited structure, `[domain decision]` for choices
+specific to your project). A Decision Sources table at the bottom
+helps with scan affordance. This becomes the consultation target for
+future placement decisions. New projects created with `/create-app`
+(post-2026-05-07) get this section automatically per the updated
+generation guidance.
+
+**What's deferred:** `install/CLAUDE-intent.md` and
+`install/structure-intent.md` will be updated in a follow-up session
+(the publication arc) to canonically describe the structure record's
+content for domain projects. Until then, the foundations.md mention
+plus the maintain.md/install.md callouts carry the discipline; the
+intent file refinements will provide the canonical structure
+specification when they land.
+
+---
+
 ### 2026-05-04 — `--recurse-submodules` documented as one-step clone option
 
 **Affects:** README.md, .claude/skills/create-app/SKILL.md (generated README template)

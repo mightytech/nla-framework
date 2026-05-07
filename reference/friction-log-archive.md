@@ -12,6 +12,73 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-05-07 — Ad-hoc structural decisions lack process and record
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-05-07 — Three-layer structure decisions protocol adopted in the framework: behavioral rule in `CLAUDE.md`, recording artifact at `core/structure.md`, consultation pattern via the read-at-session-start instruction. Working rhythm added to `core/nla-foundations.md` (consumer-facing). Skill references wired into `core/skills/maintain.md` and `install.md`; `/create-app` updated to populate the structure record for new domain projects. Experimental validation at `reference/experiments/structure-decisions-protocol/experiment-report.md` (H1, H2, H3, H5 all passed). Domain-project propagation (intent file updates, update-notes for existing projects) deferred to a follow-up publication session.
+
+**Observation:**
+NLAs don't have a good process for modifying their directory structures
+and placing files within them. When the AI determines "we need X," it
+tends to create `x/` ad hoc — picking a location, making the directory,
+moving on. Two failure modes stack:
+
+1. **No checkpoint with the human.** The structural decision slips in
+   unannounced. The human doesn't get a chance to redirect or approve.
+2. **No record for future sessions.** The next AI has no idea why `x/`
+   exists, where related things should go, or whether the placement was
+   thought through. Future sessions either re-derive or guess.
+
+The cumulative effect is haphazard accumulation. The framework prescribes
+a default structure via `install/structure-intent.md`, but once an NLA
+exists, deviations and additions land without the propose-review-record
+discipline that other framework operations already carry (`/install`
+proposes permissions, `/think` proposes design, `/create-app` proposes
+initial structure). Structural change is the gap.
+
+**Before:** AI creates new directories silently when a task implies they
+are needed. The reasoning lives nowhere; future sessions must re-derive
+or guess where things go.
+
+**After:** AI proposes structural changes for human review (Phase-1-to-
+Phase-2 style), records the approved decision in an attributed structure
+document with reasoning, and consults that document on future placement
+decisions.
+
+**Affected files (proposed):**
+- New: structure-with-attribution doc (location TBD per framework-first
+  plan — likely `core/structure.md` for the framework, extension to
+  `app/overview.md` for domain projects)
+- `CLAUDE.md` (the behavioral rule)
+- Possibly `core/nla-foundations.md` (the protocol pattern as principle
+  or working rhythm)
+- `core/skills/maintain.md`, `core/skills/install.md`,
+  `.claude/skills/create-app/SKILL.md` (skills whose work creates
+  structural decisions)
+
+**Proposed fix:**
+Three-layer pattern — behavioral rule + attributed artifact + consultation
+discipline. Borrowed shape from facebook-moderation's compile-time
+build-guide. Framework-first adoption, validated by controlled experiments
+(per the methodology in `reference/experiments/skill-invocation-discipline/
+experiment-report.md`), then propagated.
+
+**Notes:**
+- Surfaced during a /think discussion 2026-05-07 after the maintainer
+  read facebook-moderation's `app/compile.md` and the build-guide it
+  produced (`lib/ingest-build-o/build-guide.md`).
+- Connects to the 2026-03-04 archived entry (Plan agent making cross-
+  project edits without checkpoint) — same family of "structural
+  decisions slip in without review," different scope.
+- Connects to the pending "Framework lacks documented experimentation
+  methodology" entry — this work applies that methodology before
+  formalizing it. Useful evidence either way.
+
+---
+
 ### 2026-05-06 — Reading accumulated artifacts before /think saves rediscovery
 
 **Type:** process
