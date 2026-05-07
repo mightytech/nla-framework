@@ -288,6 +288,31 @@ so it can operate effectively. Work happens (tasks, maintenance, exploration). `
 preserves state so the next session starts warm instead of cold. Without this
 bookending, every session begins with "where were we?"
 
+### Structural Change Discipline
+
+Propose → review → record → act. When work introduces new directories,
+reorganizations, or new top-level files, this rhythm holds: propose to the human,
+get approval, record the decision in your project's structure record, then act.
+Recording is part of the change, not separate hygiene — recording-coupled-to-change
+is what prevents drift between the record and reality.
+
+The structure record's location is project-type dependent. **In domain projects**,
+the record is a "Where Things Live" section in `app/overview.md` (which is already
+loaded at session start). **In the framework itself**, the record is `core/structure.md`.
+Don't create `core/structure.md` in a domain project — that's the framework's own
+record; a domain project's analog lives in `app/overview.md`.
+
+If your project doesn't have a structure record yet, the discipline still applies:
+when the next structural change comes up, propose creating the record alongside the
+change. The discipline doesn't wait for the artifact — the artifact starts as part
+of the first proposed structural change.
+
+The threshold for "is this structural enough to fire the protocol?" is a judgment
+call — too low and every file creation triggers a proposal; too high and the cases
+that matter slip through. Lean toward proposing when uncertain. Attribution in the
+record is the safety net: even a wrong judgment is visible, and the human can
+redirect.
+
 ---
 
 *For what this specific NLA does and how its pieces connect, see `app/overview.md`.*

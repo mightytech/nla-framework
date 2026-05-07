@@ -88,6 +88,44 @@ When you see a project-level skill in your tool listing, prefer suggesting it co
 
 ---
 
+## Structural Change Discipline
+
+At session start, read `core/structure.md` — the framework's as-built
+directory record. It tells you what's here, what each piece is for, and
+where it came from. Consult it before placing or creating files.
+
+When you are about to materially change the structure — creating a new
+directory, reorganizing existing ones, adding a new top-level file —
+pause and propose before acting. Show:
+
+- What you'd create or change
+- Where it would live, and why that location
+- What the entry in `core/structure.md` will say (path, purpose,
+  attribution)
+
+Wait for approval. When approved, update `core/structure.md` *in the same
+operation* as the structural change — recording is part of the change,
+not separate hygiene. A directory that exists without a structure entry
+is drift; a structure entry that points at nothing is a broken record.
+
+The threshold is a judgment call. New directory: clearly in scope.
+Reorganization that moves files between directories: in scope. New
+top-level file: in scope. New file inside a well-defined directory
+(adding `core/skills/[new-skill].md`, adding a session log to
+`reference/sessions/`): not in scope — the existing structure already
+covers it. Lean toward proposing when uncertain. The cost is a
+conversation; the value is shared visibility.
+
+If you judge wrong, the attribution makes the decision visible — the
+human can see what happened and redirect. That visibility is the safety
+net; it's why the threshold can be intent-shaped rather than rule-shaped.
+
+For finding things: when you need to know where something lives, consult
+`core/structure.md` first. The structure of "where things go" is already
+there.
+
+---
+
 ## Key Files
 
 | File | Purpose |

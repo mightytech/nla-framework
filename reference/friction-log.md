@@ -68,69 +68,69 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
-### 2026-05-06 — Reading accumulated artifacts before /think saves rediscovery
+### 2026-05-07 — Ad-hoc structural decisions lack process and record
 
 **Type:** process
-**Severity:** positive
-**Blast radius:** maintainers (immediate); all projects (the pattern generalizes to any NLA)
-**Status:** resolved
-**Resolved:** 2026-05-06 — Pattern surfaced and applied during this session; documented for future use.
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending (in progress in 2026-05-07 session)
 
 **Observation:**
-This session ran /think on the skill-invocation doctrine question and
-converged on several findings independently — only to discover that
-GitHub Issue #24 (a feedback letter from facebook-moderation) had
-captured most of those findings and several more. Reading the issue
-*after* /think meant the plan needed substantive rework to incorporate
-findings that were already documented.
+NLAs don't have a good process for modifying their directory structures
+and placing files within them. When the AI determines "we need X," it
+tends to create `x/` ad hoc — picking a location, making the directory,
+moving on. Two failure modes stack:
 
-The maintainer was the one who pointed at the issue (knowing it
-existed), so the cost was bounded. But the pattern generalizes: when
-considering substantive work on a topic where prior thinking might
-exist, *read accumulated artifacts first*. /think extends and stress-
-tests existing thinking; it shouldn't reinvent it.
+1. **No checkpoint with the human.** The structural decision slips in
+   unannounced. The human doesn't get a chance to redirect or approve.
+2. **No record for future sessions.** The next AI has no idea why `x/`
+   exists, where related things should go, or whether the placement was
+   thought through. Future sessions either re-derive or guess.
 
-**Generalizable:** Yes. Applies to any maintenance work where prior
-artifacts (feedback log, friction log, design rationale, related
-GitHub issues) might capture relevant thinking. Cost: a few minutes
-of reading. Value: variable but can be large (the letter saved us
-from a plan missing three sections).
+The cumulative effect is haphazard accumulation. The framework prescribes
+a default structure via `install/structure-intent.md`, but once an NLA
+exists, deviations and additions land without the propose-review-record
+discipline that other framework operations already carry (`/install`
+proposes permissions, `/think` proposes design, `/create-app` proposes
+initial structure). Structural change is the gap.
 
-**Operational gap noticed:** The /maintain session-start prompt reads
-the *post-triage* feedback log. Open GitHub Issues that haven't been
-triaged yet are invisible at session start. Issue #24 was filed
-2026-05-05 (one day before this session) and hadn't been triaged —
-so it was on GitHub but not in the feedback log. Two possible fixes:
-(a) maintainer remembers to run `/check-feedback` discovery
-(no triage) at session start when substantive work is on deck; or
-(b) /maintain's session-start adds a quick `gh issue list` check
-alongside the feedback log read. The second feels procedurally
-right but lives outside this entry's scope.
+**Before:** AI creates new directories silently when a task implies they
+are needed. The reasoning lives nowhere; future sessions must re-derive
+or guess where things go.
 
-**Affected files:**
-- `core/skills/maintain.md` (potentially — Session Start)
-- Possibly the Working Rhythms section in `core/nla-foundations.md`
+**After:** AI proposes structural changes for human review (Phase-1-to-
+Phase-2 style), records the approved decision in an attributed structure
+document with reasoning, and consults that document on future placement
+decisions.
+
+**Affected files (proposed):**
+- New: structure-with-attribution doc (location TBD per framework-first
+  plan — likely `core/structure.md` for the framework, extension to
+  `app/overview.md` for domain projects)
+- `CLAUDE.md` (the behavioral rule)
+- Possibly `core/nla-foundations.md` (the protocol pattern as principle
+  or working rhythm)
+- `core/skills/maintain.md`, `core/skills/install.md`,
+  `.claude/skills/create-app/SKILL.md` (skills whose work creates
+  structural decisions)
 
 **Proposed fix:**
-Two adjacent fixes:
-1. Update /maintain's Session Start to scan open GitHub issues, not
-   just the feedback log. Lightweight check (`gh issue list --state
-   open --limit 20`); maintainer decides whether to triage now or
-   defer.
-2. Document the broader principle in foundations: before /think on
-   substantive work, scan accumulated artifacts for prior thinking.
-   Potentially fold into the "improvement loop" working rhythm or
-   a new "validation flow" rhythm (see related entry on
-   experimentation methodology).
+Three-layer pattern — behavioral rule + attributed artifact + consultation
+discipline. Borrowed shape from facebook-moderation's compile-time
+build-guide. Framework-first adoption, validated by controlled experiments
+(per the methodology in `reference/experiments/skill-invocation-discipline/
+experiment-report.md`), then propagated.
 
 **Notes:**
-- Related to "Framework lacks documented experimentation methodology"
-  entry below (the meta-question about formalizing methodology).
-- Maintainer's framing: "I sent the feedback letter myself, and I
-  knew we were missing key parts of the plan, which is why I wanted
-  you to read the full letter." So the maintainer was operating as
-  an informed session-manager (Issue #24 item 8); the cost would be
-  higher in sessions without that human-in-the-loop awareness.
+- Surfaced during a /think discussion 2026-05-07 after the maintainer
+  read facebook-moderation's `app/compile.md` and the build-guide it
+  produced (`lib/ingest-build-o/build-guide.md`).
+- Connects to the 2026-03-04 archived entry (Plan agent making cross-
+  project edits without checkpoint) — same family of "structural
+  decisions slip in without review," different scope.
+- Connects to the pending "Framework lacks documented experimentation
+  methodology" entry — this work applies that methodology before
+  formalizing it. Useful evidence either way.
 
 ---
 
@@ -201,62 +201,6 @@ batched edits in a single turn).
   — that's about empirical validation; this is about mechanical bulk
   edits. Both are about doing maintenance work efficiently but at
   different stages.
-
----
-
-### 2026-05-06 — Controlled prose experiments validated the skill-invocation doctrine refinement
-
-**Type:** process
-**Severity:** positive
-**Blast radius:** maintainers (immediate); all projects (methodology generalizes)
-**Status:** resolved
-**Resolved:** 2026-05-06 — Experiments ran (Layers A-D + T1-T5 + calibration); framework wrappers migrated to new convention; full writeup at `reference/experiments/skill-invocation-discipline/experiment-report.md`. Plan for downstream publication at `reference/plans/skills-doctrine-publication.md`.
-
-**Observation:**
-A controlled prose-experiment methodology produced empirical findings
-that reasoning alone wouldn't have surfaced. The experiments tested
-whether constraint-bearing skill description language disciplines AI
-invocation behavior — a question where the framework had a documented
-prior decision (`disable-model-invocation: true` on all skills) and
-proposed reversing required evidence proportional to the original
-concern.
-
-The shape that worked: hypothesize → isolate variable → cold-context
-agent → binary signal (filesystem state) → iterate or commit. Each
-test cycle was ~30 seconds + analysis. Total experimental cost across
-all layers and calibrations: ~30-45 minutes. One finding (Layer C)
-disconfirmed an assumption we'd otherwise have shipped.
-
-The methodology pattern is the more durable contribution. Future
-prose-as-code work in the framework — doctrine changes, convention
-shifts, skill template revisions — could benefit from the same shape.
-See report Section 4 ("Cross-Cutting Findings") for the methodology
-findings beyond the immediate doctrine question.
-
-**Generalizable:** Yes. The pattern is "controlled experiments on
-prose-as-code." Applies whenever a prose change has downstream impact
-and reasoning alone leaves uncertainty. The experiments worked in this
-domain (skill descriptions); they should generalize to others (CLAUDE.md
-prescriptive language, intent file conventions, skill template shapes,
-etc.).
-
-**Notes:**
-- The cold-context review methodology (two-pass: simulation + frame
-  question) is a related but distinct contribution surfaced by this
-  work. Issue #24 introduced it; our experiments validated its value
-  in a different domain. Worth surfacing in the same writeup but
-  conceptually separate from the prose-experiment methodology.
-- See companion friction-log entry: "Framework lacks documented
-  experimentation methodology" (the meta-question of whether to
-  elevate this pattern to framework-level guidance).
-- The experiment report itself (~600 lines) is the durable artifact;
-  this friction log entry is the pointer.
-- Mistakes worth flagging (full list in report Section 6): the initial
-  test design conflated visibility and constraint; we almost shipped
-  pilot-skill testing instead of production-form testing; a
-  rules-vs-intent slip on audit design needed correction. The user-as-
-  session-manager pattern (Issue #24 item 8) was load-bearing
-  throughout.
 
 ---
 
@@ -666,53 +610,6 @@ references or adapts facebook-moderation's compile preamble.
 
 ---
 
-### 2026-03-25 — settings.local.json accumulates junk instead of systematic permission entries
-
-**Type:** process
-**Severity:** major
-**Blast radius:** all projects
-**Status:** resolved
-**Resolved:** 2026-04-15 — Architectural change: the packages/ submodule model eliminates cross-directory reads entirely, making Read permission entries and settings.local.json generation for them unnecessary. The symlink investigation is also closed — symlinks are ruled out (test data from Issues #15, #16 confirmed they add friction rather than removing it).
-
-**Observation:**
-The permission management model (designed 2026-03-04) envisioned clean, systematic
-entries like `Read(../nla-framework/**)` generated by `/create-app`, `/install`, and
-`/update`. In practice, the framework's own `settings.local.json` contains a junk
-drawer of individually approved commands — entire commit messages, shell loop fragments,
-broken entries — accumulated from one-off approvals over time. No systematic Read
-permission entries for sibling directories exist.
-
-The user reports "tons of permissions messages" despite having updated their NLAs. The
-generation lifecycle (create → install → update → validate) either never ran for
-existing projects, or the generated entries don't match what Claude Code actually checks.
-
-**Before:** Permission model designed but not delivering friction relief in practice.
-**After:** Clean permission entries that actually eliminate cross-directory prompts.
-
-**Related discovery:**
-Symlinks within the project directory bypass Claude Code's permission checks entirely.
-A symlink at `dependencies/nla-penny-post` → `../nla-penny-post/` allows reads through
-the logical path with no permission prompt. Tested 2026-03-25 from the framework project.
-Test letters sent to 5 domain projects to gather broader data.
-
-**Open questions:**
-- Is the generation logic in `/create-app` and `/update` actually producing the entries?
-- Does Claude Code's permission pattern matching support `Read(../nla-framework/**)`?
-- Would symlinks be a more reliable solution than settings-based permissions?
-- Why did direct reads to sibling directories also work without prompts from the
-  framework project? (Permission mode specific? Accumulated one-off approvals?)
-
-**Affected files:**
-- `install/install.md` — permission declarations
-- `.claude/skills/create-app/SKILL.md` — settings generation
-- `core/skills/install.md`, `core/skills/update.md` — permission proposal logic
-
-**Proposed fix:**
-Awaiting test results from domain projects (Issues filed 2026-03-25). Once data is in,
-either fix the settings generation pipeline or pivot to a symlink-based architecture.
-
----
-
 ### 2026-03-08 — Should /startup disable-model-invocation be false?
 
 **Type:** core
@@ -743,55 +640,6 @@ foundations in their own prerequisites because they can't rely on `/startup` hav
 Design session (`/think`) to work through auto-invocation behavior, interaction with
 `/maintain`, and whether this is the right exception or whether the blanket rule is
 simpler even if imperfect.
-
----
-
-### 2026-03-04 — Plan agent proposed cross-project edits that contradicted /think design
-
-**Type:** process
-**Severity:** minor
-**Blast radius:** maintainers
-**Status:** resolved
-**Resolved:** 2026-03-04 — Reverted package edits, logged pattern.
-
-**Observation:**
-During implementation of the permission management model, the Plan agent proposed
-directly editing sibling package manifests (penny-post, process-helpers). This
-contradicted the design from the /think session, which explicitly established that
-packages learn about permission declarations through `/update` from the framework —
-not through direct cross-project edits by the framework maintainer.
-
-The changes were implemented before the human caught the contradiction.
-
-**Root cause:**
-Two contributing factors:
-
-1. **Plan agent lacked design context.** The Plan agent received a summary of
-   decisions but not the reasoning behind the migration flow design. It optimized
-   for completeness ("these packages need permissions sections") rather than
-   honoring the principle that each project adopts changes through its own update
-   channel.
-
-2. **Review gap between /think and plan.** When reviewing the Plan agent's output,
-   the AI checked for mechanical correctness (right files, right format) but didn't
-   verify each step against the /think design principles. The contradiction was
-   between a design-level decision (migration flows through /update) and an
-   implementation step (directly edit packages) — a category mismatch that
-   mechanical review doesn't catch.
-
-**Generalizable pattern:**
-When a /think session establishes *how changes flow between projects*, the
-implementation plan must respect those flow decisions. Direct cross-project edits
-bypass the update channel that was designed precisely for this purpose. This is
-also a "Context Determines Competence" issue — changes to a package's manifests
-are judgment operations that should happen in that package's own maintenance
-context.
-
-**Proposed fix:**
-When writing implementation plans after a /think session, explicitly check each
-proposed cross-project edit against the /think design: "Does this change belong
-in the current project's context, or should it flow through /update?" Add this
-as a pre-flight check item in the maintain skill.
 
 ---
 

@@ -2064,6 +2064,126 @@ aspirational and non-aspirational identity is substantial.
 
 ---
 
+## Structure Decisions Protocol
+
+*Added 2026-05-07. Origin: friction log entry "Ad-hoc structural decisions
+lack process and record" + /think conversation 2026-05-07.*
+
+### The problem
+
+NLAs lacked a process for modifying directory structures and placing
+files. When AI determined "we need X," it tended to create `x/` ad hoc,
+silently. Two failure modes stacked: no checkpoint with the human (the
+structural decision slipped in unannounced), and no record for future
+sessions (the next AI re-derived or guessed where things lived).
+
+The framework itself was the case-in-point: `reference/feedback/`,
+`reference/specs/`, `reference/designs/` had accumulated since 2026-02
+without appearing in `install/structure-intent.md`. The framework
+prescribed structure for new NLAs but had no protocol for evolving it.
+
+### The three-layer pattern
+
+The protocol borrows from facebook-moderation's compile-time
+`build-guide.md` (in their `/compile` skill — every entry attributed to a
+source or `[compiler]` judgment, **Judgment note** callouts for
+non-obvious tradeoffs, Decision Sources table for scan affordance). Three
+layers:
+
+1. **Behavioral rule.** When AI is about to materially change project
+   structure (new directory, reorganization, new top-level file), pause
+   and propose. Recording is part of the change, not separate hygiene.
+2. **Recording artifact.** Short attributed map of the as-built
+   structure. Each entry: path → purpose → why this location → what put
+   it there. Decision Sources table at the bottom.
+3. **Consultation pattern.** Future AI sessions consult the artifact
+   first when placing or finding things. The artifact must be in active
+   context, which means the project's CLAUDE.md (or equivalent) must
+   instruct reading it at session start.
+
+### Threshold via intent, not rules
+
+The threshold for "is this structural enough to fire the protocol?" is a
+judgment call. The discipline describes the tension (over-gating annoys;
+under-gating misses the cases that matter), names attribution as the
+safety net, and lets the AI judge. This applies foundations principle #4
+(intent over rules) to a question about its own design — a wrong judgment
+is visible (the artifact records what the AI decided), and the human can
+redirect.
+
+### Centralized over distributed
+
+A single short artifact loaded at startup. Distributed per-directory
+READMEs would require lazy-load discovery the AI can't easily do without
+an index, and they accumulate drift on different timelines from each
+other. Centralized + always-loaded gives drift a chance to be
+self-evident: an existing-but-undocumented directory or a
+described-but-missing entry both surface as flags rather than going
+silent.
+
+### Where the artifact lives
+
+Project-type dependent because framework and domain projects have
+different runtime patterns:
+
+- **Framework:** new file `core/structure.md`. The framework lacks
+  `app/overview.md` by design (it isn't a domain project), and
+  `core/structure.md` sits alongside the existing `core/README.md`. The
+  framework's CLAUDE.md instructs reading it at session start.
+- **Domain projects (deferred):** extension to `app/overview.md` (a
+  "Where Things Live" section), since `app/overview.md` is already
+  startup-loaded for domain projects via `/startup`.
+
+The *content shape* is identical; the *file location* differs. Same
+logic as the existing `core/` vs. `app/` split.
+
+### Framework-first adoption with experimental validation
+
+The framework adopts the protocol first, in this session. Domain-project
+propagation is deferred — to be drafted as a publication plan after the
+framework's experiments validate the pattern. This mirrors the prior
+session's skill-invocation discipline pattern (Commit C deferred for
+verification in real maintenance use).
+
+The validation is empirical: cold-context experiments using the
+methodology established in
+`reference/experiments/skill-invocation-discipline/experiment-report.md`.
+Specifically: `claude -p --dangerously-skip-permissions` headless
+agents, binary filesystem signals, synthetic vocabulary to avoid
+framework-prior contamination, hypotheses tested as discrete probes.
+The full experiment report lives at
+`reference/experiments/structure-decisions-protocol/experiment-report.md`.
+
+### Blast radius
+
+- **Consumer-facing:** `core/nla-foundations.md` (mention of the
+  discipline as a working rhythm), `core/structure.md` (new file),
+  eventually `core/skills/maintain.md`/`install.md`/`create-app/SKILL.md`
+  if Step 7's wiring lands. Domain projects on next `/update` will see
+  the foundations mention; the location-agnostic phrasing prevents them
+  from creating `core/structure.md` themselves (that's the framework's
+  own analog).
+- **Framework-internal:** `CLAUDE.md` (new "Structural Change
+  Discipline" section), `reference/experiments/structure-decisions-protocol/`
+  (experiment report).
+- **Deferred:** `install/CLAUDE-intent.md`, `install/structure-intent.md`,
+  `install/update-notes.md` updates that propagate the pattern to
+  domain projects.
+
+### Why not just better written `install/structure-intent.md`?
+
+That file *prescribes* structure for new NLAs but doesn't carry as-built
+attribution. Two different jobs: the prescriptive intent (what new NLAs
+should have) is forward-looking; the as-built record (what this specific
+NLA actually has, and why) is backward-looking. They could coexist in
+one file, but separating them keeps each one easier to maintain — the
+intent file changes when the framework's prescription changes; the
+structure record changes when the project's actual structure changes.
+Different change frequencies, different audiences (framework
+maintainers vs. domain-project maintainers).
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:
