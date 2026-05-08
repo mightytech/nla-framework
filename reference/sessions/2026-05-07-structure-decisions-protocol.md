@@ -1,6 +1,6 @@
 # Maintenance Session: Structure Decisions Protocol
 
-**Date:** 2026-05-07
+**Date:** 2026-05-07 (extended into 2026-05-08 for validation-flow addition)
 **Status:** Complete
 
 ## Intent
@@ -92,6 +92,37 @@ with experiments, then push out broadly" methodology).
   domain-project consumers, including optional adoption guidance and
   the deferred publication scope.
 - **Friction log entry** marked resolved.
+
+### Validation flow rhythm (2026-05-08 addendum, post-debrief)
+
+During /debrief and /unpack the next day, a related question surfaced:
+should the experimentation methodology that just ran in this session
+(and in four prior sessions across two NLAs) be documented in
+foundations as a working rhythm?
+
+I initially said wait — let the methodology mature further. The user
+pushed back by pointing at three additional experiment reports in
+facebook-moderation (`implementation-standards`, `ingest-compile-compare`,
+`identity-standards-transmission`). Reading those — applying the
+sibling-artifact memory captured earlier in the same /debrief —
+revealed the threshold I had set was easily crossed: five experiments
+across three NLAs across five distinct domains.
+
+Updated foundations.md to add **The Validation Flow** as a sixth
+working rhythm alongside the existing four plus the Structural Change
+Discipline added earlier in the session. Intent-shaped, with the
+explicit caveat that the methodology isn't always warranted — pause
+to ask whether experiments would inform the work, with "no" as a valid
+answer. The user's specific contribution: the consider-whether-it-fits
+caveat, which broadens the rhythm beyond "use this methodology" to
+"think about whether this methodology fits this moment."
+
+Resolves the pending 2026-05-06 friction log entry "Framework lacks
+documented experimentation methodology." Deeper work (standalone
+cold-context review documentation, skill-level affordances) remains
+as future opportunities — the entry's MVP scope is complete.
+
+Update-notes entry added for downstream consumers.
 
 ## Decisions Made
 

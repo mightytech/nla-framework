@@ -313,6 +313,25 @@ that matter slip through. Lean toward proposing when uncertain. Attribution in t
 record is the safety net: even a wrong judgment is visible, and the human can
 redirect.
 
+### The Validation Flow
+
+Hypothesize → design experiment → test in cold context → measure → iterate or commit.
+When prose changes have downstream impact and reasoning alone leaves uncertainty,
+validate empirically before committing. Controlled experiments with cold-context
+agents and binary signals.
+
+The methodology isn't always warranted — many prose changes are obviously routine,
+and experiments would be overhead. But when stakes are non-trivial, pause to ask:
+would experiments inform this work? Would they be worth doing? The question itself
+is cheap, even when the answer is "no, this is too small to test."
+
+See `reference/experiments/` (in this project or in sibling NLAs) for working
+examples; the methodology continues to evolve as new experiments add to its
+vocabulary (bench discovery before instrument design, testing the production form,
+two-pass cold-context review, synthetic vocabulary, citation as safety net,
+pressure-resistance probes). The cost is minutes per experiment; the value is
+catching incorrect assumptions before they propagate.
+
 ---
 
 *For what this specific NLA does and how its pieces connect, see `app/overview.md`.*

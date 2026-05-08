@@ -33,6 +33,55 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-08 — Validation flow added as a sixth working rhythm
+
+**Affects:** core/nla-foundations.md
+
+A new "Validation Flow" working rhythm has been added to
+`core/nla-foundations.md` alongside the existing four (Improvement
+Loop, Design Flow, Update Cycle, Session Structure) and the recently-
+added Structural Change Discipline.
+
+The rhythm: *hypothesize → design experiment → test in cold context →
+measure → iterate or commit.* When prose changes have downstream impact
+and reasoning alone leaves uncertainty, validate empirically before
+committing — controlled experiments with cold-context agents and binary
+signals.
+
+Critically, the rhythm includes an intent-shaped caveat: it isn't
+always warranted. *"Many prose changes are obviously routine, and
+experiments would be overhead. But when stakes are non-trivial, pause
+to ask: would experiments inform this work? Would they be worth doing?
+The question itself is cheap, even when the answer is 'no, this is
+too small to test.'"*
+
+**Why now:** Five empirical experiments across three NLAs have
+demonstrated the methodology generalizes across domains: the
+framework's skill-invocation discipline (2026-05-06) and structure
+decisions protocol (2026-05-07), plus facebook-moderation's
+implementation-standards (2026-04-02), ingest-compile-compare
+(2026-04-06), and identity-standards-transmission (2026-04-24). The
+pattern is mature enough to document; further evolution stays open
+(the rhythm explicitly says the methodology continues to evolve).
+
+**What this means for your project:** The next time you're considering
+a prose change with downstream impact — convention shift, doctrine
+change, skill template revision, framework-level addition — pausing to
+ask whether experiments would inform the work is now part of the
+documented rhythm. If yes, see `reference/experiments/` (in the
+framework or in sibling NLAs) for working examples of the methodology.
+If no, proceed with reasoning alone — the question is the discipline,
+not running experiments unconditionally.
+
+**Resolves friction log entry:** "Framework lacks documented
+experimentation methodology" (2026-05-06). The entry's MVP scope
+(documenting the rhythm in foundations) is complete; deeper work
+(standalone cold-context review documentation, skill-level affordances
+like `/run-experiment` or folding into `/think`) remains as future
+opportunities.
+
+---
+
 ### 2026-05-07 — Structure decisions protocol (framework-first adoption)
 
 **Affects:** core/nla-foundations.md, core/structure.md (new),
