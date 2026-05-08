@@ -200,7 +200,7 @@ modifications force trade-offs.
 
 ## Debrief
 
-Key observations:
+### Initial observations (captured at 2026-05-07 close)
 
 - **Borrowing from a sibling project's pattern was high-leverage.** The
   facebook-moderation `build-guide.md` shape transferred cleanly because
@@ -229,6 +229,57 @@ Key observations:
   Including bench discovery. Cheap relative to the alternative (commit,
   observe regression in real use, revert).
 
+### /debrief + /unpack outputs (2026-05-08)
+
+A formal /debrief surfaced six observations; /unpack walked through
+them sequentially. Outcomes:
+
+- **AskUserQuestion is wrong shape for most NLA decisions.** I reached
+  for AskUserQuestion on a scope question; user pushed back: "AskUserQuestion
+  is very rarely a productive pattern for the kind of work we do. It's
+  an enum for an LLM runtime meaning it's constrained in a way it doesn't
+  mean to be. Almost all our most important decisions are in the shape
+  of 'yes, but' or 'yes, and' not just 'yes.'" Captured as memory entry
+  `feedback_prose_over_enum_for_decisions.md`. The structure-gradient
+  principle (structured underneath, flexible on top) puts prose as the
+  natural interface for decisions; enums invert that for judgment-bearing
+  runtimes.
+- **Iterative reflection vs. dense summaries.** User asked for richer
+  reflection one step at a time after my dense session-end summary. Not
+  captured durably — situational, eyes open for recurrence.
+- **Plan agent conservatism is calibratable.** Already captured in
+  friction log (commit `1867803`).
+- **TaskCreate reminder noise.** Left uncaptured — Claude Code thinks
+  it's a code generator; framework uses it as an NLA runtime; mismatch
+  is structural and unlikely to be fixed by feedback. Worth knowing as
+  background for future sessions.
+- **Bench discovery first.** Positive observation; already captured in
+  experiment report.
+- **Validation-arc methodology over wait-and-see.** User's call, sharper
+  than my initial "framework-first adoption" framing.
+
+### Validation flow rhythm — emerged from debrief
+
+The validation-flow question surfaced during /debrief as a natural
+extension. I miscalibrated initially ("wait until methodology matures")
+because I only had the framework's two reports in mind. User pointed at
+three more experiment reports in facebook-moderation
+(`implementation-standards`, `ingest-compile-compare`,
+`identity-standards-transmission`); reading them satisfied the
+generalizability threshold easily. **The miscalibration was a real-time
+instance of the very memory entry I had just captured a few exchanges
+earlier** (`feedback_read_artifacts_before_think`) — description-level
+knowledge of sibling experiments, not artifact-level. The user's
+implicit test was "will you apply the lesson?"; I didn't until pointed.
+Worth noting for future calibration.
+
+The validation flow rhythm landed in `core/nla-foundations.md` with the
+user-contributed "consider whether experiments fit this work" caveat —
+broadens the rhythm beyond mechanical application to judgment about fit.
+That caveat shape (consider-whether-it-fits) is itself worth watching
+for recurrence; could generalize to other available methodologies if
+the pattern fires again.
+
 ## State at Close
 
 ### What's working
@@ -238,8 +289,15 @@ Key observations:
   context per bench discovery.
 - Skill references in `core/skills/maintain.md` and `install.md`, plus
   `/create-app` generation guidance, all landed.
-- Update-notes entry written for downstream domain projects.
-- Friction log entry resolved.
+- Update-notes entries written for downstream domain projects (two
+  entries: structure decisions protocol, validation flow rhythm).
+- Friction log entries resolved: 2026-05-07 (ad-hoc structural
+  decisions); 2026-05-06 (lacks documented experimentation methodology).
+- Validation Flow added as a sixth working rhythm in
+  `core/nla-foundations.md` (2026-05-08 addendum). Intent-shaped, with
+  the "consider whether experiments fit this work" caveat.
+- Six commits + v0.0.7 tag pushed to origin/main (consolidated tag
+  covers the whole session arc per per-session-tag convention).
 
 ### What's pending (deferred per plan)
 
@@ -294,5 +352,9 @@ Key observations:
 
 ### Pending friction log entries
 
-11 pending + 2 deferred (down from 11 pending + 2 deferred at session
-start; net zero since the new 2026-05-07 entry resolved this session).
+10 pending + 2 deferred. Net change from session start: −1 (the
+2026-05-06 "Framework lacks documented experimentation methodology"
+entry was resolved 2026-05-08). Two new 2026-05-07 entries added during
+the session debrief (sibling-artifact reading; Plan agent
+conservatism); both still pending. Net: -1 from session start, with
+better articulation of patterns we noticed along the way.

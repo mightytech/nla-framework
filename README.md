@@ -153,6 +153,7 @@ The framework is a submodule inside your project's `packages/` directory.
 nla-framework/
 ├── core/
 │   ├── nla-foundations.md     # Universal NLA concepts and principles
+│   ├── structure.md          # Framework as-built structure record (per structural change discipline)
 │   └── skills/               # Skill logic (delegated to by project wrappers)
 ├── install/                   # Intent files — source of truth for project generation
 ├── lib/                       # Helper scripts (e.g., export.py)
