@@ -12,6 +12,74 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-04-18 — Shippability convention reads as per-commit tagging; session-end is better
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-05-08 — Refined the Shippability section in `core/skills/maintain.md` to separate *what counts as consumer-facing* (the classification, unchanged) from *when the tag goes on* (push moment, typically session end). `core/skills/close.md` was restructured at the same time and now operates the rule: step 5 reviews commits since the last tag and tags HEAD before pushing if any touched consumer-facing content. A session shipping three consumer-facing commits gets one tag. The `reference/design-rationale.md` Shippability entry carries the refinement record. `install/package-intent.md` was not touched in this pass — the package-specific pointer remains aligned with the framework rule because it inherits maintain.md's Shippability section conceptually rather than restating it.
+
+**Observation:**
+During the 2026-04-18 writing-standards session, I tagged the first
+consumer-facing commit (the `/maintain` broadening work) as v0.0.5 mid-session,
+with more consumer-facing work planned for the same session. The user pushed
+back: jumping 0.0.4 → 0.0.5 → 0.0.6 → 0.0.7 in a single session inflates
+version numbers without making each tag more meaningful. Downstream consumers
+would rather see "v0.0.5 = one session of writing-standards-related work"
+than three incrementally-numbered tags of the same arc of work.
+
+The `core/skills/maintain.md` Shippability section as currently written —
+"If yes → tag the commit (if the project uses tagged releases)" — reads as
+per-commit tagging. The operative rule works correctly (consumer-facing
+content gets tagged); the *timing* doesn't distinguish "tag each commit" from
+"tag a meaningful release." Per-commit tagging was the literal
+interpretation; session-end (or "explicit release moment") tagging is what
+the downstream consumer actually benefits from.
+
+**Confirmed reason:**
+User's framing: "It just seems weird to potentially jump up from 0.0.4 to
+0.0.7 in this session alone (if we go to 0.0.6 after pass 1 and 0.0.7 after
+pass 2)." The version number should track meaningful release cadence, not
+commit cadence. A session is a natural unit: one arc of work, one set of
+changes a consumer should review together, one tag.
+
+Related: the 2026-04-17 session's debrief already carried a gentle tension
+about tagging choice ("reassess after a few more sessions if the pattern
+recurs"). This is the recurrence.
+
+**Affected files:**
+- `core/skills/maintain.md` (Shippability at Commit Time section)
+- `install/package-intent.md` (package-specific pointer, per 2026-04-17 session)
+
+**Proposed fix:**
+Refine the Shippability guidance to separate the *what-to-include-in-tag*
+question (consumer-facing content) from the *when-to-tag* question. Rough
+direction:
+- The commit-time decision stays: "does this commit touch consumer-facing
+  content?" determines whether the work belongs in the next release.
+- The tagging-time decision is separate: tag at meaningful release moments
+  (typically session end, or when a consumer-facing arc of work is
+  complete), not per-commit. Update-notes entries can still land per-commit
+  — they're a running changelog, not a release marker.
+- Update-notes per consumer-facing commit still makes sense (changelog
+  granularity); it's the tag that should be release-grained.
+
+Scope for a future `/maintain` to work through — this friction log entry
+captures the observation; convention refinement happens when processed.
+
+**Notes:**
+- Mid-session local v0.0.5 tag was deleted (it wasn't pushed). The
+  2026-04-18 session will tag at end, once, for all its consumer-facing
+  work.
+- Worth checking how the per-commit vs. release-moment distinction interacts
+  with `/update`'s tag-check behavior (install.md "Pin to a Tagged Release"
+  and update.md's fast-forward tag offer) — the tag-check pattern assumes
+  tags mark stable release points. Batched session-end tagging matches that
+  assumption better than per-commit tagging does.
+
+---
+
 ### 2026-05-06 — Framework lacks documented experimentation methodology
 
 **Type:** core

@@ -298,6 +298,12 @@ as other validation modes.
 
 ## Shippability at Commit Time
 
+Two questions live in this protocol — *what counts as consumer-facing* (which
+commits matter to downstream consumers) and *when the tag goes on* (which
+moment is the right one to mark a release point). They're separate decisions.
+
+### What counts as consumer-facing
+
 Before committing, ask: *does this commit touch consumer-facing content?*
 
 - **For the framework:** `core/` or consumer-facing `install/*.md`.
@@ -306,19 +312,37 @@ Before committing, ask: *does this commit touch consumer-facing content?*
 - **For domain projects:** `app/`, `.claude/skills/`, or `CLAUDE.md` (the parts
   that ship in a plugin export).
 
-If yes → tag the commit (if the project uses tagged releases) and add an entry
-to `install/update-notes.md` (if the project ships update notes).
+If yes → add an entry to `install/update-notes.md` (if the project ships update
+notes). Update-notes entries land per-commit; they're a running changelog at
+commit granularity.
 
-If it only touches internal content — the project's own `reference/` (design
-rationale, friction log, session logs, install log) or, for framework and
-packages, their own `CLAUDE.md` — skip both. Consumers see the submodule
-pointer advance but have nothing to review.
+If only internal — the project's own `reference/` (design rationale, friction
+log, session logs, install log) or, for framework and packages, their own
+`CLAUDE.md` — skip the note. Consumers see the submodule pointer advance but
+have nothing to review.
 
-When a commit touches both buckets, treat it as consumer-facing: tag and write
-the note.
+When a commit touches both buckets, treat it as consumer-facing.
+
+### When the tag goes on
+
+Tags attach at *push*, not at commit. Typically that means session end —
+`/close` reviews the commits accumulated since the last tag and tags HEAD before
+pushing if any of them touched consumer-facing content. A session that ships
+three consumer-facing commits gets one tag, not three.
+
+If a session ends without a push (work left local for review later), no tag
+fires. The next push tags whatever has accumulated. Tags are for consumers; an
+unpushed tag is noise.
+
+For mid-session pushes outside `/close`: same rule. If you're pushing
+consumer-facing content, tag at the push moment.
+
+This avoids version-number inflation — version numbers track meaningful release
+cadence, not commit cadence.
 
 See `reference/design-rationale.md` ("Shippability: Consumer-Facing vs. Internal
-Content") for the full reasoning.
+Content") for the full reasoning, including the 2026-05-08 refinement that
+separated the *what* from the *when*.
 
 ---
 

@@ -33,6 +33,68 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-08 — `/close` reordered; tag cadence refined to per-push
+
+**Affects:** core/skills/close.md, core/skills/maintain.md
+
+Two related changes ship together.
+
+**`/close` step order changed.** The skill now runs in dependency order:
+
+1. Validate (if structural changes warrant it)
+2. Check documentation mirrors
+3. Debrief
+4. Finalize the session log
+5. Commit + tag (if pushing) + push
+
+The previous order placed the session log first, but validation, mirror
+fixes, and debrief can produce work that needs to land *in* the log — so the
+log is finalized later, after that work is in hand. This also lets debrief
+reflect everything that happened, including the close-time work itself.
+
+**Tag cadence: per-push, not per-commit.** The Shippability section in
+`maintain.md` previously read as per-commit tagging — every commit touching
+consumer-facing content got tagged. In practice this inflated version
+numbers (a single session shipping three consumer-facing commits jumped
+v0.0.4 → v0.0.5 → v0.0.6 → v0.0.7 without any of the intermediate tags
+marking a meaningful release point).
+
+The refined rule separates two questions:
+
+- *What counts as consumer-facing* — unchanged. `core/`, consumer-facing
+  `install/*.md`, `app/`, `.claude/skills/`, or `CLAUDE.md` (depending on
+  project type).
+- *When the tag goes on* — now at *push*, not at commit. `/close` reviews
+  commits since the last tag and tags HEAD before pushing if any touched
+  consumer-facing content. A session that ships three consumer-facing
+  commits gets one tag.
+
+If a session ends without a push (work left local for later review), no tag
+fires. Tags are for consumers; an unpushed tag is noise. The next push
+tags whatever has accumulated.
+
+Update-notes entries continue to land per-commit — they're a running
+changelog at commit granularity. The tag is the release marker that batches
+them.
+
+**What this means for your project:**
+
+- The next time you run `/close`, expect the new step order. The
+  practical difference: the session log captures close-time work, so you
+  don't need to remember to update it after committing.
+- Tag cadence will visibly change. If your project ships consumer-facing
+  changes via `git push`, expect fewer, more meaningful tags — typically
+  one per session that touched consumer-facing content. Multi-commit
+  sessions no longer produce multi-tag releases.
+- If a session ends without a push, it ends without a tag. The next push
+  catches up.
+
+**Resolves friction log entry:** "Shippability convention reads as
+per-commit tagging; session-end is better" (2026-04-18). The convention
+now separates what-counts-as-tag-worthy from when-the-tag-goes-on.
+
+---
+
 ### 2026-05-08 — Validation flow added as a sixth working rhythm
 
 **Affects:** core/nla-foundations.md

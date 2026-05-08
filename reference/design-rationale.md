@@ -1942,16 +1942,42 @@ reference-file change dilutes the signal.
 
 ### The rule
 
-- **Commits touching consumer-facing content** → tag (if the project uses
-  tagged releases) and add an update-notes entry (if the project ships update
-  notes).
-- **Commits touching only internal content** → skip both. Consumers see the
+- **Commits touching consumer-facing content** → add an update-notes entry (if
+  the project ships update notes). Tag fires at push, not at commit — see "The
+  *when*: tag at push, not at commit" below.
+- **Commits touching only internal content** → skip the note. Consumers see the
   submodule pointer advance but have nothing to review.
 
 This scales naturally. Nothing new is required — tags are already the stable
 choice, untagged HEAD is already the bleeding edge, and absence of an
 update-notes entry already means nothing to surface. The convention is which
 of those existing affordances to use when.
+
+### The *when*: tag at push, not at commit
+
+*Refined 2026-05-08. Origin: friction log entry 2026-04-18, "Shippability
+convention reads as per-commit tagging; session-end is better."*
+
+The original rule conflated two questions: *what counts as tag-worthy*
+(consumer-facing content) and *when the tag actually goes on* (per commit).
+The literal reading — tag every consumer-facing commit — produced
+version-number inflation. A maintenance session with three consumer-facing
+commits would jump v0.0.4 → v0.0.5 → v0.0.6 → v0.0.7 in a single arc of work,
+none of the intermediate tags marking a meaningful release point.
+
+The refined rule: tags attach at *push*, not at commit. Typically that means
+session end — `/close` reviews the commits accumulated since the last tag and
+tags HEAD before pushing if any of them touched consumer-facing content. One
+session of consumer-facing work produces one tag.
+
+Why push as the trigger? Tags are for consumers. An unpushed tag is noise —
+it sits on a local commit that nobody downstream can see. If a session ends
+without a push (work left local for review tomorrow), no tag fires; the next
+push tags whatever has accumulated. This keeps the tag stream as
+consumer-meaningful release markers rather than per-commit noise.
+
+Update-notes entries continue to land per-commit. They're a running changelog
+at commit granularity; the tag is the release marker that batches them.
 
 ### The edge case: cross-references in consumer-facing files
 
@@ -1962,21 +1988,26 @@ count as consumer-facing because they change what consumers read, regardless
 of why the change was needed. Shippability is about who reads the file, not
 the nature of the motivating change.
 
-### The commit-time decision
+### Two decisions: at commit, and at push
 
-In practice this is a quick judgment at commit time:
+In practice this is two quick judgments:
 
-> Does this commit touch `core/`, consumer-facing `install/*.md` (framework/package),
-> or `app/` / `.claude/skills/` / `CLAUDE.md` (domain project)?
-> Yes → tag + update-notes (if the project uses them). No → skip both.
+**At commit time** — does this commit touch `core/`, consumer-facing
+`install/*.md` (framework/package), or `app/` / `.claude/skills/` / `CLAUDE.md`
+(domain project)? Yes → write an update-notes entry (if the project uses them).
+No → skip the note.
 
-When a commit touches both buckets, the presence of consumer-facing content
-drives the decision: tag and write the note, covering the consumer-facing
-change.
+**At push time** — review the commits since the last tag. If any touched
+consumer-facing content, tag HEAD before pushing. If none did, push without
+tagging. (See "The *when*: tag at push, not at commit" above.)
+
+When a commit touches both consumer-facing and internal content, the presence
+of consumer-facing content drives the commit-time decision: write the note.
 
 ### Blast radius
 
-- `core/skills/maintain.md` — commit-time guidance (all domain projects).
+- `core/skills/maintain.md` — Shippability section (all domain projects).
+- `core/skills/close.md` — operates the tag-at-push rule at session end.
 - `install/package-intent.md` — package-specific pointer (packages).
 - Design principle for all NLA maintenance going forward.
 
