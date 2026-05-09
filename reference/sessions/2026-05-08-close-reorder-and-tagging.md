@@ -1,7 +1,7 @@
 # Maintenance Session: /close Reorder and Tagging Refinement
 
 **Date:** 2026-05-08
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 
@@ -84,8 +84,82 @@ numbers without making each tag more meaningful).
 
 ## Debrief
 
-(To be filled at close.)
+Held during this session's `/close` (no separate /debrief earlier). The
+maintainer reviewed four observations and judged them worth keeping in the
+session log but not worth promoting to friction log entries.
+
+- **Single-commit cross-reference resolution held up again.** The 2026-05-04
+  friction entry's update note proposed single-commit atomicity as the
+  preferred path for cross-referenced files; the 2026-05-07 structure
+  decisions session was the first confirmation, and this session is the
+  second. `close.md` ↔ `maintain.md` ↔ design-rationale ↔ archive ↔
+  update-notes all landed in commit 4252be5 with no interim broken
+  references. The pattern is durable enough now that the original 2026-05-04
+  entry's "write referenced files first" fallback is rarely the natural path
+  — single-commit is.
+
+- **Dogfooding `/close` in the same session worked as intended.** The new
+  step order shipped at commit 4252be5, then ran immediately. Step 1 (skip
+  validate — content-only session) and step 2 (mirrors clean — no new
+  skills/intent files) fired correctly. Step 3 (debrief before session log
+  finalization) is the dependency the reorder was designed for. Notable that
+  the dogfood suggestion came from the maintainer ("should we try out the
+  new /close?"), not the AI — the user pulled the change into immediate use
+  rather than deferring to a future session.
+
+- **Two-hop path issue caught during author-time re-read, not from
+  maintainer.** Step 5's tag-decision section initially wrote
+  `packages/nla-framework/core/skills/maintain.md` directly, which only
+  resolves from a domain-project perspective. The catch happened during the
+  post-edit coherence re-read by recalling the maintain.md foundations-
+  reference pattern (which gives both paths). Recurring concern (friction
+  log "Patterns to Watch" #2). The catch was right and at the right time;
+  the question this raises is whether author-time review of core skills
+  could include a more reliable check for dual-context paths than
+  pattern-recall. Not promoted to its own friction entry — the system
+  worked.
+
+- **Summarizing the current skill before proposing a change was useful
+  priming.** The maintainer's first ask was a summary of `/close`'s current
+  steps in order; that made the proposed restructure concrete rather than
+  abstract, with the contrast visible side-by-side. Worth noting as a small
+  technique: when proposing a structural change to an existing skill, the
+  "summarize current behavior first" move tends to make both sides crisper.
 
 ## State at Close
 
-(To be filled at close.)
+### What's working
+
+- `/close` runs in the new dependency order (validate → mirrors → debrief
+  → log → commit + tag + push). First dogfood run completed as designed.
+- Shippability rule splits *what counts as consumer-facing* (commit-time)
+  from *when the tag goes on* (push-time). This session's commit (4252be5)
+  is consumer-facing; tag fires when this `/close` reaches step 5 push.
+- Friction log: 11 pending + 2 deferred (down from 12 + 2 at session
+  start). 2026-04-18 resolved and archived.
+
+### Context for next time
+
+- The new `/close` order is live framework-wide. Domain projects pulling
+  via `/update` will see the change after they advance their submodule
+  pointer past commit 4252be5. The update-notes entry walks them through
+  the practical implications (especially the changed tag cadence).
+- Tag cadence is now per-push. Multi-commit sessions produce one tag at
+  push, not one per consumer-facing commit. Sessions that end without a
+  push produce no tag.
+
+### Decisions awaiting implementation
+
+None from this session — all proposed changes shipped in commit 4252be5.
+
+### Where to pick up
+
+- **Cluster A (maintain.md polish bundle)** remains the tempting next
+  target: 2026-05-07 (Plan agent calibration), 2026-05-06 (bulk Edit
+  parallelism), 2026-05-04 (cross-reference ordering — now partially
+  evidenced by this session's single-commit atomicity), 2026-05-04
+  (resolved-but-unarchived check at /close). Each is small; together they
+  could be one focused session.
+- **Deferred publication arc** for the structure decisions protocol
+  (`reference/plans/structure-decisions-publication.md` to draft) still
+  sits, independent of the friction queue.
