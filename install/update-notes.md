@@ -88,6 +88,9 @@ them.
   sessions no longer produce multi-tag releases.
 - If a session ends without a push, it ends without a tag. The next push
   catches up.
+- Use annotated tags (`git tag -a vX.Y.Z -m "..."`), not lightweight ones.
+  `git push --follow-tags` only pushes annotated tags; lightweight tags
+  are skipped silently. `close.md` step 5 spells this out explicitly.
 
 **Resolves friction log entry:** "Shippability convention reads as
 per-commit tagging; session-end is better" (2026-04-18). The convention

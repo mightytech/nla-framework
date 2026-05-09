@@ -126,6 +126,18 @@ session log but not worth promoting to friction log entries.
   technique: when proposing a structural change to an existing skill, the
   "summarize current behavior first" move tends to make both sides crisper.
 
+- **Annotated-tag gotcha caught after first push.** The first attempt to
+  push v0.0.8 used `git tag v0.0.8` (lightweight), which `git push
+  --follow-tags` skipped silently. Caught only because I verified the tag
+  on remote. Recreated as annotated (`git tag -a`) and pushed explicitly.
+  The maintainer suggested fixing `close.md` immediately — adding an
+  annotated-tag instruction to step 5's tag-decision section — and
+  retagging v0.0.8 to the doc-fix commit (no consumers had pulled yet).
+  Done in commit (this commit), retagged. The catch and fix in the same
+  session is the dogfood validating itself a second time: the new design
+  surfaced the gap, and the gap got closed before it could trip anyone
+  else.
+
 ## State at Close
 
 ### What's working

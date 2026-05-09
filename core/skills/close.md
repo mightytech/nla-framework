@@ -174,6 +174,13 @@ Apply the rule here:
 A session that produces three consumer-facing commits gets one tag at push, not
 three.
 
+**Use annotated tags.** Create the tag with `git tag -a vX.Y.Z -m "message"`,
+not the lightweight form `git tag vX.Y.Z`. Annotated tags carry the message
+and push under `git push --follow-tags`; lightweight tags are skipped silently
+by `--follow-tags` and won't reach the remote. Match the project's existing
+tag style by checking `git tag -l --format='%(objecttype)' vX.Y.Z` on a recent
+tag if uncertain.
+
 ### Push
 
 After committing (and tagging if applicable), push. The session is now visible to
