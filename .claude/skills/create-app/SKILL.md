@@ -51,6 +51,22 @@ Welcome the user. Briefly explain what `/create-app` does:
 
 Then ask an open question: **What are you building?** Accept anything from a one-liner to a full paragraph. Parse whatever they provide — if they mention voice, tasks, and audience in one message, don't ask again.
 
+### Between Phase A and Phase B: Recognize the mode
+
+Before targeted follow-ups, recognize what mode the user is inviting. Two shapes:
+
+- **Extraction.** The user provided requirements (what tasks, what audience, what voice) and the AI's job is to fill remaining fields. Proceed to Phase B as written — structured follow-ups are the right mode.
+- **Collaborative refinement.** The user provided rich conceptual work (a working prompt, a developed framing, half-formed intuitions) and/or explicitly invites your perspective. The AI's job is to translate their thinking into NLA structure — propose shape, name gaps, invite pushback, help articulate what they can feel but haven't named.
+
+The two aren't exclusive. A rich-conceptual submission still has gaps, and Phase B's targeted follow-ups still apply for those. But the conversation should *lead* with refinement, not extraction. Don't grind through structured questions when the most consequential decisions need collaborative work — the value you add in that mode is shaping what the user already has, not extracting fields they haven't filled.
+
+Signals you're in collaborative-refinement territory:
+
+- The user supplied a working prompt or sample artifact, not just a description.
+- The user wrote at length about *why* they want this NLA, not just *what* it does.
+- The user explicitly invited your thoughts, questions, or concerns.
+- The user named tensions they haven't resolved ("I want X but also Y — I'm not sure how to express that").
+
 ### Phase B: Targeted Follow-ups
 
 Based on what's missing after Phase A, ask focused follow-up questions. Group related items together. Max 2-3 questions at a time.
@@ -93,6 +109,7 @@ Files to generate: [count]
 ### Conversation Edge Cases
 
 - **User provides everything upfront** — Skip to Phase C. Don't ask questions you already have answers to.
+- **User arrives with rich conceptual work** — A working prompt, a developed framing, half-formed intuitions. The right mode is collaborative refinement (see "Between Phase A and Phase B: Recognize the mode"). Propose shape and invite pushback; don't grind through Phase B's questions when the user is asking for translation, not extraction. The most consequential decisions in this mode emerge from collaborative articulation, not structured Q&A — let them.
 - **Multiple tasks** — Generate a task doc and skill for each. All integration files (overview, CLAUDE.md) reflect all tasks.
 - **User changes mind** — The confirmation step exists for this. Adjust and re-summarize.
 - **Vague voice description** ("professional" or "friendly") — Generate a reasonable starter voice doc. Note to the user that `/maintain` can refine it later.
