@@ -12,6 +12,305 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-05-07 — Borrowing patterns from sibling NLAs requires reading the actual artifact
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-05-11 — Added a paragraph to `core/skills/think.md` Prior Art section about reading sibling-project artifacts directly when borrowing patterns. The texture of a borrowed shape (specific table format, wording, integration) only becomes real after reading the file — descriptions don't carry that texture, and a borrow designed from description alone tends to lose what made it work.
+
+**Observation:**
+The Structure Decisions Protocol borrowed shape from
+facebook-moderation's compile-time `build-guide.md` (attribution per
+entry, Judgment notes, Decision Sources table). The borrowing was
+high-leverage — but only after the actual artifact was read. Earlier
+in the session, hearing "facebook-moderation has a build-guide" wasn't
+the same as reading it. The texture (the specific table shape, the
+wording of Judgment notes, the integration with the compile workflow)
+only became real after I read the file directly.
+
+This connects to the now-archived 2026-05-06 entry "Reading accumulated
+artifacts before /think" but extends it to a different scale. That
+entry was about prior thinking *within* the project (feedback log,
+friction log, design rationale, related GitHub issues). This is about
+*sibling-project artifacts* when borrowing patterns. Same lesson at
+a different scope.
+
+**Generalizable:** Yes. When considering pattern-borrowing from another
+NLA, read the actual artifact (not just descriptions of it) before
+designing the borrow. Cost: minutes. Value: the texture of the
+borrowed shape, which descriptions don't carry.
+
+**Affected files:**
+- `core/skills/think.md` (Prior Art section) — could extend the existing
+  "check design rationale, session archives, friction log" guidance to
+  include "and read sibling-project artifacts when borrowing patterns."
+
+**Proposed fix:**
+Small extension to /think's Prior Art section. One sentence about
+reading sibling-project artifacts, not just descriptions.
+
+**Notes:**
+- In this session, the maintainer pointed at the file ("read this
+  build-guide before /think"). Without that prompt, the pattern-
+  borrowing might have proceeded with description alone — losing
+  the texture.
+- Connects to maintainer-as-session-manager pattern (Issue #24 item 8).
+- Could also be captured as a memory entry; the friction log captures
+  the observation, processing decides where it lives durably.
+
+---
+
+### 2026-05-07 — Plan agent conservatism is a calibratable input, not a verdict
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-05-11 — Added a "When using Plan agents" paragraph to `core/skills/maintain.md`'s Confirm Before Implementing section, immediately after the existing "When using plan mode" guidance. Plan agents are useful for surfacing concerns and gaps but conservatively calibrated on scope under cold context; the guidance now treats scope-cut recommendations as one input, with the maintainer extracting the underlying concern, designing an explicit mitigation, and deciding based on the mitigation rather than the cut.
+
+**Observation:**
+During this session's plan-mode review, the Plan agent recommended
+cutting Steps 5–7 to a follow-up session. The rationale was
+fresh-eyes risk-aversion (calibration risk if experiments surface
+wording issues; cross-reference ordering complexity; ceremony). The
+maintainer pushed back, asked for concrete pros/cons, and we landed
+on full scope with conditional Step 7 (abort criteria explicit). The
+full scope worked — all four hypotheses validated cleanly and Step 7
+shipped.
+
+The Plan agent's advice was useful for surfacing concerns and gaps
+but conservatively calibrated on scope. It reflected the agent's own
+uncertainty under cold context, not an expert read on whether the
+plan could succeed in one session. The right move was to treat the
+Plan agent's recommendations as *one input* — to be weighed against
+explicit pros/cons and possible mitigations — rather than as a verdict
+to follow.
+
+**Generalizable:** Yes. Plan agent reviews are valuable for surfacing
+concerns and gaps. They're less reliable for scope-cut recommendations
+because they default to risk-aversion under uncertainty. When a Plan
+agent recommends cutting scope, the maintainer should: (a) extract the
+specific concern (e.g., "calibration risk if experiments fail"),
+(b) design an explicit mitigation (e.g., abort criterion), (c) decide
+based on the mitigation, not the original cut recommendation.
+
+**Affected files:**
+- `core/skills/maintain.md` (Pre-flight Review section, where Plan
+  agent reviews are discussed)
+- Or a memory entry about plan-mode interaction patterns.
+
+**Proposed fix:**
+Light-weight: one sentence in maintain.md's Pre-flight Review section
+or planning-mode guidance: "Plan agent scope-cut recommendations
+default to risk-aversion under cold context; treat them as input,
+design explicit mitigations for the underlying concerns, and decide
+based on the mitigations."
+
+**Notes:**
+- This session's full-scope choice with Step 7 abort criterion validated
+  the calibration insight. Real outcome data, not just hypothesis.
+- The Plan agent was *right* about the underlying concerns (calibration
+  risk, cross-reference ordering). It was wrong about the recommendation
+  to cut. The concerns deserved mitigations, not avoidance.
+
+---
+
+### 2026-05-06 — Bulk Edit calls don't parallelize when system reminders fire between each
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-05-11 — Added a "Bulk Edits" task to `core/skills/maintain.md`'s Common Maintenance Tasks. Names the three shapes that fit different bulk-work patterns (`Write` per file for substantial rewrites, single `Bash` pipeline for mechanical substitutions, `Edit` for surgical varying changes) and explains why parallel `Edit` batches don't actually parallelize for state-updating tools (Claude Code's state-update reminders end the turn). Companion Claude Code feature request (proposed fix #2 in the original entry) not filed in this session — out of scope for framework maintenance.
+
+**Observation:**
+This session migrated 21 framework wrappers as part of the skill-
+invocation convention adoption. The intent was to send batches of
+Edit calls in parallel — a single assistant message with multiple
+Edit tool uses — to amortize cost across edits. In practice, each
+Edit triggered a system reminder showing the updated skill listing,
+which ended my turn. Net result: 21 sequential edits, not parallel
+batches.
+
+This isn't a framework problem — it's a Claude Code harness behavior.
+But it's worth flagging because:
+- The framework's `/maintain` discusses parallel tool use generally
+  in its principles ("call multiple tools in a single response"); a
+  reader might assume bulk edits parallelize when they don't always.
+- For bulk edits specifically, a different shape might work better —
+  e.g., Write-based file rewrites for files where changes are
+  substantial enough that the entire file is being replaced anyway,
+  or a single Bash sed/awk pipeline for mechanical pattern
+  substitutions.
+
+**Before:** Bulk wrapper edits via Edit tool ran sequentially despite
+parallel intent. Took longer than expected for a mechanical change.
+**After:** Bulk-edit work uses the right shape per case — Write for
+substantial rewrites, Bash for mechanical substitutions, Edit for
+surgical changes — and doesn't assume parallelism for cases where
+the harness will interrupt.
+
+**Confirmed reason:**
+System reminders that fire after tool use end the current assistant
+turn. For tools that update state visible to the AI (e.g., the
+SKILL.md edits update the Skill listing in the active prompt), the
+reminder fires every time. For other tools (e.g., Read, Bash) the
+reminder may not fire on every call. The "parallel tool use"
+principle is true for non-state-updating tools; it has limits for
+state-updating ones.
+
+**Affected files:**
+None directly. This is harness behavior. Worth a possible feature
+request to Claude Code (consolidate state-update reminders across
+batched edits in a single turn).
+
+**Proposed fix:**
+1. Note in `core/skills/maintain.md` (or wherever bulk-edit work is
+   discussed) that bulk wrapper migrations should use Write or Bash
+   shaping rather than expecting parallel Edit calls.
+2. File a Claude Code feature request (separate from framework
+   maintenance work) about reminder consolidation for batched
+   state-updating tools.
+
+**Notes:**
+- Surfaced during this session's wrapper migration. The 21 wrappers
+  took longer to update than they should have because each Edit
+  ended a turn rather than batching.
+- Severity is minor because the work completed correctly; only the
+  pacing was off. But for larger bulk migrations (e.g., a domain
+  project with 30+ wrappers), the pattern would scale poorly.
+- Related to but distinct from the experimentation methodology entry
+  — that's about empirical validation; this is about mechanical bulk
+  edits. Both are about doing maintenance work efficiently but at
+  different stages.
+
+---
+
+### 2026-05-04 — Multi-file maintenance: cross-references demand the referenced file ship first
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** resolved
+**Resolved:** 2026-05-11 — Added a "Cross-references" bullet to `core/skills/maintain.md`'s Pre-flight Review checklist. Per the 2026-05-07 update note on this entry, framed as "prefer landing referenced files together in one coherent commit; if the changes must split, write the referenced file first." Single-commit atomicity is the easier path; ordered split is the fallback.
+
+**Observation:**
+During the Phase 3 writing-standards session, the original implementation
+plan put `core/skills/maintain.md` first and `core/skills/validate-standards.md`
+second. Catching the dependency happened just before executing — `maintain.md`
+ends with "use `/validate standards`" as its diagnostic-use pointer, so a
+commit that landed `maintain.md` first would have shipped a reference to a
+file that didn't yet exist. The order was reversed mid-execution; nothing
+broke.
+
+But the plan had no surfacing step for it. The /maintain proposal flow
+asks for blast radius, scope, and approval — it doesn't ask "do these
+files reference each other, and if so, what order do they need to land
+in?" When multi-file work cross-references, write the referenced file
+*before* the file that refers to it; otherwise an interim commit ships
+a broken reference.
+
+**Confirmed reason:**
+The implementation order was driven by perceived size ("smaller,
+foundational change first"), not by dependency direction. Size and
+dependency aren't the same axis. The relevant question is which file
+references which, not which file is shorter — but the planning step
+didn't ask the right question.
+
+**Affected files:**
+- `core/skills/maintain.md` (Confirm Before Implementing or Pre-flight Review section)
+- Possibly the planning-mode guidance in the same file
+
+**Proposed fix:**
+Add a quick check to the Pre-flight Review (or Confirm Before
+Implementing) section: "For multi-file work, identify cross-references
+and write referenced files first. Each commit should be internally
+consistent — interim commits with broken references are friction even
+if the final state is fine." One sentence in a checklist.
+
+**Notes:**
+The session caught it organically because the AI was reading both
+files' content while drafting. In sessions where one file is "settled"
+and another is being authored, this is easier to miss. Worth flagging
+because the cost of catching it post-commit (interim broken reference,
+order-of-events confusion in git history) is annoying enough that the
+sentence-level prevention earns its place.
+
+**Update 2026-05-07 (alternative resolution pattern surfaced):** The
+2026-05-07 Structure Decisions Protocol session sidestepped this issue
+by landing all cross-referenced files in a *single coherent commit*
+(commit 68c145a — `core/structure.md`, the design-rationale entry it
+cites, the CLAUDE.md section that references it, and the foundations.md
+mention all in one). Single-commit atomicity is often easier than
+ordering discipline for cross-references — if all referenced and
+referrer files can land together, the interim-broken-reference problem
+doesn't arise. Worth incorporating into the eventual fix: the proposed
+checklist could offer "land cross-referenced files in one commit" as
+the simpler path, with "if they must split, write referenced files
+first" as the fallback. Status remains pending — the proposed checklist
+itself hasn't been added; this note captures a complementary pattern.
+
+---
+
+### 2026-05-04 — Resolved-but-unarchived log entries drift across sessions
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-05-11 — Added a paragraph to `core/skills/close.md`'s Step 2 (Check Documentation Mirrors) covering resolved-but-unarchived entries in both `reference/friction-log.md` and `reference/feedback-log.md`. Framed as the same family of drift as documentation mirrors, different surface — extending Step 2's scope rather than adding a new step (renumbering would have been more disruptive than the gap warranted). Also extended `core/skills/maintain.md`'s Session Start item 2 from friction-log-only to both logs, so the same drift gets caught at session start as well as session close.
+
+**Observation:**
+At the start of the 2026-05-04 session, the active feedback log carried
+seven 2026-04-15 entries that had been marked resolved during that
+2026-04-15 session but were never archived. They sat in the active log
+for ~3 weeks across multiple intervening sessions. None of those
+sessions had a reason to archive them — each focused on its own work —
+and the drift was silent.
+
+The /maintain Common Tasks section covers archival ("Archive resolved
+entries") *as part of processing an entry*. Entries resolved during a
+session that doesn't immediately archive them fall through. There's no
+session-end prompt that catches the gap.
+
+**Before:** Active feedback log accumulating resolved-but-unarchived
+entries silently across sessions; new session start has to notice the
+drift to address it.
+
+**After:** Session close (or session start) catches the drift cheaply
+without requiring the maintainer to remember.
+
+**Confirmed reason:**
+The procedural rule lives at the wrong moment. "Archive when you
+resolve" only fires if the resolver is also archiving. A different
+person in a future session — or the same person picking up after
+hours — has no procedural prompt to do it. The natural moment to catch
+this is /close (or the session-start summary in /maintain), where the
+maintainer is already looking at log state.
+
+**Affected files:**
+- `core/skills/close.md` (Loose Ends section)
+- Possibly `core/skills/maintain.md` Session Start (already counts
+  resolved-unarchived friction entries — could extend to feedback log)
+
+**Proposed fix:**
+Add a Loose Ends item to /close: "Check for resolved-but-unarchived
+entries in `reference/friction-log.md` and `reference/feedback-log.md`.
+If any exist, offer to archive them now — the procedure step in
+`/maintain` only fires during the session that resolves an entry, so
+entries resolved without immediate archival drift across sessions."
+
+**Notes:**
+Different from the 2026-04-17 `settings.local.json` drift entry but in
+the same family — small drift that accumulates silently because no
+procedural prompt fires at the right moment. The /maintain Session Start
+already mentions resolved-but-unarchived friction entries; extending
+that or mirroring it in /close would cover both logs.
+
+---
+
 ### 2026-05-11 — /create-app's structured Q&A misses the collaborative-refinement mode
 
 **Type:** core
