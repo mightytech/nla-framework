@@ -68,6 +68,191 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-11 — /create-app's structured Q&A misses the collaborative-refinement mode
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects (project generation)
+**Status:** pending
+
+**Observation:**
+During /create-app for nla-archetypes (2026-05-10), the most consequential design
+decision in the generated project did not emerge from any structured Phase A/B
+question. The decision was the third value — "true like fiction, not like a
+transcript," the Guernica anchor that resolves the productive tension with
+the grounding value. It emerged because the user explicitly invited
+collaboration twice:
+
+1. At the project description (Phase A response): "I'm also interested in
+   your thoughts, ideas, concerns or questions."
+2. Mid-design, after I proposed two values: "Another candidate: true to life
+   as in the way good fiction feels true... I'm not sure how to express that
+   as a value exactly. Maybe you can help?"
+
+The Phase B grouping suggestions ("voice + audience," "values/tradeoffs as a
+single lightweight question," etc.) frame the AI's job as *extracting* domain
+requirements via structured Q&A. That framing fits a user providing
+requirements from scratch. It underperforms when the user arrives with rich
+conceptual work — a working prompt, a developed framing, half-formed
+intuitions — and the AI's job is *translation into NLA structure* rather
+than extraction.
+
+In the translation case, the high-value mode is collaborative refinement:
+the AI proposes shape, names the gaps, asks for pushback, helps articulate
+what the user can feel but hasn't named. That's what happened on the
+Guernica value. It wouldn't have happened if I'd followed Phase B
+mechanically through its question groupings.
+
+**Confirmed reason:**
+Phase A is genuinely open-ended ("What are you building? Accept anything from
+a one-liner to a full paragraph.") and accepted the user's rich prompt
+cleanly. But Phase B's structure assumes the next move is to fill remaining
+fields via targeted Q&A, not to enter a collaborative-refinement mode. The
+existing "user provides everything upfront → skip to Phase C" edge case
+covers the *requirements-already-given* case, but not the
+*conceptual-work-rich-but-design-choices-unresolved* case. In that
+intermediate state, neither Q&A nor skip-to-summary is right; collaborative
+refinement is.
+
+**Affected files:**
+- `core/skills/create-app.md` — Phase A → Phase B transition; the
+  Conversation Edge Cases section ("User provides everything upfront") could
+  grow a sibling entry for "User arrives with rich conceptual work."
+- Possibly `install/CLAUDE-intent.md` or `core/nla-foundations.md` — the
+  collaborative-vs-extractive mode-recognition is a general AI posture that
+  applies beyond create-app. /maintain has analogous moments
+  (refining-a-doc vs. extracting-new-doc-requirements).
+
+**Proposed fix:**
+Two complementary moves:
+
+1. In `core/skills/create-app.md`, after Phase A and before Phase B, add a
+   mode-recognition step:
+
+   > Before targeted follow-ups, recognize what mode the user is inviting.
+   > If their Phase A response is mostly *requirements* (what tasks, what
+   > audience, what voice), proceed to Phase B as written — extraction is
+   > the right mode. If their response carries rich conceptual work
+   > (a working prompt, a developed framing, half-formed intuitions) and
+   > invites your perspective explicitly or implicitly, shift to
+   > collaborative refinement: propose shape, name gaps, invite pushback,
+   > help articulate what the user can feel but hasn't named. Phase B's
+   > structured questions still apply for genuinely missing fields, but
+   > the conversation should lead with refinement, not extraction.
+
+2. Add a Conversation Edge Cases entry — "User arrives with rich conceptual
+   work" — describing the pattern and pointing to the mode-recognition
+   guidance.
+
+**Notes:**
+- Related to archived entry 2026-02-21 "Reflection after execution produces
+  high-quality feedback" (resolved by creating /debrief). Same shape — open
+  invitation to reflection/collaboration produces high-value output that
+  structured Q&A doesn't — but at a different moment. That entry was about
+  reflection *after* execution; this one is about collaboration *during*
+  design. /debrief carved out the post-execution slot; this would carve out
+  the mid-design slot inside /create-app.
+- Distinct from the 2026-05-10 AskUserQuestion entry — that's about
+  tool-choice (enum vs. prose) at any conversational moment. This is about
+  whole-mode-recognition: when to enter collaborative refinement vs.
+  structured extraction. Both pull in the same direction but address
+  different layers of the problem.
+- The framework addenda apply: this is a `core/skills/` change with reach
+  to every domain project's generation, since /create-app is the entry
+  point for every new NLA.
+- Possible test of the fix: re-read the nla-archetypes transcript and
+  check whether the mode-recognition step would have fired correctly on
+  the Phase A response (a working extraction prompt + explicit invitation
+  to AI thoughts). Should be a clean yes.
+
+---
+
+### 2026-05-10 — AskUserQuestion overreach despite user-private memory note
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+During `/create-app` for nla-archetypes (this session), I invoked Claude Code's
+`AskUserQuestion` tool twice for design questions that were "yes-but"/"yes-and"
+shaped — questions where the user's likely response was a layered refinement
+("yes, but with this addition"), not a discrete pick among mutually exclusive
+options. Both invocations were rejected by the user, who reminded me that
+prose would be the right format. The user flagged the pattern explicitly:
+"You're an AI not a python interpreter so you can (and should) handle more
+nuance than can be given by an enum."
+
+Specifically:
+- First invocation: three questions (output voice, source format, output
+  destination) — each was "could be either" or "depends" shaped.
+- Second invocation: similar three-question pattern after the user had
+  already clarified the Guernica value and AI-optimized voice direction.
+
+I had a memory note (`feedback_prose_over_enum_for_decisions.md`) from prior
+sessions saying exactly this pattern was wrong. The note did not prevent
+the lapse — the structured affordance of AskUserQuestion appears strong
+enough that user-private memory isn't sufficient mitigation.
+
+**Confirmed reason:**
+[Per user] AskUserQuestion fits genuinely discrete clarifications but is
+wrong for "yes, but"/"yes, and" shaped decisions. When a question is
+layered (refinement, addition, partial agreement), prose lets the user
+respond in the shape of the actual decision; enum forces them into a
+shape that pre-judges it. Memory notes alone don't prevent the lapse —
+the tool's affordance is attractive, and the memory note isn't loaded
+into the system prompt the way framework CLAUDE.md or core skill
+guidance would be.
+
+**Affected files:**
+- `install/CLAUDE-intent.md` — could add framework-level guidance about
+  defaulting to prose for design questions; this propagates to every NLA's
+  CLAUDE.md via /create-app and /update.
+- `core/skills/create-app.md` — Phase B and Phase C currently assume prose
+  conversation but don't say so explicitly enough to overcome
+  AskUserQuestion's pull. Adding an explicit "default to prose for
+  follow-ups; AskUserQuestion only for genuinely discrete clarifications"
+  in those sections would fire at the lapse-prone moment.
+- Possibly `core/skills/maintain.md`, `core/skills/think.md` — anywhere a
+  skill invites multi-turn design conversation could carry the same default.
+
+**Proposed fix:**
+Add framework-level guidance, probably in `install/CLAUDE-intent.md`
+("Execution Principles" or similar), along these lines:
+
+> When asking the user a follow-up question, default to prose. Tools that
+> force enum-style choices (Claude Code's `AskUserQuestion`, similar
+> affordances) are appropriate only for genuinely discrete clarifications
+> with mutually exclusive answers — never for layered design decisions
+> where the user's likely answer is "yes, but" or "yes, and."
+
+Complementary: `core/skills/create-app.md` (and conversation-heavy skills
+generally) could state the default explicitly in their Conversation Flow
+sections — the lapse-prone moments are where the guidance needs to fire.
+
+**Notes:**
+- Related-but-distinct from archived entry 2026-02-21 "Plan mode kept
+  pushing toward decisions (AskUserQuestion with multiple choice options),"
+  resolved by creating `/think`. That entry addressed plan-mode/design-
+  exploration specifically. This one is broader: AskUserQuestion overreach
+  across general conversational skills, not just plan mode. The /think
+  refuge alone doesn't address the default-tool-choice problem in skills
+  like /create-app and /maintain.
+- The lapse happened despite the user's existing memory note — evidence
+  that memory-only mitigation is insufficient for tool-default behaviors.
+  This argues for moving the guidance into framework docs that every
+  session loads.
+- Affects all projects because the AskUserQuestion pull is a property of
+  Claude Code itself, present in every NLA's runtime. Per the framework
+  addenda: this is a `core/` (and `install/`) change with all-domain-
+  project reach.
+- This also relates to the active "Patterns to Watch" item #4 — language
+  breadth, when defaults assume one shape (here: enum-shaped questions)
+  when the situation needs another.
+
+---
+
 ### 2026-05-07 — Borrowing patterns from sibling NLAs requires reading the actual artifact
 
 **Type:** process
