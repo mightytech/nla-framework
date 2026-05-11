@@ -33,6 +33,37 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-11 — Default to prose for design conversations
+
+**Affects:** install/CLAUDE-intent.md
+
+When asking the user a follow-up about an open design question, the NLA
+now defaults to prose rather than reaching for enum-style tools (Claude
+Code's `AskUserQuestion`, similar affordances). Those tools fit genuinely
+discrete clarifications ("which file?", "grant permission?"), not layered
+"yes, but" / "yes, and" decisions where the user needs to teach the AI
+the right shape of the answer.
+
+This lives as a new bullet in the Execution Principles section, alongside
+"the cardinal rule" and "flag uncertainty." The principle isn't
+skill-specific — it covers any moment the AI is asking a follow-up
+question about an open design decision, in any skill.
+
+**What this means for your project:**
+
+`/update` will propose adding the bullet to your CLAUDE.md's Execution
+Principles section. Accept the proposal if you want the principle loaded
+into every session's context. Existing CLAUDE.md content stays intact;
+only the bullet is added.
+
+The underlying reasoning connects to a foundational truth already in
+`core/nla-foundations.md` principle #2: the LLM's value is handling
+nuance. Forcing the LLM to use enums for design questions surrenders
+that value. The new bullet is the operational application of that
+foundational principle at a specific lapse-prone moment.
+
+---
+
 ### 2026-05-08 — `/close` reordered; tag cadence refined to per-push
 
 **Affects:** core/skills/close.md, core/skills/maintain.md

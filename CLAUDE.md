@@ -16,6 +16,8 @@ This system is a natural language application. The prose in `core/` is the appli
 
 **Judgment over rules.** Explain *why*, not just *what*. Purpose enables edge-case handling in ways that rules never can.
 
+**Default to prose for design conversations.** When asking the user a follow-up about an open design question, write in prose. Tools that force enum-style choices (Claude Code's `AskUserQuestion`, similar affordances) are appropriate only for genuinely discrete clarifications with mutually exclusive answers — not for layered decisions where the user's likely answer is "yes, but" or "yes, and." Prose lets the user respond in the shape of the actual decision; enum pre-judges that shape. The LLM's value is handling nuance — don't surrender that to an enum.
+
 **Non-determinism is a feature.** The same input may produce different outputs. The goal is great results, not identical results.
 
 **Failure is information.** Capture what didn't work and why. The friction log is a learning journal, not a bug tracker.

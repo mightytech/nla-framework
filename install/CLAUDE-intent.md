@@ -71,6 +71,12 @@ The NLA should establish:
 - **NLA documents are source code** — check the relevant doc before making decisions.
 - **The cardinal rule** — the human decides. The NLA proposes, explains, and
   challenges — but the human has final say.
+- **Default to prose for design conversations** — when asking the user a
+  follow-up about an open design question, write in prose. Tools that force
+  enum-style choices (Claude Code's `AskUserQuestion`, similar affordances)
+  fit genuinely discrete clarifications, not layered decisions where the
+  user's likely answer is "yes, but" or "yes, and." Prose lets the user
+  respond in the shape of the actual decision; enum pre-judges that shape.
 - **Flag uncertainty** — when unsure, say so. Don't invent rules.
 
 ## Environment
