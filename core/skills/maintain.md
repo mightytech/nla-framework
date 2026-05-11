@@ -27,7 +27,7 @@ Then read the specific files relevant to your task.
 After completing the required reading, surface what's waiting before asking the user what to work on:
 
 1. **Count pending items** in the friction log and feedback log.
-2. **Check for resolved entries** in the friction log that haven't been archived yet. Mention them if any exist — "You also have N resolved friction log entries pending archival."
+2. **Check for resolved entries** in the friction log *and feedback log* that haven't been archived yet. Mention them if any exist — "You also have N resolved entries pending archival." Both logs drift the same way when the resolving session doesn't archive immediately.
 3. **Check the most recent session log** in `reference/sessions/` — read its State at Close for continuity.
 4. **Present a summary:**
    - "You have X friction log entries and Y feedback items pending."
@@ -113,6 +113,8 @@ part of the change, not separate hygiene.
 
 **When using plan mode:** Design questions should be resolved conversationally *before* entering plan mode — plan mode is for detailed preparation, not exploration. Use `AskUserQuestion` only for genuinely discrete selections (which file, which option), not for design decisions where conversation would produce better outcomes. Avoid clearing context mid-session — session logs, debrief, and continuity depend on retained context.
 
+**When using Plan agents:** Plan agents (via the Agent tool's `Plan` subagent type) are useful for surfacing concerns and gaps but conservatively calibrated on scope. Scope-cut recommendations default to risk-aversion under cold context — they reflect the agent's own uncertainty, not necessarily an expert read on what's achievable in one session. Treat scope-cut suggestions as one input. Extract the underlying concern, design an explicit mitigation (e.g., an abort criterion for a later step), and decide based on the mitigation rather than the recommendation to cut.
+
 For design work with multiple moving parts, run a pre-flight review before presenting your proposal — see below.
 
 #### Pre-flight review
@@ -129,6 +131,7 @@ Check for:
 - **Cost/benefit** — does this optimize for rare cases at common-case expense?
 - **Scope** — does this solve more than what was asked?
 - **Maintenance burden** — does this create things that need to stay in sync?
+- **Cross-references** — for multi-file work, identify cross-references and prefer landing referenced files together in one coherent commit. If the changes must split, write the referenced file first — interim commits with broken references are friction even when the final state is fine.
 
 Pre-flight catches problems that are cheaper to fix on paper than in prose. When it
 surfaces issues, revise the design before proposing it — don't present known gaps for
@@ -376,6 +379,16 @@ External feedback (via `/check-feedback` or other intake mechanisms) produces fe
 ### Adding a New Skill
 
 Follow the checklist in `core/skills/README.md` ("Adding a New Skill"). It covers registration steps that are easy to miss — the framework wrapper, README table, directory tree, and intent file updates.
+
+### Bulk Edits
+
+When applying the same change to many files (wrapper migrations, mechanical pattern substitutions across a directory), choose the tool shape that fits the work:
+
+- **Many similar files with substantial rewrites** — use `Write` per file. Each Write replaces the file's content; the change is per-file but the shape is mechanical.
+- **Mechanical pattern substitutions** — use a single `Bash` pipeline (`sed`, `awk`, or similar) over the target files. One tool call covers the whole sweep.
+- **Surgical, varying changes per file** — `Edit` per file is fine.
+
+Why this matters: parallel batches of `Edit` calls don't actually parallelize when each call updates state visible to the AI (e.g., a `.claude/skills/` edit triggers Claude Code's state-update reminder, which ends the turn). For state-updating tools, the general principle of "call multiple tools in a single response" has limits — the harness interrupts between calls. The `Write` and `Bash` shapes avoid the interruption by doing the work in fewer turns.
 
 ### Adding a New Task
 
