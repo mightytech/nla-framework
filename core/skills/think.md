@@ -76,6 +76,12 @@ session archives, or the friction log contain related patterns or prior decision
 are new — we're building theory from practice. What worked before, and why, is valuable
 context.
 
+When considering pattern-borrowing from another NLA, read the actual artifact directly
+— not just descriptions of it. The texture of a borrowed shape (specific table format,
+wording of decision notes, integration with surrounding workflow) only becomes real
+after reading the file. Descriptions don't carry that texture, and a pattern borrow
+designed from description alone tends to lose what made it work.
+
 This isn't a required step. Exercise judgment about when it's relevant.
 
 ---
