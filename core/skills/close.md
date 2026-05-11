@@ -70,6 +70,13 @@ match reality:
 Documentation mirrors are mechanical drift; the cost to fix is low and the cost
 to leave stale is "next session reads a wrong listing as authoritative."
 
+Also check `reference/friction-log.md` and `reference/feedback-log.md` for entries
+marked `Status: resolved` that haven't been moved to the archive. The procedure
+step in `/maintain` only fires during the session that resolves an entry, so
+entries resolved without immediate archival drift across sessions. If any exist,
+archive them now — same family of drift as documentation mirrors, different
+surface.
+
 ---
 
 ## 3. Debrief
