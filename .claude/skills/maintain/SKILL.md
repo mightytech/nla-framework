@@ -73,6 +73,13 @@ Core principle #3 (Name the Blast Radius) applies universally. The framework-spe
 
 A change to `core/skills/maintain.md` affects every domain project's `/maintain`. A change to `install/skills-intent.md` affects project generation and package installation. Name the specific blast radius when proposing.
 
+**Dual-channel coverage for runtime principles.** When adding or changing a behavioral principle that should fire during *both* consumer NLA sessions *and* framework maintenance sessions (`/create-app`, `/maintain`, `/think` run from the framework itself), check whether the change needs to land in two channels:
+
+- `install/CLAUDE-intent.md` propagates to every domain project's CLAUDE.md via `/create-app` and `/update` — covers consumer NLAs.
+- The framework's own `CLAUDE.md` is **hand-written, not synthesized from `install/CLAUDE-intent.md`** — so intent-file changes do *not* propagate to it. Framework sessions need their own update.
+
+If the principle applies to both, edit both. The intent-file channel alone leaves the framework uncovered; the framework's CLAUDE.md alone leaves consumers uncovered. The same pattern may apply to package wrappers when a package has both intent files and its own runtime identity file.
+
 ---
 
 ## Framework-Specific Common Tasks
