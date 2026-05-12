@@ -1,7 +1,7 @@
 # Maintenance Session: Prose-default + create-app mode-recognition; May process-improvements sweep
 
 **Date:** 2026-05-11
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 
@@ -257,8 +257,82 @@ shape this guidance recommends.
 
 ## Debrief
 
-[To be added at session close via `/debrief` or in `/close`.]
+Refined observations from this session's explicit `/debrief`:
+
+- **Framework-vs-consumer coverage gap is a recurring failure mode.**
+  My initial proposal for the prose-default principle addressed only
+  `install/CLAUDE-intent.md` (consumer channel). The maintainer caught
+  it: framework sessions need their own coverage because the framework's
+  CLAUDE.md is hand-written, not synthesized from the intent file.
+  Resolved during the debrief by adding a "Dual-channel coverage for
+  runtime principles" paragraph to the framework's maintain wrapper
+  (`.claude/skills/maintain/SKILL.md` "Framework Blast Radius Taxonomy"
+  section). Names the pattern so future maintenance sessions check both
+  channels when relevant. Pattern may extend to packages with similar
+  intent-file-plus-CLAUDE.md structure.
+
+- **Dogfooding the Bulk Edits guidance worked in real time.** Within
+  minutes of writing the "Bulk Edits" task in `core/skills/maintain.md`,
+  used Python-via-Bash for the five-entry friction-log move. The
+  guidance pulled behavior toward the better shape at the lapse-prone
+  moment (my first instinct was to do five `Edit` calls). Strongest
+  signal that a guidance is right-sized: it changes behavior without
+  needing deliberation. Positive observation, doesn't need to land
+  anywhere durable.
+
+- **Two-workstream session log via "Layer, don't flatten" worked.**
+  When the May sweep started, the cleanest move was appending a
+  "Second workstream" subsection rather than renaming the file or
+  restructuring everything. The writing standards section 8.2 says
+  exactly this; the case validated it. Positive observation, validates
+  existing guidance.
+
+- **Mid-session "anything else?" as workflow rhythm.** The maintainer
+  opened the May sweep with "Anything else we should work on while
+  we're going?" — a natural transition prompt when one batch wraps up
+  and headroom remains. Discussed whether to add a small note in
+  `/maintain` about offering an options survey at workstream
+  transitions; landed on not necessary — the methodology doesn't
+  prohibit it, and we did it naturally. Pattern worth recognizing but
+  not worth a doc change.
 
 ## State at Close
 
-[To be finalized at session close.]
+**Context for next time:**
+
+- Framework HEAD is 8 commits ahead of last tag (v0.0.8). One tag
+  (v0.0.9) covers the consumer-facing commits from this session:
+  prose-default (d62de0f) + the May sweep's core/skills/* changes
+  (35ea2ba, 313c878, 51013a5). Framework-internal commits (4d5b38f
+  create-app, d678d65 + 4a0c655 archival, b1471f8 dual-channel note)
+  ride along without contributing to the tag decision.
+- Active friction log is now lean: 8 entries total, all of which need
+  heavier work than a wording fix. Four are the 2026-04-16
+  traditional-code cluster (waiting on nla-compiler installability);
+  three want a `/think` session before implementation (`/startup`
+  auto-invocation, bare-project edge case, friction-log gitignoring);
+  one is deferred (context-window awareness, depends on Claude Code
+  feature).
+- No pending feedback log entries.
+
+**Decisions awaiting implementation:**
+
+- None at session close. All decisions made during this session were
+  implemented in-session.
+
+**Where to pick up:**
+
+- The next `/maintain` session has the choice of (a) starting one of
+  the `/think`-required entries, or (b) waiting for nla-compiler to
+  unlock the traditional-code cluster. Neither path is time-pressured.
+- Alternative natural next step: a domain-project session
+  (`nla-archetypes` at `../nla-archetypes/` has its initial scaffold
+  committed but no real extractions yet) or `/check-feedback` to see
+  if anything has arrived externally.
+- The two refactoring possibilities surfaced during this session and
+  deliberately not pursued — (1) creating an "Execution Principles"
+  section in framework CLAUDE.md for structural parity with consumer
+  NLAs; (2) skill-level reinforcement of prose-default in
+  `core/skills/maintain.md` and `core/skills/think.md` — should be
+  driven by recurrence, not pre-emptive layering. If a future session
+  hits either gap, the work is well-scoped.
