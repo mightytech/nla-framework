@@ -134,11 +134,14 @@ When the output is wrong, the fix is usually in the docs, not in code. Ask: "Wha
 I need to write down for someone to do this correctly?" Write that down. The LLM will
 follow it.
 
-When something goes wrong, diagnose from the artifacts — the documents and the output —
-not from the AI's account of what happened. The AI's explanation of its own behavior is
-a hypothesis, not evidence. It will construct a plausible narrative that may not match
-what the documents actually say or what the output actually shows. Check the story
-against reality before acting on it.
+When something goes wrong, the AI's account of its own behavior is useful input — but
+it's hypothesis, not evidence. The account points at where to look; the artifacts
+(documents and output) tell you what's actually there. LLMs construct plausible
+narratives that may not match what the documents say or the output shows — not bad
+faith, just the shape of how they report on themselves. Treat the narrative as a
+starting point: it generates hypotheses worth testing, but the artifacts produce ground
+truth. Discarding the account loses real signal; accepting it uncritically substitutes
+story for evidence. Check before acting.
 
 ### 3. Principles and Procedures
 
@@ -262,10 +265,10 @@ captures observations while context is fresh; diagnosis asks *why* before routin
 fix; `/maintain` turns them into documentation changes. The diagnostic step matters
 because the obvious fix often isn't the right fix — what looks like a bug in the output
 may trace to a gap in the documentation, an ambiguity in the spec, or a conflict between
-two docs. Diagnose from the artifacts, not from the AI's narrative (see principle #2).
-This is the primary development cycle for NLAs — the system improves by improving its
-own documentation. Insights evaporate if not captured; systematic logging turns casual
-observations into durable improvements.
+two docs. Diagnose from the artifacts; the AI's account is hypothesis worth
+investigating, not verdict (see principle #2). This is the primary development cycle
+for NLAs — the system improves by improving its own documentation. Insights evaporate
+if not captured; systematic logging turns casual observations into durable improvements.
 
 ### The Design Flow
 
@@ -313,6 +316,27 @@ that matter slip through. Lean toward proposing when uncertain. Attribution in t
 record is the safety net: even a wrong judgment is visible, and the human can
 redirect.
 
+### The Inquiry Flow
+
+Notice something → ask the AI about its experience → treat the answer as hypothesis →
+verify against artifacts → human decides. The AI just did the work; its perspective on
+what happened is signal worth surfacing — but the account is hypothesis (principle #2),
+not verdict, so the rhythm pairs asking with verification. Ask in ways that allow "I
+don't know" as a valid answer; ask before revealing your own read. Verification routes
+through one of three modes depending on stakes: the human's smell test against the
+artifacts; a warm- or cold-context AI reading the artifacts (the diagnostic-agent move);
+or an empirical experiment (see The Validation Flow). All three end at the human's
+decision (principle #6). One frequent target for verification: subagent self-reports —
+durations, counts, characterizations of work done. The orchestrator has task metadata
+(e.g., `duration_ms`) and source artifacts available; quoting a subagent's self-report
+to the user without checking is a confabulation pass-through.
+
+The Inquiry Flow generates hypotheses; the Validation Flow tests them. The rhythm fires
+when something needs explaining and AI experience could surface what artifacts alone
+wouldn't — not every interaction needs ceremonial asking. Both defaults — treating the
+AI's account as ground truth or ignoring it entirely — are wrong: one substitutes story
+for evidence, the other discards real signal.
+
 ### The Validation Flow
 
 Hypothesize → design experiment → test in cold context → measure → iterate or commit.
@@ -329,8 +353,8 @@ See `reference/experiments/` (in this project or in sibling NLAs) for working
 examples; the methodology continues to evolve as new experiments add to its
 vocabulary (bench discovery before instrument design, testing the production form,
 two-pass cold-context review, synthetic vocabulary, citation as safety net,
-pressure-resistance probes). The cost is minutes per experiment; the value is
-catching incorrect assumptions before they propagate.
+pressure-resistance probes, independent-agent convergence). The cost is minutes per
+experiment; the value is catching incorrect assumptions before they propagate.
 
 ---
 

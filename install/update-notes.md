@@ -33,6 +33,85 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-18 — Inquiry Flow refinement: agent self-report verification + convergence as validation technique
+
+**Affects:** core/nla-foundations.md
+
+Two small additions to the foundations doc, both grounded in empirical experience
+from facebook-moderation (Issue #24 items 6, 7 + recommendation D):
+
+- **The Inquiry Flow** — gains a concrete anchor inside its verification step:
+  subagent self-reports as a frequent target. When a subagent reports its own work
+  (durations, counts, characterizations), the orchestrator should verify against
+  task metadata (e.g., `duration_ms`) or source artifacts before relaying. Quoting
+  without checking is a confabulation pass-through. The empirical case that
+  grounded this: a cold-context agent self-reported "~90 minutes" of work; actual
+  duration from task notification metadata was ~8.6 minutes (~10× off).
+
+- **The Validation Flow** — gains "independent-agent convergence" in its technique
+  vocabulary list (alongside bench discovery, two-pass cold-context review,
+  citation as safety net, etc.). Two parallel fresh-context agents reading
+  related-but-different artifacts converging on the same finding is structurally
+  credible signal — independence prevents priming; relatedness ensures the agents
+  see the same kind of phenomenon.
+
+**What this means for your project:**
+
+`core/nla-foundations.md` is read at startup by every session; the refinements load
+into context the next time your project's framework submodule advances. Practical
+effects:
+
+- When your orchestrator spawns subagents and relays self-reports to you, the
+  Inquiry Flow's verification step now explicitly names this as a target.
+- When you have a pattern hypothesis worth validating without orchestrator-priming
+  bias, the convergence technique is named alongside other validation vocabulary.
+
+No project-side changes needed.
+
+### 2026-05-14 — AI account as hypothesis: principle #2 recalibration + new Inquiry Flow rhythm
+
+**Affects:** core/nla-foundations.md
+
+Two coupled changes in `core/nla-foundations.md`:
+
+- **Principle #2 (NLA Documents Are Source Code), third paragraph** — recalibrated
+  from "diagnose from artifacts, not from the AI's account" to "the AI's account is
+  useful input — but hypothesis, not evidence." The original framing read as
+  reflexively skeptical, treating AI narrative as noise to discard. The new framing
+  names both failure modes: discarding the account loses real signal; accepting it
+  uncritically substitutes story for evidence. Preserves the confabulation warning,
+  depathologizes it ("not bad faith, just the shape of how LLMs report on themselves").
+
+- **New Working Rhythm — The Inquiry Flow** — names the rhythm that operationalizes
+  the recalibrated principle: notice → ask the AI → treat as hypothesis → verify
+  against artifacts → human decides. Three verification modes (human smell test,
+  warm/cold-context AI reading artifacts, empirical experiment) all routing to the
+  human's decision. Pairs with The Validation Flow as its hypothesis-generator.
+
+A small ripple update softens the line in The Improvement Loop that previously echoed
+the old framing.
+
+**What this means for your project:**
+
+`core/nla-foundations.md` is read at startup by every session. The next time your
+project's framework submodule advances, the recalibrated principle and the new rhythm
+will load into context.
+
+Practical effects:
+
+- Your AI may surface its own perspective more readily during diagnosis ("here's what I
+  noticed; treat as starting point") rather than only reporting on artifacts.
+- When you're asking the AI about its experience (in `/debrief`, friction-log
+  diagnosis, post-execution reflection), the rhythm names the structure: ask in ways
+  that allow "I don't know" as a valid answer; ask before revealing your own read;
+  verify before treating as fact.
+- The Inquiry Flow points at the Validation Flow for high-stakes hypotheses — when AI
+  experience generates a hypothesis worth testing empirically, the empirical
+  methodology is already named.
+
+No changes to your project files are needed; this is a foundations-level shift that
+propagates by being loaded.
+
 ### 2026-05-11 — Default to prose for design conversations
 
 **Affects:** install/CLAUDE-intent.md
