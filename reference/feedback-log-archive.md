@@ -12,6 +12,27 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-05-18 — Agent self-report verification as Inquiry Flow anchor
+
+**Source:** [Issue #24](https://github.com/mightytech/nla-framework/issues/24) items 6, 7 + recommendation D
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-05-18 — Added concrete anchor to The Inquiry Flow (subagent self-reports as a frequent verification target — durations, counts, characterizations checkable against task metadata like `duration_ms` and source artifacts) and "independent-agent convergence" to The Validation Flow's technique vocabulary list. Both in `core/nla-foundations.md`. Update-notes entry written for downstream propagation. Follow-up comment posted on Issue #24.
+
+**What to do:**
+
+Two related additions:
+
+1. **Anchor example in The Inquiry Flow** (added to `core/nla-foundations.md` 2026-05-14). Subagent self-reports are a specific verification target: durations, counts, characterizations of effort, claims about what was read. Item 6's concrete case: cold-context agent self-reported "~90 minutes" of work; actual duration from task notification metadata was ~8.6 minutes (~10× off). The orchestrator has `duration_ms` available; quoting agent self-reports without verification is a confabulation pass-through. Adds as a concrete anchor inside The Inquiry Flow — agent self-reports are exactly the kind of input where the rhythm fires.
+
+2. **Independent-agent convergence as Validation Flow technique** (letter item 7). When you have a pattern hypothesis worth validating without orchestrator-priming bias, two parallel fresh-context agents reading related-but-different artifacts converging on the same finding is structurally credible signal. Fits into The Validation Flow's vocabulary list (currently includes bench discovery, testing the production form, two-pass cold-context review, synthetic vocabulary, citation as safety net, pressure-resistance probes).
+
+**Why it was accepted:**
+
+Both items concrete, high-confidence, and pair naturally with foundations rhythms just added or already existing. Item 1 (agent self-reports) is exactly the orchestrator-relay specialization the Inquiry Flow describes generically — anchoring it makes the rhythm operationally sharper.
+
+---
+
 ### 2026-04-17 — Document settings.local.json drift pattern in structure-intent
 
 **Source:** [Issue #23](https://github.com/mightytech/nla-framework/issues/23) item 2
