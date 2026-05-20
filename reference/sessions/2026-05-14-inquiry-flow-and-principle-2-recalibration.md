@@ -143,6 +143,88 @@ the AI is the *reporter* and the orchestrator is the *relayer*.
 - **2026-05-18 — Agent self-report verification as Inquiry Flow anchor** — resolved.
   `core/nla-foundations.md` + update-notes + follow-up comment on Issue #24. Archived.
 
+---
+
+## Fourth workstream: Warm-context plan for session-bracketing rhythm + handoff template (2026-05-19)
+
+After the third workstream completed, the maintainer asked the AI to honestly assess context state and recommend whether to (a) implement the next pending items now or (b) draft a warm-context plan. Honest read: context heavily loaded; the headline pending item (session-bracketing rhythm) carries an unresolved framing question that benefits from fresh eyes in cold context. Chose option (b) — dogfood the very pattern we just triaged.
+
+### Intent (fourth workstream)
+
+Apply the session-bracketing pattern to the work we just triaged. Draft a plan-shaped artifact for the rhythm + template + preventive-note implementation, using:
+
+- The four-section template from Letter #24 (substance, procedural-edge, judgment defaults, confidence band)
+- The two structural patterns from Letter #25 (warm-context next-steps section, paired specific+generic checkpoint questions)
+- Intent at every layer (Letter #24 item 5)
+
+The plan demonstrates the patterns before they're documented — establishing that they work in practice in this exact use case, while capturing the warm-context judgment for a fresh-context execution session.
+
+### Changes Made (fourth workstream)
+
+- **`reference/plans/session-bracketing-rhythm-and-handoff-template.md`** — new plan file. Topic-based filename matching the existing `skills-doctrine-publication.md` convention. Covers: what this is, what it adds, why it exists, pre-requisites, goals/non-goals, 8 substantive steps, block-end checkpoints, procedural edge-cases, judgment defaults, confidence band, warm-context next-steps, to-do at session close.
+
+### Decisions Made (fourth workstream)
+
+- **Plan as separate file, not embedded in session log** — cold-context review benefits from a focused artifact; embedding would dilute the cold agent's prompt with retrospective narrative they don't need. The four-section template's self-containment discipline depends on the plan standing on its own.
+
+- **No new directory needed** — `reference/plans/` already exists (added 2026-05-06 via the skill-invocation discipline publication plan; documented in `core/structure.md` lines 54, 155, 250). The structural change discipline check surfaced this in time to avoid unnecessary structure-record overhead.
+
+- **Filename topic-based, not date-based** — matches the existing plan's convention. Date captured in the "Drafted" field at the top of the file.
+
+- **Three-item bundle scope** — session-bracketing rhythm + plan/handoff template + plans-not-runbooks preventive note as one execution unit. /close enhancement and memory-mining beat both excluded as out-of-scope (both need /think sessions before they can be specified at plan level).
+
+- **Open framing question explicitly preserved, not pre-decided** — Step 1 names Options A (extend Design Flow), B (standalone rhythm), and C (hybrid) with author's lean (C, hybrid) but invites fresh-context AI to argue otherwise. This is the precise move The Inquiry Flow describes: warm-context judgment as input, fresh eyes as verification.
+
+- **Confidence band populated honestly with percentages** — for each contestable decision, the band names how confident the warm-context author actually is (60% on framing, 55% on template location, etc.). Aligns with Letter #24 item 3c's framing: "where the cold executor should expect to push back."
+
+- **No cold-context review run yet** — the plan prescribes simulation + question review as session-close steps. To be run separately (either in this session before commit, or at next /close).
+
+### Feedback Items Processed (fourth workstream)
+
+- None resolved. The three relevant pending entries (session-bracketing rhythm; plan/handoff document template; plans-not-runbooks preventive guidance) remain pending in the active feedback log. The plan captures *how* to resolve them; the actual resolution happens in the execution session.
+
+---
+
+## Fifth workstream: Cold-context review of the warm-context plan (2026-05-19)
+
+Honored the plan's prescription — ran both cold-context check mechanisms (Letter #24 item 2) on the plan drafted in workstream 4. Dogfooded the patterns end-to-end while warm context was still available for patching.
+
+### Intent (fifth workstream)
+
+Complete the close-and-clear substep of the session-bracketing rhythm on the plan we just drafted. Specifically: spawn fresh-context reviewer agents (separate simulation and question), triage their findings against the plan, apply clear-improvement patches under Adjust's verify-each-claim discipline. Demonstrate the cycle that the plan documents as a workflow.
+
+### Changes Made (fifth workstream)
+
+- **Cold-context simulation review** — fresh `general-purpose` subagent (~46s, ~30k tokens). Found self-containment positive (didn't need to open referenced files for executability); surfaced ambiguities at Pre-req #3 reading twice with To-do #1-2; Step 4 redundancy with Step 2's content list; Step 1 framing-question current-state confusion.
+
+- **Cold-context question review** — separate fresh `general-purpose` subagent (~59s, ~29k tokens). Surfaced conflations (Plan vs. Handoff treated as one; "cold-context" used for two distinct roles), pre-judged framings (new-rhythm existence; "someone drives" defaulting to human), unsupported leans (standalone-template-doc rationale relies on speculative future referents; placement-justification circular), implicit context dependencies (letter content referenced by number).
+
+- **Patches applied** to `reference/plans/session-bracketing-rhythm-and-handoff-template.md`:
+  - **A.** Plan vs. Handoff distinction clarified in Step 3 (template is handoff-shaped; plans that don't cross agent boundaries may carry a subset)
+  - **B.** "Cold-context" role disambiguation — Step 2 substeps now distinguish reviewer (pre-execution diagnostic) from executor (post-handoff implementer)
+  - **C.** Option 0 added to Step 1 (amend existing rhythms; no new rhythm) as a real fourth option
+  - **D.** Letter content inlining clarified — note at top of Substance section
+  - **E.** Pre-req / To-do reconciliation paragraph
+  - **F.** Step 4 retitled and reframed as explicit verification beat
+  - **H.** "Someone drives" framing acknowledged as open question, not settled default
+  - **Plus:** Status field updated to "Cold-context review complete; ready for execution"; "Cold-context review" section appended with findings + patches applied + patches not applied + rationale
+
+### Decisions Made (fifth workstream)
+
+- **Two parallel reviewers, not one combined** — Letter #24 item 2 framed the mechanisms as catching different gap-classes; running them as separate fresh agents preserved independence (one didn't influence the other's frame). Output partly overlapped (Step 1 framing state, "cold-context" usage) and partly diverged (simulation found Pre-req #3 / Step 4 / framing-state confusion; question found conflations and pre-judgments). Different findings, both real — independent-agent-convergence-as-validation (Letter #24 item 7) at work.
+
+- **Apply-not-discuss the pre-approved patch set** — the maintainer reviewed and approved A+C+D+E+F+B+H plus review-summary section before patching. Execution was mechanical from there; no per-patch re-litigation. This was right: the verify-each-claim discipline happened during proposal, not during application.
+
+- **Some findings deliberately not patched** — I (template-doc rationale honesty) is already acknowledged in Confidence band at 55%; J (length) is covered by an existing edge case; G (status field semantics) is answerable at execution time; K (shippability rule pointer) lives in maintain.md where the cold executor finds it. The placement-circularity finding is acknowledged in the review summary but not patched in-line because it's a small honest acknowledgment, not a pre-execution gap.
+
+- **Plan vs. Handoff distinction surfaced but not fully resolved** — Patch A clarified the template is handoff-shaped, but the deeper question (whether the rhythm itself should be called "Handoff" rather than "Plan" or "Session-Bracketing") remained open. Surfaced in the Step 3 naming clarification rather than pre-decided. The execution session resolves at template-doc-naming time.
+
+- **Confab-resistance worked in real time** — reviewer findings were treated as hypotheses, each verified against the actual plan content before patching. Two findings (the question agent's claim that letter content wasn't inlined; the simulation agent's worry about "letter references") turned out to be partly inaccurate on verification — the content IS inlined; the references are attribution-laden but not execution-blocking. Adjusted Patch D accordingly (kept attributions; added clarifying note about traceability vs. prerequisite).
+
+### Feedback Items Processed (fifth workstream)
+
+- None. The plan was already drafted in workstream 4; the cold-context review completes the close-and-clear substep. Resolution of the three pending feedback-log entries (rhythm, template, runbook-preventive) still belongs to the execution session.
+
 ## State at Close
 
 [To fill at /close]
