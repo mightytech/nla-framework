@@ -1,7 +1,7 @@
 # Maintenance Session: Inquiry Flow + Principle #2 Recalibration
 
-**Date:** 2026-05-14
-**Status:** In Progress
+**Date:** 2026-05-14 (spanned to 2026-05-20)
+**Status:** Complete
 
 ## Intent
 
@@ -225,6 +225,63 @@ Complete the close-and-clear substep of the session-bracketing rhythm on the pla
 
 - None. The plan was already drafted in workstream 4; the cold-context review completes the close-and-clear substep. Resolution of the three pending feedback-log entries (rhythm, template, runbook-preventive) still belongs to the execution session.
 
+---
+
+## Debrief
+
+Refined observations from this session's explicit `/debrief`:
+
+- **"Ask the AI about its experience" reframe grew the right way.** The session started with a small note about principle #2's tone reading too negatively about AI narrative. It grew into the recalibration *and* The Inquiry Flow rhythm *and* the feedback triage that surfaced the warm-context plan we dogfooded. The maintainer's willingness to let scope grow appropriately — rather than force-fitting into the original principle-tweak framing — was load-bearing. This methodological openness is worth recognizing as a positive pattern, distinct from "scope creep" because the growth was always followed by re-confirmation of direction before proceeding.
+
+- **Confab-resistance worked in real time.** Two reviewer findings (one from the question agent claiming letter content wasn't sufficiently inlined; one from the simulation agent flagging "letter references" as execution dependency) turned out to be partly inaccurate when verified against the actual plan. The Inquiry Flow's "candidates, not authority" discipline caught them — concrete in-session evidence that the rhythm operates as intended. Positive observation worth recording as a session-log debrief note for future reference; no separate friction entry needed since the rhythm itself is the artifact.
+
+- **Two-mechanism cold-context check empirically validated.** Letter #24 item 2's framing (simulation catches execution gaps; question catches conceptual-frame gaps; the two reach different gap-classes) played out exactly. The question reviewer surfaced the Plan vs. Handoff conflation and the "cold-context" two-roles issue that the simulation reviewer didn't see. Captured as friction log positive observation (2026-05-20) for use during the execution session's rhythm-drafting.
+
+- **Accept-with-/think verdict shape needs more prominence in check-feedback.** Initially labeled two structurally-identical items "Adapt" and "Defer." The maintainer caught it; reconciled. Captured as friction log entry (2026-05-20) for check-feedback skill enhancement. The skill's current treatment of the hybrid case is a parenthetical; it needs to be visible at decision time.
+
+- **Asking sharpens AI thinking, not just user input.** The maintainer's observation: "just because I'm asked doesn't mean I'm confident I'll come up with a better answer than you. But one thing I do suspect: your asking can help *you* arrive at better answers too." Captured as feedback memory. The asking is dual-purpose — surfaces options for the user AND clarifies the AI's own reasoning even before the response arrives. The two purposes reinforce each other; neither is the primary.
+
+- **Autonomy calibration was right.** Tooling decisions (commit shape, hunking trade-offs) delegated; design decisions (verdict taxonomy, prose-default placement, plan-vs-handoff distinction) held by maintainer. Explicit confirmation: "Yes [autonomy felt right]. You asked, which was exactly right. I want to be asked." The asking-as-default operationalizes the Cardinal Rule at the level of surface area, not just authority — the human decides not because they always have a better answer but because they bear the consequences and benefit from staying engaged.
+
+- **Session log's layer-don't-flatten pattern carried five workstreams cleanly.** No restructuring needed; each workstream added as a section. The pattern from 2026-05-11 validated further. Positive observation, doesn't need to land anywhere durable beyond this log.
+
 ## State at Close
 
-[To fill at /close]
+**What's working:**
+
+- `core/nla-foundations.md` principle #2 recalibrated (2026-05-14); The Inquiry Flow rhythm added and refined with the agent self-report anchor (2026-05-14 and 2026-05-18); The Validation Flow vocabulary extended with "independent-agent convergence" (2026-05-18). Two update-notes entries written for downstream propagation.
+- Two GitHub Issues triaged and closed (#24 and #25); #24 carries an implementation follow-up comment.
+- One feedback log entry resolved and archived (agent self-report verification as Inquiry Flow anchor); five pending entries from the 2026-05-18 triage.
+- Two new friction log entries (2026-05-20): the "accept-with-/think" verdict shape (pending check-feedback skill enhancement); the two-mechanism cold-context check empirical validation (positive observation for use during rhythm execution).
+- One new feedback memory: "Asking sharpens AI thinking."
+- Warm-context plan drafted (`reference/plans/session-bracketing-rhythm-and-handoff-template.md`) with cold-context review complete; status "ready for execution."
+
+**What's pending:**
+
+Five feedback log entries from the 2026-05-18 triage, plus the new friction log entries:
+
+- Session-bracketing as a new Working Rhythm (Issue #24 items 1, 2, 8 + rec F) — covered by the warm-context plan
+- Plan/handoff document template (Issue #24 items 3, 5 + rec B; Issue #25 items 1, 2) — covered by the warm-context plan
+- Plans-not-runbooks preventive guidance (Issue #24 item 4 + rec C) — covered by the warm-context plan
+- /close enhancement: plan-shaped detection + handoff integration (Issue #24 recs A, E) — accept-with-/think
+- Memory-mining beat in lifecycle (Issue #25 item 3) — accept-with-/think
+- Accept-with-/think verdict shape prominence (2026-05-20 friction entry) — small check-feedback skill enhancement
+- Two-mechanism empirical validation (2026-05-20 friction entry) — positive observation; informs rhythm prose at execution time
+
+**Where to pick up:**
+
+The natural next session executes the warm-context plan at `reference/plans/session-bracketing-rhythm-and-handoff-template.md`. The plan is self-contained and cold-context-reviewed; a fresh-context AI can run it after re-reading the existing Working Rhythms section in `core/nla-foundations.md`.
+
+Alternative natural next steps:
+
+- The two accept-with-/think entries (`/close` enhancement, memory-mining beat) each need a dedicated `/think` session before they can be specified for execution. Either can be picked up independently of the rhythm work.
+- The accept-with-/think check-feedback skill enhancement (small fix) could ride along with any upcoming penny-post work.
+- The 2026-05-20 two-mechanism positive observation should be referenced when the execution session drafts the rhythm's "two cold-context check mechanisms" beat.
+
+**Commits this session (three):**
+
+- `a57d225` — foundations: principle #2 recalibration + Inquiry Flow rhythm (consumer-facing; tag at push)
+- `9461931` — feedback triage: facebook-moderation letters #24 + #25 (internal)
+- `360eada` — plan + cold-context review: session-bracketing rhythm and handoff template (internal)
+
+Plus the close-time commit covering the friction log entries, the feedback memory, and this session log's Debrief + State at Close + Status update.

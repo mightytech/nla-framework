@@ -68,6 +68,84 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-20 — "Accept-with-/think" verdict shape needs more prominence in check-feedback
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** maintainers
+**Status:** pending
+
+**Observation:**
+During a multi-letter triage of feedback from facebook-moderation (Issues #24, #25, 2026-05-18), I labeled two structurally-identical items different verdicts: one "Adapt," one "Defer." Both items were the same shape — principle committed; design step (a `/think` session) needed before implementation could be specified. The maintainer caught the inconsistency and named the right shape: "accept-with-/think."
+
+The check-feedback skill (`packages/nla-penny-post/app/check-feedback.md` Step 4) does allow this verdict shape, explicitly: "These are convenient defaults, not an enum. 'Accept the principle, defer the specific implementation' is a valid verdict." But this guidance is a parenthetical after the four primary verdicts (Accept, Adapt, Defer, Decline). The parenthetical's prominence was insufficient to prevent my drift.
+
+**Before:** Two structurally-identical items got different verdicts (Adapt vs. Defer) because the AI pattern-matched to the four primary verdicts rather than recognizing the hybrid case.
+
+**After:** The hybrid case should be visible at decision time, not require post-triage reconciliation.
+
+**Confirmed reason:**
+The four primary verdicts (Accept, Adapt, Defer, Decline) are the prominent pattern-matching surface. The hybrid case requires conscious application of guidance that's currently subordinated to the primary verdicts. When triaging multiple items in flow, the AI defaults to the prominent four.
+
+**Affected files:**
+- `packages/nla-penny-post/app/check-feedback.md` — Step 4 "Propose Verdicts"
+
+**Proposed fix:**
+Give "Accept with prerequisite" more visible placement — possibly as a fifth named verdict ("Accept-with-/think" or "Accept-with-prerequisite"), or as a sub-pattern under Accept ("Accept (immediate)" vs. "Accept (with prerequisite)"). The prerequisite might be `/think`, more evidence, or a dependent change.
+
+When applied, this surfaces the hybrid shape during triage rather than requiring post-triage reconciliation.
+
+**Notes:**
+Surfaced during 2026-05-18 triage of Issues #24 and #25. Two items affected:
+- `/close` enhancement (Issue #24 recs A, E)
+- Memory-mining beat (Issue #25 item 3)
+Both were reconciled to "Accept-with-/think" after the maintainer caught the inconsistency.
+
+---
+
+### 2026-05-20 — Two-mechanism cold-context check empirically validated in framework dogfooding
+
+**Type:** core
+**Severity:** positive
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+Facebook-moderation's Letter #24 item 2 (Issue #24) claimed that "cold-context simulation" and "cold-context question" are distinct mechanisms catching different gap-classes:
+- Simulation catches what an executor would stumble on (execution gaps)
+- Question catches what an executor wouldn't notice was wrong, because the conflation is internally consistent (concept-layer gaps)
+
+The letter's confidence on the question mechanism was moderate — "theoretically sound but untested."
+
+During the framework's 2026-05-19 dogfooding of the session-bracketing rhythm (drafted at `reference/plans/session-bracketing-rhythm-and-handoff-template.md`), both mechanisms were run on the warm-context plan via two parallel fresh-context `general-purpose` subagents.
+
+**Empirical results:**
+
+The mechanisms surfaced *different* findings:
+
+- **Simulation reviewer** found: Pre-req #3 reading twice with To-do #1-2; Step 4 redundancy with Step 2's content list; "plan ready" marker semantics; Step 1 framing-question current-state confusion. All execution-stumbling-block class.
+- **Question reviewer** found: Plan vs. Handoff conflation; "cold-context" used for two distinct roles (review-mechanism vs. executor); existence of new rhythm pre-judged (Option 0 — amend existing — wasn't surfaced); "someone drives" defaulting to human rather than acknowledged as open. All conceptual-frame class.
+
+There was partial overlap (both noticed the Step 1 framing-state confusion) but the question reviewer surfaced four findings the simulation reviewer did not — exactly the gap-class the letter predicted: concept-layer conflations the simulating agent didn't see because it inherited the conceptual frame from the artifact it was reading.
+
+**Before:** Two-mechanism claim was theoretically grounded with moderate confidence.
+
+**After:** Two-mechanism claim empirically validated in one substantive instance (framework's own warm-context plan). The question reviewer demonstrably catches what the simulation reviewer cannot.
+
+**Confirmed reason:**
+The simulating agent reads the plan to execute it; the conceptual frame it inherits is the plan's own frame. Conflations inside that frame look internally consistent. The question reviewer explicitly probes the frame itself, surfacing conflations the simulator would absorb into locally-coherent output.
+
+**Affected files:**
+None directly. This entry captures empirical validation; the implication is for documentation work yet to happen.
+
+**Proposed fix:**
+When the session-bracketing rhythm's prose is drafted (per the plan at `reference/plans/session-bracketing-rhythm-and-handoff-template.md`), reference this empirical evidence rather than relying solely on the letter's claim. The rhythm's "two cold-context check mechanisms" beat can cite the dogfooding instance as concrete validation.
+
+**Notes:**
+Letter #24 item 7's "independent-agent convergence as pattern-validation" framing was also visible: the two reviewers' partial overlap (one shared finding) and partial divergence (four findings each unique) is itself signal — different patterns visible from different starting points.
+
+---
+
 ### 2026-04-16 — No implementation standards for Python scripts in the framework
 
 **Type:** core
