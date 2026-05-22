@@ -142,9 +142,14 @@ here if no explicit debrief happens.)
 3. **The "reader is an AI" observation reframed the placement question.**
    The user's observation that the reader is an AI loading the file
    wholesale (not a human reading sequentially) collapsed one of the
-   competing arguments and crystallized the decision. Worth remembering:
-   when applying writing standards developed in human-reader mental
-   models, ask "what's the actual reader?"
+   competing arguments and crystallized the decision. Worth noting: even
+   though the writing standards are AI-reader-aware by construction, the
+   AI applying them can drift toward human-reader heuristics — I read
+   3.2 (progressive disclosure) through a sequential-reading lens it
+   doesn't impose. The diagnostic is checking the application, not the
+   standards. (Refined post-debrief — the original framing of this
+   observation incorrectly attributed the human-reader drift to the
+   standards rather than my application of them.)
 
 ## State at Close
 
