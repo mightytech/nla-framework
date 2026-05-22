@@ -105,16 +105,17 @@ matched the existing feedback memory "Prose over enum for decisions."
 
 ## Friction Log Entries Processed
 
-None directly resolved. The 2026-05-20 friction entries (Accept-with-/think
-verdict prominence; two-mechanism empirical validation) are pending and
-remain in the active friction log:
+- **2026-05-20 — Two-mechanism cold-context check empirically validated**
+  (positive observation) — resolved. Empirical evidence cited in the new
+  design-rationale entry and surfaced in the update-notes entry for
+  downstream consumers. Placement adapted from the proposed fix:
+  citation lives in design-rationale + update-notes rather than rhythm
+  prose, per writing standard 8.3 (operative docs shouldn't carry
+  evidence-for-claim citations). Archived to friction-log-archive.md.
 
-- The two-mechanism entry was cited in the design-rationale entry and the
-  rhythm prose, exactly as the State at Close for the prior session
-  anticipated.
-- The Accept-with-/think prominence entry remains pending — it's a small
-  fix to `packages/nla-penny-post/app/check-feedback.md` that can ride
-  along with any upcoming penny-post work.
+The Accept-with-/think prominence entry (2026-05-20) remains pending —
+it's a small fix to `packages/nla-penny-post/app/check-feedback.md` that
+can ride along with any upcoming penny-post work.
 
 ## Debrief
 
@@ -153,7 +154,10 @@ here if no explicit debrief happens.)
   log items resolved and archived. Two GitHub follow-up comments posted.
   One design-rationale entry added. Update-notes entry written. Structure
   record updated in the same operation as the new file creation (per
-  Structural Change Discipline).
+  Structural Change Discipline). Three validation modes run (coherence,
+  structural, standards) with two small patches applied. One friction
+  log entry resolved and archived (2026-05-20 two-mechanism positive).
+  One new feedback memory captured ("Default to running cheap checks").
 - The framework now has named vocabulary for cross-session work — the
   rhythm, the template, the plans-not-runbooks framing, the two-mechanism
   distinction. The naming propagates to every NLA at next `/update`.
@@ -169,9 +173,9 @@ the active log:
 Both need a /think session before they can be specified for execution.
 Either can be picked up independently.
 
-The friction log retains eight pending entries (none touched this
-session). The 2026-05-20 "Accept-with-/think" verdict prominence entry
-is a small check-feedback skill fix awaiting penny-post work.
+The friction log retains seven pending entries (one resolved + archived
+this session). The 2026-05-20 "Accept-with-/think" verdict prominence
+entry is a small check-feedback skill fix awaiting penny-post work.
 
 **Commits this session (two):**
 

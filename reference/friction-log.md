@@ -103,49 +103,6 @@ Both were reconciled to "Accept-with-/think" after the maintainer caught the inc
 
 ---
 
-### 2026-05-20 — Two-mechanism cold-context check empirically validated in framework dogfooding
-
-**Type:** core
-**Severity:** positive
-**Blast radius:** all projects
-**Status:** pending
-
-**Observation:**
-Facebook-moderation's Letter #24 item 2 (Issue #24) claimed that "cold-context simulation" and "cold-context question" are distinct mechanisms catching different gap-classes:
-- Simulation catches what an executor would stumble on (execution gaps)
-- Question catches what an executor wouldn't notice was wrong, because the conflation is internally consistent (concept-layer gaps)
-
-The letter's confidence on the question mechanism was moderate — "theoretically sound but untested."
-
-During the framework's 2026-05-19 dogfooding of the session-bracketing rhythm (drafted at `reference/plans/session-bracketing-rhythm-and-handoff-template.md`), both mechanisms were run on the warm-context plan via two parallel fresh-context `general-purpose` subagents.
-
-**Empirical results:**
-
-The mechanisms surfaced *different* findings:
-
-- **Simulation reviewer** found: Pre-req #3 reading twice with To-do #1-2; Step 4 redundancy with Step 2's content list; "plan ready" marker semantics; Step 1 framing-question current-state confusion. All execution-stumbling-block class.
-- **Question reviewer** found: Plan vs. Handoff conflation; "cold-context" used for two distinct roles (review-mechanism vs. executor); existence of new rhythm pre-judged (Option 0 — amend existing — wasn't surfaced); "someone drives" defaulting to human rather than acknowledged as open. All conceptual-frame class.
-
-There was partial overlap (both noticed the Step 1 framing-state confusion) but the question reviewer surfaced four findings the simulation reviewer did not — exactly the gap-class the letter predicted: concept-layer conflations the simulating agent didn't see because it inherited the conceptual frame from the artifact it was reading.
-
-**Before:** Two-mechanism claim was theoretically grounded with moderate confidence.
-
-**After:** Two-mechanism claim empirically validated in one substantive instance (framework's own warm-context plan). The question reviewer demonstrably catches what the simulation reviewer cannot.
-
-**Confirmed reason:**
-The simulating agent reads the plan to execute it; the conceptual frame it inherits is the plan's own frame. Conflations inside that frame look internally consistent. The question reviewer explicitly probes the frame itself, surfacing conflations the simulator would absorb into locally-coherent output.
-
-**Affected files:**
-None directly. This entry captures empirical validation; the implication is for documentation work yet to happen.
-
-**Proposed fix:**
-When the session-bracketing rhythm's prose is drafted (per the plan at `reference/plans/session-bracketing-rhythm-and-handoff-template.md`), reference this empirical evidence rather than relying solely on the letter's claim. The rhythm's "two cold-context check mechanisms" beat can cite the dogfooding instance as concrete validation.
-
-**Notes:**
-Letter #24 item 7's "independent-agent convergence as pattern-validation" framing was also visible: the two reviewers' partial overlap (one shared finding) and partial divergence (four findings each unique) is itself signal — different patterns visible from different starting points.
-
----
-
 ### 2026-04-16 — No implementation standards for Python scripts in the framework
 
 **Type:** core
