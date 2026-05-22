@@ -26,6 +26,9 @@ the same author resumes within the same session — may carry only a
 subset. The template is most valuable where the drafter and executor
 have different context.
 
+Drafted plans typically live in the project's `reference/plans/`
+directory; see your project's structure record for the local convention.
+
 ---
 
 ## Sections

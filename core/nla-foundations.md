@@ -304,9 +304,9 @@ a fresh-context reviewer agent to read the plan and report what they'd
 execute, where they'd improvise, what's ambiguous. **Cold-question-check**
 asks a fresh-context reviewer diagnostic questions about the plan's
 conceptual frame (different agent or same; same role: pre-handoff reviewer,
-not eventual executor). **Adjust** applies clear-improvement patches with
-verify-each-claim discipline — reviewer output is candidates, not authority
-(see The Inquiry Flow). **Close-and-clear** finalizes the session log, marks
+not eventual executor). **Adjust** applies clear-improvement patches; each
+reviewer claim is verified before patching — reviewer output is
+candidates, not authority (see The Inquiry Flow). **Close-and-clear** finalizes the session log, marks
 the plan ready, commits, ends the session.
 
 The two cold-context mechanisms catch different gap-classes. Simulation

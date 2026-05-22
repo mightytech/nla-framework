@@ -173,13 +173,38 @@ The friction log retains eight pending entries (none touched this
 session). The 2026-05-20 "Accept-with-/think" verdict prominence entry
 is a small check-feedback skill fix awaiting penny-post work.
 
-**Commits this session (one expected):**
+**Commits this session (two):**
 
-- One commit covering: nla-foundations.md + plan-handoff-template.md +
-  structure.md + design-rationale.md + update-notes.md + feedback-log
-  archival + this session log + VERSION bump. Per shippability rule,
-  consumer-facing content (core/, install/) → tag at push. Tag scope:
-  v0.0.11.
+- `baa52bf` — foundations: Session-Bracketing Discipline rhythm + handoff
+  template. Consumer-facing (core/, install/). Covers nla-foundations.md
+  + plan-handoff-template.md + structure.md + design-rationale.md +
+  update-notes.md + feedback-log archival + session log + VERSION bump.
+- One follow-up commit covering post-commit validation findings: two
+  patches landed after running `/validate coherence`, `/validate
+  structural`, and `/validate standards`. Coherence and structural
+  passed cleanly. Standards surfaced one Note-severity finding (template
+  didn't address where drafted plans live) — fix applied. Coherence
+  surfaced two minor observations — fix-now on the first (verify-each-claim
+  phrasing rephrased to avoid the cross-reference target ambiguity);
+  skip on the second (dense third paragraph stays; thematic grouping
+  earned its density).
+
+Per shippability rule, consumer-facing content (core/, install/) → tag
+at push. Tag scope: v0.0.11 at push, covering both commits.
+
+**Validation observations:**
+
+- `/validate coherence` was high-value for the rhythm-insertion edit —
+  caught the verify-each-claim cross-reference target ambiguity that
+  the author-time read missed. Worth running after any startup-loaded
+  doc gets a new section.
+- `/validate structural` was cheap and confirmed cross-references
+  resolve. Mechanical and fast; default-on for any structural addition.
+- `/validate standards` surfaced one Note-severity finding the
+  author-time check (Section 2 + 8.3 audit during drafting) had missed.
+  Marginal yield was modest but real. The user's frame ("zero human
+  effort, multitask during the wait") generalizes — captured as
+  feedback memory "Default to running cheap checks."
 
 **Where to pick up:**
 
