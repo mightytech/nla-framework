@@ -33,6 +33,69 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-22 — Session-Bracketing Discipline + handoff template
+
+**Affects:** core/nla-foundations.md, core/plan-handoff-template.md (new)
+
+A new Working Rhythm and a paired template, implementing the headline
+items from facebook-moderation Issues #24 and #25 (triaged 2026-05-18):
+
+- **The Session-Bracketing Discipline** (new eighth rhythm in
+  `core/nla-foundations.md`, placed as #5 between Session Structure and
+  Structural Change Discipline). Names the rhythm that fires when a
+  session produces non-trivial work for a later session: do-work →
+  plan-while-hot → simulate-cold → cold-question-check → adjust →
+  close-and-clear. The two cold-context check substeps catch different
+  gap-classes — simulation catches execution stumbling blocks; question
+  catches concept-layer conflations the simulator absorbs into
+  locally-coherent output. (Empirically validated 2026-05-19 in the
+  framework's own dogfooding.) The Design Flow gets a one-sentence
+  cross-reference so its readers discover bracketing when their session
+  produces future work.
+
+- **Plan/handoff template** (new file at `core/plan-handoff-template.md`).
+  Scaffolds what plan-while-hot produces. Six sections (Title+Intent,
+  Substance, Procedural-edge cases, Judgment defaults, Confidence band,
+  Warm-context next-steps) plus block-end checkpoints (pair specific
+  questions tied to each block's decisions with at least one generic
+  open-question). Scaffolds without enforcing — sections drop when they
+  don't earn their weight.
+
+- **Plans-not-runbooks preventive framing.** The new rhythm names that
+  it produces plans, not runbooks. Plans invite collaboration; runbooks
+  structurally suppress human input. Preventive, not corrective — an
+  audit (2026-05-18) found no runbook framing already exists in
+  framework skills.
+
+The bracketing rhythm uses Inquiry Flow during its cold-context check
+substeps and Validation Flow as the empirical endpoint for hypotheses it
+generates. See the 2026-05-14 and 2026-05-18 entries below for the
+Inquiry Flow foundations the bracketing rhythm builds on.
+
+**What this means for your project:**
+
+`core/nla-foundations.md` is read at startup by every session; the new
+rhythm loads into context the next time your project's framework
+submodule advances. `core/plan-handoff-template.md` is a new file that
+ships at the same advance; AIs in your sessions can reference it directly
+via `core/plan-handoff-template.md` (resolved through your
+`packages/nla-framework/` submodule).
+
+Practical effects:
+
+- When a session in your project produces non-trivial future-session
+  work, your AI is more likely to suggest bracketing the session
+  deliberately — drafting a plan, running cold-context reviewers,
+  adjusting before close.
+- When you draft a plan that crosses a cold/warm boundary, the template
+  gives you a six-section scaffold to fill from warm context rather
+  than improvising under cold context later.
+- When your AI generates documentation for multi-step workflows, the
+  "plan" framing is now operative; "runbook" framing carries a flag.
+
+No changes to your project files are needed; the new rhythm and template
+propagate by being loaded and being available at the path.
+
 ### 2026-05-18 — Inquiry Flow refinement: agent self-report verification + convergence as validation technique
 
 **Affects:** core/nla-foundations.md

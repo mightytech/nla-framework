@@ -275,7 +275,8 @@ if not captured; systematic logging turns casual observations into durable impro
 Think → plan → implement → debrief. Design judgment happens before implementation
 planning, not during it. `/think` explores what to build and why; planning mode handles
 how; `/debrief` captures process learning while context is fresh. Skipping the thinking
-phase risks building the right thing wrong — or the wrong thing right.
+phase risks building the right thing wrong — or the wrong thing right. When the session
+produced work for a later session, see The Session-Bracketing Discipline.
 
 ### The Update Cycle
 
@@ -290,6 +291,45 @@ Startup → work → close. The LLM starts cold each session — `/startup` load
 so it can operate effectively. Work happens (tasks, maintenance, exploration). `/close`
 preserves state so the next session starts warm instead of cold. Without this
 bookending, every session begins with "where were we?"
+
+### The Session-Bracketing Discipline
+
+Do-work → plan-while-hot → simulate-cold → cold-question-check → adjust →
+close-and-clear. When a session produces non-trivial work for a later session
+— a plan, a draft, a multi-step capture worth executing cold — bracket it
+deliberately. **Plan-while-hot** captures the future-session work while the
+current author's context is warm (implicit assumptions, recently-touched file
+shapes, conversational decisions in working memory). **Simulate-cold** spawns
+a fresh-context reviewer agent to read the plan and report what they'd
+execute, where they'd improvise, what's ambiguous. **Cold-question-check**
+asks a fresh-context reviewer diagnostic questions about the plan's
+conceptual frame (different agent or same; same role: pre-handoff reviewer,
+not eventual executor). **Adjust** applies clear-improvement patches with
+verify-each-claim discipline — reviewer output is candidates, not authority
+(see The Inquiry Flow). **Close-and-clear** finalizes the session log, marks
+the plan ready, commits, ends the session.
+
+The two cold-context mechanisms catch different gap-classes. Simulation
+catches what an executor would stumble on — the execution-stumbling-block
+class. Question catches what an executor wouldn't notice was wrong because
+the conflation is internally consistent — the concept-layer class. The
+simulator inherits the plan's conceptual frame and absorbs conflations into
+locally-coherent output; the questioner probes the frame itself. Use both
+when stakes warrant; either alone is partial coverage. See The Validation
+Flow for the cold-context experimental methodology these mechanisms apply.
+
+The rhythm produces *plans*, not *runbooks*. Plans invite collaboration at
+decision points; runbooks structurally prime script-execution mode and
+suppress the human input the cardinal rule (principle #6) depends on. By
+default, the human drives the bracketing — the session-manager who surfaces
+options, decides what's worth bracketing, and approves handoff. AI-led
+bracketing isn't precluded — it may suit long-running autonomous contexts —
+but the AI-led mode warrants explicit signaling when invoked; the default
+holds in absence of explicit choice. The rhythm fires when a session has
+produced (or is about to produce) a non-trivial plan and there's enough
+author-context worth capturing; it doesn't fire for quick fixes, single-step
+tasks, or conversation-only sessions. See `core/plan-handoff-template.md`
+for the handoff scaffolding that plan-while-hot produces.
 
 ### Structural Change Discipline
 

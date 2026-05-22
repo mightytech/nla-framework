@@ -2301,6 +2301,119 @@ the *design* moment, before convergence to a specific shape.
 
 ---
 
+## Session-Bracketing Discipline
+
+*Added 2026-05-22. Origin: facebook-moderation Letters #24 and #25 (Issues
+#24, #25, triaged 2026-05-18); warm-context plan drafted 2026-05-19
+(`reference/plans/session-bracketing-rhythm-and-handoff-template.md`);
+executed 2026-05-22.*
+
+### The problem
+
+Cross-session work — a drafting session produces a plan that a future
+cold-context session executes — was an unnamed pattern in the framework.
+Facebook-moderation independently developed the workflow shape internally
+and named it as a missing framework primitive. Without a named rhythm, the
+shape was reinvented each time and the practices that made it work
+(warm-context capture, cold-context simulation, cold-context question)
+lived as informal habit.
+
+### What was decided
+
+Add an eighth Working Rhythm to `core/nla-foundations.md` — The
+Session-Bracketing Discipline — paired with a handoff template at
+`core/plan-handoff-template.md`. The rhythm has six substeps (do-work →
+plan-while-hot → simulate-cold → cold-question-check → adjust →
+close-and-clear). The template covers six sections plus block-end
+checkpoints; it scaffolds without enforcing.
+
+### Framing alternatives considered
+
+Four options for how the rhythm integrates with existing rhythms:
+
+- **Option 0 (amend existing rhythms; no new rhythm):** distribute the
+  substeps into Session Structure or Design Flow. Rejected — the substeps
+  have distinct semantics and a distinct trigger (session produced future
+  work, not "any task"). Folding loses that.
+- **Option A (extend Design Flow):** add "plan next session" beat to
+  Think → plan → implement → debrief. Rejected — trigger mismatch (Design
+  Flow fires on any design task; bracketing fires only when a session
+  produces future work), and folding loses substep visibility.
+- **Option B (pure standalone):** eighth rhythm with no Design Flow
+  cross-reference. Letter #24's framing. Rejected because Design Flow
+  readers wouldn't discover bracketing.
+- **Option C (hybrid):** eighth standalone rhythm + one-sentence
+  cross-reference from Design Flow. Chosen. Preserves substep visibility
+  and discoverability.
+
+### Two cold-context check mechanisms
+
+Simulation and question catch different gap-classes. Simulation catches
+execution stumbling blocks — what an executor would trip over when
+implementing. Question catches concept-layer conflations — what an
+executor wouldn't notice was wrong because the conflation is internally
+consistent. The simulator inherits the plan's conceptual frame and
+absorbs conflations into locally-coherent output; the questioner probes
+the frame itself. Empirically validated 2026-05-19 in the framework's own
+dogfooding (see `reference/friction-log.md` "Two-mechanism cold-context
+check empirically validated").
+
+### Plans-not-runbooks framing
+
+The rhythm produces plans, not runbooks. Plans invite collaboration at
+decision points; runbooks structurally prime script-execution mode and
+suppress the human input the cardinal rule (principle #6) depends on.
+Audit (2026-05-18) found no "runbook" framing existed in framework skills,
+so the note is preventive, not corrective.
+
+### Someone drives the bracketing
+
+By default, the human drives the bracketing — surfaces options, decides
+what's worth bracketing, approves handoff. AI-led bracketing isn't
+precluded — long-running autonomous contexts may warrant it — but the
+AI-led mode warrants explicit signaling when invoked. The default holds
+in absence of explicit choice.
+
+### Template location alternatives considered
+
+Three options for where the template lives:
+
+- **Option A (standalone doc at `core/plan-handoff-template.md`):**
+  chosen. The template is referenced from multiple places (rhythm now,
+  eventually /close enhancement) and warrants its own file.
+- **Option B (inside `core/skills/close.md`):** co-locate with the
+  natural execution locus. Rejected — conflates "where the template
+  lives" with "where it's used."
+- **Option C (inside the rhythm):** subsection in
+  `core/nla-foundations.md`. Rejected — would balloon the rhythm to 4-5
+  paragraphs and bury template content inside foundations.md.
+
+### Placement in Working Rhythms list
+
+Placed as #5, after Session Structure and before Structural Change
+Discipline. Two pairings: session lifecycle (#4 within-session, #5
+across-session) and discipline (#5 and #6, both conditional rhythms with
+propose/record shape).
+
+Alternative considered: #8 as capstone after Validation Flow (the rhythm
+cross-references Inquiry and Validation). Rejected because for an AI
+reader (the actual consumer), the whole file loads into context
+wholesale; cross-references resolve regardless of order. The pairing
+argument wins.
+
+### Blast radius
+
+- `core/nla-foundations.md`: all NLAs (new rhythm + Design Flow
+  cross-reference) — consumer-facing
+- `core/plan-handoff-template.md`: new file in `core/`, all NLAs via
+  submodule advance — consumer-facing
+- `core/structure.md`: framework internal (record updated in the same
+  operation, per Structural Change Discipline)
+- `install/update-notes.md`: downstream NLAs notified at next `/update` —
+  consumer-facing
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

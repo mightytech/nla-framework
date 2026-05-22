@@ -35,6 +35,7 @@ nla-framework/
 ├── .claude/skills/            # Skill wrappers Claude Code discovers
 ├── core/                      # Universal NLA infrastructure (consumer-facing)
 │   ├── nla-foundations.md     # NLA concepts and principles
+│   ├── plan-handoff-template.md # Scaffold for cold-context handoff plans
 │   ├── README.md              # core/ orientation
 │   ├── structure.md           # This file
 │   └── skills/                # Skill logic files
@@ -92,6 +93,7 @@ changes here affect every NLA on next `/update`.
 | `core/nla-foundations.md` | NLA concepts, principles, and working rhythms. Loaded at startup by every domain project via `/startup`. The shared mental model. | `[design rationale: "core/ for Framework Executable Docs"]` (separates infrastructure from domain content). |
 | `core/README.md` | Orientation for the `core/` directory itself. | `[judgment]` — short directory-level orientation pattern (one of the few READMEs inside `core/`). |
 | `core/structure.md` | This file — the framework's as-built structure record. | `[design rationale: "Structure Decisions Protocol" 2026-05-07]`. Borrowed shape from facebook-moderation's `lib/ingest-build-o/build-guide.md`. |
+| `core/plan-handoff-template.md` | Scaffold for plans crossing a session boundary (warm context → cold context). Used by The Session-Bracketing Discipline rhythm in `core/nla-foundations.md`. | `[design rationale: "Session-Bracketing Discipline" 2026-05-22]`. Implements facebook-moderation Issues #24 and #25 triage outcomes (2026-05-18). |
 | `core/skills/` | Skill logic files that domain project wrappers delegate to. 21 files covering universal skills (maintain, install, update, friction-log, debrief, close, etc.) plus the validate skill family. | `[design rationale: "Thin Wrapper Skills"]` and `[design rationale: "Framework Self-Maintenance"]`. |
 | `core/skills/README.md` | Orientation for skill authoring (registration steps, intent file updates). Referenced from `/maintain` "Adding a New Skill" common task. | `[judgment]` — added during the 2026-02-19 maintenance session that surfaced the "Adding a New Skill" checklist gap (now archived friction entry). |
 
@@ -252,6 +254,7 @@ and `CLAUDE.md` "Skill invocation discipline" subsection.
 | `reference/specs/` | `[judgment]` — accreted with `lib/export.py` work 2026-04-16 |
 | Skill-invocation constraint-bearing descriptions | 2026-05-06 experiment report |
 | `core/structure.md` and the structural change discipline | Design rationale: "Structure Decisions Protocol" 2026-05-07 |
+| `core/plan-handoff-template.md` and the Session-Bracketing Discipline rhythm | Design rationale: "Session-Bracketing Discipline" 2026-05-22 |
 
 ---
 

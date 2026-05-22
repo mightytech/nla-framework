@@ -12,6 +12,91 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-05-18 — Session-bracketing as a new Working Rhythm
+
+**Source:** [Issue #24](https://github.com/mightytech/nla-framework/issues/24) items 1, 2, 8 + recommendation F
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-05-22 — Added The Session-Bracketing Discipline to `core/nla-foundations.md` as the eighth Working Rhythm (placed #5, between Session Structure and Structural Change Discipline). Cycle covers do-work → plan-while-hot → simulate-cold → cold-question-check → adjust → close-and-clear, with explicit two-mechanism distinction (simulation vs. question gap-classes), "someone drives" note (default human; AI-led warrants explicit signaling), and trigger condition. Design Flow gets one tail sentence as the Option C hybrid cross-reference. Design-rationale entry "Session-Bracketing Discipline" records framing alternatives considered. Update-notes entry written for downstream propagation. Follow-up comment posted on Issue #24.
+
+**What to do:**
+
+Add a new Working Rhythm to `core/nla-foundations.md` capturing the session-bracketing
+pattern: `do-work → plan-while-hot → simulate-cold → cold-question-check → adjust →
+close-and-clear`. Substeps (per letter item 1):
+
+- **Plan-while-hot** — capture future-session work while current-session context is warm
+- **Simulate-cold** — spawn fresh-context agent to read plan; catches author-implicit execution gaps
+- **Cold-question-check** — diagnostic questions about conceptual frame; catches concept-layer conflations the simulation can't catch (simulating agent inherits the conceptual frame)
+- **Adjust** — apply clear-improvement patches with verify-each-claim discipline
+- **Close-and-clear** — finalize, commit, end session
+
+Include the two cold-context check mechanisms distinction (item 2 — simulation catches execution gaps, question catches concept gaps) and the "someone drives the bracketing" note (item 8 — default: human as session-manager; AI surfaces options). Rhythm fires when a session creates non-trivial future work.
+
+**Open framing question:** does this extend The Design Flow's "debrief" beat (downstream framing the maintainer already implemented in facebook-moderation as `Think → plan → implement → debrief → plan next session if necessary`) or stand as a separate rhythm (letter's framing — fires when session creates future work, not within Design Flow)? Resolve at implementation.
+
+**Why it was accepted:**
+
+Well-grounded — multiple project-internal cycles in facebook-moderation, multiple distinct failure mode classes, multiple kinds of substantive work. The maintainer has already implemented it downstream. Naming at framework level propagates discipline to all NLAs producing future-session work. Pairs with the plan/handoff document template entry below.
+
+---
+
+### 2026-05-18 — Plan/handoff document template
+
+**Source:** [Issue #24](https://github.com/mightytech/nla-framework/issues/24) items 3, 5 + recommendation B; [Issue #25](https://github.com/mightytech/nla-framework/issues/25) items 1, 2
+**Verdict:** Accept
+**Status:** resolved
+**Resolved:** 2026-05-22 — Created `core/plan-handoff-template.md` as the standalone template doc (Option A; alternatives B inside `core/skills/close.md` and C inside the rhythm were rejected — see design-rationale "Session-Bracketing Discipline"). Template covers six sections (Title+Intent, Substance, Procedural-edge cases, Judgment defaults, Confidence band, Warm-context next-steps with three sub-parts) plus block-end checkpoints. Scaffolds without enforcing; section-dropping guidance included. Template referenced from the rhythm in `core/nla-foundations.md`. Structure record `core/structure.md` updated in the same operation. Update-notes entry written. Follow-up comments posted on Issues #24 and #25.
+
+**What to do:**
+
+Document plan-drafting guidance covering four sections beyond title and intent (from letter #24 item 3 + rec B):
+
+- **Substance** — what to do (typically well-served already)
+- **Procedural-edge cases** — what to do when source deviates from plan (typically thin)
+- **Judgment defaults** — where to lean when rule space is open (typically thin)
+- **Confidence band** — where to push back at next collaborative step (typically absent)
+
+Plus two structural patterns from letter #25:
+
+- **Warm-context next-steps section** — explicit section near phase-close beat that asks "what work benefits from the warm context this session produced?" (specific candidate categories + generic open-question + calibration: do plan-shaped and capture-shaped work warm; defer execution-shaped work to fresh session)
+- **Paired specific+generic checkpoint questions** — at block-end checkpoints, pair specific questions tied to block decisions with at least one generic open-question for unstructured surfacing
+
+Plus item 5 (intent at every layer): per-step intent, pause-and-surface conditions, open questions surfaced rather than pre-decided. Aligns with existing intent-over-rules principle.
+
+Template doesn't need to be enforced — serves as scaffolding the drafter consults. Sections can be dropped when work doesn't warrant them.
+
+**Placement question:** standalone guidance doc that the new session-bracketing rhythm references? Or folded into `core/skills/close.md`? Depends on the /close-integration decision (next entry).
+
+**Caveat:** Letter #25 item 2 (paired specific+generic) has one-application-validated confidence — slightly lower than other items.
+
+**Why it was accepted:**
+
+Concrete, high-leverage. Drafters answering each section from warm context (cheap) prevents the cold executor from improvising (lossy). Structural form (named sections) makes the discipline more reliable than remembered.
+
+---
+
+### 2026-05-18 — Plans-not-runbooks preventive guidance
+
+**Source:** [Issue #24](https://github.com/mightytech/nla-framework/issues/24) item 4 + recommendation C
+**Verdict:** Accept (adapted: audit already clean; add preventive note)
+**Status:** resolved
+**Resolved:** 2026-05-22 — Inlined as a sentence within The Session-Bracketing Discipline rhythm in `core/nla-foundations.md` ("The rhythm produces *plans*, not *runbooks*. Plans invite collaboration at decision points; runbooks structurally prime script-execution mode and suppress the human input the cardinal rule (principle #6) depends on."). Preventive, not corrective — the 2026-05-18 audit found no "runbook" framing in existing framework skills. Update-notes entry surfaces the framing convention for downstream NLAs. Follow-up comment posted on Issue #24.
+
+**What to do:**
+
+Audit finding from triage context-check: no "runbook" framing exists in framework skills already. Only "handoff" appears (in `core/skills/maintain.md` and `core/skills/validate-architecture.md`, both benign uses about NLA artifacts). So the corrective audit recommended in letter #24 rec C isn't needed.
+
+What *is* worth adding: short preventive guidance naming the principle, so future framework work doesn't accidentally adopt runbook framing. Runbook framing structurally suppresses human input (primes script-execution mode); contradicts the cardinal rule even if content tries to compensate. The cases where unattended execution makes sense are properly served by traditional code, not natural-language runbooks.
+
+Natural placement: as a note inside the new session-bracketing rhythm (when describing plan-shaped artifacts), or in `core/skills/close.md` where handoff drafting will be discussed. Either covers the surface area.
+
+**Why it was accepted:**
+
+Sound principle, aligns with foundations principle #4 (intent over rules — "plan" carries different semantic intent than "runbook"). Low cost to add preventive guidance; non-zero benefit when future work touches multi-step-workflow surfaces.
+
+---
+
 ### 2026-05-18 — Agent self-report verification as Inquiry Flow anchor
 
 **Source:** [Issue #24](https://github.com/mightytech/nla-framework/issues/24) items 6, 7 + recommendation D
