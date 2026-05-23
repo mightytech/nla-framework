@@ -53,6 +53,79 @@ accepted, Status.
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-22 — Reliability vs determinism as load-bearing distinction in foundational language
+
+**Source:** [Issue #27](https://github.com/mightytech/nla-framework/issues/27)
+**Verdict:** Accept-with-/think
+**Status:** pending
+
+**What to do:**
+
+Add the reliability-vs-determinism framing to the framework's foundational language. The letter's argument: "non-determinism is a feature" tells you what to embrace; "optimize for reliability" tells you what to optimize *for* — positive direction rather than negation. The framing provides a decision filter ("does this optimize for outcome quality or output uniformity?"), distinguishes the *routing* question (AI vs code) from the *optimization-within-AI-work* question, and connects to existing principles #4 (Intent over Rules) and #7 (Hybrid Architecture) without redundancy.
+
+**Prerequisite: /think session needed** to design:
+
+- **Channel and placement.** The "Non-determinism is a feature" aphorism currently lives in `install/CLAUDE-intent.md` (line 31) and the framework's own `CLAUDE.md` (line 21), NOT in `core/nla-foundations.md` as the letter assumed. So the question isn't "expand the existing foundations line" — it's deciding which channel(s) the sharper framing belongs in. The framework's dual-channel coverage rule (CLAUDE-intent ≠ framework's CLAUDE.md, both may need updates) applies.
+- **Placement within foundations.** Multiple valid options: new principle, rewrite/expand of #7 Hybrid Architecture, expansion of the Hybrid Model intro section, or some combination. Letter explicitly invites maintainer judgment.
+- **Cross-references.** Potential connection to writing standards (the "rubric/standards quality compounds, constraint count plateaus" claim aligns with standards' own posture).
+
+**Why it was accepted:**
+
+The framing genuinely sharpens existing material. Evidence is solid (Phase C 6/6, standards-as-biggest-quality-driver across multiple facebook-moderation experiments — not single-data-point territory). The decision filter is operational in a way the current aphorism isn't. Principle committed; design step is the prerequisite for placement and channel decisions.
+
+---
+
+### 2026-05-22 — Mechanics-without-spirit: framing-transfer fix in framework prose authoring
+
+**Source:** [Issue #26](https://github.com/mightytech/nla-framework/issues/26) Item 1, including 2026-05-21 recurrence comment
+**Verdict:** Accept-with-/think
+**Status:** pending
+
+**What to do:**
+
+Apply a framing-transfer fix to framework guidance authorship. The letter's diagnosis: AI reliably reproduces structural mechanics (numbered steps, bold-named protocols) while skipping framing/spirit content (closing principles, prose framings, "the point is..." paragraphs). Failure condition: documentation correctness is necessary but not sufficient — framing transfers reliably only when structurally reinforced (top placement, embedded in pattern markers, reified as operational checks). The letter recommends the NLA writing standards (`reference/standards/nla-writing.md`) as the highest-leverage first target, with three move-types: reify framing into operational checks, reposition framing to top of sections, co-locate framing with mechanics.
+
+**Prerequisite: /think session needed** to design:
+
+- **Response shape.** Multiple valid responses to the same finding: (a) a writing-standards section, (b) a `/validate` mode that scans for the pattern, (c) refactoring existing skills' conditional debrief offers to unconditional, (d) a posture preamble for `/maintain` addressing framing-vs-mechanics tension, (e) some combination. /think determines which combination has the best lever-to-cost ratio.
+- **Connection to 2026-04-16 Fallingwater-preamble friction entry.** Adjacent terrain — both address how framework prose should be authored to actually shape behavior. Worth considering as related work; one /think session may address both.
+- **The 2026-05-21 recurrence comment.** Introduces a related-but-distinct failure shape (the pre-emption hazard — protocol step A naturally producing work that overlaps step B's choice point). Worth thinking about whether one fix addresses both.
+- **Implementation order.** If writing-standards becomes the upstream change, which existing skills get retrofitted at the same commit vs. left for later?
+
+**Why it was accepted:**
+
+Strongest single-source case the framework has received: 10 clean candidates across 5+ sessions in facebook-moderation, plus 2026-05-21 recurrence in a refined shape (malformed offer vs skipped offer), counter-evidence sharpening the failure condition. Three move-types are operationally specific and falsifiable. Targeting writing standards is right-shaped: standards are upstream of all future framework docs, so a fix there propagates by default. Principle committed; design step is the prerequisite for response-shape decisions.
+
+---
+
+### 2026-05-22 — Scan-pattern technique (bundled with memory-mining beat for shared /think)
+
+**Source:** [Issue #26](https://github.com/mightytech/nla-framework/issues/26) Item 2
+**Verdict:** Accept-with-/think — bundled with the 2026-05-18 memory-mining beat entry
+**Status:** pending
+**Bundled with:** 2026-05-18 — Memory-mining beat in lifecycle (below)
+
+**What to do:**
+
+Capture the cross-corpus pattern-scan technique somewhere in the framework. The letter proposed a `/scan-pattern` skill (hybrid: cold-context subagent for broad recall + warm-context orchestrator for filtering, with four-section output: clean candidates / borderline / counter-evidence / existing-captures). N is now ≥2: the framework's own corpus, scanned via the technique during this triage (2026-05-22), surfaced 4 clean misses where the technique would have helped, 4 counter-evidence cases, and a 7-capture map showing the framework has the precedent-scan idea in multiple awareness-level places that haven't fully closed the gap.
+
+**Prerequisite: shared /think session with the memory-mining beat (2026-05-18 entry below).**
+
+The scan revealed structural adjacency: both items are about "consult the corpus proactively at decision-time." Memory-mining promotes patterns *out of* memory into operative artifacts; scan-pattern surfaces patterns *from* the corpus at decision time. Running two separate /think sessions would risk producing two adjacent features that should have been one. The bundled /think considers:
+
+- **Mechanism shape.** Dedicated `/scan-pattern` skill vs. extending `/think`'s existing Prior Art beat vs. always-loaded record extensions (per the scan's Counter 1 — `core/structure.md` surfacing catches precedent natively where always-loaded records exist) vs. some combination.
+- **Relationship to memory-mining.** Does one subsume the other? Are they two faces of the same mechanism? Do they share design language?
+- **Cost-of-misdiagnosis.** Per the scan's Counter 4: scan-pattern risks solving the wrong layer when the actual failure is *judgment about loaded material*, not recall. Mitigation needed.
+- **Connection to Inquiry Flow.** The Inquiry Flow rhythm uses cold-context AI as one of three verification modes; scan-pattern is structurally similar (cold-context AI for surfacing-stage diagnostics). Worth considering whether scan-pattern is an Inquiry Flow application or a sibling rhythm.
+
+**Why it was accepted:**
+
+Evidence picture shifted from N=1 to N≥2 via the framework-side scan run as part of this triage. The 7-capture map argues that the framework keeps re-noticing this gap and capturing it in progressively larger surfaces (memory → /think Prior Art → CLAUDE.md prose-default) without closing it — suggesting awareness-only captures aren't sufficient. Bundling with memory-mining is the higher-leverage move because it surfaces a connection that wouldn't have been visible without the scan. Principle committed; design step is the prerequisite for mechanism-shape and bundling decisions.
+
+**Scan artifact:** Full scan output captured in `reference/sessions/2026-05-22-feedback-triage-and-scan-pattern-test.md` under "Scan output."
+
+---
+
 ### 2026-05-18 — /close enhancement: plan-shaped artifact detection + handoff integration
 
 **Source:** [Issue #24](https://github.com/mightytech/nla-framework/issues/24) recommendations A, E
@@ -85,6 +158,7 @@ Closes the workflow loop named in the session-bracketing rhythm. Concrete operat
 **Source:** [Issue #25](https://github.com/mightytech/nla-framework/issues/25) item 3
 **Verdict:** Accept-with-/think
 **Status:** pending
+**Bundled with:** 2026-05-22 — Scan-pattern technique (above). Structural adjacency surfaced during 2026-05-22 triage scan: both items are about "consult the corpus proactively at decision-time." Shared /think session.
 
 **What to do:**
 
