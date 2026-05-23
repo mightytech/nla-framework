@@ -192,6 +192,60 @@ hoping the LLM will spontaneously be honest about uncertainty.
 
 **Authority.** Prefer.
 
+### 2.6 Make framing operational
+
+**Convention.** When a document contains both procedural mechanics
+(numbered steps, named protocols, structured logic) and framing content
+(closing principles, "the point of this is...", working-document
+orientation), the framing transfers reliably to AI executors only when
+structurally reinforced. Three moves: **reify framing into operational
+checks where possible** (translate "be collaborative" into "if the
+human's question reveals a frame mismatch, surface it before
+continuing"); **position framing at the top of sections, not the
+bottom** (top-placement gets full attention; bottom-placement reads
+after attention has degraded); **co-locate framing with the mechanics
+it informs** (inline framing alongside each mechanic, not at the end as
+a separate block).
+
+After drafting, run a structural check: where is the framing in this
+document, and what does its placement assume about the reader's
+attention? If framing lives at the bottom of sections or in prose-only
+paragraphs without operational reification, it needs reshaping.
+
+**Rationale.** Empirical observation across multiple AI authoring
+instances: AI reliably reproduces structural mechanics (procedures
+pattern-match cleanly) while skipping framing content (closing
+principles read as decoration; conditional offers get rationalized away
+under pressure toward efficiency). The pattern fails specifically when
+framing is expected to transfer through documentation alone — even when
+documentation is written correctly. Documentation correctness is
+necessary but not sufficient. Structural reinforcement is the
+difference between framing that exists and framing that fires.
+
+This is a foundational hazard because every NLA document is a
+candidate. Procedures alone produce structurally-compliant but
+spirit-skipping execution; the standards exist to ensure both transfer.
+
+**Authority.** Must.
+
+**Example.**
+
+A conditional offer that fails reliably:
+
+> "If no `/debrief` happened and the work was substantive, offer..."
+
+A version with structural reinforcement:
+
+> "The offer is a real choice point — don't pre-judge. Always offer
+> unless the session was a single trivial edit. Phrase as an open
+> invitation, not as an opt-out from work-already-done."
+
+The first reads as a permissive conditional; the AI evaluates "is this
+substantive?" against pressure toward efficiency. The second reifies
+the framing ("offer is a real choice point") into an operational
+instruction, front-loads the narrow exception, and addresses the
+pre-judgment failure mode explicitly.
+
 ---
 
 ## 3. Structure and Readability

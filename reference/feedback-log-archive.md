@@ -12,6 +12,30 @@ Resolved feedback log entries, moved here from `feedback-log.md` during `/mainta
 
 *Archived entries in reverse chronological order.*
 
+### 2026-05-22 — Mechanics-without-spirit: framing-transfer fix in framework prose authoring
+
+**Source:** [Issue #26](https://github.com/mightytech/nla-framework/issues/26) Item 1, including 2026-05-21 recurrence comment
+**Verdict:** Accept-with-/think
+**Status:** resolved
+**Resolved:** 2026-05-23 — Added writing standards Section 2.6 "Make framing operational" naming the failure mode and the three structural-reinforcement move-types (reify into operational checks; position framing at top; co-locate framing with mechanics) with an author-time check. Authority: Must. Retrofitted `core/skills/close.md` Step 3 as the coupled test-of-fit (framing-first opening, unconditional offer with narrow exception, non-pre-judging phrasing template, pre-emption-aware closing paragraph). Added friction-log entry `2026-05-23 — Multi-step protocols: pre-emption hazard` capturing the separate failure class surfaced by the 2026-05-21 recurrence comment. Added design-rationale entry "Make Framing Operational" capturing the decision, why this shape (alternatives a/b/c/d evaluated), the Fallingwater connection (same design pattern in different domains), and the /maintain posture preamble deferral with two triggers. Procedural reassessment of the /maintain preamble ran end-of-session: verdict no preamble (gaps are surgical-retrofit candidates, not wholesale-preamble candidates); long-term external trigger remains. Follow-up comment posted on Issue #26.
+
+**What to do:**
+
+Apply a framing-transfer fix to framework guidance authorship. The letter's diagnosis: AI reliably reproduces structural mechanics (numbered steps, bold-named protocols) while skipping framing/spirit content (closing principles, prose framings, "the point is..." paragraphs). Failure condition: documentation correctness is necessary but not sufficient — framing transfers reliably only when structurally reinforced (top placement, embedded in pattern markers, reified as operational checks). The letter recommends the NLA writing standards (`reference/standards/nla-writing.md`) as the highest-leverage first target, with three move-types: reify framing into operational checks, reposition framing to top of sections, co-locate framing with mechanics.
+
+**Prerequisite: /think session needed** to design:
+
+- **Response shape.** Multiple valid responses to the same finding: (a) a writing-standards section, (b) a `/validate` mode that scans for the pattern, (c) refactoring existing skills' conditional debrief offers to unconditional, (d) a posture preamble for `/maintain` addressing framing-vs-mechanics tension, (e) some combination. /think determines which combination has the best lever-to-cost ratio.
+- **Connection to 2026-04-16 Fallingwater-preamble friction entry.** Adjacent terrain — both address how framework prose should be authored to actually shape behavior. Worth considering as related work; one /think session may address both.
+- **The 2026-05-21 recurrence comment.** Introduces a related-but-distinct failure shape (the pre-emption hazard — protocol step A naturally producing work that overlaps step B's choice point). Worth thinking about whether one fix addresses both.
+- **Implementation order.** If writing-standards becomes the upstream change, which existing skills get retrofitted at the same commit vs. left for later?
+
+**Why it was accepted:**
+
+Strongest single-source case the framework has received: 10 clean candidates across 5+ sessions in facebook-moderation, plus 2026-05-21 recurrence in a refined shape (malformed offer vs skipped offer), counter-evidence sharpening the failure condition. Three move-types are operationally specific and falsifiable. Targeting writing standards is right-shaped: standards are upstream of all future framework docs, so a fix there propagates by default. Principle committed; design step is the prerequisite for response-shape decisions.
+
+---
+
 ### 2026-05-18 — Session-bracketing as a new Working Rhythm
 
 **Source:** [Issue #24](https://github.com/mightytech/nla-framework/issues/24) items 1, 2, 8 + recommendation F

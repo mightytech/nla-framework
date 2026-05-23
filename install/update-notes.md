@@ -33,6 +33,71 @@ it when it's easy (e.g., writing the note after committing), omit it when it's n
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-23 — Make framing operational: writing standards Section 2.6 + /close Step 3 retrofit
+
+**Affects:** reference/standards/nla-writing.md, core/skills/close.md
+
+A new writing standards section and a coupled skill retrofit, addressing
+a failure mode flagged by facebook-moderation (Issue #26):
+
+- **Writing standards Section 2.6 "Make framing operational"** (new in
+  `reference/standards/nla-writing.md`, placed after 2.5). Names a
+  failure mode where AI reliably reproduces structural mechanics
+  (numbered steps, named protocols) while skipping framing content
+  (closing principles, "the point of this is..." paragraphs). Failure
+  condition: documentation correctness is necessary but not sufficient —
+  framing transfers reliably only when structurally reinforced. Three
+  move-types: reify framing into operational checks; position framing
+  at top of sections; co-locate framing with the mechanics it informs.
+  Authority: Must.
+
+- **`/close` Step 3 (Debrief) retrofit** (in `core/skills/close.md`) as
+  the coupled test-of-fit for Section 2.6. Framing-first opening ("the
+  offer is a real choice point — don't pre-judge"); unconditional offer
+  with narrow exception (single trivial edit); rephrased template that
+  doesn't telegraph pre-judgment; closing paragraph addressing the
+  pre-emption-induced malformed-offer instance from the original
+  letter's 2026-05-21 recurrence comment.
+
+The design-rationale entry "Make Framing Operational" captures the
+alternatives evaluated (a `/validate` mode for the pattern was rejected
+as wrong level of abstraction; a `/maintain` posture preamble was
+deferred with three triggers), the Fallingwater connection to
+facebook-moderation's compile preamble (same design pattern in
+different domains), and the end-of-session procedural reassessment
+that drove the deferral verdict.
+
+**What this means for your project:**
+
+Section 2.6 is in Section 2 (Document Fundamentals), which is in the
+always-load path for any author-time work on operative documents (per
+the maintain skill's standards-loading table). When you edit a skill,
+session log, operative doc, design doc, or values doc, the section
+loads automatically. New framework prose authored after this advance
+reflects the section; existing prose was written before it and may
+benefit from surgical retrofits at maintenance time — but no mass
+retrofit is required.
+
+The `/close` retrofit changes the debrief beat at session-end in your
+project: expect an unconditional offer (with narrow trivial-edit
+exception) rather than a conditional-on-substantive evaluation.
+
+If you observe instances where you "knew about 2.6 but didn't apply
+it" in framework or domain authoring, that's a signal worth capturing
+in friction logs — the framework's deferred `/maintain` posture
+preamble decision tracks this recursive trigger as one of three
+conditions for revisiting.
+
+A separate friction-log entry captures the **pre-emption hazard** —
+the related-but-distinct failure shape from the 2026-05-21 recurrence
+comment (multi-step protocols assume sequential execution, but earlier
+steps can produce work overlapping later steps' choice points). The
+wording-level fix for the immediate `/close` case landed in the Step 3
+retrofit; the broader class-level treatment is separate work, fires
+when a second instance surfaces.
+
+---
+
 ### 2026-05-22 — Session-Bracketing Discipline + handoff template
 
 **Affects:** core/nla-foundations.md, core/plan-handoff-template.md (new)

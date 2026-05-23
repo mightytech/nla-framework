@@ -81,19 +81,31 @@ surface.
 
 ## 3. Debrief
 
-If a `/debrief` already happened during the session, you'll capture its conclusions
-in the session log (step 4) — nothing more to do here.
+The debrief offer is a real choice point — the human decides whether to surface
+session-level reflection. Don't pre-judge.
 
-If no `/debrief` happened and the work was substantive, offer:
-> "No debrief happened this session — want to run `/debrief` first, or should I add
-> brief observations myself?"
+If a `/debrief` already happened during the session, capture its conclusions in
+the session log (step 4) — no offer needed because the choice has already been
+made.
 
-If the work was light, skip the offer and plan to add 2–3 brief observations
-directly during step 4. Use your participant-observer perspective: what worked,
-what was unclear, what surprised.
+Otherwise, **always offer** unless the session was a single trivial edit (typo
+fix, path correction). The offer is a fresh invitation, not an opt-out from
+work-already-done:
+
+> "Want to run `/debrief` to reflect on the session, or should I add brief
+> observations directly?"
+
+If the human chooses brief observations or the session was trivial, add 2–3
+observations from your participant-observer perspective during step 4: what
+worked, what was unclear, what surprised.
 
 Debrief reflects everything that happened in the session — including the validation
 and mirror work from steps 1–2.
+
+If you've already added debrief-shape observations during earlier work (warm-context
+next-steps, post-validation notes), the offer still fires cleanly: surface what you
+captured, then offer the explicit debrief as an additive choice — not as "I captured
+observations, otherwise the captured observations stand."
 
 ---
 

@@ -68,6 +68,40 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-23 — Multi-step protocols: pre-emption hazard when earlier work overlaps later choice points
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** all projects (any multi-step protocol is at risk)
+**Status:** pending
+
+**Observation:**
+Surfaced via 2026-05-21 recurrence comment on Issue #26. The `/close` protocol assumes sequential execution (Step 1 Validate → Step 2 Mirrors → Step 3 Debrief → Step 4 Finalize log → Step 5 Commit). When work characteristic of Step 4 (adding observations during warm-context next-steps work) happens before Step 3 fires, the Step 3 choice point arrives with state already set. The AI evaluates "is this a fresh choice point?" against the existing state and produces a malformed offer that telegraphs pre-judgment ("if you want substantive reflection beyond what I captured, /debrief is available. Otherwise the captured observations stand").
+
+The pattern generalizes beyond `/close`. Any multi-step skill where one step naturally produces work that overlaps another step's choice point is at risk:
+- `/maintain`'s Pre-flight Review may preempt the "Before Starting Work" conversation
+- `/think`'s convergence work may preempt the explicit transition checkpoint
+- `/create-app`'s later phases may preempt earlier-phase questions
+
+**Confirmed reason:**
+Procedural docs assume the AI evaluates each step against a clean slate. When earlier work happens to produce step-relevant state, the AI's "is this a fresh choice point?" evaluation gets state-influenced rather than design-influenced. The protocol design didn't anticipate inter-step state-leakage.
+
+**Affected files:**
+- `core/skills/close.md` (the named instance — wording-level mitigation landed 2026-05-23)
+- Potentially `core/skills/maintain.md`, `core/skills/think.md`, `core/skills/create-app.md` (latent instances)
+
+**Proposed fix:**
+Two design directions worth considering (worth `/think` on which generalizes better):
+(a) Each step adds an explicit pre-emption check: "if this step's work has been partially done elsewhere, handle that explicitly — re-offer the choice as additive, not as opt-out."
+(b) Protocols designed so steps don't naturally produce overlapping work.
+
+Within the immediate 2026-05-23 mechanics-without-spirit fix, `/close` Step 3 got a narrow pre-emption-awareness paragraph addressing this specific case. The broader fix (does the pattern need a framework-level treatment?) is separate work.
+
+**Notes:**
+Distinct from mechanics-without-spirit (parent Issue #26), though the 2026-05-21 instance combined both shapes. Worth `/think` when a second instance surfaces.
+
+---
+
 ### 2026-05-20 — "Accept-with-/think" verdict shape needs more prominence in check-feedback
 
 **Type:** process

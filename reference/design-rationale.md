@@ -2414,6 +2414,103 @@ argument wins.
 
 ---
 
+## Make Framing Operational: The Spirit-Mechanics Reinforcement Convention
+
+**Decision (2026-05-23):** Added writing standards Section 2.6 naming the
+mechanics-without-spirit failure mode and the three structural-reinforcement
+move-types (reify into operational checks; position framing at top; co-locate
+framing with mechanics). Retrofitted `core/skills/close.md` Step 3 as the
+immediate test-of-fit.
+
+**Source:** Facebook-moderation Issue #26 (2026-05-20) + 2026-05-21 recurrence
+comment. The letter's diagnosis: AI reliably reproduces structural mechanics
+while skipping framing/spirit content; failure condition is "documentation
+correctness is necessary but not sufficient" — framing transfers reliably only
+when structurally reinforced.
+
+### Why this shape, not the alternatives
+
+The letter proposed three move-types and named writing standards as the
+highest-leverage first target. The 2026-05-22 `/think` session considered four
+candidate response shapes:
+
+- **(a) Writing-standards section (upstream lever)** — adopted as Section 2.6.
+- **(b) `/validate` mode that scans for the pattern** — rejected; wrong level
+  of abstraction. The failure condition is "framing through documentation
+  alone is insufficient." A `/validate` mode scans documentation; it could
+  catch structural *presence* of framing but not whether framing transfers in
+  execution.
+- **(c) Refactor existing skills with conditional offers** — adopted as the
+  `/close` Step 3 retrofit, coupled to the section as proof-of-fit. The
+  retrofit is the test: if Section 2.6 can't be used to rewrite Step 3
+  cleanly, the section needs more work.
+- **(d) `/maintain` posture preamble** — deferred with explicit reassessment
+  trigger (see below).
+
+### The Fallingwater connection
+
+The three move-types are operationally the same design pattern as the
+Fallingwater preamble in facebook-moderation's compile skill (`app/compile.md`
+lines 114-147). Both are responses to the same underlying problem: how do you
+make the spirit-of-the-thing transfer reliably to an AI executor? The
+Fallingwater preamble lands at the top of compilation instructions, reifies
+craft into operational examples ("the test isn't 'does persistRateLimitState
+exist'; it's 'if the operator runs the service and kills it, is the state
+file on disk?'"), and co-locates with the procedural section it informs —
+instances of all three move-types in a different domain.
+
+Section 2.6 is the abstract form of the same pattern; the Fallingwater
+preamble is one concrete application of it.
+
+### Deferred: /maintain posture preamble
+
+The `/maintain` skill could carry a Fallingwater-shaped posture preamble at
+its top — installing maintainer-mode-with-craft before procedure. We deferred
+this with two triggers:
+
+- **Near-term:** end-of-session reassessment via a procedural check (see
+  below). The work itself might reveal whether the gap exists.
+- **Long-term:** if a non-prose-authoring maintenance instance shows
+  mechanics-without-spirit failure, that's the external trigger.
+
+Rationale for deferring: Section 2.6 loads at author-time for prose authoring
+(per the maintain skill's standards-loading table); the cited failure
+instances are both prose-authoring (plan drafting, `/close` execution). The
+gap that a `/maintain` preamble would address — non-prose-authoring
+maintenance work — isn't yet observed. Defer-with-trigger rather than
+write-now-and-maybe-overdesign.
+
+### The procedural reassessment check
+
+After Section 2.6 lands and Step 3 is retrofitted, answer in one sentence:
+where in the `maintain.md` flow does framing currently rely on
+documentation-alone reinforcement? If the answer surfaces specific places,
+those are candidates for what a preamble would address. If the answer is
+vague, no preamble. This eats our own dogfood — reifies the
+framing-evaluation move-type into an operational check applied to the
+maintain skill itself.
+
+### Separate failure class — pre-emption hazard
+
+The 2026-05-21 recurrence comment introduced a related-but-distinct failure
+shape: multi-step protocols assume sequential execution, but earlier steps
+can produce work that overlaps later steps' choice points. `/close` Step 3's
+malformed offer (2026-05-21) was *both* mechanics-without-spirit *and*
+pre-emption-induced. The wording fix for the immediate `/close` case is
+included in the Step 3 retrofit; the broader pre-emption-hazard treatment is
+captured as a separate friction-log entry (2026-05-23). Distinguishing the
+two avoided a fix that tried to address both and addressed neither cleanly.
+
+### Blast radius
+
+- Section 2.6: all projects (writing standards is consumed via
+  `packages/nla-framework/reference/standards/nla-writing.md`).
+- `/close.md` Step 3 retrofit: all projects (consumed via
+  `packages/nla-framework/core/skills/close.md`).
+- Consumer-facing: yes, both. Tag at push.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:
