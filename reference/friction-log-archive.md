@@ -12,6 +12,63 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-02-23 — /create-app bare project path: missing guidance and speculative seeds
+
+**Type:** intent
+**Severity:** minor
+**Blast radius:** project generation
+**Status:** resolved
+**Resolved:** 2026-05-24 — Bare-scaffold mode added to `/create-app` via recognition-beat extension (third value alongside extraction and collaborative-refinement). Phase B collapses on bare; Category 3 files generated as stubs with "unauthored stub" header framing; preloaded umbrella friction-log entry routes authoring work into the user's first `/maintain` session. See `reference/design-rationale.md` "Bare Scaffold Path in /create-app" for the decision record, rejected alternatives (universal Phase B/C broadening, CLI flag), and the explicit out-of-scope boundary around the 2026-02-24 nla-writer addendum (rich-context-but-blank inversion — separate friction shape, separate work if recurrence surfaces).
+
+**Observation:**
+When a user requests a bare project (no tasks, minimal domain input), `/create-app`
+has two gaps:
+
+1. **No explicit edge case for zero tasks.** The skill's "Conversation Edge Cases"
+   section handles "complex project with many tasks" (defer some, generate a few) but
+   doesn't address zero. The skill was adapted on the fly — empty task tables in
+   overview, stubs in shared context — and it worked, but the zero-task case isn't
+   documented as a valid path.
+
+2. **Speculative seeds despite minimal input.** With only "facebook moderation" and
+   "bare" as input, the skill still generated voice ("neutral, not robotic") and values
+   ("accuracy over speed") files with substantive content. These are reasonable guesses
+   for moderation, but they're guesses. Risk: when the user runs `/maintain` later, these
+   seeds may feel authoritative enough to build on rather than question. The alternative —
+   truly empty stubs — would force that conversation but give `/maintain` less to work with.
+
+**Affected files:**
+- `.claude/skills/create-app/SKILL.md` — "Conversation Edge Cases" section
+
+**Proposed fix:**
+Add a "Bare project" edge case: when the user explicitly requests no tasks, generate
+the full framework structure with minimal shared context stubs. For the speculative
+seeds question, consider adding a note in generated voice/values files that's stronger
+than "refine with /maintain" — something like "These are starter assumptions based on
+the domain name. Review before building on them."
+
+**Notes:**
+Surfaced during debrief after creating `facebook-moderation` as a bare project.
+The generation succeeded — this is about making the path explicit rather than fixing
+a failure.
+
+**Additional observation (2026-02-24, nla-writer creation):**
+The task assumption runs deeper than the edge cases section. Phase B's follow-up
+groupings, Phase C's summary template, and the file generation tables all thread
+tasks through as a core structural element. With zero tasks, the generator adapts
+each section independently — empty task tables, skipping domain skill generation,
+adjusting the summary format. Works, but requires judgment at every step rather
+than following instructions.
+
+Separately: when rich domain context exists (as with nla-writer — extensive
+writings, a model project in duet, values from AMG), the "speculative seeds"
+concern inverts. The shared context files (values, voice, patterns) are
+well-informed, not guesses. The risk shifts from "seeds feel authoritative" to
+"seeds are good enough that the user never revisits them." May warrant different
+guidance for blank-but-context-rich vs. blank-and-context-sparse projects.
+
+---
+
 ### 2026-05-20 — Two-mechanism cold-context check empirically validated in framework dogfooding
 
 **Type:** core

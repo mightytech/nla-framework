@@ -68,6 +68,55 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-05-24 — Scaffold-first generation as the unified /create-app mechanism
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects (project generation)
+**Status:** pending
+
+**Observation:**
+Surfaced during the 2026-05-24 bare-scaffold maintenance session as an architectural reframe of how `/create-app` works. Currently the AI handles both conversation (judgment) and file generation (largely mechanical) within a single skill — reading intent files and writing 30+ template files inline. For Category 1 files this is pure template reproduction; for Category 2 the conversation customization is often shallow (project name substitution, skill-table filling); for Category 3 the conversation synthesis is the genuine LLM work. Bare mode makes the soft spot more visible — almost everything collapses to template substitution and the LLM's value-add reduces to conversation + edge-case handling.
+
+The architectural reframe: `/create-app` could split into two phases.
+
+1. **Scaffold generation** — a `lib/` script (Python or similar) generates the bare scaffold deterministically from minimal inputs (project name, package list). Produces the same shape as bare-mode generation today: directory structure, git/submodule setup, Category 1 files verbatim, Category 2 files in template-with-empty-task-sections form, Category 3 files as stubs.
+
+2. **AI-applied conversation edits** — the AI has the conversation, then applies the results as Edit operations on top of the scaffold. Categories 2 and 3 get filled with conversation-shaped content via Edit rather than written from scratch. Bare mode is "scaffold-only, no edits." Other modes are "scaffold + N edits."
+
+**Why this matters:**
+
+- Per `core/nla-foundations.md` principle #7 (Hybrid Architecture): mechanics belong in code, judgment belongs in the LLM. The current model has the LLM doing mechanical reproduction.
+- Speed and consistency: scaffold generation is fast and identical every time.
+- Edits are diffable and reviewable in a way that "AI wrote 30 files from scratch" isn't.
+- Bare mode collapses cleanly to "scaffold-only," unifying it with all other modes as the same machinery with different edit counts.
+- Mirrors how human developers create projects (`cargo new`, `npm init`, then customize).
+
+**Open questions / to think through:**
+
+- Category 2 files where current behavior is "conversation-shaped from scratch" (e.g., `design-rationale.md`'s "starter rationale with creation decisions for this domain") need spec'ing under scaffold+edit. Scaffold generates a template form; AI fills via Edit. None look blocking, just needs design work.
+- Generation Order currently matters because later files reference earlier ones. A pre-generated scaffold might paint into corners — needs verification that the scaffold's known-shape doesn't preclude legitimate variation.
+- How do package additions flow? Scaffold generated *before* conversation means we'd either need to ask package questions up-front or run scaffold generation again after submodule adds.
+
+**Affected files:**
+- `.claude/skills/create-app/SKILL.md` — major refactor
+- `lib/create_scaffold.py` (or similar) — new
+- Likely `install/structure-intent.md` — scaffold script reads it as the structural source
+
+**Proposed fix:**
+`/think` session on the two-phase architecture, then implementation when (a) Python implementation standards exist in the framework (currently a separate pending entry), or (b) the nla-compiler package becomes installable (per the 2026-04-16 cluster). Pairs with existing entries.
+
+**Links:**
+- 2026-04-16 — Python implementation standards for `lib/` scripts (pending; blocks this)
+- 2026-04-16 — `/maintain` doesn't distinguish prose-code from traditional-code authoring (pending; same cluster)
+- 2026-04-16 — Natural experiment: re-compile `lib/export.py` through nla-compiler when available (deferred; same cluster)
+- 2026-02-23 — `/create-app` bare project path (resolved 2026-05-24; this entry is the architectural follow-up the bare-mode fix's design-rationale notes as deferred)
+
+**Notes:**
+The bare-mode fix shipped 2026-05-24 ran consciously through the existing AI-as-typist mechanism. The design-rationale entry "Bare Scaffold Path in /create-app" includes a paragraph naming this observation and cross-referencing this entry.
+
+---
+
 ### 2026-05-23 — Multi-step protocols: pre-emption hazard when earlier work overlaps later choice points
 
 **Type:** process
@@ -314,62 +363,6 @@ foundations in their own prerequisites because they can't rely on `/startup` hav
 Design session (`/think`) to work through auto-invocation behavior, interaction with
 `/maintain`, and whether this is the right exception or whether the blanket rule is
 simpler even if imperfect.
-
----
-
-### 2026-02-23 — /create-app bare project path: missing guidance and speculative seeds
-
-**Type:** intent
-**Severity:** minor
-**Blast radius:** project generation
-**Status:** pending
-
-**Observation:**
-When a user requests a bare project (no tasks, minimal domain input), `/create-app`
-has two gaps:
-
-1. **No explicit edge case for zero tasks.** The skill's "Conversation Edge Cases"
-   section handles "complex project with many tasks" (defer some, generate a few) but
-   doesn't address zero. The skill was adapted on the fly — empty task tables in
-   overview, stubs in shared context — and it worked, but the zero-task case isn't
-   documented as a valid path.
-
-2. **Speculative seeds despite minimal input.** With only "facebook moderation" and
-   "bare" as input, the skill still generated voice ("neutral, not robotic") and values
-   ("accuracy over speed") files with substantive content. These are reasonable guesses
-   for moderation, but they're guesses. Risk: when the user runs `/maintain` later, these
-   seeds may feel authoritative enough to build on rather than question. The alternative —
-   truly empty stubs — would force that conversation but give `/maintain` less to work with.
-
-**Affected files:**
-- `.claude/skills/create-app/SKILL.md` — "Conversation Edge Cases" section
-
-**Proposed fix:**
-Add a "Bare project" edge case: when the user explicitly requests no tasks, generate
-the full framework structure with minimal shared context stubs. For the speculative
-seeds question, consider adding a note in generated voice/values files that's stronger
-than "refine with /maintain" — something like "These are starter assumptions based on
-the domain name. Review before building on them."
-
-**Notes:**
-Surfaced during debrief after creating `facebook-moderation` as a bare project.
-The generation succeeded — this is about making the path explicit rather than fixing
-a failure.
-
-**Additional observation (2026-02-24, nla-writer creation):**
-The task assumption runs deeper than the edge cases section. Phase B's follow-up
-groupings, Phase C's summary template, and the file generation tables all thread
-tasks through as a core structural element. With zero tasks, the generator adapts
-each section independently — empty task tables, skipping domain skill generation,
-adjusting the summary format. Works, but requires judgment at every step rather
-than following instructions.
-
-Separately: when rich domain context exists (as with nla-writer — extensive
-writings, a model project in duet, values from AMG), the "speculative seeds"
-concern inverts. The shared context files (values, voice, patterns) are
-well-informed, not guesses. The risk shifts from "seeds feel authoritative" to
-"seeds are good enough that the user never revisits them." May warrant different
-guidance for blank-but-context-rich vs. blank-and-context-sparse projects.
 
 ---
 

@@ -2511,6 +2511,118 @@ two avoided a fix that tried to address both and addressed neither cleanly.
 
 ---
 
+## Bare Scaffold Path in /create-app
+
+*Added 2026-05-24. Origin: 2026-02-23 friction-log entry "/create-app bare project
+path: missing guidance and speculative seeds," resolved this session via a
+/think conversation on the medium-shape option.*
+
+### What was decided
+
+`/create-app` recognizes a third conversation shape — **bare scaffold** — in the
+existing mode-recognition beat (formerly two modes: extraction and collaborative
+refinement). When the user signals "I want a scaffolded NLA named X, I'll author
+content via `/maintain`," the AI confirms in prose, collapses Phase B to project-name
+confirmation, and generates with bare-mode rules: Category 1 unchanged; Category 2
+generated normally with task-related sections empty; Category 3 files become minimal
+stubs with explicit "unauthored stub" header framing; no task docs or domain skills
+generated. A preloaded umbrella friction-log entry uses the project creation date and
+surfaces the authoring work (add first task, author values, author voice, add
+patterns) as the first item in the user's `/maintain` queue.
+
+### Why this shape
+
+**Reuse the existing recognition pattern.** The 2026-05-11 mode-recognition beat
+(extraction vs. collaborative-refinement, between Phase A and Phase B) is structurally
+"what conversation is the user inviting?" Bare scaffold is a third answer on the same
+axis, not a parallel axis. Extending the existing pattern with a third value is
+lighter than inventing a new recognition step. The same beat now produces three
+behaviors instead of two; the rest of the skill reads naturally as bare-mode-aware.
+
+**Two surfaces for the epistemic signal.** Stub headers in the file catch the gap at
+task-execution time — when something later reads `voice.md` and sees "unauthored
+stub," it knows not to rely on it. The friction-log entry catches the gap at
+`/maintain` session start — the maintainer arrives and the authoring work is already
+in the queue. Different surfaces for the same signal; together they cover both ways
+the gap can surface. Single-surface coverage (either stub framing or friction-log
+entry alone) leaves one path uncovered.
+
+**Leverage the existing maintenance queue, not a new tracker.** The framework already
+has a place where "work needed" surfaces in the next session: the friction log,
+consumed by `/maintain` Session Start. Routing the authoring checklist there means
+the bare-scaffold path teaches `/maintain` workflow by being itself a friction-log
+entry the user processes. No new mechanism, no parallel "unauthored" tracker.
+
+### Rejected alternatives
+
+**Broaden Phase B/C task-threading universally.** The 2026-02-24 nla-writer addendum
+to the original friction entry observed that task-assumption threads through Phase B
+groupings, Phase C summary template, and the file-generation tables as a structural
+element. A natural-sounding response would be to make tasks structurally optional
+throughout the skill — remove the task-threading rather than adding a bare-mode
+branch. Rejected: bare is a specific user-requested shape, not a general
+restructuring of how the skill handles tasks. Broadening universally would require
+the AI to improvise at every step ("does this section apply with zero tasks?") rather
+than having a clear starting signal. The mode-recognition beat *is* the structural
+signal that prevents per-step improvisation.
+
+**CLI flag (`/create-app bare X`).** Considered making bare an explicit invocation
+flag rather than something the AI recognizes from prose. Rejected per CLAUDE.md's
+prose-default principle and the framework's posture that the user talks to an AI,
+not a Python program. The AI uses judgment and confirms in prose ("Sounds like you
+want a bare scaffold named X — empty stubs you'll author in `/maintain`. Right?").
+This also aligns with how the existing two modes work — they're recognized from
+signals, not declared by flag.
+
+### Adjacent case explicitly out of scope
+
+The 2026-02-24 nla-writer addendum surfaced a related but distinct concern: when
+domain context is *rich* (extensive writings, a model project to learn from) but no
+explicit tasks are requested, the speculative-seeds concern *inverts*. Generated
+voice/values content is actually well-informed (not guesses), but it's good enough
+that the user never revisits it. Same generated content, opposite failure mode
+depending on input richness — sparse-input speculation vs. rich-input
+invisible-authority.
+
+This is a different friction shape from bare scaffold. Bare is about *not generating
+speculative content* when input is thin. The rich-context-blank concern is about *how
+generated files signal their epistemic status* when input is rich. Treating both in
+one fix would conflate them.
+
+Recorded here as adjacent. If a recurrence surfaces in domain-project use, treat as
+separate work. Don't fold it back into bare-scaffold mode.
+
+### Architectural observation (deferred)
+
+Bare-mode generation, as designed here, runs through the existing `/create-app`
+machinery — the AI reads intent files and template content, then writes each file
+individually. For Categories 1 and 2 in bare mode, and the new Category 3 stubs, this
+collapses to near-pure template substitution: verbatim stub headers, verbatim
+friction-log entry text, empty tables. Per `core/nla-foundations.md` principle #7
+(Hybrid Architecture), that's traditional code's territory, not the LLM's. The bare
+path is a strong candidate for extraction into a `lib/` script once Python
+implementation standards exist in the framework.
+
+The same observation applies to the regular `/create-app` path more broadly — most
+Category 1 file writes are mechanical reproduction regardless of conversation. The
+right move is a unified extraction (scaffold generator + AI-applied conversation
+edits on top), not a one-off bare-mode script. See related friction-log entries:
+2026-04-16 (Python implementation standards), 2026-04-16 (`/maintain` doesn't
+distinguish prose-code from traditional-code authoring), 2026-05-24 (scaffold-first
+generation as the unified `/create-app` mechanism). Best addressed together when
+Python standards land and/or the nla-compiler package becomes installable.
+
+This fix consciously ships the behavioral change through the existing mechanism. The
+architectural refactor is separate work, scoped to its own session.
+
+### Blast radius
+
+- `.claude/skills/create-app/SKILL.md` only.
+- Project generation; framework infrastructure. Doesn't touch existing NLAs — `/update` does not propagate `/create-app` changes (it's framework-only infrastructure, not part of consumer NLAs).
+- Consumer-facing: no, by the framework's Shippability definition (consumer-facing = `core/` or consumer-facing `install/*.md`). The change affects future project generation but doesn't propagate to existing downstream NLAs. No tag at push.
+
+---
+
 ## Adding Decisions
 
 When you make architectural changes to the framework, add an entry here documenting:

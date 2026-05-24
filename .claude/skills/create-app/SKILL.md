@@ -53,12 +53,13 @@ Then ask an open question: **What are you building?** Accept anything from a one
 
 ### Between Phase A and Phase B: Recognize the mode
 
-Before targeted follow-ups, recognize what mode the user is inviting. Two shapes:
+Before targeted follow-ups, recognize what conversation the user is inviting. The recognition shapes the rest of the skill — extracting fields the user hasn't filled is the wrong mode if the user is inviting refinement, and grinding through structured questions is the wrong mode if the user just wants scaffolding. Three shapes:
 
 - **Extraction.** The user provided requirements (what tasks, what audience, what voice) and the AI's job is to fill remaining fields. Proceed to Phase B as written — structured follow-ups are the right mode.
 - **Collaborative refinement.** The user provided rich conceptual work (a working prompt, a developed framing, half-formed intuitions) and/or explicitly invites your perspective. The AI's job is to translate their thinking into NLA structure — propose shape, name gaps, invite pushback, help articulate what they can feel but haven't named.
+- **Bare scaffold.** The user wants the framework structure with a named project; they'll author content via `/maintain` later. The AI's job is *not* to extract or refine — it's to set up scaffolding and get out of the way. Don't invent voice, values, tasks, or domain content from a name plus a thin signal. Confirm in prose ("Sounds like you want a bare scaffold named X — empty stubs you'll author in `/maintain`. Right?") and on confirmation, skip Phase B's targeted follow-ups entirely and go to Phase C with a scaffold-only summary.
 
-The two aren't exclusive. A rich-conceptual submission still has gaps, and Phase B's targeted follow-ups still apply for those. But the conversation should *lead* with refinement, not extraction. Don't grind through structured questions when the most consequential decisions need collaborative work — the value you add in that mode is shaping what the user already has, not extracting fields they haven't filled.
+Extraction and collaborative refinement aren't exclusive — a rich-conceptual submission still has gaps, and Phase B's targeted follow-ups still apply for those. But the conversation should *lead* with refinement, not extraction. Bare scaffold *is* exclusive: when the user is asking for scaffolding, the right behavior is to provide it, not to extract or refine content they're deliberately deferring.
 
 Signals you're in collaborative-refinement territory:
 
@@ -67,9 +68,18 @@ Signals you're in collaborative-refinement territory:
 - The user explicitly invited your thoughts, questions, or concerns.
 - The user named tensions they haven't resolved ("I want X but also Y — I'm not sure how to express that").
 
+Signals you're in bare-scaffold territory:
+
+- Explicit phrasing: "just give me a base app," "I want a bare scaffold," "I'll fill in the rest later," "scaffold only."
+- A project name with little or no domain description.
+- The user invokes the skill with essentially just a name.
+- The user explicitly says they want to author content via `/maintain`.
+
 ### Phase B: Targeted Follow-ups
 
-Based on what's missing after Phase A, ask focused follow-up questions. Group related items together. Max 2-3 questions at a time.
+**If the mode-recognition beat landed on bare scaffold, this whole phase collapses.** Confirm the project name, then go to Phase C. Packages are handled normally — if the user mentioned a package (e.g., penny-post), include it in the submodule setup as usual; bare-scaffold mode only skips the *content-extraction* questions (voice, values, tasks, output format, audience, configuration). The user is deliberately deferring those to `/maintain`. Extracting them anyway would invent content the user didn't ask for.
+
+Otherwise: based on what's missing after Phase A, ask focused follow-up questions. Group related items together. Max 2-3 questions at a time.
 
 **Groupings that work well:**
 - Voice + audience (they inform each other)
@@ -104,12 +114,27 @@ Tasks:
 Files to generate: [count]
 ```
 
+**For bare scaffold mode, use this variant instead:**
+
+```
+Project: [name]
+Location: ../[name]/
+
+Bare scaffold — empty stubs for voice/values/patterns, no tasks yet.
+The shared-context files will need to be authored in /maintain before
+the NLA produces meaningful output. A starter friction-log entry will
+flag this as work waiting.
+
+Files to generate: [count]
+```
+
 **Wait for explicit confirmation before creating any files.** This is the last chance to catch misunderstandings.
 
 ### Conversation Edge Cases
 
 - **User provides everything upfront** — Skip to Phase C. Don't ask questions you already have answers to.
 - **User arrives with rich conceptual work** — A working prompt, a developed framing, half-formed intuitions. The right mode is collaborative refinement (see "Between Phase A and Phase B: Recognize the mode"). Propose shape and invite pushback; don't grind through Phase B's questions when the user is asking for translation, not extraction. The most consequential decisions in this mode emerge from collaborative articulation, not structured Q&A — let them.
+- **User wants a bare scaffold** — A name and minimal-to-no domain content; user intends to author everything via `/maintain`. The right mode is bare scaffold (see "Between Phase A and Phase B: Recognize the mode"). Phase B collapses; Category 3 files become stubs; a preloaded friction-log entry surfaces the authoring work for the user's first `/maintain` session. See "Bare Scaffold Mode" under File Generation for what gets generated and how.
 - **Multiple tasks** — Generate a task doc and skill for each. All integration files (overview, CLAUDE.md) reflect all tasks.
 - **User changes mind** — The confirmation step exists for this. Adjust and re-summarize.
 - **Vague voice description** ("professional" or "friendly") — Generate a reasonable starter voice doc. Note to the user that `/maintain` can refine it later.
@@ -251,9 +276,59 @@ When created, it should cover:
 - Processing steps: numbered steps with enough detail for the LLM to follow
 - Judgment calls: when to flag uncertainty, domain-specific edge cases
 
+### Bare Scaffold Mode
+
+When the mode-recognition beat landed on bare scaffold, generation runs differently. The user is deferring authoring to `/maintain` — generating substantive content from a domain name alone would invent material the user didn't ask for and carry authority it doesn't deserve.
+
+**Category 1 files:** Unchanged. Identical to the regular path.
+
+**Category 2 files:** Mostly unchanged. Generate `CLAUDE.md`, `README.md`, `system-status.md`, `design-rationale.md`, `friction-log.md`, `feedback-log.md`, `installed-packages.md`, `config-spec.md`, `config.md`, `settings.local.json` normally — but render task-related sections as empty. Skills tables still list the framework-default skills (startup, maintain, friction-log, preferences, validate, install, update, export, check-updates, think, debrief, close, guide); they just have no domain-task rows. Tasks lists in `system-status.md` and `README.md` are empty. The structural shape is preserved; the content reflects "no tasks yet."
+
+**Category 3 files:** Generated as minimal stubs.
+
+- **`app/overview.md`** — Full structural shape (Where Things Live, document hierarchy, skills table for the framework-default skills) but empty tasks table and a header note that this NLA is unauthored. The note belongs near the top, after the orientation paragraph, framed as: *"This NLA was created as a bare scaffold. Shared-context files and tasks need to be authored via `/maintain` before the NLA produces meaningful output. See the preloaded friction-log entry for the authoring checklist."*
+- **`app/shared/values.md`, `voice.md`, `common-patterns.md`** — Each generated as a stub. The file contains a single header line, and nothing below it:
+
+  *"Unauthored stub. This file was scaffolded by `/create-app`. Author it in `/maintain` before relying on it — content here is placeholder, not informed by the domain."*
+
+  No invented content. No example values, no example voice principles, no example patterns. The stub header is the file.
+
+- **`app/shared/output-spec.md`** — Not generated. Output spec is optional; bare scaffolds don't need one.
+- **`app/[task-name].md`** and **`.claude/skills/[task-name]/SKILL.md`** — Not generated. No tasks exist yet.
+
+**Preloaded umbrella friction-log entry.** `/create-app` adds an entry to the new project's `reference/friction-log.md` before completing generation. The entry uses the project creation date and surfaces the authoring work as the first item in the user's `/maintain` queue. Entry shape:
+
+```markdown
+### [YYYY-MM-DD project creation date] — Author shared-context and add first task (scaffolded NLA)
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** this NLA
+**Status:** pending
+
+**Observation:**
+This NLA was created via /create-app as a bare scaffold. Shared-context
+files (values.md, voice.md, common-patterns.md) are unauthored stubs, and
+no tasks exist yet. The NLA won't produce meaningful output until this
+work is done.
+
+**Proposed fix:**
+Use /maintain to author the following, in roughly this order:
+1. Add the first task — what does this NLA actually do? Creates app/[task].md
+   and .claude/skills/[task]/SKILL.md.
+2. Author app/shared/values.md — what does this NLA prioritize when
+   tradeoffs arise?
+3. Author app/shared/voice.md — how should output sound?
+4. Add common patterns as they emerge through use (start minimal).
+
+Remove this entry once shared-context is authored and the first task exists.
+```
+
+**Why two surfaces.** The stub header in each file catches the gap at task-execution time — when something later reads `voice.md` and sees "unauthored," it knows not to rely on it. The friction-log entry catches the gap at `/maintain` session start — when the maintainer arrives, the authoring work is already in the queue. Different surfaces for the same epistemic signal; together they cover both ways the gap can surface.
+
 ### Generation Order
 
-Follow this order — later files reference earlier ones:
+Follow this order — later files reference earlier ones. For bare-scaffold projects, the order is the same, but step 4 is skipped (no task docs or domain skills) and steps 3, 5, 6 follow the "Bare Scaffold Mode" rules above (stubs, empty tables, preloaded friction-log entry).
 
 1. **Directory structure and git setup** — Create all directories with `mkdir -p`, then run `git init` in the project directory, then add submodules: `git submodule add --depth 1 https://github.com/mightytech/nla-framework.git packages/nla-framework` (and any discussed packages). This must happen before file generation because thin wrappers reference framework files via `packages/`.
 1a. **Pin framework submodule to its tagged release** — after `git submodule add`, run `git -C packages/nla-framework tag --sort=-creatordate | head -1`. If the tag points at a different commit than HEAD, ask the user: "Framework HEAD is at [short-hash]; latest tagged release is [tag] (at [short-hash]). Pin to the tagged release (stable) or HEAD?" If tag chosen: `git -C packages/nla-framework checkout [tag]` then `git add packages/nla-framework`. Apply the same check for any other submodules added in the discussed-packages set. Tagged releases are the stable default for new projects.
@@ -309,6 +384,7 @@ As you create files, narrate by concept — not file-by-file. A sentence or two 
 | **Permissions** | This pre-approves common shell commands like git. Without it, Claude Code would prompt on routine operations. |
 | **Submodules** | The framework lives inside your project as a git submodule in `packages/`. Your project is self-contained — `git clone` plus `git submodule update --init` gives anyone a working copy. |
 | **Package management** | `/install` adds new capabilities from extension packages. `/update` keeps them current. Your install log tracks what's installed. |
+| **Bare scaffold** | You're going bare — I'll create the framework structure with empty stubs. The first thing you'll do in `/maintain` is author the shared-context files and add your first task. I'm preloading a friction-log entry so that work is waiting for you when you get there. |
 
 Don't narrate every file. Group the thin wrappers, group the reference files. Focus on what helps the user understand the system.
 
@@ -336,6 +412,25 @@ improvements. That's the development cycle.
 To share this project: `git clone --recurse-submodules [url]` (or `git clone [url]` then `git submodule update --init` if cloned without recurse).
 ```
 
+**For bare-scaffold projects, use this variant instead** — step 5 is `/maintain` rather than running a task, because no tasks exist yet:
+
+```
+Project created at ../[project-name]/
+
+Next steps:
+1. cd ../[project-name]
+2. git add -A && git commit -m "Initial NLA scaffold"
+3. Start Claude Code
+4. Run /startup to load foundational context
+5. Run /maintain — a preloaded friction-log entry will walk you through
+   authoring shared-context files and adding your first task
+
+The scaffold is empty by design. Shared-context stubs (values, voice, patterns)
+are placeholders; the first /maintain session is where this NLA becomes real.
+
+To share this project: `git clone --recurse-submodules [url]` (or `git clone [url]` then `git submodule update --init` if cloned without recurse).
+```
+
 **Tip for first-time users:** If they seem unsure or want to see a working example first, mention `/install-app` — it can install example NLA projects they can explore.
 
 **Tip for orientation:** Mention that `/guide` is available if they want a walkthrough of how the system works, what skills do, or what to try next.
@@ -357,6 +452,16 @@ Before reporting completion, verify:
 9. **.gitignore** excludes config.md and config/
 10. **settings.local.json** contains valid JSON with Bash patterns
 
+**For bare-scaffold projects, also verify:**
+
+11. **No `app/[task].md` files exist** — bare scaffolds have no tasks
+12. **No domain skill directories** in `.claude/skills/` beyond the framework defaults
+13. **Shared-context files are stubs** — `app/shared/values.md`, `voice.md`, and `common-patterns.md` each contain only the unauthored-stub header; no invented content below
+14. **`app/shared/output-spec.md` does not exist** — not generated for bare scaffolds
+15. **Preloaded friction-log entry exists** in `reference/friction-log.md` with the project creation date and the authoring checklist (per "Bare Scaffold Mode")
+16. **Overview reflects bare state** — empty tasks table in `app/overview.md` plus the unauthored-NLA header note
+17. **Skills tables reflect framework-default skills only** — no domain skill rows in `CLAUDE.md` or `app/overview.md`
+
 If anything doesn't match, fix it before reporting done.
 
 ---
@@ -367,3 +472,4 @@ If anything doesn't match, fix it before reporting done.
 - **Don't create `.env` or credentials** — Note in CLAUDE.md if the project will need them
 - **Don't over-generate** — Common patterns should start minimal. Better to add through `/friction-log` + `/maintain` than to guess
 - **Don't use sample domain content** — Generate fresh content for the user's domain. Article-formatter language shouldn't leak into a ticket-classification project.
+- **Don't invent content when bare scaffold was confirmed** — A name plus a thin domain signal is not enough to seed voice, values, or patterns. The user signaled they're authoring later; respect the signal and generate stubs.
