@@ -1,7 +1,7 @@
 # Maintenance Session: Bare Scaffold Mode in /create-app
 
 **Date:** 2026-05-24
-**Status:** In Progress
+**Status:** Complete
 
 ## Intent
 
@@ -42,16 +42,47 @@ The 2026-02-24 nla-writer follow-up observation (rich-context-but-blank case: go
 
 ## What Didn't Work
 
-*(To be filled in if applicable.)*
+- **Initial /think framing pulled in the 2026-02-24 nla-writer addendum as if it were core scope.** I read the addendum carefully alongside the main entry and let its depth color my mental model — coming into /think with a frame that bundled seed-authority signaling and the rich-context-blank case with the bare-scaffold work. The maintainer's "Maybe I'm misremembering" reframe caught it cleanly. Cost was small (one round-trip), but the underlying mistake was treating the addendum as additional requirements rather than as context that may or may not be in scope.
 
 ## Friction Log Entries Processed
 
 - **2026-02-23 — /create-app bare project path: missing guidance and speculative seeds** — resolved this session via bare-scaffold mode addition to `.claude/skills/create-app/SKILL.md` + design-rationale entry. Archived.
 
+## Friction Log Entries Created
+
+- **2026-05-24 — Scaffold-first generation as the unified /create-app mechanism** — new pending entry capturing the architectural reframe surfaced when the maintainer asked "what are the actual mechanisms?" Pairs with the 2026-04-16 cluster (Python standards, prose-vs-code distinction, nla-compiler experiment). Waits on Python standards / nla-compiler availability.
+
 ## Debrief
 
-*(To be captured at session close.)*
+Refined observations from this session's explicit `/debrief`:
+
+1. **Addendum over-shaped initial scope.** The 2026-02-24 nla-writer addendum is *adjacent context* to the 2026-02-23 entry, not additional requirements. Reading both before forming a frame meant the addendum's depth set my initial mental model. Diagnostic: when a friction entry has a richly-detailed addendum, read the entry as written first and treat the addendum as context whose scope-inclusion is a separate question. The reset was inexpensive in this session but the pattern generalizes.
+
+2. **Architectural soft spot came from the maintainer's question, not my proactive surfacing.** The maintainer's "what are the actual mechanisms?" question landed at commit time, but it was a design-time question — the bare path is so mechanical that "is the LLM the right tool for this?" was worth raising during /think, not after validation. I designed bare-mode entirely within the existing AI-as-typist paradigm without flagging the hybrid-architecture observation. Diagnostic: for any /create-app or file-generation work, explicitly ask "what's mechanical here and is the LLM the right tool?" as a routine /think beat. (The reframe still landed productively, captured as a new friction-log entry, but it would have been part of the original design rather than emergent.)
+
+3. **Section 2.6 nearly bit on validation findings.** When naming the two soft findings from /validate, I labeled them "not blockers" and asked whether to apply — phrasing that reads as *almost* pre-judging toward skip. The same failure mode that Section 2.6 and the /close Step 3 retrofit just shipped to address. The maintainer's "apply both" suggests the framing wasn't catastrophic, but the offer language carried a default pull. The just-shipped guidance applies to validation findings too, not only to skill choice points. Worth keeping in awareness.
+
+4. **Consumer-facing self-catch worked, but the underlying lapse is noteworthy.** I wrote "Consumer-facing: yes... Tag at push" in the design-rationale entry, then caught it during commit prep by checking the 2026-05-11 session log's note that create-app changes don't contribute to tag decisions. The catch was good, but the original write was wrong — I'd written what felt plausible rather than checking the Shippability rule. Diagnostic: before filling Shippability or blast-radius fields, read the relevant rule explicitly. The framework's own definition is short; the check is cheap.
+
+5. **Positive: the /think reset was cheap.** The maintainer's single-sentence reframe ("Maybe I'm misremembering...") was enough to land us on the right scope. I acknowledged the drift, didn't defend the larger frame, and we converged in a few exchanges. The design flow worked as intended. Preserving this — flagging it as something the framework's posture already supports.
+
+The maintainer noted observations #1 and #2 as most generalizable — candidates for promotion to memory or friction-log if they recur. Not filing now; awaiting recurrence to confirm pattern.
 
 ## State at Close
 
-*(To be filled in at session close.)*
+**Context for next time:**
+
+- Bare-scaffold mode shipped 2026-05-24, committed in e7a6e0d. Framework-internal change; no tag, no update-notes entry. Pushed/unpushed status depends on Step 5 below.
+- Friction log delta: one resolved (2026-02-23 bare-project), one created (2026-05-24 scaffold-first generation). Net: 8 pending → 8 pending (count unchanged; composition shifted).
+- Feedback log unchanged: 4 pending Accept-with-/think items (#27 reliability-vs-determinism, #26 scan-pattern + #25 memory-mining bundle, #24 /close enhancement).
+- Multi-day session: work done 2026-05-24; close completed 2026-05-29.
+
+**Decisions awaiting implementation:**
+
+- None. All decisions made this session were implemented in-session.
+
+**Where to pick up:**
+
+- **Bare-scaffold fresh-context test.** The maintainer has a real bare app to create and elected the fresh-context path over same-context (per Validation Flow rhythm + writing standards Section 2.6 — documentation correctness is necessary but not sufficient; framing transfers reliably only when verified in execution). The fresh-context run will produce real signal about whether the bare-mode recognition beat fires cleanly on real user input and whether the generation rules produce the intended stub-plus-preloaded-entry shape. If anything feels off, capture via /friction-log in the new project or surface here for the next /maintain session.
+- **Remaining pending work** (unchanged from prior session): four Accept-with-/think feedback items; the 2026-04-16 traditional-code cluster (Python standards, /maintain prose-vs-code distinction, Fallingwater-style preamble, deferred re-compile of lib/export.py); the 2026-05-20 accept-with-/think verdict prominence in check-feedback (penny-post submodule, not editable from framework); the 2026-05-23 multi-step protocols pre-emption hazard (awaits second instance for /think); the 2026-03-08 /startup disable-model-invocation question; the 2026-02-23 friction-log gitignored question.
+- **Architectural follow-up entry (2026-05-24 scaffold-first generation)** waits on Python implementation standards / nla-compiler availability. Best addressed together when those land.
