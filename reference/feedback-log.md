@@ -53,11 +53,155 @@ accepted, Status.
 
 *Entries are added chronologically, newest first.*
 
+### 2026-09-09 — Understanding over deliverables: wicked problems and silent taming
+
+**Source:** [Issue #31](https://github.com/mightytech/nla-framework/issues/31)
+**Verdict:** Accept-with-/think — bundled with the 2026-05-22 reliability-vs-determinism entry (below)
+**Status:** pending
+**Bundled with:** 2026-05-22 — Reliability vs determinism (below)
+
+**What to do:**
+
+Add a principle to `core/nla-foundations.md` along the lines the letter drafts: the problems that matter are wicked (Rittel & Webber) — no definitive formulation, no stopping rule, better-or-worse rather than right-or-wrong. A spec, a schema, a test is a wicked problem wearing a tame mask, held in place by judgment filling the gaps, so the real work is defining and redefining what the problem *is* rather than producing the deliverable-shaped object. The guard is process, not restraint — contestable stopping points, the human drawing the consequential lines — because the taming happens inside retrieval, before any deliberation the runtime could inspect.
+
+Two edges the letter insists keep the principle from flattening into a platitude: the runtime's flatness is a **reagent** (a confident, well-formed answer to an under-defined question marks where understanding is still owed), and route by **stakes** in both directions (spend understanding where wickedness compounds; withhold it where a wrong choice is cheap and reversible).
+
+**Prerequisite: shared /think session with the 2026-05-22 reliability-vs-determinism entry.**
+
+Both items propose sharpening foundational language about *what the work optimizes for*, both carry open channel-and-placement questions, and both explicitly invite maintainer judgment on shape. Designing them in separate sessions risks two adjacent principles that should have been one — the same failure the 2026-05-22 scan caught for scan-pattern and memory-mining. The bundled /think considers:
+
+- **One principle or two?** The letter itself flags the possible split (the taming diagnosis vs. the stakes-routing operational half), and #27's decision filter may be the same axis viewed from a different side.
+- **Channel and placement.** Framework's dual-channel rule applies: `install/CLAUDE-intent.md` propagates to domain projects, the framework's own `CLAUDE.md` does not inherit from it, and `core/nla-foundations.md` is a third surface. #27's entry already establishes that the "non-determinism is a feature" aphorism lives in the first two, not foundations.
+- **How hard to state the contestable claims.** The letter is emphatic that the principle earns foundations only if it keeps its teeth (specs are wicked problems wearing tame masks; a more capable model computes a better average and so deepens the flatness; software as a field denies its own wickedness). Smoothing those into a values-statement tames the principle about taming. Open question for a doc that domain projects across many fields will read.
+
+**Why it was accepted:**
+
+The framing is sound and the letter is a warm-context briefing rather than a closed verdict — it hands over reasoning to continue with, and is explicit that wording, placement, and cardinality are open. The theory it rests on is the maintainer's own. Principle committed; design step is the prerequisite for shape and placement decisions.
+
+**Second payload, routed separately:** #31 also carries post-fix recurrence evidence that is not about the principle — see the gate/verification-cluster entry below, which is where that evidence lands.
+
+---
+
+### 2026-09-09 — "Be-done" bias at review/verify/wrap gates (gate/verification cluster)
+
+**Source:** [Issue #32](https://github.com/mightytech/nla-framework/issues/32), with corroborating evidence from [Issue #31](https://github.com/mightytech/nla-framework/issues/31) and [Issue #28](https://github.com/mightytech/nla-framework/issues/28) Item 3
+**Verdict:** Accept-with-/think
+**Status:** pending
+
+**What to do:**
+
+Address the recurring AI disposition toward *being done* — wrapping up or advancing to the next stage over doing good work — and the associated misreading of felt-slowness as a stop signal. The discipline the letter names: reason to the stopping *criterion* rather than assert "done," and treat "we're done, proceed" at a review/verify/wrap gate as the weakest kind of confidence.
+
+**Prerequisite: /think session** on the response shape, drawing on the full cluster rather than #32 alone:
+
+- **#32** — the disposition at gates. Three proposed terminuses in one session, each overridden by "one more cheap check," each check paying (two spec gaps, two more, a full-scope review, ultimately a deploy-breaking mechanism error caught only because the compile actually ran).
+- **#31's second payload** — post-fix recurrence evidence. `core/skills/close.md:92` carries the mechanics-without-spirit retrofit verbatim ("The offer is a fresh invitation, not an opt-out from work-already-done"), shipped 2026-05-23; #31 documents that exact failure on 2026-07-15. The same letter documents a warm-context handoff drafted as a runbook despite the Session-Bracketing rhythm's plans-not-runbooks note — which design rationale describes as *preventive* because a 2026-05-18 audit found no runbook framing anywhere.
+- **#28 Item 3** — third-party corroboration from a different project: "the framework's procedures sometimes describe the load-bearing step in detail and underweight the closing/verification step." nla-office-hours deferred the generalization question to us pending more cases; #31 and #32 are those cases.
+- **2026-05-23 friction entry** (multi-step protocols: pre-emption hazard) — its stated trigger was "worth /think when a second instance surfaces." #31 is that second instance. Fold it in rather than running a separate session.
+- **The `/maintain` posture-preamble deferral** — 2026-05-23's third trigger ("if future authoring shows *I knew about it but didn't apply it* instances, revisit") has now fired. Note that this third trigger was decided in the 2026-05-23 debrief but never recorded in `reference/design-rationale.md`, which still lists only two; recording it is a prerequisite housekeeping step.
+- **Sequencing with the pending #24 `/close` enhancement** — that item modifies `/close`'s step structure and #31's instance is a `/close` Step 3 failure. The two shouldn't be designed blind to each other.
+
+**Constraint on the fix shape, from the letter itself:** when asked to diagnose the bias, the AI's proposed fix — "just price the cheap check into the stop decision" — *was the bias operating*, converting an open truth into a tidy closeable rule so the discussion could end. So "add a rule to the gate skills" is suspect as a response. The counterweight is also real: the efficiency instinct is sometimes right, and the ask is calibration, not suppression.
+
+**Why it was accepted:**
+
+Three independent sources converging on one shape — the verify/close/deliberate step gets underweighted or skipped. #32 self-describes as a single richly-documented instance, but the cross-letter picture is considerably stronger. The decisive evidence is that the framework's two existing mitigations in this exact territory (Section 2.6 plus the `/close` Step 3 retrofit; the plans-not-runbooks note) were both present and both failed to fire. That argues awareness-level captures aren't sufficient here — the same conclusion the 2026-05-22 scan-pattern triage reached about corpus-consultation, arriving now with different content.
+
+---
+
+### 2026-09-09 — Post-bulk-edit verification step missing from /maintain Bulk Edits
+
+**Source:** [Issue #28](https://github.com/mightytech/nla-framework/issues/28) Item 2
+**Verdict:** Accept
+**Status:** pending
+
+**What to do:**
+
+Append a verification clause to the Bulk Edits section of `core/skills/maintain.md`. The section currently says mechanical pattern substitutions should use a single `Bash` pipeline over the target files — correct for the substitution step, but the procedure stops there. Add guidance to grep-verify across operative content (`app/`, `CLAUDE.md`, `README.md`, and equivalents) before committing, with the reason: sed catches uniform structural prose cleanly, while narrative references embed the old pattern in surrounding text and escape regex matching. The letter drafted usable clause text.
+
+Consumer-facing (`core/`) — update-notes entry at commit, tag at push.
+
+**Why it was accepted:**
+
+Two clean instances in a single session with identical shape: the packages migration sed-swept 16 thin wrappers correctly but missed narrative references in three files, and the examples-catalog pass missed CLAUDE.md's Modes section and Environment table. Both passes "looked clean" after the sweep and weren't; both were caught post-commit. `/validate` structural mode catches this, but only if invoked — folding it into the Bulk Edits flow closes the gap without requiring a separate invocation per sweep. Exact landing spot, drafted text, no design question.
+
+---
+
+### 2026-09-09 — /update Phase 1 reports "up to date" when the project is months behind
+
+**Source:** [Issue #29](https://github.com/mightytech/nla-framework/issues/29) items 2 and 3
+**Verdict:** Accept — light shape only; medium and heavier shapes deferred
+**Status:** pending
+
+**What to do:**
+
+Add a clarifying sentence to `core/skills/update.md` Phase 1 noting that "up to date with remote" doesn't mean "up to date with installed state," and pointing readers to Phase 2 for the dormancy signal.
+
+**Deferred:** the letter's medium option (reorder — run a `commits-since-install` check before fetching remotes) and heavier option (a dormancy branch triggered past N commits or M months). Revisit if a second dormant-project update reports the same friction.
+
+Consumer-facing (`core/`) — update-notes entry at commit, tag at push.
+
+**Why it was accepted:**
+
+Verified against the artifact. For a dormant project every Phase 1 line reads "0 ahead, 0 behind" while Phase 2 surfaces the real gap — in the reporting session, 121 commits between installed state and current package state. The Phase 1 summary (`update.md:74`) reports only remote-vs-local status, so a maintainer reading it would reasonably conclude no update is needed.
+
+One refinement from verification that shapes the fix: line 76 already gates the early stop on local-vs-installed state, so the protocol wouldn't actually terminate wrongly. The defect is in the *reported signal*, not the control flow — which is why the light fix is likely sufficient and the medium reorder isn't warranted on one data point.
+
+---
+
+### 2026-09-09 — Update-notes backstop: new skills can ship without an entry
+
+**Source:** [Issue #30](https://github.com/mightytech/nla-framework/issues/30)
+**Verdict:** Accept — both halves, with the author-time fix landing more precisely than the letter proposed
+**Status:** pending
+
+**What to do:**
+
+Three pieces, in order:
+
+1. **Backfill the specific gap.** Add an `install/update-notes.md` entry for `/session-checkpoint`. Confirmed absent: no mention in the notes file, and no `update-notes-archive.md` exists at all (the letter hedged about an archive it couldn't read — there isn't one).
+2. **Close the author-time hole.** `core/skills/README.md`'s "Adding a New Skill" checklist has 7 steps and none of them is "add an update-notes entry." That is the precise hole. Add the step. The letter proposed an author-time convention in general terms; the checklist is where such a convention actually lives for skill additions.
+3. **Skill-time backstop, sequenced second.** Have `core/skills/update.md` Phase 2 cross-reference `install/skills-intent.md` against the consuming NLA's wrappers, flagging missing wrappers regardless of update-notes coverage. More machinery than pieces 1 and 2, so it follows them.
+
+Pieces 2 and 3 are consumer-facing; piece 1 is an update-notes entry in its own right.
+
+**Why it was accepted:**
+
+The gap is verified and the risk scales badly: `/update` consults update-notes to decide what to propose, so a skill that ships without an entry is invisible to dormant projects unless their maintainer independently lists the canonical skill set and compares — which is what the reporting maintainer happened to do.
+
+The backstop half earns its keep for a reason the letter couldn't see from outside: a general rule *already exists* — `maintain.md`'s Shippability protocol says commits touching consumer-facing content get an update-notes entry, and `core/skills/` is consumer-facing. That rule didn't fire. Author-time convention alone has now demonstrably failed once, which is the argument for pairing it with a defensive check rather than treating them as alternatives.
+
+---
+
+### 2026-09-09 — End-user update affordance (materializing submodule pins)
+
+**Source:** [Issue #28](https://github.com/mightytech/nla-framework/issues/28) Item 1
+**Verdict:** Adapt — gap accepted, proposed shape corrected and reconsidered
+**Status:** pending
+
+**What to do:**
+
+Give end users a path to bring a cloned NLA up to date. `/update` is maintainer machinery — it advances submodule pins *and* integrates intent migrations — and an end user who runs it triggers a workflow they didn't want. Without the second command, `packages/` sits at the old pinned state and the user hits wrong content silently.
+
+**Two adaptations to the letter's proposal:**
+
+1. **Drop `--recursive`.** The letter proposes wrapping `git pull --ff-only && git submodule update --init --recursive`. That contradicts documented framework convention — `install/update-notes.md:755` states: "Use `git submodule update --init` (not `--recursive`). Dependencies are flat — each project lists only its direct dependencies." Recursing would descend into packages' own `packages/` directories, which the packages-migration design rationale names as wasteful nesting.
+2. **Reconsider whether a script is the right shape.** The real gap is *awareness* — the AI recognizing that "bring this application up to date" means these two commands and the split between them — not the absence of a two-line wrapper. Documentation plus AI awareness is cheaper, ships no new code artifact, and avoids depending on the pending "no implementation standards for Python scripts in `lib/`" entry. Recommended shape: document the split (`/update` integrates intent changes, maintainer-only; plain git materializes pins, everyone) and make the AI aware of the phrasing that should trigger it, with a `lib/` script as an optional convenience if it still seems warranted afterward.
+
+**Why it was accepted:**
+
+The gap is real and high-confidence — verified that no such affordance exists (`lib/` holds only `export.py`, and README documents the clone but not the update). It surfaced organically from a genuine question about whether `/update` should learn about a new `examples/` directory; the right answer there was no, and that conversation made the missing affordance visible.
+
+**Related:** shares the update-pipeline surface with the #29 and #30 entries above. Worth considering whether all three are one session's work.
+
+---
+
 ### 2026-05-22 — Reliability vs determinism as load-bearing distinction in foundational language
 
 **Source:** [Issue #27](https://github.com/mightytech/nla-framework/issues/27)
 **Verdict:** Accept-with-/think
 **Status:** pending
+**Bundled with:** 2026-09-09 — Understanding over deliverables (above). Both sharpen foundational language about what the work optimizes for; both carry open channel-and-placement questions. Shared /think session.
 
 **What to do:**
 

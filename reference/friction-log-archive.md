@@ -12,6 +12,48 @@ Resolved and closed friction log entries, moved here from `friction-log.md` duri
 
 *Archived entries in reverse chronological order.*
 
+### 2026-09-09 — /update protocol holds under 3.5 months of dormancy
+
+**Type:** process
+**Severity:** positive
+**Blast radius:** all projects
+**Status:** resolved
+**Resolved:** 2026-09-09 — Nothing to fix. Captured as positive evidence at triage of [Issue #29](https://github.com/mightytech/nla-framework/issues/29) item 1, archived immediately since no work is pending.
+
+**Observation:**
+nla-claude-code ran `/update` after ~3.5 months of dormancy — framework state advanced
+from `0fc339b` (2026-02-19) to `945f533` (2026-05-24), 121 commits including the
+packages/ submodule migration, seven new skills, the voice-and-values split, and
+writing-standards integration. The "all of it, in sequence" path succeeded across 7
+commits and 23 files without thread-loss.
+
+Three things specifically held:
+
+- **Proposal-per-item cadence** kept context fresh across the whole session. Each item
+  proposal forced re-justification before execution, which structurally prevented the
+  "what was I doing again?" failure mode.
+- **Sequential dependency chain** — packages/ migration first, six other items stacking
+  on top — avoided the speculative-parallelism risk. The migration touched every wrapper
+  path, so doing it first let subsequent items assume the new layout rather than
+  re-deriving paths.
+- **Commit-per-item shape** produced seven independently reviewable commits, each with
+  intent captured in the session log, each a clean rollback target.
+
+**Confirmed reason:**
+The submitter's confidence: high on the observation (one well-instrumented session),
+moderate on generalizability. The 3.5-month window straddled one major structural
+migration; longer windows would compound across multiple structural shifts, and that
+isn't tested.
+
+**Notes:**
+Kept because the evidence is worth having when the update pipeline next comes up for
+design work, and because it's the counterweight to the same letter's negative finding
+(Phase 1's dormancy signal — see the 2026-09-09 feedback-log entry). The letter sent both
+together deliberately: the protocol works under dormancy stress, but its order-of-checks
+doesn't predict the load.
+
+---
+
 ### 2026-02-23 — /create-app bare project path: missing guidance and speculative seeds
 
 **Type:** intent
