@@ -66,7 +66,7 @@ After running the core structural checks, also check:
 
 1. **Framework file references.** Read `CLAUDE.md` and `README.md`. For every file path mentioned, verify the file exists.
 2. **Framework skill registration.** List all skills in `.claude/skills/`. Compare against the skills table in `CLAUDE.md`. Report mismatches.
-3. **Core skill coverage.** For every file in `core/skills/`, check that a corresponding entry exists in `install/skills-intent.md`. Report missing entries.
+3. **Core skill coverage.** For every file in `core/skills/`, check that a corresponding entry exists in `install/skills-intent.md`. Report missing entries. Exclude mode files routed to by a dispatcher skill — the six `validate-*.md` files are modes of `validate.md`, not skills in their own right, and have no `skills-intent.md` entry by design.
 4. **Intent file skill consistency.** For every skill in `install/skills-intent.md`, verify the target core skill file exists. Report broken references.
 5. **Intent file completeness.** Verify `install/CLAUDE-intent.md`, `install/skills-intent.md`, and `install/structure-intent.md` all exist. Check that `install/example-catalog.md` exists.
 6. **Config consistency.** Check that `config-spec.md` exists. If `config.md` exists, check routing targets.

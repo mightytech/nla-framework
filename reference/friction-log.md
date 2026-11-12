@@ -68,6 +68,510 @@ Not every entry needs all fields. The essentials are: Observation, Type, Severit
 
 *Entries are added chronologically, newest first.*
 
+### 2026-11-12 — core/structure.md is internal content inside a consumer-facing path
+
+**Type:** process
+**Severity:** minor
+**Blast radius:** framework maintainers
+**Status:** pending
+
+**Observation:**
+Surfaced while committing two small fixes in the 2026-11-12 session. One removed
+a phantom `lib/.gitkeep` row from `core/structure.md`. Deciding whether that
+commit needed an update-notes entry exposed a seam in the shippability rule.
+
+The rule in `core/skills/maintain.md` § "What counts as consumer-facing" is
+path-shaped:
+
+> - **For the framework:** `core/` or consumer-facing `install/*.md`.
+
+`core/structure.md` is in `core/`, so the letter of the rule says
+consumer-facing → update-notes entry. But the file records the *framework's own*
+as-built directory layout. Domain projects keep their equivalent record in
+`app/overview.md` § "Where Things Live"; they never read the framework's. An
+update note reading "removed a phantom `lib/.gitkeep` row from the framework's
+structure record" is precisely what the same section calls noise:
+
+> If only internal — the project's own `reference/` … — skip the note.
+> Consumers see the submodule pointer advance but have nothing to review.
+
+So the file's *location* says ship it and the file's *content* says don't.
+
+**Resolution taken this session:** treated as internal — no update-notes entry,
+no tag. The maintainer confirmed. Recording it because the next maintainer
+touching `core/structure.md` will hit the same fork, and the rule as written
+points the wrong way.
+
+**Confirmed reason:**
+The path-shaped rule was a deliberate simplification — paths are checkable and
+intent is arguable, which is what makes the rule usable at commit time without a
+judgment call per file. `core/structure.md` is the one file in `core/` whose
+audience is the framework itself rather than its consumers, so it's the single
+case where path and audience diverge. The rule isn't wrong; it has exactly one
+documented exception and doesn't say so.
+
+Worth noting the framework's own `CLAUDE.md` is already carved out this way —
+the rule explicitly names "for framework and packages, their own `CLAUDE.md`" as
+internal despite sitting at the repo root. `core/structure.md` is the same kind
+of file and didn't get the same carve-out, most likely because it postdates the
+rule (added 2026-05-07 via the Structure Decisions Protocol).
+
+**Affected files:**
+- `core/skills/maintain.md` — § "What counts as consumer-facing"
+
+**Proposed fix:**
+Add `core/structure.md` to the internal list alongside the own-`CLAUDE.md`
+carve-out. One clause: "…or, for framework and packages, their own `CLAUDE.md`
+and `core/structure.md` (an as-built record of the project's own directories,
+not content consumers read)."
+
+Consider also whether the general principle is worth one sentence: a file's
+audience governs, and path is a proxy that holds everywhere except for a
+project's own records about itself. That phrasing would cover future files of
+this kind without another amendment.
+
+**Notes:**
+Found by applying the rule rather than by reading it — the ambiguity is
+invisible until a commit actually lands in that path. Same shape as this
+session's two `/validate` entries: a seam between two correct sections that
+reads as complete until something falls through it.
+
+### 2026-11-12 — /validate recommends "fix now" but cannot execute it
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+Surfaced in the 2026-11-12 debrief after a framework structural check produced
+six findings. `core/skills/validate.md` § "After Presenting Findings" instructs:
+
+> **Fix now** — low effort, context advantage (we just touched this file), or
+> batches naturally with other fixes
+
+Its Scope section forbids exactly that:
+
+> **You don't:**
+> - Edit any files (that is `/maintain`)
+
+So the skill proposes a disposition it is not permitted to carry out, and says
+nothing about the handoff. The same section names the cost of the gap:
+
+> Findings that live only in session logs drift — they get noted, carried
+> forward, and rediscovered without being acted on.
+
+**The drift it warns about happened in this session.** Two findings from the
+structural check — a phantom `lib/.gitkeep` row at `core/structure.md:177`, and
+six spurious `validate-*` mode files that Structural Addenda #3 flags on every
+run — were approved as fix-now by the maintainer and then existed nowhere but
+the conversation. Neither was logged, because logging them would have been the
+wrong disposition; neither was fixed, because `/validate` can't. The framework's
+anti-drift mechanism manufactured a drift case.
+
+**Before:** "Fix now" is offered, approved, and then silently stranded at the
+end of the validation session.
+**After:** Either the handoff is explicit, or the option names its own
+precondition.
+
+**Confirmed reason:**
+The disposition vocabulary (fix now / defer / ignore) was written from the
+maintainer's point of view — those are the three things a *human* can decide to
+do with a finding. The Scope section was written from the skill's point of view.
+Both are correct in isolation; nothing reconciles them. The omission is a seam
+between two sections of one file, which is the kind of gap that reads as
+complete until something falls through it.
+
+**Affected files:**
+- `core/skills/validate.md` — § "After Presenting Findings" and § Scope
+
+**Proposed fix:**
+Smallest version: extend the fix-now bullet to name its precondition — "fix now
+(requires `/maintain` — offer to switch before the session ends)". Add one line
+to the end of the section: any fix-now finding not acted on before the session
+closes gets logged instead, so nothing exits validation unrecorded.
+
+Larger version worth considering: `/validate`'s closing suggestion currently
+reads "If the session is wrapping up after validation, suggest `/debrief` to
+reflect on the work, then `/close`." That sequence has no `/maintain` step, so
+fix-now findings have no natural moment to land. Adding one would close the loop
+structurally rather than by reminder.
+
+**Notes:**
+Found by debriefing a validation session rather than by validating — the gap is
+invisible from inside `/validate`, since the skill reports findings and stops.
+Related: the 2026-10-21 entry "/validate's structural check can't see
+`/create-app` or package intents" is about coverage; this is about what happens
+to findings after coverage succeeds. Both concern `/validate`; neither overlaps
+the other's fix.
+
+### 2026-11-12 — Running /validate as a known-answer test is undocumented and effective
+
+**Type:** core
+**Severity:** positive
+**Blast radius:** all projects
+**Status:** pending
+
+**Observation:**
+During the 2026-11-12 session, the framework structural check was run with a
+specific purpose: two real defects had been found by hand two months earlier and
+logged (the 2026-09-11 entries on package sibling paths and `/session-checkpoint`).
+The check was invoked to see whether it would catch them.
+
+It caught neither — and that miss became the session's highest-value finding,
+outranking both originals, because it explained why they reached a generated
+project in the first place. See the 2026-10-21 coherence entry for the gap
+itself.
+
+The technique: when a real defect has been found by hand, feed it to the
+validator as a known-positive case. If the check passes, the finding is about
+the checker, not the system — and that finding is usually more valuable than the
+defect that prompted it, because it covers a class rather than an instance.
+
+Nothing in `/validate` describes this use. Every mode description frames the
+system as the object of inspection — "Are the framework's files wired up
+correctly?", "Do the framework's docs tell a consistent story?" — and the file
+closes:
+
+> *Validation is read-only inspection. Find problems, explain them, point to
+> fixes — then hand off to `/maintain` or `/friction-log`.*
+
+Correct as far as it goes, but it frames validation as finding problems in the
+system. Testing the check set against known answers is a different operation
+with a different output: a coverage measurement.
+
+**Confirmed reason:**
+Not a defect — a missing capability description. The skill supports this use
+fine; it just doesn't suggest it, so it depends on whoever runs validation
+thinking of it. In this session it was prompted deliberately by the maintainer's
+framing ("which options should we do?") plus two fresh known defects sitting in
+the log. Absent that coincidence it would not have happened.
+
+**Affected files:**
+- `core/skills/validate-structural.md` — the natural home; the technique is most
+  mechanical there
+- `core/skills/validate.md` — possibly one line in Mode Selection, if the
+  technique deserves surfacing at choice time
+
+**Proposed fix:**
+Add a short note to `validate-structural.md`: when known defects are in hand —
+from the friction log, a recent manual discovery, a bug report — run the check
+against them first. A check that passes on a known defect is itself the finding,
+and it generalizes to the whole class. Worth stating that the resulting entry
+belongs against the *checker*, not the system.
+
+This would have caught both 2026-09-11 defects on the next run after either was
+logged, without anyone thinking of it.
+
+**Notes:**
+Generalizes beyond the framework — any NLA whose `/validate` wrapper has domain
+addenda can be tested this way the next time its maintainer finds something by
+hand. The friction log is the natural source of known-answer cases, which makes
+this a use for the log that the log doesn't currently advertise: pending entries
+are test inputs, not just a work queue.
+
+Relates to the 2026-04-17 pattern recorded in framework memory — "friction log
+as design-signal, not just backlog." Same reframe, different use: there the log
+was evidence for scoping decisions, here it's a corpus of test cases.
+
+### 2026-10-21 — /validate's structural check can't see /create-app or package intents
+
+**Type:** core
+**Severity:** major
+**Blast radius:** all projects (project generation)
+**Status:** pending
+
+**Observation:**
+Surfaced by running the framework structural check specifically to test whether
+it would catch the two findings logged 2026-09-11. It caught neither. The gap is
+structural, not incidental.
+
+The framework wrapper's Structural Addenda chain `core/skills/` →
+`install/skills-intent.md` (#3) → core skill files (#4). Nothing continues the
+chain to `/create-app`, which is the file that consumes those intents to generate
+every new project. `grep -rn 'create-app' core/skills/validate*.md
+.claude/skills/validate/SKILL.md` returns two hits, both in scenario-mode prose
+describing what a trace *could* cover: "Trace scenarios where someone uses the
+framework itself — running `/create-app`, `/maintain`, etc." `/create-app` is
+never a check target.
+
+Second gap, same shape: nothing reads `packages/*/install/skills-intent.md`.
+Core check 3 verifies wrapper targets *after* generation — it passed cleanly here
+— and checks 7 and 8 test package↔skill and package↔submodule *presence*. None
+of the three reads intent content, so six reference implementations specifying
+`../nla-penny-post/…` and `../nla-process-helpers/…` sit unvalidated until a
+downstream project generates broken wrappers from them.
+
+**Before:** All seven addenda pass. Two known-real bugs, one of them major,
+surface nowhere in the report.
+**After:** Addenda that compare `install/skills-intent.md` against
+`/create-app`'s generation tables, and that verify path validity inside package
+intent files.
+
+**Confirmed reason:**
+The addenda were written to validate the framework's *own* wiring — skills
+tables, intent completeness, config routing. Project generation is a different
+surface: it's the framework's output rather than its structure, and nothing in
+the check set treats output as something to inspect. The widest-blast-radius
+file in the repo is the one file the structural check never reads.
+
+This is also why the two 2026-09-11 findings reached a generated project at all.
+Both were caught by a human-directed read during `/create-app`, not by the safety
+net. Twice is the argument for the mechanical check.
+
+**Affected files:**
+- `.claude/skills/validate/SKILL.md` — Structural Addenda, for the `/create-app`
+  comparison (framework-only surface; `/create-app` has no domain analog)
+- `core/skills/validate-structural.md` — core checks 3, 7, 8, for package intent
+  path validity (domain projects install packages too, so this belongs in core)
+
+**Proposed fix:**
+1. Add an addendum: for every skill documented in `install/skills-intent.md`,
+   verify it appears in `/create-app`'s Category 1 table *and* its bare-scaffold
+   inline list. This directly catches the `/session-checkpoint` class.
+2. Add to core check 3 (or a new check): for each package in `packages/`, read
+   its `install/skills-intent.md` and verify every path in a reference
+   implementation resolves from the installing project's root. Catches the
+   sibling-path class, and future convention drift in packages not yet written.
+3. Consider whether the framework's single hardcoded list of skills should live
+   in `install/skills-intent.md` alone, with `/create-app` deriving from it —
+   which would make check (1) unnecessary rather than necessary. See the
+   2026-09-11 `/session-checkpoint` entry, proposed fix item 2.
+
+**Notes:**
+Third of three entries from the tax-onomy creation arc. The other two —
+"Package intent files still specify pre-submodule sibling paths" and
+"/session-checkpoint missing from /create-app's file tables," both 2026-09-11 —
+are the instances; this is the reason they weren't caught. Resolve this one and
+the class closes; resolve only those two and the next convention drift repeats
+the pattern.
+
+Relates to **Patterns to Watch #3 (Intent file completeness)**, which reads
+"Track gaps between what `/create-app` needs and what intent files provide."
+Both 2026-09-11 entries and this one run the *other* direction — the intent file
+provides and `/create-app` fails to consume. The pattern's wording should cover
+both directions.
+
+### 2026-10-21 — Framework has no /startup wrapper; intent file says it should
+
+**Type:** core
+**Severity:** minor
+**Blast radius:** framework maintainers
+**Status:** pending — needs a maintainer ruling, not a fix
+
+**Observation:**
+Found during the 2026-10-21 structural check. `core/skills/startup.md` exists and
+`install/skills-intent.md:13` documents `### /startup` with its wrapper location,
+but the framework has no `.claude/skills/startup/` directory and `CLAUDE.md`'s
+skills table has no `/startup` row. The tables are self-consistent — 21 skills,
+21 rows, exact match — so nothing is user-visibly broken.
+
+`/startup` is the only skill in `install/skills-intent.md` without a framework
+wrapper. `core/skills/README.md`'s "Adding a New Skill" checklist step 2 says to
+create one (added 2026-02-22 precisely because the step was being missed).
+
+**Confirmed reason:**
+Not yet diagnosed — this needs the maintainer's intent, which is why it's logged
+rather than fixed. The plausible reading is that it's deliberate: the framework
+has no `app/` to initialize, and `CLAUDE.md` instead directs reading
+`core/structure.md` at session start. If so, the absence is correct and the
+record is what's wrong.
+
+**Proposed fix:**
+Either outcome is one small edit:
+- *If deliberate:* note the exception in `core/structure.md` and/or
+  `core/skills/README.md`, so the next structural check doesn't re-flag it.
+- *If an oversight:* add the wrapper with a project-relative path
+  (`core/skills/startup.md`, matching the other framework wrappers) and a
+  `CLAUDE.md` row.
+
+**Notes:**
+Same class as the resolved 2026-02-22 entry "Framework install/update wrappers
+use wrong path prefix" — the framework's own skill surface drifting from the
+convention it publishes.
+
+### 2026-10-21 — installed-packages.md uses display names, not directory names
+
+**Type:** documentation
+**Severity:** minor
+**Blast radius:** framework maintainers
+**Status:** pending
+
+**Observation:**
+Found during the 2026-10-21 structural check. `reference/installed-packages.md`
+heads its sections `## penny post` and `## process helpers`; the submodules are
+`packages/nla-penny-post` and `packages/nla-process-helpers`.
+
+Core check 8 says "verify each logged package appears" in `git submodule
+status`. As written, that comparison needs a human to map display name to
+directory name. Both packages are in fact present and clean — this is a
+legibility defect, not a missing submodule.
+
+For contrast, tax-onomy's generated `installed-packages.md` uses directory names
+as headings (`## nla-penny-post`), which makes the check mechanical.
+
+**Proposed fix:**
+Rename the two headings to directory names, keeping display names in the prose
+if they read better there. Alternatively, have check 8 state the mapping rule
+explicitly. The first is smaller and makes the check work as written.
+
+**Notes:**
+Cosmetic on its own; logged because check 8 depends on it and because the
+generated-project convention already diverges from the framework's own file.
+
+### 2026-09-11 — Package intent files still specify pre-submodule sibling paths
+
+**Type:** intent
+**Severity:** major
+**Blast radius:** all projects installing penny post or process helpers
+**Status:** pending
+
+**Observation:**
+Surfaced during the 2026-09-09 `/create-app` session that generated `tax-onomy`
+with both extension packages. Both packages' `install/skills-intent.md` files
+still specify the pre-submodule sibling-directory convention in their reference
+implementations:
+
+- `packages/nla-penny-post/install/skills-intent.md:22` — "Read and follow
+  `../nla-penny-post/app/check-feedback.md`." (also line 40 for `/write-letter`)
+- `packages/nla-process-helpers/install/skills-intent.md:27, 51, 71, 91` — "Read
+  and follow `../nla-process-helpers/app/[skill].md`." for all four techniques
+
+Both `install.md` prerequisites also still read "**This repo cloned as a
+sibling** — `../nla-penny-post/` relative to the NLA."
+
+Under the packages/ submodule model (2026-04-15), these paths resolve to nothing.
+An installing AI that follows the reference implementations literally generates
+six wrappers that silently point at nonexistent files.
+
+**Before:** Following package intent literally produces
+`Read and follow ../nla-penny-post/app/check-feedback.md` — a path with no file
+behind it.
+**After:** `Read and follow packages/nla-penny-post/app/check-feedback.md`.
+
+**Confirmed reason:**
+Known-pending propagation, not a new regression. The packages/ migration
+(2026-04-15) updated the framework's own intent files; penny post and process
+helpers were queued to follow and haven't yet. What this session adds is
+evidence that the lag is not merely stale documentation — it is a live trap that
+produces broken output on every install.
+
+The failure is silent. A wrapper pointing at a missing file raises nothing at
+install time; it fails only when someone invokes the skill, possibly weeks later,
+at which point the cause is several steps removed from the symptom.
+
+I caught it because I read both packages' intent files and then verified every
+generated wrapper's delegation target resolved on disk. Had I trusted the
+reference implementations, six of tax-onomy's twenty wrappers would have shipped
+broken and consistency checks 1–4 would still have passed — the skills tables
+would have matched the filesystem perfectly, because the wrapper files existed.
+Only target resolution catches this.
+
+**Affected files:**
+- `core/skills/install.md` — the framework-side fix (see below)
+- `.claude/skills/create-app/SKILL.md` — same verification gap
+- Package-side: `install/skills-intent.md` and `install/install.md` in both
+  packages — but see Proposed fix on who changes those
+
+**Proposed fix:**
+Two parts, and the split matters.
+
+*Framework side (actionable here):* add target verification to `/install` and
+`/create-app`. After generating wrappers, check that every delegation path
+resolves to an existing file; report any that don't. This is mechanical, cheap,
+and catches the entire class rather than this instance — including future
+convention drift in packages not yet written. It is what caught the bug in this
+session, run by hand.
+
+*Package side (not actionable here):* the 2026-03-04 archive entry
+("Plan agent proposed directly editing sibling package manifests") established
+that packages adopt changes through their own `/update` channel, not through
+direct cross-project edits by the framework maintainer. So the framework should
+not edit these two files. Each package needs its own maintenance session to
+adopt the packages/ convention. Consider a penny post letter to each as the
+notification mechanism.
+
+**Notes:**
+Relates to **Patterns to Watch #2 (Path resolution)** — and sharpens it. That
+pattern currently reads as a caution about *confusion* in the two-hop reading
+chain; this is a case where the path is not confusing but simply wrong, and
+nothing in the generation path notices.
+
+Same class as the resolved 2026-02-22 entry "Framework install/update wrappers
+use wrong path prefix," where the framework's own wrappers used the
+domain-project convention. That one was found by inspection too. Two instances
+of the same class, both caught by a human or AI happening to look, is an argument
+for the mechanical check.
+
+Workaround applied in tax-onomy: used `packages/` paths, verified all six targets
+resolve, and recorded the deviation in that project's
+`reference/installed-packages.md` so a future `/update` can reconcile.
+
+### 2026-09-11 — /session-checkpoint missing from /create-app's file tables
+
+**Type:** intent
+**Severity:** minor
+**Blast radius:** project generation
+**Status:** pending
+
+**Observation:**
+`install/skills-intent.md` documents 14 framework skills, including
+`### /session-checkpoint` at line 191 with its wrapper location and reference
+implementation. `/create-app` omits it in two places:
+
+- `.claude/skills/create-app/SKILL.md:156–168` — the Category 1 file table lists
+  13 wrappers, no session-checkpoint row
+- `.claude/skills/create-app/SKILL.md:285` — the bare-scaffold paragraph
+  enumerates the framework-default skills inline: "(startup, maintain,
+  friction-log, preferences, validate, install, update, export, check-updates,
+  think, debrief, close, guide)" — same 13, same omission
+
+The two files disagree about what a new project gets. Every project generated
+from the Category 1 table ships without `/session-checkpoint`, despite the intent
+file specifying it.
+
+**Confirmed reason:**
+Almost certainly an incomplete update when `/session-checkpoint` was added —
+`install/skills-intent.md` got the new section, `/create-app`'s two hardcoded
+enumerations didn't. The archive shows the framework has hit this shape before:
+several entries record adding a skill to "install/skills-intent.md, CLAUDE.md,
+and README.md," and `core/skills/README.md`'s "Adding a New Skill" checklist
+exists precisely because the propagation surface is wide and easy to
+under-cover. `/create-app`'s inline lists appear to be a surface the checklist
+doesn't name.
+
+**Resolution direction:** `skills-intent.md` is right and `/create-app` is
+wrong — intent files are the framework's declared source of truth, and the
+framework carries `/session-checkpoint` in its own skills table. So the fix is
+additive to `/create-app`, not a removal from the intent file.
+
+**Affected files:**
+- `.claude/skills/create-app/SKILL.md` — both locations above
+- `core/skills/README.md` — "Adding a New Skill" checklist, if the propagation
+  surface is under-specified
+
+**Proposed fix:**
+1. Add the `/session-checkpoint` row to the Category 1 table and the skill name
+   to the bare-scaffold inline list.
+2. Consider whether `/create-app` should enumerate framework skills at all, or
+   derive them from `install/skills-intent.md`'s section headings. Two hardcoded
+   copies of a list that lives authoritatively elsewhere is the actual defect;
+   this instance is a symptom. A single sentence — "generate a wrapper for every
+   skill documented in `install/skills-intent.md`" — would make the class
+   impossible.
+3. If (2) isn't taken, add `/create-app`'s two lists to the "Adding a New Skill"
+   checklist in `core/skills/README.md`.
+
+**Notes:**
+Relates to **Patterns to Watch #3 (Intent file completeness)**, and inverts it.
+That pattern reads "Track gaps between what `/create-app` needs and what intent
+files provide" — this is the opposite direction: the intent file provides, and
+`/create-app` fails to consume. Worth widening the pattern's wording to cover
+divergence in both directions.
+
+Resolved in tax-onomy by following the intent file — 14 wrappers generated, with
+the deviation recorded in that project's `reference/installed-packages.md`.
+
 ### 2026-05-24 — Scaffold-first generation as the unified /create-app mechanism
 
 **Type:** core

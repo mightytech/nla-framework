@@ -174,7 +174,6 @@ prose.
 | Path | Purpose | Attribution |
 |------|---------|-------------|
 | `lib/export.py` | Mechanical work for `/export` (path rewrites, frontmatter surgery, archive bundling). Stdlib-only, no pip. | `[design rationale: "Mechanism: hybrid AI + Python script"]` (added 2026-04-16 with the view-source plugin model). |
-| `lib/.gitkeep` | Directory placeholder. | `[framework default]` per `install/structure-intent.md`. |
 
 **Judgment note (lib/ standards gap):** `lib/export.py` was hand-rolled
 without implementation standards. The friction log carries a pending
